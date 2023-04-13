@@ -1,0 +1,32 @@
+.container {
+  background-image: url('@/assets/img/view-gif2.gif');
+  background-size: cover;
+}
+.container::before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  background-color: rgba(163, 159, 163, 0.8);
+}
+.feature-box {
+  transition: transform .3s; }
+  @media only screen and (max-width: 52.25em) {
+    .feature-box {
+      padding: 1rem; } 
+  }
+.feature-box:hover {
+  transform: translateY(-1.3rem) scale(1.02);
+}
+
+.heading-primary--login {
+  color: #422c42;
+  font-size: 3rem;
+  font-weight: 600;
+  letter-spacing: 0.5rem;
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+}
+
