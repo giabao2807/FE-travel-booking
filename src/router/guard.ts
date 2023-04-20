@@ -6,9 +6,12 @@ const requireAuth: NavigationGuard = (to, from, next) => {
   console.log(to, from)
 
   if (to.meta.requiresAuth && !sessionUser?.accessToken) {
-    next({ name: 'signIn' })
+    // next({ name: 'signIn' })
+    next('/')
   } else if (to.name !== 'dashboard' && sessionUser?.accessToken && sessionUser?.role === 'female') {
     next('/dashboard')
+  } else if (to.name !== 'home' && sessionUser?.accessToken) {
+    next()
   } else {
     next()
   }

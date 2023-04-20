@@ -20,7 +20,6 @@ export type GenericResponse = {
 export type ISignInInput = {
   username: string;
   password: string;
-  rememberMe?: boolean;
 }
 
 

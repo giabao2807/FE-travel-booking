@@ -1,32 +1,38 @@
 <template>
   <v-container class="fill-height container" fluid>
-    <v-row class="ma-6" justify="end">
-      <v-card min-width="40%" class="elevation-12 pa-5 feature-box" color="surface">
-        <v-card-text class="mt-10">
-          <v-img :src="require('@/assets/img/register-preview.png')" height="130" aspect-ratio="16/9" cover />
-          <v-form class="pt-5" @submit.prevent="loginUser">
+    <v-row class="mx-5" justify="end">
+      <v-card min-width="36%" class="elevation-10 pa-5 pb-2 feature-box  rounded-xl rounded-be-0" color="surface">
+        <v-card-text class="mt-5">
+          <v-img :src="require('@/assets/img/signup.png')" height="110" aspect-ratio="16/9" cover />
+          <v-form class="pt-5" @submit.prevent="signUp">
             <v-text-field
-              v-model="user.username"
-              label="Email"
-              name="Email"
+              label="UserName"
+              name="userName"
               prepend-inner-icon="mdi-shield-account-outline"
               type="text"
               color="primary-darken-1"
               variant="outlined"
-              rounded
             />
-
             <v-text-field
-              v-model="user.password"
+              v-model="userSignIn.username"
+              label="Email"
+              name="Email"
+              prepend-inner-icon="mdi-email-outline"
+              type="text"
+              color="primary-darken-1"
+              variant="outlined"
+            />
+            <v-text-field
+              v-model="userSignIn.password"
               label="Password"
               name="password"
               prepend-inner-icon="mdi-lock-outline"
-              type="password"
+              :type="showPassword ? 'text' : 'password'"
               color="primary-darken-1"
               variant="outlined"
-              rounded
+              :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append-inner="showPassword = !showPassword"
             />
-
             <v-text-field
               label="ConfirmPassword"
               name="confirmPassword"
@@ -34,13 +40,21 @@
               type="password"
               color="primary-darken-1"
               variant="outlined"
-              rounded
+              :append-inner-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append-inner="showConfirmPassword = !showConfirmPassword"
             />
             <div class="text-center">
-              <button type="submit" class="btn btn--pink btn--animated">SIGN IN</button>
+              <n-button-animated label="SIGN UP" />
+              <div class="ma-4">
+                <span class="double-line text-medium-emphasis">Or sign up with
+                  <v-avatar size="x-small" @click="signUpWithGoogle">
+                    <v-img :src="require('@/assets/img/google-logo.png')" cover />
+                  </v-avatar>
+                </span>
+              </div>
               <h4 class="mt-5 font-weight-thin text-medium-emphasis">
                 Already have an account?
-                <router-link class="text-decoration-none" to="/login">Sign in</router-link>
+                <router-link class="text-decoration-none" to="/sign_in">Sign in</router-link>
               </h4>
             </div>
           </v-form>
@@ -51,23 +65,19 @@
 </template>
 <script lang="ts" setup>
 import '@/assets/css/login.css'
-import { ref } from 'vue'
-import connectionsAPI from '@/plugins/axios'
+import NButtonAnimated from '@/components/NButtonAnimated.vue'
 
-const user = ref({
-  username: '',
-  password: ''
-})
-
-const loginUser = async() => {
-  const response = await connectionsAPI({
-    methods: 'POST',
-    path: '/auth/login',
-    headers: { 'Content-Type': 'application/json' },
-    data: user.value,
-    jwtToken: ''
-  })
-}
+import { useAuthentication } from '@/composables/useAuth'
+const { userSignIn, showPassword, showConfirmPassword, signUp, signUpWithGoogle } = useAuthentication()
 </script>
 <style scoped>
+.double-line::before,
+.double-line::after {
+  content: "";
+  display: inline-block;
+  border-top: 1px solid;
+  width: 50px;
+  margin: 3px 10px;
+}
+
 </style>

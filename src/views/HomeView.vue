@@ -1,11 +1,10 @@
 <template>
-  <div class="home">
-    <v-button @click="ToLogin">Login in Here</v-button>
-  </div>
+  <default-latyout />
 </template>
 
 <script lang="ts" setup>
 import router from '@/router'
+import DefaultLatyout from '@/layouts/DefaultLatyout.vue'
 
 const ToLogin = () => {
   router.push('/sign_in')
