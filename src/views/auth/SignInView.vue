@@ -26,18 +26,17 @@
               @click:append-inner="showPassword = !showPassword"
             />
             <div class="d-flex align-center flex-wrap ma-4">
-              <v-checkbox v-model="rememberMe" hide-details label="Remember me" color="primary-darken-1" />
-              <v-dialog
+              <v-checkbox v-model="rememberMe" hide-details label="Remember me" color="primary" />
+              <!-- <v-dialog
                 transition="dialog-top-transition"
                 width="30%"
               >
                 <template #activator="{ props }">
-                  <a v-bind="props">Forgot your password ?</a>
+                  <a v-bind="props">Forgot your password?</a>
                 </template>
                 <template #default="{ isActive }">
-                  <v-card>
+                  <v-card class="rounded-xl">
                     <v-toolbar
-                      color="primary"
                       title="Forgot the password"
                     />
                     <v-card-text>
@@ -65,7 +64,18 @@
                     </v-card-actions>
                   </v-card>
                 </template>
-              </v-dialog>
+              </v-dialog> -->
+              <n-dialog textDialog="Forgot your password?" title="Forgot the password">
+                <template #content>
+                  <v-text-field
+                    label="Email"
+                    prepend-inner-icon="mdi-shield-account-outline"
+                    type="text"
+                    color="primary-darken-1"
+                    variant="outlined"
+                  />
+                </template>
+              </n-dialog>
             </div>
             <div class="text-center">
               <n-button-animated label="SIGN IN" />
@@ -90,6 +100,7 @@
 <script lang="ts" setup>
 import '@/assets/css/login.css'
 import NButtonAnimated from '@/components/NButtonAnimated.vue'
+import NDialog from '@/components/NDialog.vue'
 import { useAuthentication } from '@/composables/useAuth'
 const {
   userSignIn,

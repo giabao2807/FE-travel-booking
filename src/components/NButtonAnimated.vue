@@ -1,6 +1,6 @@
 <template>
   <button
-    :type="type"
+    :type="props.type"
     class="btn btn--pink btn--animated"
     :style="styleButton"
     @click="$emit('click', $event)"
@@ -9,7 +9,7 @@
   </button>
 </template>
 <script lang="ts" setup>
-import { computed, defineProps } from 'vue'
+import { computed, defineProps, withDefaults } from 'vue'
 type Props = {
   label?: string,
   type?: string,
@@ -21,22 +21,22 @@ type Props = {
 }
 const styleButton = computed(()=>{
   return {
-    'width': width,
-    'height': height,
-    'font-size': fontSize,
-    'background-color': backgroundColor,
-    'color': color
+    'width': props.width,
+    'height': props.height,
+    'font-size': props.fontSize,
+    'background-color': props.backgroundColor,
+    'color': props.color
   }
 })
-const {
-  type = 'submit',
-  label,
-  width,
-  height,
-  fontSize = '1.6rem',
-  backgroundColor = '#72064D',
-  color = '#f7f7f7'
-} = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  type: 'submit',
+  label: '',
+  width: '',
+  height: '',
+  fontSize: '1.6rem',
+  backgroundColor: '#72064D',
+  color: '#f7f7f7'
+})
 </script>
 <style scoped>
 .btn {

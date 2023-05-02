@@ -71,7 +71,7 @@
             :key="item"
           >
             <v-card
-              class="mx-auto my-12 rounded-xl rounded-be-0"
+              class="mx-auto my-12 rounded-xl"
               max-width="350"
             >
               <v-img
@@ -151,10 +151,16 @@ const mock_item = ref(3)
 </script>
 <style scoped>
 .layout {
-  background: linear-gradient(to right bottom, rgba(248, 232, 248, 0.5), rgba(254, 224, 254, 0.5));
+  background: linear-gradient(
+    40deg,
+  rgb(79, 18, 52, 0.8) 20%,
+  rgb(238, 220, 230) 66%,
+  rgb(253, 235, 255) 100%
+  );
 }
 .container_main {
-  background-image: linear-gradient(to bottom, rgba(248, 230, 248, 0.5), rgba(235, 178, 244, 0.2)), url('@/assets/img/bg_1.jpg');
+  background-image: linear-gradient(to bottom, rgba(248, 230, 248, 0.5),rgba(235, 178, 244, 0.2)),
+    url('@/assets/img/bg_1.jpg');
   background-size: cover;
   height: 100%;
 }
