@@ -12,15 +12,23 @@
   background-color: rgba(163, 159, 163, 0.8);
 }
 .feature-box {
-  transition: transform .3s; }
-  @media only screen and (max-width: 52.25em) {
-    .feature-box {
-      padding: 1rem; } 
-  }
+  transition: transform .3s; 
+}
+
+.box-sign-up {
+  transition: transform .3s; 
+}
+@media only screen and (max-width: 52.25em) {
+  .feature-box {
+    padding: 1rem; 
+  } 
+}
 .feature-box:hover {
   transform: translateY(-1.3rem) scale(1.02);
 }
-
+.box-sign-up:hover {
+  transform: scale(1.02);
+}
 .heading-primary--login {
   color: #422c42;
   font-size: 3rem;

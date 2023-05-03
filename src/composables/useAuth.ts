@@ -4,7 +4,7 @@ import { useAuthStore } from '@/store/auth'
 import router from '@/router'
 import { storeToRefs } from 'pinia'
 import { useLoading } from '@/composables/useLoading'
-
+const GENDER_DATA = [{ value: 1, name: 'Male' }, { value: 2, name: 'FeMale' }, { value: 3, name: 'Other' }]
 const useAuth = () => {
   const authStore = useAuthStore()
   const { userSignIn } = storeToRefs(authStore)
@@ -43,6 +43,7 @@ const useAuth = () => {
     showPassword,
     showConfirmPassword,
     rememberMe,
+    GENDER_DATA,
     isRememberMe,
     signIn,
     signUp,

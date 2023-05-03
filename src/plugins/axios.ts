@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { IParamsAPI, IError } from './type'
 
-const BASE_URL = 'https://dummyjson.com'
+const BASE_URL = 'http://127.0.0.1:8000/api/v1'
 
 
 const connectionsAPI = async(paramsAPI: IParamsAPI) => {

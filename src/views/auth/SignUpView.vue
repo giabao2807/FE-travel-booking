@@ -1,26 +1,49 @@
 <template>
   <v-container class="fill-height container" fluid>
     <v-row class="mx-5" justify="end">
-      <v-card min-width="36%" class="elevation-10 pa-5 pb-2 feature-box  rounded-xl rounded-be-0" color="surface">
-        <v-card-text class="mt-5">
+      <v-card min-width="38%" class="elevation-10 pa-5 pb-2 box-sign-up rounded-xl rounded-be-0" color="surface">
+        <v-card-text>
           <v-img :src="require('@/assets/img/signup.png')" height="110" aspect-ratio="16/9" cover />
           <v-form class="pt-5" @submit.prevent="signUp">
-            <v-text-field
-              label="UserName"
-              name="userName"
-              prepend-inner-icon="mdi-shield-account-outline"
-              type="text"
-              color="primary-darken-1"
-              variant="outlined"
-            />
+            <div class="d-flex align-center flex-wrap">
+              <v-text-field
+                label="FirstName"
+                name="firstName"
+                prepend-inner-icon="mdi-shield-account-outline"
+                type="text"
+                color="primary"
+                variant="outlined"
+                class="pr-2"
+                clearable
+              />
+              <v-text-field
+                label="LastName"
+                name="lastName"
+                type="text"
+                color="primary"
+                variant="outlined"
+                clearable
+              />
+            </div>
             <v-text-field
               v-model="userSignIn.username"
               label="Email"
               name="Email"
               prepend-inner-icon="mdi-email-outline"
               type="text"
-              color="primary-darken-1"
+              color="primary"
               variant="outlined"
+              clearable
+            />
+            <v-select
+              :items="GENDER_DATA"
+              item-title="name"
+              item-value="value"
+              prepend-inner-icon="mdi-gender-male-female"
+              label="Gender"
+              color="primary"
+              variant="outlined"
+              clearable
             />
             <v-text-field
               v-model="userSignIn.password"
@@ -28,9 +51,10 @@
               name="password"
               prepend-inner-icon="mdi-lock-outline"
               :type="showPassword ? 'text' : 'password'"
-              color="primary-darken-1"
+              color="primary"
               variant="outlined"
               :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              clearable
               @click:append-inner="showPassword = !showPassword"
             />
             <v-text-field
@@ -38,9 +62,10 @@
               name="confirmPassword"
               prepend-inner-icon="mdi-lock-outline"
               type="password"
-              color="primary-darken-1"
+              color="primary"
               variant="outlined"
               :append-inner-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              clearable
               @click:append-inner="showConfirmPassword = !showConfirmPassword"
             />
             <div class="text-center">
@@ -52,7 +77,7 @@
                   </v-avatar>
                 </span>
               </div>
-              <h4 class="mt-5 font-weight-thin text-medium-emphasis">
+              <h4 class="mt-2 font-weight-thin text-medium-emphasis">
                 Already have an account?
                 <router-link class="text-decoration-none" to="/sign_in">Sign in</router-link>
               </h4>
@@ -66,9 +91,16 @@
 <script lang="ts" setup>
 import '@/assets/css/login.css'
 import NButtonAnimated from '@/components/NButtonAnimated.vue'
-
 import { useAuthentication } from '@/composables/useAuth'
-const { userSignIn, showPassword, showConfirmPassword, signUp, signUpWithGoogle } = useAuthentication()
+
+const {
+  userSignIn,
+  showPassword,
+  showConfirmPassword,
+  GENDER_DATA,
+  signUp,
+  signUpWithGoogle
+} = useAuthentication()
 </script>
 <style scoped>
 .double-line::before,
