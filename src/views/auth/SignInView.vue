@@ -6,7 +6,7 @@
           <v-img :src="require('@/assets/img/signin.png')" height="110" aspect-ratio="16/9" cover />
           <v-form class="pt-5" @submit.prevent="signIn">
             <v-text-field
-              v-model="userSignIn.username"
+              v-model="userSignIn.email"
               label="Email"
               name="Email"
               prepend-inner-icon="mdi-shield-account-outline"
@@ -26,45 +26,7 @@
               @click:append-inner="showPassword = !showPassword"
             />
             <div class="d-flex align-center flex-wrap ma-4">
-              <v-checkbox v-model="rememberMe" hide-details label="Remember me" color="primary" />
-              <!-- <v-dialog
-                transition="dialog-top-transition"
-                width="30%"
-              >
-                <template #activator="{ props }">
-                  <a v-bind="props">Forgot your password?</a>
-                </template>
-                <template #default="{ isActive }">
-                  <v-card class="rounded-xl">
-                    <v-toolbar
-                      title="Forgot the password"
-                    />
-                    <v-card-text>
-                      <v-text-field
-                        label="Email"
-                        prepend-inner-icon="mdi-shield-account-outline"
-                        type="text"
-                        color="primary-darken-1"
-                        variant="outlined"
-                      />
-                    </v-card-text>
-                    <v-card-actions class="justify-end">
-                      <v-btn
-                        variant="text"
-                        @click="isActive.value = false"
-                      >
-                        Close
-                      </v-btn>
-                      <v-btn
-                        variant="text"
-                        @click="isActive.value = false"
-                      >
-                        Set new password
-                      </v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </template>
-              </v-dialog> -->
+              <v-checkbox v-model="rememberMe" hide-details label="Remember me" color="primary" class="mb-1" />
               <n-dialog textDialog="Forgot your password?" title="Forgot the password">
                 <template #content>
                   <v-text-field
@@ -81,7 +43,7 @@
               <n-button-animated label="SIGN IN" />
               <div class="ma-4">
                 <span class="double-line text-medium-emphasis">Or sign in with
-                  <v-avatar size="x-small" @click="signInWithGoogle">
+                  <v-avatar class="btn-g" size="x-small" @click="signInWithGoogle">
                     <v-img :src="require('@/assets/img/google-logo.png')" cover />
                   </v-avatar>
                 </span>
@@ -95,29 +57,22 @@
         </v-card-text>
       </v-card>
     </v-row>
+    <n-snackbar :title="initError.message" />
   </v-container>
 </template>
 <script lang="ts" setup>
-import '@/assets/css/login.css'
+import '@/assets/css/signIn.css'
 import NButtonAnimated from '@/components/NButtonAnimated.vue'
 import NDialog from '@/components/NDialog.vue'
+import NSnackbar from '@/components/NSnackbar.vue'
 import { useAuthentication } from '@/composables/useAuth'
 const {
   userSignIn,
   showPassword,
   rememberMe,
+  initError,
   signIn,
   signInWithGoogle,
   isRememberMe
 } = useAuthentication()
 </script>
-<style scoped>
-.double-line::before,
-.double-line::after {
-  content: "";
-  display: inline-block;
-  border-top: 1px solid;
-  width: 50px;
-  margin: 3px 10px;
-}
-</style>

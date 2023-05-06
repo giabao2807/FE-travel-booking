@@ -15,7 +15,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/dashboard',
     name: 'dashboard',
     component: AboutView,
-    meta: { requiresAuth: true, roles: ['female'] }
+    meta: { requiresAuth: true, roles: ['Admin'] }
   },
   {
     path: '/sign_in',

@@ -1,14 +1,45 @@
 
 <template>
-  <v-layout full-height class="layout">
+  <div>
     <v-app-bar
+      scroll-behavior="fade-image"
       color="transparent"
+      image=""
+      extended
+      extension-height="10"
+      flat
     >
-      <v-app-bar-title>TraveNE</v-app-bar-title>
+      <template #image>
+        <v-img
+          :src="require(`@/assets/img/app_bar.jpg`)"
+          cover
+        />
+      </template>
+      <v-app-bar-title><p class="header-title">TraveNE</p></v-app-bar-title>
+
       <template #append>
-        <div v-if="!display.xs" class="d-flex">
-          <p class="mx-5">FAQ</p>
-          <p class="mx-5">Blog</p>
+        <div v-if="!display.xs" class="d-flex justify-center align-center">
+          <v-slide-group
+            show-arrows
+          >
+            <v-slide-group-item
+              v-for="n in 5"
+              :key="n"
+              v-slot="{ isSelected, toggle }"
+            >
+              <v-btn
+                class="ma-2"
+                rounded
+                :color="isSelected ? 'primary' : undefined"
+                @click="toggle"
+              >
+                Options {{ n }}
+              </v-btn>
+            </v-slide-group-item>
+          </v-slide-group>
+          <v-badge dot>
+            <v-icon icon="mdi-bell-outline" size="x-large" />
+          </v-badge>
           <v-chip class="mx-5" @click="() => router.push('/sign_in')">SignIn</v-chip>
         </div>
         <div v-if="display.xs">
@@ -16,7 +47,7 @@
         </div>
       </template>
     </v-app-bar>
-    <v-main class="overflow-hidden" scrollable>
+    <v-sheet class="layout">
       <v-container fluid class="container_main d-flex justify-center">
         <v-row>
           <v-col cols="12">
@@ -51,7 +82,7 @@
                     bg-color="surface"
                     hide-details
                   />
-                  <v-icon size="40" icon="mdi-magnify-expand" />
+                  <v-icon size="40" icon="mdi-tag-search-outline" />
                 </div>
               </v-form>
             </v-card>
@@ -138,8 +169,32 @@
           <n-button-animated label="Discover our tours" width="20rem" fontSize="1rem" />
         </div>
       </v-container>
-    </v-main>
-  </v-layout>
+    </v-sheet>
+    <v-footer color="transparent" class="text-center d-flex flex-column">
+      <div class="px-4">
+        I know it might be crazy
+        But did you hear the story?
+        I think I heard it vaguely
+        A girl and a zombie
+        Oh, tell me more, boy
+        Sounds like a fantasy
+        Oh, what could go so wrong
+        With a girl and a zombie
+        You're from the perfect paradise
+        And I'm living on the darker side
+        Ooh, I've got a feeling
+        If you get to know me
+        Right from the start you caught my eye
+        And something inside me came to life
+        Ooh, I've got a feeling
+        If you get to know me.
+      </div>
+      <v-divider />
+      <div>
+        {{ new Date().getFullYear() }} - <strong>Boninguci</strong> - TestFooter
+      </div>
+    </v-footer>
+  </div>
 </template>
 <script lang="ts" setup>
 import router from '@/router'
@@ -153,10 +208,22 @@ const mock_item = ref(3)
 .layout {
   background: linear-gradient(
     40deg,
-  rgb(79, 18, 52, 0.8) 20%,
+  rgba(79, 18, 52, 0.8) 20%,
   rgb(238, 220, 230) 66%,
   rgb(253, 235, 255) 100%
   );
+}
+.header-title{
+  padding: 10px;
+  font-size: 30px;
+  font-weight: 600;
+  font-family: 'Niconne', cursive;
+  color: #e0d6e9;
+  text-shadow: 2px 2px 0px #8a0642,
+               4px 4px 0px #ec488c,
+               6px 6px 0px #b374b5,
+               8px 8px 0px #7e305f,
+               10px 10px 0px#553c9a;
 }
 .container_main {
   background-image: linear-gradient(to bottom, rgba(248, 230, 248, 0.5),rgba(235, 178, 244, 0.2)),
@@ -253,4 +320,5 @@ const mock_item = ref(3)
   text-align: right;
   color: #fff;
 }
+
 </style>

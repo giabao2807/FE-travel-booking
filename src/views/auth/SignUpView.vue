@@ -7,6 +7,7 @@
           <v-form class="pt-5" @submit.prevent="signUp">
             <div class="d-flex align-center flex-wrap">
               <v-text-field
+                v-model="userSignUp.firstName"
                 label="FirstName"
                 name="firstName"
                 prepend-inner-icon="mdi-shield-account-outline"
@@ -17,6 +18,7 @@
                 clearable
               />
               <v-text-field
+                v-model="userSignUp.lastName"
                 label="LastName"
                 name="lastName"
                 type="text"
@@ -26,7 +28,7 @@
               />
             </div>
             <v-text-field
-              v-model="userSignIn.username"
+              v-model="userSignUp.email"
               label="Email"
               name="Email"
               prepend-inner-icon="mdi-email-outline"
@@ -36,6 +38,7 @@
               clearable
             />
             <v-select
+              v-model="userSignUp.gender"
               :items="GENDER_DATA"
               item-title="name"
               item-value="value"
@@ -46,7 +49,7 @@
               clearable
             />
             <v-text-field
-              v-model="userSignIn.password"
+              v-model="userSignUp.password"
               label="Password"
               name="password"
               prepend-inner-icon="mdi-lock-outline"
@@ -58,6 +61,7 @@
               @click:append-inner="showPassword = !showPassword"
             />
             <v-text-field
+              v-mode="userSignUp.passwordConfirm"
               label="ConfirmPassword"
               name="confirmPassword"
               prepend-inner-icon="mdi-lock-outline"
@@ -89,12 +93,12 @@
   </v-container>
 </template>
 <script lang="ts" setup>
-import '@/assets/css/login.css'
+import '@/assets/css/signIn.css'
 import NButtonAnimated from '@/components/NButtonAnimated.vue'
 import { useAuthentication } from '@/composables/useAuth'
 
 const {
-  userSignIn,
+  userSignUp,
   showPassword,
   showConfirmPassword,
   GENDER_DATA,

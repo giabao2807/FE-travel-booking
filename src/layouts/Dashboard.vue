@@ -8,9 +8,9 @@
     >
       <v-list>
         <v-list-item
-          :prepend-avatar="authUser?.photo"
-          :title="authUser?.name"
-          subtitle="nene@gmailcom"
+          :prepend-avatar="authUser?.avatar"
+          :title="authUser?.full_name"
+          :subtitle="authUser?.email"
         />
       </v-list>
       <v-divider />

@@ -1,13 +1,21 @@
+import { useAuthStore } from '@/store/auth'
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { IParamsAPI, IError } from './type'
 
-const BASE_URL = 'http://127.0.0.1:8000/api/v1'
-
-
+const BASE_URL = 'http://bonitravel.online/api/v1/'
+const authHeader = () => {
+  const { authUser } = useAuthStore()
+  const isLoggedIn = !!authUser?.accessToken
+  if (isLoggedIn) {
+    return { Authorization: `Bearer ${authUser.accessToken}` }
+  } else {
+    return { 'Content-Type': 'application/json' }
+  }
+}
 const connectionsAPI = async(paramsAPI: IParamsAPI) => {
-  const { methods, path, params, headers, data, responseType, jwtToken } = paramsAPI
+  const { methods, path, params, headers, data, responseType } = paramsAPI
   const baseURL = BASE_URL + path
-  const header = jwtToken ? { Authorization: `Bearer${jwtToken}` } : { 'Content-Type': 'application/json' }
+  const header = authHeader()
   const config: AxiosRequestConfig = {
     method: methods,
     url: baseURL,
@@ -24,7 +32,7 @@ const connectionsAPI = async(paramsAPI: IParamsAPI) => {
         message: error.message,
         data: error.response?.data
       }
-      return errorInfo
+      return Promise.reject(errorInfo)
     })
 }
 

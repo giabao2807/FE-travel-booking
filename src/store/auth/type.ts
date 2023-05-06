@@ -1,14 +1,10 @@
-export type IUser = {
-  name: string;
+export type IAuthResponse = {
+  full_name: string;
   email: string;
   role: string;
-  photo: string;
-  accessToken: string
-  _id: string;
-  id: string;
-  created_at: string;
-  updated_at: string;
-  __v: number;
+  avatar: string;
+  accessToken: string,
+  refreshToken: string
 }
 
 
@@ -18,16 +14,18 @@ export type GenericResponse = {
 }
 
 export type ISignInInput = {
-  username: string;
+  email: string;
   password: string;
 }
 
 
 export type ISignUpInput = {
-  name: string;
+  lastName: string;
+  firstName: string;
+  gender: string;
   email: string;
   password: string;
-  passwordConfirm: string;
+  passwordConfirm?: string;
 }
 
 export type ILoginResponse = {
@@ -38,11 +36,4 @@ export type ILoginResponse = {
 export type ISignUpResponse = {
   status: string;
   message: string;
-}
-
-export type IUserResponse = {
-  status: string;
-  data:{
-    user: IUser;
-  };
 }

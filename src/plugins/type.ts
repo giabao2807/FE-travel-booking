@@ -1,4 +1,4 @@
-import { Method, ResponseType } from "axios"
+import { Method, ResponseType } from 'axios'
 
 export type IParamsAPI = {
   methods: Method,
@@ -7,7 +7,7 @@ export type IParamsAPI = {
   headers?: any,
   data?: any,
   responseType?: ResponseType,
-  jwtToken: string
+  jwtToken?: string
 }
 
 export type IError = {
