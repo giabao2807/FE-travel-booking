@@ -1,18 +1,14 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-export type IError = {
-  status?: string | number,
-  message?: string,
-  data?: any
-}
+import { IError } from '@/libs/types/commonType'
 export const useFeedBackStore = defineStore('feedBackStore', () => {
   const initError = ref<IError>({
-    status: '',
+    title: 'Error',
     message: '',
-    data: ''
+    type: 'error'
   })
   const setErrorInfo = (error: IError) => {
-    initError.value = error
+    initError.value.message = error.message
   }
 
   return {

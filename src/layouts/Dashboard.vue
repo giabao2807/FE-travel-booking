@@ -9,7 +9,7 @@
       <v-list>
         <v-list-item
           :prepend-avatar="authUser?.avatar"
-          :title="authUser?.full_name"
+          :title="authUser?.fullName"
           :subtitle="authUser?.email"
         />
       </v-list>

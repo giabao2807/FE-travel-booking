@@ -17,15 +17,15 @@
 <script setup lang="ts">
 import { defineProps, withDefaults } from 'vue'
 type Props = {
-  title: string,
   isActived: boolean,
+  title: string,
   timeout: string,
   color: string
 }
 const propItems = withDefaults(defineProps<Props>(), {
+  isActived: false,
   timeout: '1000',
   title: '',
-  isActived: true,
   color: '#000'
 })
 </script>

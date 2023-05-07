@@ -1,7 +1,6 @@
+import { IError, IParamsAPI } from '@/libs/types/commonType'
 import { useAuthStore } from '@/store/auth'
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
-import { IParamsAPI, IError } from './type'
-
 const BASE_URL = 'http://bonitravel.online/api/v1/'
 const authHeader = () => {
   const { authUser } = useAuthStore()

@@ -1,5 +1,6 @@
+
 export type IAuthResponse = {
-  full_name: string;
+  fullName: string;
   email: string;
   role: string;
   avatar: string;
@@ -28,8 +29,8 @@ export type ISignUpInput = {
   passwordConfirm?: string;
 }
 
-export type ILoginResponse = {
-  status: string;
+export type IRefreshToken = {
+  refreshToken: string;
   accessToken: string;
 }
 

@@ -1,6 +1,7 @@
 <template>
   <button
     :type="props.type"
+    :disabled="disabled"
     class="btn btn--pink btn--animated"
     :style="styleButton"
     @click="$emit('click', $event)"
@@ -18,6 +19,7 @@ type Props = {
   fontSize?: string,
   backgroundColor?: string,
   color?: string,
+  disabled: boolean
 }
 const styleButton = computed(()=>{
   return {
@@ -33,16 +35,17 @@ const props = withDefaults(defineProps<Props>(), {
   label: '',
   width: '',
   height: '',
-  fontSize: '1.6rem',
+  fontSize: '1.5rem',
   backgroundColor: '#72064D',
-  color: '#f7f7f7'
+  color: '#f7f7f7',
+  disabled: false
 })
 </script>
 <style scoped>
 .btn {
   text-transform: uppercase;
   text-decoration: none;
-  padding: 1.1rem 3rem;
+  padding: 1.2rem 2rem;
   display: inline-block;
   border-radius: 10rem;
   transition: all .2s;
@@ -85,5 +88,6 @@ const props = withDefaults(defineProps<Props>(), {
 
 .btn--animated {
   animation: moveInBottom .5s ease-out .75s;
-  animation-fill-mode: backwards; }
+  animation-fill-mode: backwards;
+}
 </style>

@@ -10,8 +10,13 @@ export type IParamsAPI = {
   jwtToken?: string
 }
 
-export type IError = {
-  status?: string | number,
+export type IFeedBack = {
+  title?: string,
   message?: string,
+  type?: '' | 'success' | 'warning' | 'error' | 'info',
+}
+
+export type IError = IFeedBack & {
+  status?: string | number,
   data?: any
 }

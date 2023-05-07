@@ -1,4 +1,4 @@
-import { ISignInInput, IAuthResponse, ISignUpInput } from './type'
+import { IAuthResponse, IRefreshToken, ISignInInput, ISignUpInput } from '@/libs/types/authType'
 import connectionsAPI from '@/plugins/axios'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
@@ -6,7 +6,7 @@ import { ref } from 'vue'
 
 export const useAuthStore = defineStore('authStore', () => {
   const initUser = ref<IAuthResponse>({
-    full_name: '',
+    fullName: '',
     email: '',
     role: '',
     avatar: '',
@@ -15,7 +15,7 @@ export const useAuthStore = defineStore('authStore', () => {
   })
 
   const authUser = ref<IAuthResponse>()
-  const userTest = ref()
+  const authToken = ref<IRefreshToken>()
   const userSignIn = ref<ISignInInput>({
     email: '',
     password: ''
@@ -30,16 +30,17 @@ export const useAuthStore = defineStore('authStore', () => {
   const refreshTokenTimeout = ref<number>(0)
 
   const refreshToken = async() => {
-    userTest.value = await connectionsAPI({
+    authToken.value = await connectionsAPI({
       methods: 'GET',
       path: '/user/action/refresh_new_token',
-      params: userTest.value.jwtToken,
-      jwtToken: ''
+      params: authToken.value?.refreshToken
     })
     startRefreshTokenTimer()
   }
   const startRefreshTokenTimer = () => {
-    const jwtToken = JSON.parse(userTest.value.jwtToken)
+    const jwtToken = authToken.value?.accessToken ? JSON.parse(authToken.value?.accessToken) : ''
+    console.log(jwtToken)
+
     const expires = new Date(jwtToken.exp * 1000)
     const timeout = expires.getTime() - Date.now() - (60 * 1000)
     refreshTokenTimeout.value = setTimeout(refreshToken, timeout)
@@ -55,12 +56,12 @@ export const useAuthStore = defineStore('authStore', () => {
       data: userSignIn.value
     })
     const userInfo: IAuthResponse = ({
-      full_name: response.full_name,
+      fullName: response.fullName,
       email: response.email,
       role: response.role,
       avatar: response.avatar,
-      accessToken: response.access_token,
-      refreshToken: response.refresh_token
+      accessToken: response.accessToken,
+      refreshToken: response.refreshToken
     })
     authUser.value = userInfo
     sessionStorage.setItem('userData', JSON.stringify(userInfo))
@@ -74,12 +75,12 @@ export const useAuthStore = defineStore('authStore', () => {
       data: userSignUp.value
     })
     const userInfo: IAuthResponse = ({
-      full_name: response.full_name,
+      fullName: response.fullName,
       email: response.email,
       role: response.role,
       avatar: response.avatar,
-      accessToken: response.access_token,
-      refreshToken: response.refresh_token
+      accessToken: response.accessToken,
+      refreshToken: response.refreshToken
     })
     authUser.value = userInfo
     sessionStorage.setItem('userData', JSON.stringify(userInfo))
