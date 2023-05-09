@@ -13,6 +13,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     name: 'home',
     component: DefaultLayout,
+    meta: { requiresAuth: false },
     children: [
       { path: '', component: HomeView },
       { path: 'tours', component: ToursView },
@@ -23,19 +24,19 @@ const routes: Array<RouteRecordRaw> = [
     path: '/dashboard',
     name: 'dashboard',
     component: AboutView,
-    meta: { requiresAuth: true, roles: ['Admin'] }
+    meta: { requiresAuth: true, allowedRoles: ['Admin', 'hotel'] }
   },
   {
     path: '/sign_in',
     name: 'signIn',
     component: SignInView,
-    meta: { roles: ['guest'] }
+    meta: { requiresAuth: false, allowedRoles: ['guest'] }
   },
   {
     path: '/sign_up',
     name: 'signUp',
     component: SignUpView,
-    meta: { roles: ['guest'] }
+    meta: { requiresAuth: false, allowedRoles: ['guest'] }
   }
 ]
 

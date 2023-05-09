@@ -1,6 +1,6 @@
 import { useFeedBackStore } from './../store/feedBack'
 import { createSharedComposable } from '@vueuse/core'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useAuthStore } from '@/store/auth'
 import router from '@/router'
 import { storeToRefs } from 'pinia'
@@ -12,7 +12,7 @@ const GENDER_DATA = [{ value: 1, name: 'Male' }, { value: 2, name: 'FeMale' }, {
 const useAuth = () => {
   const authStore = useAuthStore()
   const feedBackStore = useFeedBackStore()
-  const { userSignIn, userSignUp } = storeToRefs(authStore)
+  const { userSignIn, userSignUp, authUser } = storeToRefs(authStore)
   const { initError } = storeToRefs(feedBackStore)
   const { startLoading, finishLoading } = useLoading()
   const showPassword = ref<boolean>(false)
@@ -65,7 +65,28 @@ const useAuth = () => {
   }
 
   const signUpWithGoogle = () => {}
+  const signOut = () => {
+    startLoading()
+    authStore.resetAuthUser()
+    finishLoading()
+    router.push({ name: 'signIn' })
+  }
+
+  const checkAvatar = computed(() => authUser.value?.avatar || require('@/assets/img/avatar.png'))
+
   onMounted(() => {
+    const session = sessionStorage.getItem('userData')
+    const sessionUser = session ? JSON.parse(session) : ''
+    authUser.value = session ? JSON.parse(session) : ''
+
+    if (sessionUser){
+      if (['Admin'].includes(sessionUser?.role)){
+        router.push('/dashboard')
+      }
+      else {
+        router.push('/')
+      }
+    }
     isRememberMe()
   })
   return {
@@ -77,9 +98,11 @@ const useAuth = () => {
     rememberMe,
     GENDER_DATA,
     initError,
+    checkAvatar,
     isRememberMe,
     signIn,
     signUp,
+    signOut,
     signInWithGoogle,
     signUpWithGoogle
   }

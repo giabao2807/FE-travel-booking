@@ -58,23 +58,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useTheme } from 'vuetify/lib/framework.mjs'
-import { storeToRefs } from 'pinia'
+import { useAuthentication } from '@/composables/useAuth'
 import { useAuthStore } from '@/store/auth'
-import router from '@/router'
-import { useLoading } from '@/composables/useLoading'
+import { storeToRefs } from 'pinia'
 
 const authStore = useAuthStore()
-const { resetAuthUser } = authStore
 const { authUser } = storeToRefs(authStore)
 const drawer = ref<boolean>(true)
 const theme = useTheme()
-const session = sessionStorage.getItem('userData')
-onMounted(() => {
-  authUser.value = session ? JSON.parse(session) : ''
-})
-const { startLoading, finishLoading } = useLoading()
 const toggleTheme = () => {
   return theme.global.name.value = theme.global.current.value.dark ? 'myCustomLightTheme' : 'dark'
 }
@@ -86,12 +79,9 @@ const order = computed(() => {
 const imgAppBar = computed(() => {
   return theme.global.name.value === 'dark' ? 'app_bar_dark.jpg' : 'app_bar.jpg'
 })
-const signOut = () => {
-  startLoading()
-  resetAuthUser()
-  finishLoading()
-  router.push({ name: 'signIn' })
-}
+const {
+  signOut
+} = useAuthentication()
 </script>
 <style>
 .border {

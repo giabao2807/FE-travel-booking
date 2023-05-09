@@ -3,13 +3,14 @@ import { NavigationGuard } from 'vue-router'
 const requireAuth: NavigationGuard = (to, from, next) => {
   const session = sessionStorage.getItem('userData')
   const sessionUser = session ? JSON.parse(session) : ''
-  if (to.meta.requiresAuth && !sessionUser?.accessToken) {
-    // next({ name: 'signIn' })
+  const isSignIn = !!sessionUser
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+  const allowedRoles = (to.meta as { allowedRoles?: string[] }).allowedRoles
+
+  if (requiresAuth && !isSignIn) {
+    next('/sign_in')
+  } else if (requiresAuth && allowedRoles?.indexOf(sessionUser?.role) === -1) {
     next('/')
-  } else if (to.name !== 'dashboard' && sessionUser?.accessToken && sessionUser?.role === 'Admin') {
-    next('/dashboard')
-  } else if (to.name !== 'home' && sessionUser?.accessToken) {
-    next()
   } else {
     next()
   }
