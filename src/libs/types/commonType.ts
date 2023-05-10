@@ -20,3 +20,8 @@ export type IError = IFeedBack & {
   status?: string | number,
   data?: any
 }
+
+export type IParamPage = {
+  pageSize: number,
+  page: number
+}

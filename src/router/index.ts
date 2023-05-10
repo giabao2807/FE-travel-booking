@@ -1,10 +1,11 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import ToursView from '@/views/ToursView.vue'
-import HotelsView from '@/views/HotelsView.vue'
 import SignInView from '@/views/auth/SignInView.vue'
 import SignUpView from '@/views/auth/SignUpView.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import HotelsView from '@/views/hotels/HotelsView.vue'
+import HotelDetail from '@/views/hotels/HotelDetail.vue'
 import AboutView from '@/views/AboutView.vue'
 import requireAuth from '@/router/guard'
 
@@ -17,7 +18,8 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       { path: '', component: HomeView },
       { path: 'tours', component: ToursView },
-      { path: 'hotels', component: HotelsView }
+      { path: 'hotels', component: HotelsView },
+      { path: 'hotels/:id', name:'hotelDetail', component: HotelDetail }
     ]
   },
   {

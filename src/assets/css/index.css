@@ -1,0 +1,17 @@
+:root{
+  --auth-container-color: rgba(163, 159, 163, 0.8);
+  --txt-shadow-color: #72064D;
+  --btn-animation-color: #72064D;
+  --btn-animation-bgcolor: #8e1181;
+  --btn-shawdow-color: rgba(0, 0, 0, 0.2);
+  --loading-bgcolor: rgb(33, 33, 33);
+  --loading-border-color: rgb(33, 33, 33)
+}
+
+.height-40px{
+  height: 40px;
+}
+
+.font-size-min-rem{
+  font-size: .8rem
+}

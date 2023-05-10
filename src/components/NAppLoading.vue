@@ -13,8 +13,8 @@ const { loading } = useLoading()
   align-items: center;
   justify-content: center;
   opacity: 0.8;
-  background-color: rgb(33, 33, 33);
-  border-color: rgb(33, 33, 33);
+  background-color: var(--loading-bgcolor);
+  border-color: var(--loading-border-color);
   z-index: 300;
 }
 </style>

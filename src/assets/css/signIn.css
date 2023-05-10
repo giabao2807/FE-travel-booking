@@ -9,7 +9,7 @@
   right: 0px;
   bottom: 0px;
   left: 0px;
-  background-color: rgba(163, 159, 163, 0.8);
+  background-color: var(--auth-container-color);
 }
 .feature-box {
   transition: transform .3s; 
@@ -28,14 +28,6 @@
 }
 .box-sign-up:hover {
   transform: scale(1.02);
-}
-.heading-primary--login {
-  color: #422c42;
-  font-size: 3rem;
-  font-weight: 600;
-  letter-spacing: 0.5rem;
-  animation-duration: 1s;
-  animation-timing-function: ease-out;
 }
 .double-line::before,
 .double-line::after {
@@ -57,7 +49,7 @@
 }
 .text-field .v-field:hover{
   border-radius: 8px;
-  box-shadow: #72064D -8px 2px 0px 0px ;
+  box-shadow: var(--txt-shadow-color) -8px 2px 0px 0px ;
   border-collapse: collapse;
   opacity: 1;
 }

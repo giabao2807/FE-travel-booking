@@ -1,0 +1,259 @@
+.layout {
+  background: linear-gradient(
+    40deg,
+  rgba(79, 18, 52, 0.8) 20%,
+  rgb(238, 220, 230) 66%,
+  rgb(253, 235, 255) 100%
+  );
+}
+.header-title{
+  padding: 10px;
+  font-size: 30px;
+  font-weight: 600;
+  font-family: 'Niconne', cursive;
+  color: #e0d6e9;
+  text-shadow: 2px 2px 0px #8a0642,
+               4px 4px 0px #ec488c,
+               6px 6px 0px #b374b5,
+               8px 8px 0px #7e305f,
+               10px 10px 0px#553c9a;
+}
+.container_main {
+  background-image: linear-gradient(to bottom, rgba(248, 230, 248, 0.5),rgba(235, 178, 244, 0.2)),
+    url('@/assets/img/bg_1.jpg');
+  background-size: cover;
+  height: 100%;
+}
+@supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
+  .container_main {
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
+    height: 95vh; }
+}
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-10rem); }
+  80% {
+    transform: translateX(1rem); }
+  100% {
+    opacity: 1;
+    transform: translate(0); } 
+}
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(10rem); }
+  80% {
+    transform: translateX(-1rem); }
+  100% {
+    opacity: 1;
+    transform: translate(0); } 
+}
+.heading-primary {
+  color: #fff;
+  text-transform: uppercase;
+  backface-visibility: hidden;
+  text-align: center;
+  margin-top: 8rem;
+}
+.heading-primary--main {
+    display: block;
+    font-size: 4rem;
+    font-weight: 600;
+    letter-spacing: 1.5rem;
+    animation-name: moveInLeft;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+}
+.heading-primary--sub {
+  display: block;
+  font-size: 2rem;
+  font-weight: 300;
+  letter-spacing: 1.2rem;
+  animation: moveInRight 1s ease-out;
+}
+@media only screen and (max-width: 37.5em) {
+  .heading-primary--main {
+      letter-spacing: 1rem;
+      font-family: 3rem;
+  }
+  .heading-primary--sub {
+    letter-spacing: .5rem;
+  }
+}
+.heading-secondary {
+  margin-top: 3rem;
+  font-size: 3rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: inline-block;
+  color: #72064D;
+  letter-spacing: .2rem;
+  transition: all .2s;
+}
+.heading-panel-2 {
+  margin-top: 3rem;
+  font-size: 3rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: inline-block;
+  color: #f2e7ee;
+  letter-spacing: .2rem;
+  transition: all .2s;
+}
+@media only screen and (max-width: 56.25em) {
+  .heading-panel-2 {
+    font-size: 3rem; }
+  .heading-secondary {
+    font-size: 3rem; }
+}
+@media only screen and (max-width: 37.5em) {
+  .heading-panel-2 {
+    font-size: 2.5rem; }
+  .heading-secondary {
+    font-size: 2.5rem; }
+}
+.heading-panel-2:hover {
+  transform: skewY(2deg) skewX(15deg) scale(1.1);
+  text-shadow: 0.6rem 1rem 2rem rgba(0, 0, 0, 0.2);
+}
+.heading-secondary:hover {
+  transform: skewY(2deg) skewX(15deg) scale(1.1);
+  text-shadow: 0.6rem 1rem 2rem rgba(0, 0, 0, 0.2);
+}
+.card__heading-span {
+  padding: 1rem 1.5rem;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  font-size: 2.8rem;
+  font-weight: 300;
+  text-transform: uppercase;
+  text-align: right;
+  color: #fff;
+}
+
+.section-features {
+  padding: 6rem 0;
+  height: 100%;
+  background-image: linear-gradient(to right bottom, rgba(175, 64, 64, 0.2), rgba(70, 26, 45, 0.5)),
+  url("https://imageio.forbes.com/specials-images/imageserve/61ec51f31cce57684870e889/0x0.jpg?format=jpg&width=1200");
+  background-size: cover;
+  transform: skewY(-4deg);
+}
+.section-features > * {
+  transform: skewY(4deg);
+}
+@media only screen and (max-width: 56.25em) {
+  .section-features {
+    padding: 10rem 0; }
+}
+
+.element-card {
+  width: 300px;
+  height: 400px;
+	transition: all 0.6s cubic-bezier(0.680, -0.550, 0.265, 1.550);
+  border: 1px solid #FFF;
+  border-radius: 35px;
+}
+.element-card:hover {
+  border: 1px solid #000;
+  z-index: 1;
+  transform: scale(1.1,1.1) translatex(0px) translatey(0px);
+}
+
+
+.title-wrapper {
+  overflow: hidden;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  text-align: start;
+  flex-wrap: wrap;
+  z-index: 100;
+  transform: translateY(0);
+  transition: transform 0.28s ease;
+}
+/* .title-wrapper .title {
+  width: 100%;
+  text-transform: uppercase;
+  font-size: 1rem;
+  line-height: 1;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+.title-wrapper:hover {
+  transform: translateY(-50%);
+}
+.title-wrapper .title:hover::after {
+  transform: scale(1);
+  transition-delay: 0.15s;
+  transition-duration: 0.2s;
+}
+.title-wrapper .title::after {
+  display: block;
+  margin: 2% auto 2% auto;
+  width: 100%;
+  height: 1px;
+  content: "";
+  background-color: #0c0b0b;
+  transform: scale(0);
+  transition: transform 0.1s;
+}
+
+.title-wrapper .subtitle {
+  font-size: 0.9vw;
+  line-height: 1;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.title-wrapper:hover .subtitle{
+  opacity: 1;
+  transition-delay: 0.3s;
+  transition-duration: 0.2s;
+} */
+.title-animation {
+  font: 800 1.4rem "Oswald", sans-serif;
+  letter-spacing: 0;
+  text-shadow: 0 0 80px rgba(255,255,255,.5);
+  background: url(https://img.freepik.com/premium-photo/abstract-wallpaper-beautiful-peonies-dark-background-generative-ai_464863-1656.jpg) repeat-y;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: aitf 80s linear infinite;
+  transform: translate3d(0,0,0);
+  backface-visibility: hidden;
+}
+@keyframes aitf {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+.animate-charcter{
+  --bg-size: 400%;
+  --color-one: red;
+  --color-two: hsl(40 95% 55%);
+  font-weight: bold;
+  background: linear-gradient(
+      90deg,
+      var(--color-one),
+      var(--color-two),
+      var(--color-one)
+    )
+    0 0 / var(--bg-size) 100%;
+  color: transparent;
+  background-clip: text;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-charcter {
+    animation: move-bg 8s linear infinite;
+  }
+  @keyframes move-bg {
+    to {
+      background-position: var(--bg-size) 0;
+    }
+  }
+}

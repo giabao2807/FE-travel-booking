@@ -1,35 +1,31 @@
-import { computed, onMounted, ref } from 'vue'
-import { storeToRefs } from 'pinia'
-import { useHotelStore } from '@/store/hotels'
+import { onMounted } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
-import { useLoading } from './useLoading'
+import { useHotelUtil } from './useHotel'
+import { useTourUtil } from './useTour'
+
 
 const useHome = () => {
-  const hotelStore = useHotelStore()
-  const { recomendCities, hotels } = storeToRefs(hotelStore)
-  const { startLoading, finishLoading } = useLoading()
-  console.log(recomendCities.value)
-  const selectedCity = ref<number>(0)
-  const getRecomendCities = async() => {
-    startLoading()
-    await hotelStore.getRecomendCities()
-    selectedCity.value = recomendCities.value[0]?.id
-    finishLoading()
-  }
-  const getHotelByCity = async(cityId: number) => {
-    startLoading()
-    await hotelStore.getHotelByCity(cityId)
-    finishLoading()
-  }
-  onMounted(async()=>{
-    await getRecomendCities()
-    getHotelByCity(selectedCity.value)
-  })
-  return {
+  const {
+    hotels,
     recomendCities,
     selectedCity,
     getHotelByCity,
-    hotels
+    getRecomendCities
+  } = useHotelUtil()
+  const { popularTours, getPopularTours } = useTourUtil()
+  onMounted(async()=>{
+    await getRecomendCities()
+    getHotelByCity(selectedCity.value)
+    await getPopularTours()
+    console.log(popularTours.value)
+
+  })
+  return {
+    recomendCities,
+    hotels,
+    selectedCity,
+    popularTours,
+    getHotelByCity
   }
 }
 export const useHomeUtil = createSharedComposable(useHome)

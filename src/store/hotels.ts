@@ -19,12 +19,13 @@ export type IHotel = {
 export const useHotelStore = defineStore('hotelStore', () => {
   const recomendCities = ref<ICity[]>([])
   const hotels = ref<IHotel[]>([])
-
+  const hotel = ref<any>()
   const getRecomendCities = async(amount = 10) =>{
     await connectionsAPI({
       methods: 'GET',
       path: 'general/city/top-recommend-cities',
-      params: { amount: amount }
+      params: { amount: amount },
+      headers: { 'Content-Type': 'application/json' }
     }).then(data => recomendCities.value = data)
   }
 
@@ -32,7 +33,8 @@ export const useHotelStore = defineStore('hotelStore', () => {
     await connectionsAPI({
       methods: 'GET',
       path: `general/city/${cityId}/top-hotels`,
-      params: { page_size: 8, page: 1 }
+      params: { page_size: 8, page: 1 },
+      headers: { 'Content-Type': 'application/json' }
     }).then(data => hotels.value = data.results)
   }
   return {

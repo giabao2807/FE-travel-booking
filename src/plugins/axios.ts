@@ -15,12 +15,14 @@ const connectionsAPI = async(paramsAPI: IParamsAPI) => {
   const { methods, path, params, headers, data, responseType } = paramsAPI
   const baseURL = BASE_URL + path
   const header = authHeader()
+  console.log(header)
+
   const config: AxiosRequestConfig = {
     method: methods,
     url: baseURL,
     params: params ? params : undefined,
     data: data ? data : undefined,
-    headers: header ? header : headers,
+    headers: headers ? headers : header,
     responseType:  responseType ? responseType : 'json'
   }
   return await axios(config)

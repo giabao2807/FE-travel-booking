@@ -57,7 +57,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 .btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1rem 2rem var(--btn-shawdow-color);
 }
 .btn:hover::after {
   transform: scaleX(1.4) scaleY(1.6);
@@ -67,11 +67,11 @@ const props = withDefaults(defineProps<Props>(), {
 .btn:active, .btn:focus {
   outline: none;
   transform: translateY(-1px);
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.5rem 1rem var(--btn-shawdow-color);
 }
 
 .btn--pink::after {
-  background-color: #8e1181;
+  background-color: var(--btn-animation-bgcolor);
 }
 
 .btn::after {
