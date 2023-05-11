@@ -46,11 +46,6 @@ export type IRoomType = {
 }
 
 export const useHotelStore = defineStore('hotelStore', () => {
-  const initParamHotel: IParamHotel = ({
-    cityId: 1,
-    page: 1,
-    pageSize: 8
-  })
   const recomendCities = ref<ICity[]>([])
   const hotels = ref<IHotel[]>([])
   const hotel = ref<IDetailHotel>()
@@ -64,7 +59,7 @@ export const useHotelStore = defineStore('hotelStore', () => {
     }).then(data => recomendCities.value = data)
   }
 
-  const getHotelByCity = async(paramHotel:IParamHotel = initParamHotel) => {
+  const getHotelByCity = async(paramHotel: Partial<IParamHotel>) => {
     await connectionsAPI({
       methods: 'GET',
       path: `general/city/${paramHotel.cityId}/top-hotels`,
@@ -80,10 +75,10 @@ export const useHotelStore = defineStore('hotelStore', () => {
       headers: { 'Content-Type': 'application/json' }
     }).then((data) => (hotel.value = data))
   }
-  const getRoomTypeById = async(param: IParamRoomType) => {
+  const getRoomTypeById = async(param: Partial<IParamRoomType>) => {
     await connectionsAPI({
       methods: 'GET',
-      path: `hotel/${param.id}/get_available_room_types`,
+      path: `hotel/${param.id}/get_available_rooms`,
       headers: { 'Content-Type': 'application/json' },
       params: { startDate: param.startDate, endDate: param.endDate }
     }).then((data) => (roomTypes.value = data))

@@ -16,22 +16,17 @@ const createHotel = () => {
     selectedCity.value = recomendCities.value[0]?.id
   }
   const getRecomendHotelByCity = async(id: number) => {
-    startLoading()
     const param:IParamHotel = {
       cityId: id,
       page: 1,
       pageSize: 8
     }
     await hotelStore.getHotelByCity(param)
-    finishLoading()
   }
 
   const getHotelById = async(id: string) => {
-    startLoading()
-    const param:IParamRoomType = { id: id }
     await hotelStore.getHotelSumaryById(id)
-    await hotelStore.getRoomTypeById(param)
-    finishLoading()
+    await hotelStore.getRoomTypeById({ id: id })
   }
   return {
     hotels,

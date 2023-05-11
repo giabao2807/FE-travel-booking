@@ -110,7 +110,6 @@
   </v-container>
 </template>
 <script lang="ts" setup>
-import '@/assets/css/signIn.css'
 import NButtonAnimated from '@/components/NButtonAnimated.vue'
 import { useAuthentication } from '@/composables/useAuth'
 import { validations } from '@/helpers/validate'
@@ -125,7 +124,8 @@ const {
   signUpWithGoogle
 } = useAuthentication()
 </script>
-<style scoped>
+<style lang="css" scoped>
+@import '@/assets/css/signIn.css';
 .double-line::before,
 .double-line::after {
   content: "";

@@ -67,7 +67,6 @@
   </v-container>
 </template>
 <script lang="ts" setup>
-import '@/assets/css/signIn.css'
 import NButtonAnimated from '@/components/NButtonAnimated.vue'
 import NDialog from '@/components/NDialog.vue'
 import NSnackbar from '@/components/NSnackbar.vue'
@@ -85,3 +84,6 @@ const {
   isRememberMe
 } = useAuthentication()
 </script>
+<style scoped>
+@import '@/assets/css/signIn.css';
+</style>

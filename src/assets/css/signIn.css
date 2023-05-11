@@ -49,7 +49,7 @@
 }
 .text-field .v-field:hover{
   border-radius: 8px;
-  box-shadow: var(--txt-shadow-color) -8px 2px 0px 0px ;
+  box-shadow: var(--txt-shadow-color) -8px 2px 0px 0px;
   border-collapse: collapse;
   opacity: 1;
 }

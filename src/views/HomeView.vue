@@ -281,7 +281,6 @@
 </template>
 <script lang="ts" setup>
 import NButtonAnimated from '@/components/NButtonAnimated.vue'
-import '@/assets/css/home.css'
 import router from '@/router'
 import { useHomeUtil } from '@/composables/useHomeUtil'
 import { convertionType } from '@/helpers/convertion'
@@ -290,6 +289,7 @@ const { recomendCities, selectedCity, hotels, getRecomendHotelByCity, popularTou
 const { formatCurrency } = convertionType()
 </script>
 <style scoped>
+@import '@/assets/css/home.css';
 @keyframes run-left {
       0% { transform: translateX(100%); }
       100% { transform: translateX(-100%); }
