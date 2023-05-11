@@ -1,12 +1,14 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
-import ToursView from '@/views/ToursView.vue'
+import ToursView from '@/views/tours/ToursView.vue'
+import TourDetail from '@/views/tours/TourDetail.vue'
 import SignInView from '@/views/auth/SignInView.vue'
 import SignUpView from '@/views/auth/SignUpView.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import HotelsView from '@/views/hotels/HotelsView.vue'
 import HotelDetail from '@/views/hotels/HotelDetail.vue'
 import AboutView from '@/views/AboutView.vue'
+import DashboardDefault from '@/views/dashboard/partner/Dashboard.vue'
 import requireAuth from '@/router/guard'
 
 const routes: Array<RouteRecordRaw> = [
@@ -18,8 +20,9 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       { path: '', component: HomeView },
       { path: 'tours', component: ToursView },
+      { path: 'tour/:id', name:'tourDetail', component: TourDetail },
       { path: 'hotels', component: HotelsView },
-      { path: 'hotels/:id', name:'hotelDetail', component: HotelDetail }
+      { path: 'hotel/:id', name:'hotelDetail', component: HotelDetail }
     ]
   },
   {
@@ -39,6 +42,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'signUp',
     component: SignUpView,
     meta: { requiresAuth: false, allowedRoles: ['guest'] }
+  },
+  {
+    path: '/dashboard-default',
+    name: 'DashboardDefault',
+    component: DashboardDefault
   }
 ]
 

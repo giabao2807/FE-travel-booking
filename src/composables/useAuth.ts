@@ -1,4 +1,4 @@
-import { useFeedBackStore } from './../store/feedBack'
+import { useFeedBackStore } from '@/store/feedBack'
 import { createSharedComposable } from '@vueuse/core'
 import { computed, onMounted, ref } from 'vue'
 import { useAuthStore } from '@/store/auth'

@@ -5,13 +5,25 @@
   --btn-animation-bgcolor: #8e1181;
   --btn-shawdow-color: rgba(0, 0, 0, 0.2);
   --loading-bgcolor: rgb(33, 33, 33);
-  --loading-border-color: rgb(33, 33, 33)
+  --loading-border-color: rgb(33, 33, 33);
+  --color-boni-like: rgba(255, 80, 114, 1)
 }
 
-.height-40px{
+.width-50 {
+  width: 50% !important;
+}
+.width-80 {
+  width: 80% !important;
+}
+.font-weight-600 {
+  font-weight: 600 !important;
+}
+.text-align-center {
+  text-align: center !important;
+}
+.height-40px {
   height: 40px;
 }
-
-.font-size-min-rem{
+.font-size-min-rem {
   font-size: .8rem
 }

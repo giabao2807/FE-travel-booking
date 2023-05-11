@@ -19,7 +19,13 @@
     "vue-demi": "^0.13.11",
     "vue-router": "^4.0.3",
     "vuetify": "^3.2.2",
-    "vuex": "^4.0.0"
+    "vuex": "^4.0.0",
+    "@popperjs/core": "2.10.2",
+    "bootstrap": "5.1.3",
+    "chart.js": "3.6.0",
+    "dropzone": "6.0.0-beta.1",
+    "quill": "1.3.6",
+    "vue-flatpickr-component": "9.0.5"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.4.0",

@@ -9,15 +9,14 @@ const useHome = () => {
     hotels,
     recomendCities,
     selectedCity,
-    getHotelByCity,
+    getRecomendHotelByCity,
     getRecomendCities
   } = useHotelUtil()
   const { popularTours, getPopularTours } = useTourUtil()
   onMounted(async()=>{
     await getRecomendCities()
-    getHotelByCity(selectedCity.value)
+    getRecomendHotelByCity(selectedCity.value)
     await getPopularTours()
-    console.log(popularTours.value)
 
   })
   return {
@@ -25,7 +24,7 @@ const useHome = () => {
     hotels,
     selectedCity,
     popularTours,
-    getHotelByCity
+    getRecomendHotelByCity
   }
 }
 export const useHomeUtil = createSharedComposable(useHome)

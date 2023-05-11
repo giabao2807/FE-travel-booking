@@ -3,9 +3,9 @@ import { createSharedComposable } from '@vueuse/core'
 import { useLoading } from './useLoading'
 import { useTourStore } from '@/store/tours'
 
-const useTour = () => {
+const createTour = () => {
   const tourStore = useTourStore()
-  const { popularTours } = storeToRefs(tourStore)
+  const { popularTours, tour } = storeToRefs(tourStore)
   const { startLoading, finishLoading } = useLoading()
   const getPopularTours = async() => {
     startLoading()
@@ -13,9 +13,17 @@ const useTour = () => {
     finishLoading()
   }
 
+  const getTourById = async(id: string) => {
+    startLoading()
+    await tourStore.getTourById(id)
+    finishLoading()
+  }
+
   return {
     popularTours,
-    getPopularTours
+    tour,
+    getPopularTours,
+    getTourById
   }
 }
-export const useTourUtil = createSharedComposable(useTour)
+export const useTourUtil = createSharedComposable(createTour)

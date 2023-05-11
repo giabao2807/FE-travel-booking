@@ -42,7 +42,7 @@
       </v-row>
     </v-container>
     <v-container fluid>
-      <div style="text-align: center;">
+      <div class="text-align-center">
         <h2 class="heading-secondary">
           Most popular tours
         </h2>
@@ -56,6 +56,7 @@
           <v-card
             class="mx-auto my-12 rounded-xl"
             max-width="350"
+            @click="() => router.push({ name: 'tourDetail', params: { id: tour.id } })"
           >
             <v-img
               class="align-end text-white"
@@ -93,7 +94,7 @@
               </v-row>
               <div class="mt-5 text-subtitle-1 animate-charcter">
                 <v-icon icon="mdi-cash-multiple" class="mt-n2 animate-charcter" />
-                {{ tour.price }} - VND
+                {{ formatCurrency(tour.price) }}
               </div>
             </v-card-text>
             <v-divider class="mx-4 mb-1" />
@@ -117,7 +118,7 @@
       </div>
     </v-container>
     <v-sheet class="section-features my-15 px-0">
-      <div style="text-align: center;">
+      <div class="text-align-center">
         <h2 class="heading-panel-2 mt-n2">
           Những khách sạn nổi bật
         </h2>
@@ -127,7 +128,7 @@
           v-model="selectedCity"
           show-arrows
           mandatory
-          style="width: 80%; font-weight: 600;"
+          class="width-80 font-weight-600;"
         >
           <v-slide-group-item
             v-for="city in recomendCities"
@@ -143,7 +144,7 @@
                 variant="text"
                 :color="isSelected ? 'primary' : '#fff'"
                 @click="()=>{
-                  getHotelByCity(city.id)
+                  getRecomendHotelByCity(city?.id)
                   toggle()
                 }"
               >
@@ -169,7 +170,6 @@
           >
             <v-img
               class="align-end text-white"
-              :elevation="isHovering ? 2 : 12"
               height="150"
               :src="hotel.coverPicture"
               cover
@@ -210,6 +210,7 @@
               <span class="text-disabled font-size-min-rem">{{ hotel.address }}</span>
             </div>
             <v-card-actions>
+              <v-icon icon="mdi-cash-multiple" size="18" class="mr-n1 animate-charcter" />
               <p class="mx-2 animate-charcter">{{ hotel.priceRange }}</p>
               <v-spacer />
               <v-btn
@@ -279,20 +280,20 @@
   </v-sheet>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
 import NButtonAnimated from '@/components/NButtonAnimated.vue'
-import { useHomeUtil } from '@/composables/useHomeUtil'
 import '@/assets/css/home.css'
 import router from '@/router'
-const { recomendCities, selectedCity, hotels, getHotelByCity, popularTours } = useHomeUtil()
-const reveal = ref <boolean>(false)
+import { useHomeUtil } from '@/composables/useHomeUtil'
+import { convertionType } from '@/helpers/convertion'
+
+const { recomendCities, selectedCity, hotels, getRecomendHotelByCity, popularTours } = useHomeUtil()
+const { formatCurrency } = convertionType()
 </script>
 <style scoped>
 @keyframes run-left {
       0% { transform: translateX(100%); }
       100% { transform: translateX(-100%); }
     }
-
     .running-text {
       white-space: nowrap;
       overflow: hidden;

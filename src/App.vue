@@ -7,7 +7,7 @@
   </v-app>
 </template>
 <script lang="ts" setup>
-import NAppLoading from './components/NAppLoading.vue'
+import NAppLoading from '@/components/NAppLoading.vue'
 
 </script>
 <style scoped>

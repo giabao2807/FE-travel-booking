@@ -21,13 +21,24 @@ export type ITour = {
   city: string
 }
 
+export type IDetailTour = ITour & {
+  createdAt: string,
+  updatedAt: string,
+  isActive: boolean,
+  groupSize: number,
+  scheduleContent: string,
+  note: string,
+  owner: string,
+  listImages: string[]
+}
+
 export const useTourStore = defineStore('tourStore', () => {
   const initParamTour: IParamPage = ({
-    pageSize: 4,
+    pageSize: 6,
     page: 1
   })
   const popularTours = ref<ITour[]>([])
-  const tour = ref<any>()
+  const tour = ref<IDetailTour>()
 
   const getPopularTours = async(params: IParamPage = initParamTour) =>{
     await connectionsAPI({
@@ -38,8 +49,17 @@ export const useTourStore = defineStore('tourStore', () => {
     }).then(data => popularTours.value = data.results)
   }
 
+  const getTourById = async(id: string) => {
+    await connectionsAPI({
+      methods: 'GET',
+      path: `tour/${id}`,
+      headers: { 'Content-Type': 'application/json' }
+    }).then(data => tour.value = data)
+  }
   return {
     popularTours,
-    getPopularTours
+    tour,
+    getPopularTours,
+    getTourById
   }
 })
