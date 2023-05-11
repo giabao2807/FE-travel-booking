@@ -1,7 +1,7 @@
 import { IError, IParamsAPI } from '@/libs/types/commonType'
 import { useAuthStore } from '@/store/auth'
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
-const BASE_URL = 'http://bonitravel.online/api/v1/'
+const BASE_URL = 'https://bonitravel.online/api/v1/'
 const authHeader = () => {
   const { authUser } = useAuthStore()
   const isLoggedIn = !!authUser?.accessToken
