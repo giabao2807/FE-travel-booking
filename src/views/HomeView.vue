@@ -204,38 +204,36 @@
             </v-img>
 
             <v-card-title class="title-animation font-weight-bold">
-              {{ hotel.name }}
+              {{ hotel?.name }}
               <v-tooltip
                 activator="parent"
-                :text="hotel.name"
+                :text="hotel?.name"
                 location="top"
               />
             </v-card-title>
             <v-card-text class="pt-2">
-              <v-row align="center" justify="center">
-                <v-col>
-                  <v-rating
-                    :model-value="hotel.rateAverage"
-                    color="amber"
-                    density="compact"
-                    half-increments
-                    readonly
-                    size="small"
-                  />
-                </v-col>
+              <v-row justify="start" class="mx-2 mb-2">
+                <span>{{ voteText(hotel?.rateAverage) }}</span>
+                <v-rating
+                  :model-value="hotel?.rateAverage"
+                  color="amber"
+                  density="compact"
+                  half-increments
+                  readonly
+                  size="small"
+                />
               </v-row>
               <div class="mt-2">
                 <v-icon color="primary" icon="mdi-vote-outline" />
-                <span class="text-disabled font-size-min-rem ml-2 mb-n2">Đánh giá -
-                  <v-chip
-                    color="primary"
-                    size="small"
-                    label
-                    text-color="white"
-                  >
-                    {{ hotel.numReview }}
-                  </v-chip>
-                </span>
+                <span class="text-disabled font-size-min-rem ml-2 mb-n2">Đánh giá - </span>
+                <v-chip
+                  color="primary"
+                  size="small"
+                  label
+                  text-color="white"
+                >
+                  {{ hotel?.numReview }}
+                </v-chip>
               </div>
             </v-card-text>
             <v-divider />
@@ -244,8 +242,8 @@
               <span class="text-disabled font-size-min-rem">{{ hotel.address }}</span>
             </div>
             <v-card-actions>
-              <v-icon icon="mdi-cash-multiple" size="18" class="mr-n1 animate-charcter" />
-              <p class="mx-2 animate-charcter">{{ hotel.priceRange }}</p>
+              <v-icon icon="mdi-cash-multiple" size="18" class="ml-1 mb-1 animate-charcter" />
+              <p class="mx-2 animate-charcter">{{ hotel?.priceRange }}</p>
               <v-spacer />
               <v-icon
                 size="18"
@@ -322,7 +320,7 @@ import router from '@/router'
 import { useHomeUtil } from '@/composables/useHomeUtil'
 import { convertionType } from '@/helpers/convertion'
 
-const { recomendCities, selectedCity, hotels, getRecomendHotelByCity, popularTours } = useHomeUtil()
+const { recomendCities, selectedCity, hotels, popularTours, voteText, getRecomendHotelByCity } = useHomeUtil()
 const { formatCurrency } = convertionType()
 </script>
 <style scoped>
