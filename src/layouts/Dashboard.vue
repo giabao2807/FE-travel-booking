@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-sheet>
     <v-navigation-drawer
       v-model="drawer"
       expand-on-hover
@@ -54,7 +54,10 @@
         <v-icon v-if="!drawer" class="my-5" icon="mdi-menu-open" @click.stop="drawer = !drawer" />
       </template>
     </v-app-bar>
-  </div>
+    <v-container>
+      <router-view />
+    </v-container>
+  </v-sheet>
 </template>
 
 <script lang="ts" setup>

@@ -1,4 +1,3 @@
-import { IParamRoomType } from '@/store/hotels'
 import { IParamHotel } from '@/store/hotels'
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
@@ -8,7 +7,7 @@ import { useLoading } from '@/composables/useLoading'
 
 const createHotel = () => {
   const hotelStore = useHotelStore()
-  const { recomendCities, hotels, hotel, roomTypes } = storeToRefs(hotelStore)
+  const { recomendCities, hotels, hotel, rooms } = storeToRefs(hotelStore)
   const { startLoading, finishLoading } = useLoading()
   const selectedCity = ref<number>(0)
   const getRecomendCities = async() => {
@@ -33,7 +32,7 @@ const createHotel = () => {
     recomendCities,
     selectedCity,
     hotel,
-    roomTypes,
+    rooms,
     getRecomendHotelByCity,
     getRecomendCities,
     getHotelById

@@ -5,10 +5,11 @@ import TourDetail from '@/views/tours/TourDetail.vue'
 import SignInView from '@/views/auth/SignInView.vue'
 import SignUpView from '@/views/auth/SignUpView.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import Dashboard from '@/layouts/Dashboard.vue'
+import PartnerView from '@/views/dashboard/partner/index.vue'
+import AdminView from '@/views/dashboard/admin/index.vue'
 import HotelsView from '@/views/hotels/HotelsView.vue'
 import HotelDetail from '@/views/hotels/HotelDetail.vue'
-import AboutView from '@/views/AboutView.vue'
-import DashboardDefault from '@/views/dashboard/partner/Dashboard.vue'
 import requireAuth from '@/router/guard'
 
 const routes: Array<RouteRecordRaw> = [
@@ -28,8 +29,12 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/dashboard',
     name: 'dashboard',
-    component: AboutView,
-    meta: { requiresAuth: true, allowedRoles: ['Admin', 'hotel'] }
+    component: Dashboard,
+    meta: { requiresAuth: true, allowedRoles: ['Admin', 'Partner'] },
+    children: [
+      { path: 'partner', component: PartnerView, meta: { requiresAuth: true, roleChildren: ['Partner'] } },
+      { path: 'admin', component: AdminView, meta: { requiresAuth: true, roleChildren: ['Admin'] } }
+    ]
   },
   {
     path: '/sign_in',
@@ -42,11 +47,6 @@ const routes: Array<RouteRecordRaw> = [
     name: 'signUp',
     component: SignUpView,
     meta: { requiresAuth: false, allowedRoles: ['guest'] }
-  },
-  {
-    path: '/dashboard-default',
-    name: 'DashboardDefault',
-    component: DashboardDefault
   }
 ]
 

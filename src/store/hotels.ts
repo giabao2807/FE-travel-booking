@@ -49,7 +49,7 @@ export const useHotelStore = defineStore('hotelStore', () => {
   const recomendCities = ref<ICity[]>([])
   const hotels = ref<IHotel[]>([])
   const hotel = ref<IDetailHotel>()
-  const roomTypes = ref<IRoomType[]>([])
+  const rooms = ref<IRoomType[]>([])
   const getRecomendCities = async(amount = 10) =>{
     await connectionsAPI({
       methods: 'GET',
@@ -81,13 +81,13 @@ export const useHotelStore = defineStore('hotelStore', () => {
       path: `hotel/${param.id}/get_available_rooms`,
       headers: { 'Content-Type': 'application/json' },
       params: { startDate: param.startDate, endDate: param.endDate }
-    }).then((data) => (roomTypes.value = data))
+    }).then((data) => (rooms.value = data))
   }
   return {
     recomendCities,
     hotels,
     hotel,
-    roomTypes,
+    rooms,
     getRecomendCities,
     getHotelByCity,
     getHotelSumaryById,

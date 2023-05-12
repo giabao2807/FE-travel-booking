@@ -73,20 +73,23 @@ const useAuth = () => {
   }
 
   const checkAvatar = computed(() => authUser.value?.avatar || require('@/assets/img/avatar.png'))
-
-  onMounted(() => {
-    const session = sessionStorage.getItem('userData')
-    const sessionUser = session ? JSON.parse(session) : ''
-    authUser.value = session ? JSON.parse(session) : ''
-
+  const routeDirectional = (sessionUser: any) => {
     if (sessionUser){
-      if (['Admin'].includes(sessionUser?.role)){
-        router.push('/dashboard')
+      if (sessionUser?.role === 'Admin'){
+        router.push('/dashboard/admin')
+      }
+      else if (sessionUser?.role === 'Partner') {
+        router.push('/dashboard/partner')
       }
       else {
         router.push('/')
       }
     }
+  }
+  onMounted(() => {
+    const session = sessionStorage.getItem('userData')
+    authUser.value = session ? JSON.parse(session) : ''
+    routeDirectional(authUser.value)
     isRememberMe()
   })
   return {

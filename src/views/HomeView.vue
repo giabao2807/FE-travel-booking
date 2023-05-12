@@ -60,9 +60,23 @@
           >
             <v-img
               class="align-end text-white"
+              height="200"
               cover
-              :src="tour.coverPicture"
+              :src="tour?.coverPicture"
+              :lazy-src="tour?.coverPicture"
             >
+              <template #placeholder>
+                <v-row
+                  class="fill-height ma-0"
+                  align="center"
+                  justify="center"
+                >
+                  <v-progress-circular
+                    indeterminate
+                    color="grey-lighten-5"
+                  />
+                </v-row>
+              </template>
               <v-card-title>{{ tour.name }}</v-card-title>
             </v-img>
             <v-card-item>
@@ -172,8 +186,22 @@
               class="align-end text-white"
               height="150"
               :src="hotel.coverPicture"
+              :lazy-src="hotel.coverPicture"
               cover
-            />
+            >
+              <template #placeholder>
+                <v-row
+                  class="fill-height ma-0"
+                  align="center"
+                  justify="center"
+                >
+                  <v-progress-circular
+                    indeterminate
+                    color="grey-lighten-5"
+                  />
+                </v-row>
+              </template>
+            </v-img>
 
             <v-card-title class="title-animation font-weight-bold">
               {{ hotel.name }}
@@ -183,11 +211,8 @@
                 location="top"
               />
             </v-card-title>
-            <v-card-subtitle class="pt-2">
+            <v-card-text class="pt-2">
               <v-row align="center" justify="center">
-                <v-col>
-                  <v-chip color="blue">Khách sạn</v-chip>
-                </v-col>
                 <v-col>
                   <v-rating
                     :model-value="hotel.rateAverage"
@@ -199,21 +224,33 @@
                   />
                 </v-col>
               </v-row>
-              <div class="ma-2">
-                <v-icon icon="mdi-vote-outline" />
-                Đánh giá - ({{ hotel.numReview }})
+              <div class="mt-2">
+                <v-icon color="primary" icon="mdi-vote-outline" />
+                <span class="text-disabled font-size-min-rem ml-2 mb-n2">Đánh giá -
+                  <v-chip
+                    color="primary"
+                    size="small"
+                    label
+                    text-color="white"
+                  >
+                    {{ hotel.numReview }}
+                  </v-chip>
+                </span>
               </div>
-            </v-card-subtitle>
+            </v-card-text>
             <v-divider />
             <div class="ma-2 height-40px">
-              <v-icon icon="mdi-map-marker-outline" />
+              <v-icon color="primary" icon="mdi-map-marker-outline" />
               <span class="text-disabled font-size-min-rem">{{ hotel.address }}</span>
             </div>
             <v-card-actions>
               <v-icon icon="mdi-cash-multiple" size="18" class="mr-n1 animate-charcter" />
               <p class="mx-2 animate-charcter">{{ hotel.priceRange }}</p>
               <v-spacer />
-              <v-btn
+              <v-icon
+                size="18"
+                class="mr-3"
+                color="primary"
                 icon="mdi-page-next-outline"
               />
             </v-card-actions>
@@ -293,10 +330,10 @@ const { formatCurrency } = convertionType()
 @keyframes run-left {
       0% { transform: translateX(100%); }
       100% { transform: translateX(-100%); }
-    }
-    .running-text {
-      white-space: nowrap;
-      overflow: hidden;
-      animation: run-left 5s linear infinite;
-    }
+}
+.running-text {
+  white-space: nowrap;
+  overflow: hidden;
+  animation: run-left 5s linear infinite;
+}
 </style>
