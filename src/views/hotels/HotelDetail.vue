@@ -123,9 +123,9 @@
           </v-col>
           <v-col cols="8">
             <v-card class="card-decs-detail">
-              <v-card-text class="ma-5" style="position: relative; height: 80%;">
+              <v-card-text class="ma-5 position-relative card-desc-text">
                 <v-expansion-panels
-                  class="position-absolute" style="z-index: 2; top: 0; left: 0;"
+                  class="position-absolute card-expansion"
                 >
                   <v-expansion-panel>
                     <v-expansion-panel-title>
@@ -185,62 +185,14 @@ onMounted(() => {
 })
 </script>
 <style scoped>
-.container-detail {
-  position: relative;
-  z-index: 1;
-  background-image: url('@/assets/img/bg-detail.png');
-  background-size: cover;
-  height: 100%;
+@import '@/assets/scss/detail.scss';
+.card-desc-text {
+  height: 80%;
 }
-
-.container-detail .toolbar {
-  width: 60%;
-  justify-content: center;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 9999;
-}
-.container-detail .description {
-  margin-top: 8rem;
-}
-.container-detail .card-detail {
-	border-radius: 5px;
-}
-.container-detail .carousel {
-  width: 30%;
-  position: relative;
-  background-color: red;
-  border: 1px solid var(--loading-bgcolor);
-}
-.container-detail .card-decs-detail {
-  width: 60%;
-  height: 500px;
-  position: absolute;
-  margin-left: -150px;
-  margin-top: 60px;
-}
-.container-detail .text-field {
-  width: 200px;
-
-}
-.container-detail .btn-shadown {
-  color: #fff;
-  font-weight: 600;
-}
-.container-detail .btn-shadown:hover {
-  box-shadow: #ec488c 0px 0px 0px 6px;
-}
-.container-detail .group-image {
-  position: relative;
-  top: 35%;
-  z-index: 1;
-}
-.composition__photo:hover {
-  border-radius: 2px;
-  outline-offset: 0.5rem;
-  outline: 1rem solid var(--color-boni-like);
-  box-shadow: 0 2.5rem 4rem rgba(0, 0, 0, 0.5);
+.card-expansion {
+  top: 0;
+  left: 0;
+  z-index: 2;
 }
 ::v-deep .htdt-policy,::v-deep .htdt-description {
   background-color: transparent !important;

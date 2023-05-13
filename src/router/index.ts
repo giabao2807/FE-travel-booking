@@ -19,10 +19,10 @@ const routes: Array<RouteRecordRaw> = [
     component: DefaultLayout,
     meta: { requiresAuth: false },
     children: [
-      { path: '', component: HomeView },
-      { path: 'tours', component: ToursView },
+      { path: '', name:'homepage', component: HomeView },
+      { path: 'tours', name:'tours', component: ToursView },
       { path: 'tour/:id', name:'tourDetail', component: TourDetail },
-      { path: 'hotels', component: HotelsView },
+      { path: 'hotels', name:'hotels', component: HotelsView },
       { path: 'hotel/:id', name:'hotelDetail', component: HotelDetail }
     ]
   },

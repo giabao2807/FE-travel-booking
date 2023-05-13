@@ -127,13 +127,4 @@ const {
 </script>
 <style lang="css" scoped>
 @import '@/assets/css/signIn.css';
-.double-line::before,
-.double-line::after {
-  content: "";
-  display: inline-block;
-  border-top: 1px solid;
-  width: 50px;
-  margin: 3px 10px;
-}
-
 </style>

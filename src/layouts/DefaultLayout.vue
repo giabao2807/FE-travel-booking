@@ -13,7 +13,7 @@
         <n-image :src="require(`@/assets/img/app_bar.jpg`)" />
       </template>
       <v-app-bar-title>
-        <p class="header-title">TraveNE</p>
+        <p class="header-title" @click="() => router.push({ name: 'homepage' }) ">TraveNE</p>
       </v-app-bar-title>
       <v-slide-group show-arrows class="width-50">
         <v-slide-group-item
@@ -127,6 +127,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+import NImage from '@/components/NImage.vue'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/store/auth'
 import router from '@/router'
@@ -139,14 +140,6 @@ const { authUser } = storeToRefs(authStore)
 const { checkAvatar, signOut } = useAuthentication()
 </script>
 <style scoped>
-.layout {
-  background: linear-gradient(
-    40deg,
-    rgba(79, 18, 52, 0.8) 20%,
-    rgb(238, 220, 230) 66%,
-    rgb(253, 235, 255) 100%
-  );
-}
 .header-title {
   padding: 10px;
   font-size: 30px;

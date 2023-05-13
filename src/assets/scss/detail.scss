@@ -1,0 +1,57 @@
+.container-detail {
+  position: relative;
+  z-index: 1;
+  background-image: url('@/assets/img/bg-detail.png');
+  background-size: cover;
+  height: 100%;
+
+  .toolbar {
+    width: 60%;
+    justify-content: center;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+  }
+  .description {
+    margin-top: 8rem;
+  }
+  .card-detail {
+    border-radius: 5px;
+  }
+  .carousel {
+    width: 30%;
+    position: relative;
+    background-color: red;
+    border: 1px solid var(--loading-bgcolor);
+  }
+  .card-decs-detail {
+    width: 60%;
+    height: 500px;
+    position: absolute;
+    margin-left: -150px;
+    margin-top: 60px;
+  }
+  .text-field {
+    width: 200px;
+  }
+  .btn-shadown {
+    color: #fff;
+    font-weight: 600;
+  }
+  .btn-shadown:hover {
+    box-shadow: #ec488c 0px 0px 0px 6px;
+  }
+  .group-image {
+    position: relative;
+    top: 35%;
+    z-index: 1;
+  }
+  .composition__photo:hover {
+    border-radius: 2px;
+    outline-offset: 0.5rem;
+    outline: 1rem solid var(--color-boni-like);
+    box-shadow: 0 2.5rem 4rem rgba(0, 0, 0, 0.5);
+  }
+}
+

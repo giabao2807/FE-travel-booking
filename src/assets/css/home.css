@@ -161,7 +161,9 @@
   z-index: 1;
   transform: scale(1.1,1.1) translatex(0px) translatey(0px);
 }
-
+.element-card .background-card-title {
+  background-color:rgba(251, 246, 251, 0.92)
+}
 
 .title-wrapper {
   overflow: hidden;
@@ -256,4 +258,13 @@
       background-position: var(--bg-size) 0;
     }
   }
+}
+@keyframes run-left {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+.running-text {
+white-space: nowrap;
+overflow: hidden;
+animation: run-left 5s linear infinite;
 }

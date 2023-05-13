@@ -53,3 +53,11 @@
   border-collapse: collapse;
   opacity: 1;
 }
+.double-line::before,
+.double-line::after {
+  content: "";
+  display: inline-block;
+  border-top: 1px solid;
+  width: 50px;
+  margin: 3px 10px;
+}

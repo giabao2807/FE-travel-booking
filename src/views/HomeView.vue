@@ -173,7 +173,7 @@
               height="100%"
               :src="hotel.coverPicture"
             >
-              <div style="background-color:rgba(251, 246, 251, 0.92)">
+              <div class="background-card-title">
                 <v-card-title class="title-animation font-weight-bold">
                   {{ hotel?.name }}
                   <v-tooltip
@@ -301,13 +301,4 @@ const { formatCurrency } = convertionType()
 </script>
 <style scoped>
 @import '@/assets/css/home.css';
-@keyframes run-left {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-}
-.running-text {
-  white-space: nowrap;
-  overflow: hidden;
-  animation: run-left 5s linear infinite;
-}
 </style>
