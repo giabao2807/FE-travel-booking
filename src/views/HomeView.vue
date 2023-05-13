@@ -51,37 +51,23 @@
       <v-row>
         <v-col
           v-for="tour in popularTours"
-          :key="tour.id"
+          :key="tour?.id"
         >
           <v-card
             class="mx-auto my-12 rounded-xl"
-            max-width="350"
-            @click="() => router.push({ name: 'tourDetail', params: { id: tour.id } })"
+            max-width="330"
+            @click="() => router.push({ name: 'tourDetail', params: { id: tour?.id } })"
           >
-            <v-img
+            <n-image
               class="align-end text-white"
               height="200"
-              cover
               :src="tour?.coverPicture"
-              :lazy-src="tour?.coverPicture"
             >
-              <template #placeholder>
-                <v-row
-                  class="fill-height ma-0"
-                  align="center"
-                  justify="center"
-                >
-                  <v-progress-circular
-                    indeterminate
-                    color="grey-lighten-5"
-                  />
-                </v-row>
-              </template>
-              <v-card-title>{{ tour.name }}</v-card-title>
-            </v-img>
+              <v-card-title>{{ tour?.name }}</v-card-title>
+            </n-image>
             <v-card-item>
               <v-card-subtitle>
-                <span class="me-1">{{ tour.city }} Favorite</span>
+                <span class="me-1">{{ tour?.city }} Favorite</span>
                 <v-icon
                   color="error"
                   icon="mdi-fire-circle"
@@ -108,13 +94,13 @@
               </v-row>
               <div class="mt-5 text-subtitle-1 animate-charcter">
                 <v-icon icon="mdi-cash-multiple" class="mt-n2 animate-charcter" />
-                {{ formatCurrency(tour.price) }}
+                {{ formatCurrency(tour?.price) }}
               </div>
             </v-card-text>
             <v-divider class="mx-4 mb-1" />
             <v-card-title>Thời gian</v-card-title>
             <v-chip-group class="px-4">
-              <v-chip>{{ tour.totalDays }}</v-chip>
+              <v-chip>{{ tour?.totalDays }}</v-chip>
             </v-chip-group>
             <v-card-actions>
               <v-btn
@@ -146,8 +132,8 @@
         >
           <v-slide-group-item
             v-for="city in recomendCities"
-            :key="city.id"
-            :value="city.id"
+            :key="city?.id"
+            :value="city?.id"
             v-slot="{ isSelected, toggle }"
           >
             <div class="align-center justify-center">
@@ -162,7 +148,7 @@
                   toggle()
                 }"
               >
-                {{ city.name }}
+                {{ city?.name }}
               </v-btn>
               <div v-show="isSelected" class="mt-n3 ml-10 mb-n2">
                 <svg class="image-container" width="100" viewBox="0 0 83 7" fill="none">
@@ -180,78 +166,67 @@
         >
           <v-card
             class="element-card mt-5"
-            @click="()=> router.push({ name: 'hotelDetail', params: { id: hotel.id } })"
+            @click="()=> router.push({ name: 'hotelDetail', params: { id: hotel?.id } })"
           >
-            <v-img
+            <n-image
               class="align-end text-white"
-              height="150"
+              height="100%"
               :src="hotel.coverPicture"
-              :lazy-src="hotel.coverPicture"
-              cover
             >
-              <template #placeholder>
-                <v-row
-                  class="fill-height ma-0"
-                  align="center"
-                  justify="center"
-                >
-                  <v-progress-circular
-                    indeterminate
-                    color="grey-lighten-5"
+              <div style="background-color:rgba(251, 246, 251, 0.92)">
+                <v-card-title class="title-animation font-weight-bold">
+                  {{ hotel?.name }}
+                  <v-tooltip
+                    activator="parent"
+                    :text="hotel?.name"
+                    location="top"
                   />
-                </v-row>
-              </template>
-            </v-img>
-
-            <v-card-title class="title-animation font-weight-bold">
-              {{ hotel?.name }}
-              <v-tooltip
-                activator="parent"
-                :text="hotel?.name"
-                location="top"
-              />
-            </v-card-title>
-            <v-card-text class="pt-2">
-              <v-row justify="start" class="mx-2 mb-2">
-                <span>{{ voteText(hotel?.rateAverage) }}</span>
-                <v-rating
-                  :model-value="hotel?.rateAverage"
-                  color="amber"
-                  density="compact"
-                  half-increments
-                  readonly
-                  size="small"
-                />
-              </v-row>
-              <div class="mt-2">
-                <v-icon color="primary" icon="mdi-vote-outline" />
-                <span class="text-disabled font-size-min-rem ml-2 mb-n2">Đánh giá - </span>
-                <v-chip
-                  color="primary"
-                  size="small"
-                  label
-                  text-color="white"
-                >
-                  {{ hotel?.numReview }}
-                </v-chip>
+                </v-card-title>
+                <v-card-text class="pt-2">
+                  <v-row align="center" justify="center">
+                    <v-col>
+                      <v-rating
+                        :model-value="hotel?.rateAverage"
+                        color="amber"
+                        density="compact"
+                        half-increments
+                        readonly
+                        size="small"
+                      />
+                    </v-col>
+                  </v-row>
+                  <div class="mt-2">
+                    <v-icon color="primary" icon="mdi-vote-outline" />
+                    <span class="text-disabled font-size-min-rem ml-2 mb-n2">Đánh giá -
+                      <v-chip
+                        color="primary"
+                        size="small"
+                        label
+                        text-color="white"
+                      >
+                        {{ hotel?.numReview }}
+                      </v-chip>
+                    </span>
+                  </div>
+                </v-card-text>
+                <v-divider color="#000" class="mx-5" />
+                <div class="ma-2 height-40px">
+                  <v-icon color="primary" icon="mdi-map-marker-outline" />
+                  <span class="text-disabled font-size-min-rem">{{ hotel.address }}</span>
+                </div>
+                <v-card-actions>
+                  <v-icon icon="mdi-cash-multiple" size="18" class="ml-1 mb-1 animate-charcter" />
+                  <p class="mx-2 animate-charcter">{{ hotel?.priceRange }}</p>
+                  <v-spacer />
+                  <v-icon
+                    size="18"
+                    class="mr-3"
+                    color="primary"
+                    icon="mdi-page-next-outline"
+                  />
+                </v-card-actions>
               </div>
-            </v-card-text>
-            <v-divider />
-            <div class="ma-2 height-40px">
-              <v-icon color="primary" icon="mdi-map-marker-outline" />
-              <span class="text-disabled font-size-min-rem">{{ hotel.address }}</span>
-            </div>
-            <v-card-actions>
-              <v-icon icon="mdi-cash-multiple" size="18" class="ml-1 mb-1 animate-charcter" />
-              <p class="mx-2 animate-charcter">{{ hotel?.priceRange }}</p>
-              <v-spacer />
-              <v-icon
-                size="18"
-                class="mr-3"
-                color="primary"
-                icon="mdi-page-next-outline"
-              />
-            </v-card-actions>
+            </n-image>
           </v-card>
         </v-col>
       </v-row>
@@ -316,6 +291,7 @@
 </template>
 <script lang="ts" setup>
 import NButtonAnimated from '@/components/NButtonAnimated.vue'
+import NImage from '@/components/NImage.vue'
 import router from '@/router'
 import { useHomeUtil } from '@/composables/useHomeUtil'
 import { convertionType } from '@/helpers/convertion'

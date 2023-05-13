@@ -10,7 +10,7 @@
       flat
     >
       <template #image>
-        <v-img :src="require(`@/assets/img/app_bar.jpg`)" cover />
+        <n-image :src="require(`@/assets/img/app_bar.jpg`)" />
       </template>
       <v-app-bar-title>
         <p class="header-title">TraveNE</p>

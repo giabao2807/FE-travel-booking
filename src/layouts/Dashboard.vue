@@ -45,10 +45,7 @@
         </v-avatar>
       </v-badge>
       <template #image>
-        <v-img
-          :src="require(`@/assets/img/${imgAppBar}`)"
-          cover
-        />
+        <n-image :src="require(`@/assets/img/${imgAppBar}`)" />
       </template>
       <template #prepend>
         <v-icon v-if="!drawer" class="my-5" icon="mdi-menu-open" @click.stop="drawer = !drawer" />
@@ -61,6 +58,7 @@
 </template>
 
 <script lang="ts" setup>
+import NImage from '@/components/NImage.vue'
 import { computed, ref } from 'vue'
 import { useTheme } from 'vuetify/lib/framework.mjs'
 import { useAuthentication } from '@/composables/useAuth'

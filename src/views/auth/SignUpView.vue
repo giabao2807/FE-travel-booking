@@ -3,7 +3,7 @@
     <v-row class="mx-5" justify="end">
       <v-card min-width="38%" class="elevation-10 pa-5 pb-2 box-sign-up rounded-xl rounded-be-0" color="surface">
         <v-card-text>
-          <v-img :src="require('@/assets/img/signup.png')" height="110" aspect-ratio="16/9" cover />
+          <n-image :src="require('@/assets/img/signup.png')" height="110" aspect-ratio="16/9" />
           <v-form ref="formRef" class="pt-5" @submit.prevent="signUp">
             <div class="d-flex align-center flex-wrap mb-n2">
               <v-text-field
@@ -111,6 +111,7 @@
 </template>
 <script lang="ts" setup>
 import NButtonAnimated from '@/components/NButtonAnimated.vue'
+import NImage from '@/components/NImage.vue'
 import { useAuthentication } from '@/composables/useAuth'
 import { validations } from '@/helpers/validate'
 const { ruleRequired, ruleEmail, nameRules } = validations()

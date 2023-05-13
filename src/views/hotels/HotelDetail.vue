@@ -2,19 +2,19 @@
   <v-sheet class="container-detail">
     <v-sheet>
       <v-sheet>
-        <v-img :src="hotel?.coverPicture" cover height="500" aspect-ratio="16/9">
+        <n-image :src="hotel?.coverPicture" cover height="500" aspect-ratio="16/9">
           <template #default>
             <v-row
               class="fill-height ma-0"
               align="start"
               justify="center"
             >
-              <h1 class="heading-primary">
+              <h1 class="heading-primary text-custom-shadow">
                 <span class="heading-primary--main">{{ hotel?.name }}</span>
               </h1>
             </v-row>
           </template>
-        </v-img>
+        </n-image>
       </v-sheet>
       <v-card
         elevation="10"
@@ -64,21 +64,108 @@
         :key="room?.id"
       >
         <v-col col="12">
-          <v-card :title="room?.name" variant="outlined">
-            <v-card-actions>
-              <v-btn>Click me</v-btn>
-            </v-card-actions>
+          <v-card class="card-detail" height="300">
+            <div class="d-flex flex-no-wrap justify-between">
+              <v-carousel
+                class="carousel"
+                height="300"
+                cycle
+                show-arrows="hover"
+                hide-delimiters
+                hide-delimiter-background
+              >
+                <v-carousel-item
+                  v-for="(item, i) in hotel?.listImages"
+                  :key="i"
+                  :src="item"
+                  cover
+                />
+                <template #placeholder>
+                  <v-row
+                    class="fill-height ma-0"
+                    align="center"
+                    justify="center"
+                  >
+                    <v-progress-circular
+                      indeterminate
+                      color="red"
+                    />
+                  </v-row>
+                </template>
+              </v-carousel>
+              <div>
+                <v-card-title class="text-h5">
+                  {{ room?.name }}
+                </v-card-title>
+                <v-card-subtitle v-html="room?.description" />
+                <v-card-actions>
+                  <v-btn
+                    class="ms-2"
+                    variant="outlined"
+                    size="small"
+                  >
+                    Booking Now
+                  </v-btn>
+                </v-card-actions>
+              </div>
+            </div>
           </v-card>
         </v-col>
       </v-row>
     </v-sheet>
     <v-sheet color="transparent" class="mx-5 description">
-      <div class="foo" v-html="hotel?.descriptions" />
+      <v-container>
+        <v-row>
+          <v-col cols="4">
+            <div class="position-relative">
+              <n-image :src="hotel?.coverPicture" height="600" class="composition__photo" />
+            </div>
+          </v-col>
+          <v-col cols="8">
+            <v-card class="card-decs-detail">
+              <v-card-text class="ma-5" style="position: relative; height: 80%;">
+                <v-expansion-panels
+                  class="position-absolute" style="z-index: 2; top: 0; left: 0;"
+                >
+                  <v-expansion-panel>
+                    <v-expansion-panel-title>
+                      <v-banner lines="three" :stacked="false">
+                        <v-banner-text>
+                          <div v-html="hotel?.descriptions" />
+                        </v-banner-text>
+                      </v-banner>
+                    </v-expansion-panel-title>
+                    <v-expansion-panel-text>
+                      <v-lazy
+                        class="overflow-y-auto"
+                        :height="260"
+                        :options="{ 'threshold':0.5 }"
+                        transition="fade-transition"
+                      >
+                        <div v-html="hotel?.descriptions" />
+                      </v-lazy>
+                    </v-expansion-panel-text>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+                <div class="d-flex mt-5 group-image">
+                  <n-image height="250" :src="hotel?.coverPicture" />
+                  <n-image height="250" class="ml-2" :src="hotel?.coverPicture" />
+                  <n-image height="250" class="ml-2" :src="hotel?.coverPicture" />
+                </div>
+              </v-card-text>
+              <v-card-actions>
+                <a href="" class="btn btn-primary">Book Now</a>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
       <div v-html="hotel?.rules" />
     </v-sheet>
   </v-sheet>
 </template>
 <script lang="ts" setup>
+import NImage from '@/components/NImage.vue'
 import { useHotelUtil } from '@/composables/useHotel'
 import { convertionType } from '@/helpers/convertion'
 import { onMounted, computed } from 'vue'
@@ -106,7 +193,7 @@ onMounted(() => {
   height: 100%;
 }
 
-.toolbar {
+.container-detail .toolbar {
   width: 60%;
   justify-content: center;
   position: absolute;
@@ -114,22 +201,46 @@ onMounted(() => {
   transform: translate(-50%, -50%);
   z-index: 9999;
 }
-.description {
+.container-detail .description {
   margin-top: 8rem;
 }
-.carousel {
-  border-bottom: 1px solid var(--loading-bgcolor);
+.container-detail .card-detail {
+	border-radius: 5px;
 }
-.text-field {
+.container-detail .carousel {
+  width: 30%;
+  position: relative;
+  background-color: red;
+  border: 1px solid var(--loading-bgcolor);
+}
+.container-detail .card-decs-detail {
+  width: 60%;
+  height: 500px;
+  position: absolute;
+  margin-left: -150px;
+  margin-top: 60px;
+}
+.container-detail .text-field {
   width: 200px;
 
 }
-.btn-shadown {
+.container-detail .btn-shadown {
   color: #fff;
   font-weight: 600;
 }
-.btn-shadown:hover {
+.container-detail .btn-shadown:hover {
   box-shadow: #ec488c 0px 0px 0px 6px;
+}
+.container-detail .group-image {
+  position: relative;
+  top: 35%;
+  z-index: 1;
+}
+.composition__photo:hover {
+  border-radius: 2px;
+  outline-offset: 0.5rem;
+  outline: 1rem solid var(--color-boni-like);
+  box-shadow: 0 2.5rem 4rem rgba(0, 0, 0, 0.5);
 }
 ::v-deep .htdt-policy,::v-deep .htdt-description {
   background-color: transparent !important;
