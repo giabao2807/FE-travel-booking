@@ -13,7 +13,12 @@ const useHome = () => {
     getRecomendCities
   } = useHotelUtil()
   const { popularTours, getPopularTours } = useTourUtil()
-  const COMMENTRATE = ['Tuyệt vời', 'Ấn Tượng', 'Bình Thường', 'Tệ']
+  const COMMENTRATE = [
+    { icon: 'mdi-heart-multiple-outline', name: 'Tuyệt vời' },
+    { icon: 'mdi-heart-plus-outline', name:  'Ấn Tượng' },
+    { icon: 'mdi-like-outline', name:  'Bình Thường' },
+    { icon: 'mdi-emoticon-sad-outline', name:  'Tệ' }
+  ]
   const voteText = (rate: number) => {
     if (rate > 4.5) {
       return COMMENTRATE[0]

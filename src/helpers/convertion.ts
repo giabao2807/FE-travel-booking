@@ -2,10 +2,15 @@ export const convertionType = () => {
   const formatCurrency = (item: number) => {
     return item.toLocaleString('vi', { style : 'currency', currency : 'VND' })
   }
-  const deCodeHtml = (html: string) => {
-    const txt = document.createElement('textarea')
-    txt.innerHTML = html
-    return txt.value
+  const deCodeHtml = (tagCut: string, html?: string) => {
+    const container = document.createElement('div')
+    const arrHtml = []
+    container.innerHTML = html ? html : ''
+    const decodedHTML = container.querySelector(tagCut)
+    const sectionHeader = decodedHTML?.outerHTML
+    decodedHTML ? container.removeChild(decodedHTML) : ''
+    arrHtml.push(sectionHeader, container.outerHTML)
+    return arrHtml
   }
 
   return {

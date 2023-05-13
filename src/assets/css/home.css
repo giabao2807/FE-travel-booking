@@ -59,7 +59,7 @@
 }
 .heading-primary--main {
     display: block;
-    font-size: 4rem;
+    font-size: 80px;
     font-weight: 600;
     letter-spacing: 1.5rem;
     animation-name: moveInLeft;
@@ -68,18 +68,19 @@
 }
 .heading-primary--sub {
   display: block;
-  font-size: 2rem;
+  font-size: 40px;
   font-weight: 300;
   letter-spacing: 1.2rem;
   animation: moveInRight 1s ease-out;
 }
-@media only screen and (max-width: 37.5em) {
+@media only screen and (max-width: 390em) {
   .heading-primary--main {
       letter-spacing: 1rem;
-      font-family: 3rem;
+      font-size: 50px;
   }
   .heading-primary--sub {
-    letter-spacing: .5rem;
+    letter-spacing: 1rem;
+    font-size: 30px;
   }
 }
 .heading-secondary {

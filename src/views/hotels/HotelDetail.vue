@@ -2,7 +2,7 @@
   <v-sheet class="container-detail">
     <v-sheet>
       <v-sheet>
-        <n-image :src="hotel?.coverPicture" cover height="500" aspect-ratio="16/9">
+        <n-image :src="hotel?.coverPicture" height="500" aspect-ratio="16/9">
           <template #default>
             <v-row
               class="fill-height ma-0"
@@ -113,55 +113,39 @@
         </v-col>
       </v-row>
     </v-sheet>
-    <v-sheet color="transparent" class="mx-5 description">
-      <v-container>
-        <v-row>
-          <v-col cols="4">
-            <div class="position-relative">
-              <n-image :src="hotel?.coverPicture" height="600" class="composition__photo" />
-            </div>
-          </v-col>
-          <v-col cols="8">
-            <v-card class="card-decs-detail">
-              <v-card-text class="ma-5 position-relative card-desc-text">
-                <v-expansion-panels
-                  class="position-absolute card-expansion"
-                >
-                  <v-expansion-panel>
-                    <v-expansion-panel-title>
-                      <v-banner lines="three" :stacked="false">
-                        <v-banner-text>
-                          <div v-html="hotel?.descriptions" />
-                        </v-banner-text>
-                      </v-banner>
-                    </v-expansion-panel-title>
-                    <v-expansion-panel-text>
-                      <v-lazy
-                        class="overflow-y-auto"
-                        :height="260"
-                        :options="{ 'threshold':0.5 }"
-                        transition="fade-transition"
-                      >
-                        <div v-html="hotel?.descriptions" />
-                      </v-lazy>
-                    </v-expansion-panel-text>
-                  </v-expansion-panel>
-                </v-expansion-panels>
-                <div class="d-flex mt-5 group-image">
-                  <n-image height="250" :src="hotel?.coverPicture" />
-                  <n-image height="250" class="ml-2" :src="hotel?.coverPicture" />
-                  <n-image height="250" class="ml-2" :src="hotel?.coverPicture" />
-                </div>
-              </v-card-text>
-              <v-card-actions>
-                <a href="" class="btn btn-primary">Book Now</a>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-      <div v-html="hotel?.rules" />
-    </v-sheet>
+    <v-container class="px-0 description">
+      <v-row class="mx-0">
+        <v-col class="px-0">
+          <div class="position-relative">
+            <n-image :src="hotel?.coverPicture" height="600" class="composition__photo" />
+          </div>
+        </v-col>
+        <v-col class="px-0">
+          <v-card elevation="12" class="mr-10 card-decs-detail">
+            <v-card-text class="ma-5 card-desc-text">
+              <div class="intro-hotel" v-html="deCodeHtml('section.htdt-description', hotel?.descriptions)[0]" />
+              <v-divider class="mx-5 my-2" />
+              <div class="d-flex">
+                <n-image :src="hotel?.coverPicture" />
+                <n-image class="ml-2" :src="hotel?.coverPicture" />
+                <n-image class="ml-2" :src="hotel?.coverPicture" />
+              </div>
+            </v-card-text>
+            <v-card-actions>
+              <a href="" class="btn btn-primary">Book Now</a>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-container class="px-0">
+      <v-card elevation="12" class="detail-second">
+        <v-card-text class="ma-5">
+          <div v-html="deCodeHtml('section.htdt-description', hotel?.descriptions)[1]" />
+        </v-card-text>
+      </v-card>
+    </v-container>
+    <v-sheet />
   </v-sheet>
 </template>
 <script lang="ts" setup>
@@ -196,5 +180,18 @@ onMounted(() => {
 }
 ::v-deep .htdt-policy,::v-deep .htdt-description {
   background-color: transparent !important;
+}
+::v-deep .hotelDetailTitle {
+  font-size: 30px;
+  font-weight: 800;
+  padding: 5px;
+}
+::v-deep .txt-justify {
+  margin: 5px;
+}
+::v-deep .htdt-description p::first-letter {
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 5px;
 }
 </style>

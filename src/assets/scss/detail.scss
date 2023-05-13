@@ -14,7 +14,8 @@
     z-index: 9999;
   }
   .description {
-    margin-top: 8rem;
+    height: 50%;
+    margin-top: 5rem;
   }
   .card-detail {
     border-radius: 5px;
@@ -26,11 +27,9 @@
     border: 1px solid var(--loading-bgcolor);
   }
   .card-decs-detail {
-    width: 60%;
-    height: 500px;
     position: absolute;
-    margin-left: -150px;
-    margin-top: 60px;
+    margin-left: -160px;
+    margin-top: 80px;
   }
   .text-field {
     width: 200px;
@@ -44,7 +43,7 @@
   }
   .group-image {
     position: relative;
-    top: 35%;
+    top: 40%;
     z-index: 1;
   }
   .composition__photo:hover {
@@ -52,6 +51,18 @@
     outline-offset: 0.5rem;
     outline: 1rem solid var(--color-boni-like);
     box-shadow: 0 2.5rem 4rem rgba(0, 0, 0, 0.5);
+  }
+  .detail-second{
+    margin-top: 3rem;
+  }
+  @media screen and (max-width: 1000px) {
+    .card-decs-detail {
+      margin-left: -80px;
+    }
+    .intro-hotel{
+      height: 300px;
+      overflow-y: scroll;
+    }
   }
 }
 

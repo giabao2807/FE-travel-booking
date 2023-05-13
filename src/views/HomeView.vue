@@ -1,45 +1,10 @@
 <template>
   <v-sheet>
     <v-container fluid class="container_main d-flex justify-center">
-      <v-row>
-        <v-col cols="12">
-          <h1 class="heading-primary">
-            <span class="heading-primary--main">Travels and booking</span>
-            <span class="heading-primary--sub">is where life happens is where life</span>
-          </h1>
-        </v-col>
-        <v-col class="ml-8 mt-n5" cols="5">
-          <v-card color="rgba(10, 9, 10, 0.3)">
-            <v-form class="ma-4">
-              <v-text-field
-                prepend-inner-icon="mdi-map-marker-star-outline"
-                type="text"
-                color="primary-darken-1"
-                variant="outlined"
-                bg-color="surface"
-              />
-              <div class="d-flex flex-wrap align-center">
-                <v-text-field
-                  type="date"
-                  color="primary-darken-1"
-                  variant="outlined"
-                  bg-color="surface"
-                  hide-details
-                />
-                <v-text-field
-                  type="date"
-                  color="primary-darken-1"
-                  variant="outlined"
-                  class="mx-2"
-                  bg-color="surface"
-                  hide-details
-                />
-                <v-icon size="40" icon="mdi-tag-search-outline" />
-              </div>
-            </v-form>
-          </v-card>
-        </v-col>
-      </v-row>
+      <h1 class="heading-primary">
+        <span class="heading-primary--main">Travels and booking</span>
+        <span class="heading-primary--sub">is where life happens is where life</span>
+      </h1>
     </v-container>
     <v-container fluid>
       <div class="text-align-center">
@@ -117,7 +82,7 @@
         <n-button-animated label="Discover our tours" width="20rem" fontSize="1rem" />
       </div>
     </v-container>
-    <v-sheet class="section-features my-15 px-0">
+    <v-container fluid class="section-features my-15">
       <div class="text-align-center">
         <h2 class="heading-panel-2 mt-n2">
           Những khách sạn nổi bật
@@ -185,6 +150,12 @@
                 <v-card-text class="pt-2">
                   <v-row align="center" justify="center">
                     <v-col>
+                      <div>
+                        <v-icon :icon="voteText(hotel?.rateAverage).icon" color="primary" class="mr-1" />
+                        <strong class="text-color-black">{{ voteText(hotel?.rateAverage).name }}</strong>
+                      </div>
+                    </v-col>
+                    <v-col>
                       <v-rating
                         :model-value="hotel?.rateAverage"
                         color="amber"
@@ -230,62 +201,6 @@
           </v-card>
         </v-col>
       </v-row>
-    </v-sheet>
-    <v-container fluid>
-      <section class="section-about">
-        <div class="u-center-text u-margin-bottom-big">
-          <h2 class="heading-secondary">
-            Exciting tours for adventurous people
-          </h2>
-        </div>
-
-        <div class="row">
-          <div class="col-1-of-2">
-            <h3 class="heading-tertiary u-margin-bottom-small">You're going to fall in love with nature</h3>
-            <p class="paragraph">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, ipsum sapiente aspernatur libero repellat quis consequatur
-              ducimus quam nisi exercitationem omnis earum qui.
-            </p>
-
-            <h3 class="heading-tertiary u-margin-bottom-small">Live adventures like you never have before</h3>
-            <p class="paragraph">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores nulla deserunt voluptatum nam.
-            </p>
-
-            <a href="#" class="btn-text">Learn more &rarr;</a>
-          </div>
-          <div class="col-1-of-2">
-            <div class="composition">
-              <img
-                srcset="img/nat-1.jpg 300w, https://i.pinimg.com/564x/e4/78/05/e478051c99e8a68843add167811b1494.jpg 1000w"
-                sizes="(max-width: 56.25em) 20vw, (max-width: 37.5em) 30vw, 300px"
-                alt="Photo 1"
-                class="composition__photo composition__photo--p1"
-                src="https://i.pinimg.com/564x/e4/78/05/e478051c99e8a68843add167811b1494.jpg"
-              >
-
-              <img
-                srcset="img/nat-2.jpg 300w, https://i.pinimg.com/564x/b4/9a/de/b49ade0c9859ec26eb7e9192ef4fdea8.jpg 1000w"
-                sizes="(max-width: 56.25em) 20vw, (max-width: 37.5em) 30vw, 300px"
-                alt="Photo 2"
-                class="composition__photo composition__photo--p2"
-                src="https://i.pinimg.com/564x/b4/9a/de/b49ade0c9859ec26eb7e9192ef4fdea8.jpg"
-              >
-
-              <img
-                srcset="img/nat-3.jpg 300w, https://i.pinimg.com/564x/ae/5b/fd/ae5bfd38ccad70f3a008071128984d76.jpg 1000w"
-                sizes="(max-width: 56.25em) 20vw, (max-width: 37.5em) 30vw, 300px"
-                alt="Photo 3"
-                class="composition__photo composition__photo--p3"
-                src="https://i.pinimg.com/564x/ae/5b/fd/ae5bfd38ccad70f3a008071128984d76.jpg"
-              >
-              <img src="https://i.pinimg.com/564x/e4/78/05/e478051c99e8a68843add167811b1494.jpg" alt="Photo 1" class="composition__photo composition__photo--p1">
-              <img src="https://i.pinimg.com/564x/b4/9a/de/b49ade0c9859ec26eb7e9192ef4fdea8.jpg" alt="Photo 2" class="composition__photo composition__photo--p2">
-              <img src="https://i.pinimg.com/564x/ae/5b/fd/ae5bfd38ccad70f3a008071128984d76.jpg" alt="Photo 3" class="composition__photo composition__photo--p3">
-            </div>
-          </div>
-        </div>
-      </section>
     </v-container>
   </v-sheet>
 </template>
