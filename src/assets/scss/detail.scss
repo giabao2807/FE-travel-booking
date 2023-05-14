@@ -5,13 +5,52 @@
   background-size: cover;
   height: 100%;
 
+  @mixin key_frame($name: slide-down, $duration: 1s, $timing: ease-out) {
+    @keyframes slide-down {
+      0% {
+        opacity: 0;
+        transform: translateY(10rem);
+      }
+      80% {
+        transform: translateY(1rem);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes moveInLeft {
+      0% {
+        opacity: 0;
+        transform: translateX(-10rem); }
+      80% {
+        transform: translateX(1rem); }
+      100% {
+        opacity: 1;
+        transform: translate(0); } 
+    }
+    @keyframes moveInRight {
+      0% {
+        opacity: 0;
+        transform: translateX(5rem); }
+      80% {
+        transform: translateX(-1rem); }
+      100% {
+        opacity: 1;
+        transform: translate(0); } 
+    }
+    animation-name: $name;
+    animation-duration: $duration;
+    animation-timing-function: $timing;
+  }
+
   .toolbar {
     width: 60%;
-    justify-content: center;
     position: absolute;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 9999;
+    @include key_frame(moveInRight)
   }
   .description {
     height: 50%;
@@ -52,10 +91,29 @@
     outline: 1rem solid var(--color-boni-like);
     box-shadow: 0 2.5rem 4rem rgba(0, 0, 0, 0.5);
   }
-  .detail-second{
+  .detail-second {
     margin-top: 3rem;
   }
-  @media screen and (max-width: 1000px) {
+  .rooms-detail {
+    margin-top: 8rem;
+    background-color: transparent;
+  }
+  .card-desc-text {
+    height: 80%;
+  }
+  .card-expansion {
+    top: 0;
+    left: 0;
+    z-index: 2;
+  }
+  .custom-c-iamge {
+    filter: drop-shadow(18px 10px 6px var(--color-boni-like));
+  }
+
+  @media screen and (max-width: 1190px) {
+    .rooms-detail {
+      margin-top: 10rem;
+    }
     .card-decs-detail {
       margin-left: -80px;
     }
@@ -64,5 +122,13 @@
       overflow-y: scroll;
     }
   }
+  
+  @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
+    .custom-image {
+      clip-path: polygon(0 20%, 100% 0,100% 80%, 0 100%);
+      height: 500px;
+    }
+  }
 }
+
 

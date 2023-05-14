@@ -12,7 +12,7 @@ const useHome = () => {
     getRecomendHotelByCity,
     getRecomendCities
   } = useHotelUtil()
-  const { popularTours, getPopularTours } = useTourUtil()
+  const { popularTours, getTraffic, getPopularTours } = useTourUtil()
   const COMMENTRATE = [
     { icon: 'mdi-heart-multiple-outline', name: 'Tuyệt vời' },
     { icon: 'mdi-heart-plus-outline', name:  'Ấn Tượng' },
@@ -43,6 +43,7 @@ const useHome = () => {
     hotels,
     selectedCity,
     popularTours,
+    getTraffic,
     voteText,
     getRecomendHotelByCity
   }

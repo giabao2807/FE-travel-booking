@@ -2,11 +2,14 @@
   --auth-container-color: rgba(163, 159, 163, 0.8);
   --txt-shadow-color: #72064D;
   --btn-animation-color: #72064D;
+  --animation-card-color: #72064D;
   --btn-animation-bgcolor: #8e1181;
   --btn-shawdow-color: rgba(0, 0, 0, 0.2);
   --loading-bgcolor: rgb(33, 33, 33);
   --loading-border-color: rgb(33, 33, 33);
-  --color-boni-like: rgba(255, 80, 114, 1)
+  --color-boni-like: rgba(255, 80, 114, 1);
+  --color-border-black: rgba(57, 54, 54, 0.5);
+  --color-border-white: #fff;
 }
 
 .width-50 {

@@ -4,8 +4,13 @@ import { useLoading } from './useLoading'
 import { useTourStore } from '@/store/tours'
 
 const createTour = () => {
+  const TRAFFICS = [
+    { value: 'o_to', icon: 'mdi-car' },
+    { value: 'tau_thuy', icon: 'mdi-ferry' },
+    { value: 'may_bay', icon: 'mdi-airplane' }
+  ]
   const tourStore = useTourStore()
-  const { popularTours, tour } = storeToRefs(tourStore)
+  const { popularTours, tourInfo } = storeToRefs(tourStore)
   const { startLoading, finishLoading } = useLoading()
   const getPopularTours = async() => {
     startLoading()
@@ -19,9 +24,12 @@ const createTour = () => {
     finishLoading()
   }
 
+  const getTraffic = (traffics: string[]) => TRAFFICS.filter(item => traffics.includes(item.value))
+
   return {
     popularTours,
-    tour,
+    tourInfo,
+    getTraffic,
     getPopularTours,
     getTourById
   }

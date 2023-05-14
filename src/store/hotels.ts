@@ -15,6 +15,8 @@ export type IHotel = {
   priceRange: string,
   coverPicture: string,
   rateAverage: number,
+  longitude: number,
+  latitude: number,
 }
 export type IParamHotel = IParamPage & {
   cityId: number

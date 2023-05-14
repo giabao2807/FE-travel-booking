@@ -19,8 +19,9 @@
           :key="tour?.id"
         >
           <v-card
-            class="mx-auto my-12 rounded-xl"
-            max-width="330"
+            class="mx-auto my-12 rounded-xl bg-theme-status"
+            elevation="8"
+            width="330"
             @click="() => router.push({ name: 'tourDetail', params: { id: tour?.id } })"
           >
             <n-image
@@ -28,18 +29,24 @@
               height="200"
               :src="tour?.coverPicture"
             >
-              <v-card-title>{{ tour?.name }}</v-card-title>
-            </n-image>
-            <v-card-item>
-              <v-card-subtitle>
-                <span class="me-1">{{ tour?.city }} Favorite</span>
-                <v-icon
-                  color="error"
-                  icon="mdi-fire-circle"
-                  size="small"
+              <v-card-title class="title-animation-tour font-weight-bold">
+                {{ tour?.name }}
+                <v-tooltip
+                  width="300"
+                  activator="parent"
+                  :text="tour?.name"
+                  location="top"
                 />
-              </v-card-subtitle>
-            </v-card-item>
+              </v-card-title>
+            </n-image>
+            <v-card-subtitle class="mt-4">
+              <span class="me-1">{{ tour?.city }} Favorite</span>
+              <v-icon
+                color="error"
+                icon="mdi-fire-circle"
+                size="small"
+              />
+            </v-card-subtitle>
             <v-card-text>
               <v-row
                 align="center"
@@ -57,17 +64,35 @@
                   {{ tour.rate }} ({{ tour.numReview }})
                 </div>
               </v-row>
-              <div class="mt-5 text-subtitle-1 animate-charcter">
-                <v-icon icon="mdi-cash-multiple" class="mt-n2 animate-charcter" />
-                {{ formatCurrency(tour?.price) }}
+              <div class="d-flex align-center justify-space-between my-5">
+                <div class="text-subtitle-1 animate-charcter">
+                  <v-icon icon="mdi-cash-multiple" class="mt-n2 animate-charcter" />
+                  {{ formatCurrency(tour?.price) }}
+                </div>
+                <div>
+                  <v-icon
+                    v-for="item in getTraffic(tour?.traffics)"
+                    :key="item.value"
+                    :icon="item?.icon"
+                    color="primary"
+                  />
+                </div>
+              </div>
+              <v-divider class="mx-n2 mb-1" />
+              <div class="d-flex align-center justify-space-between my-3">
+                <div>
+                  <v-icon icon="mdi-calendar-text-outline" color="primary" />
+                  Thời gian:
+                </div>
+                <v-chip label color="primary">{{ tour?.totalDays }}</v-chip>
+              </div>
+              <div>
+                <v-icon icon="mdi-calendar-start-outline" color="primary" />
+                Khởi hành: {{ tour?.departure }}
               </div>
             </v-card-text>
-            <v-divider class="mx-4 mb-1" />
-            <v-card-title>Thời gian</v-card-title>
-            <v-chip-group class="px-4">
-              <v-chip>{{ tour?.totalDays }}</v-chip>
-            </v-chip-group>
             <v-card-actions>
+              <v-spacer />
               <v-btn
                 color="deep-purple-lighten-2"
                 variant="text"
@@ -75,6 +100,8 @@
                 See More...
               </v-btn>
             </v-card-actions>
+            <div class="group-hover:-rotate-[4deg] animation-card-tour transition-transform" />
+            <div class="group-hover:-rotate-[8deg] animation-card-tour transition-transform" />
           </v-card>
         </v-col>
       </v-row>
@@ -211,7 +238,15 @@ import router from '@/router'
 import { useHomeUtil } from '@/composables/useHomeUtil'
 import { convertionType } from '@/helpers/convertion'
 
-const { recomendCities, selectedCity, hotels, popularTours, voteText, getRecomendHotelByCity } = useHomeUtil()
+const {
+  recomendCities,
+  selectedCity,
+  hotels,
+  popularTours,
+  getTraffic,
+  voteText,
+  getRecomendHotelByCity
+} = useHomeUtil()
 const { formatCurrency } = convertionType()
 </script>
 <style scoped>
