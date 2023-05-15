@@ -7,8 +7,8 @@ import { storeToRefs } from 'pinia'
 import { useLoading } from '@/composables/useLoading'
 import { ElNotification } from 'element-plus'
 import { IError, IFeedBack } from '@/libs/types/commonType'
+import { GENDER_DATA } from '@/resources/mockData'
 
-const GENDER_DATA = [{ value: 1, name: 'Male' }, { value: 2, name: 'FeMale' }, { value: 3, name: 'Other' }]
 const useAuth = () => {
   const authStore = useAuthStore()
   const feedBackStore = useFeedBackStore()

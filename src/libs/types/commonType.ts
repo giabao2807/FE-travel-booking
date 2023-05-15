@@ -25,3 +25,7 @@ export type IParamPage = {
   pageSize?: number,
   page?: number
 }
+export type IFilterDate = {
+    startDate: Date,
+    endDate: Date
+}

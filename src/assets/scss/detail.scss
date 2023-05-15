@@ -50,7 +50,6 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 9999;
-    @include key_frame(moveInRight)
   }
   .description {
     height: 50%;
@@ -62,7 +61,6 @@
   .carousel {
     width: 30%;
     position: relative;
-    background-color: red;
     border: 1px solid var(--loading-bgcolor);
   }
   .card-decs-detail {

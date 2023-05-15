@@ -24,6 +24,7 @@
 </template>
 <script lang="ts" setup>
 import { defineProps, withDefaults } from 'vue'
+
 type Props = {
   src?: string,
   colorProgress?: string,

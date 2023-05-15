@@ -41,8 +41,10 @@ export type IRoomType = {
   adults: number,
   children: number,
   description: string,
+  listImages: string[],
   price: number,
   square: string,
+  quantity: number,
   totalRoomAmount: number,
   availableRoomAmount: number
 }

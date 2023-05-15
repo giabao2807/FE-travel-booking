@@ -2,19 +2,35 @@
   <v-sheet class="container-detail">
     <v-sheet>
       <v-sheet>
-        <n-image :src="hotel?.coverPicture" height="500" aspect-ratio="16/9">
-          <template #default>
-            <v-row
-              class="fill-height ma-0"
-              align="start"
-              justify="center"
-            >
-              <h1 class="heading-primary text-custom-shadow">
-                <span class="heading-primary--main">{{ hotel?.name }}</span>
-              </h1>
-            </v-row>
-          </template>
-        </n-image>
+        <v-carousel
+          cycle
+          show-arrows="hover"
+          hide-delimiters
+          hide-delimiter-background
+        >
+          <v-carousel-item
+            v-for="(item, i) in hotel?.listImages"
+            :key="i"
+            :src="item"
+            cover
+          >
+            <template #default>
+              <n-image :src="item">
+                <template #default>
+                  <v-row
+                    class="fill-height ma-0"
+                    align="start"
+                    justify="center"
+                  >
+                    <h1 class="heading-primary text-custom-shadow">
+                      <span class="heading-primary--main">{{ hotel?.name }}</span>
+                    </h1>
+                  </v-row>
+                </template>
+              </n-image>
+            </template>
+          </v-carousel-item>
+        </v-carousel>
       </v-sheet>
       <v-card
         elevation="10"
@@ -23,20 +39,23 @@
         <v-card-text>
           <div class="d-flex align-center flex-wrap ma-5">
             <v-text-field
+              v-model="filterDetail.startDate"
               label="Ngày nhận phòng"
               name="startDate"
               prepend-icon="mdi-clipboard-text-clock-outline"
               type="Date"
-              :min="minDate"
+              :min="minDate(new Date)"
               color="primary"
               hide-details="auto"
               class="text-field"
               variant="outlined"
             />
             <v-text-field
+              v-model="filterDetail.endDate"
               label="Ngày trả phòng"
               name="endDate"
               type="Date"
+              :min="minDate(new Date(filterDetail.startDate))"
               color="primary"
               prepend-icon="mdi-fast-forward-outline"
               variant="outlined"
@@ -50,6 +69,7 @@
               min-width="110"
               rounded
               variant="flat"
+              @click="() => getRoomByDate()"
             >
               Tìm Kiếm
             </v-btn>
@@ -58,6 +78,9 @@
       </v-card>
     </v-sheet>
     <v-sheet class="mx-5 rooms-detail">
+      <v-row align="center" justify="center">
+        <h2 class="heading-secondary">Thông Tin Phòng Khách Sạn</h2>
+      </v-row>
       <v-row
         class="mx-5"
         v-for="room in rooms"
@@ -75,7 +98,7 @@
                 hide-delimiter-background
               >
                 <v-carousel-item
-                  v-for="(item, i) in hotel?.listImages"
+                  v-for="(item, i) in room?.listImages"
                   :key="i"
                   :src="item"
                   cover
@@ -97,6 +120,12 @@
                 <v-card-title class="text-h5">
                   {{ room?.name }}
                 </v-card-title>
+                <v-card-text>
+                  <p>Bed {{ room?.beds }}</p>
+                  <p>Square {{ room?.square }}</p>
+                  <p>Price {{ room?.price }}</p>
+                  <p>Quantity {{ room?.quantity }}</p>
+                </v-card-text>
                 <v-card-subtitle v-html="room?.description" />
                 <v-card-actions>
                   <v-btn
@@ -117,7 +146,7 @@
       <v-row class="mx-0">
         <v-col class="px-0">
           <div class="position-relative">
-            <n-image :src="hotel?.coverPicture" height="600" class="composition__photo" />
+            <n-image :src="hotel?.listImages[1]" height="600" class="composition__photo" />
           </div>
         </v-col>
         <v-col class="px-0">
@@ -126,9 +155,7 @@
               <div class="intro-hotel" v-html="deCodeHtml('section.htdt-description', hotel?.descriptions)[0]" />
               <v-divider class="mx-5 my-2" />
               <div class="d-flex mt-2">
-                <n-image :src="hotel?.coverPicture" />
-                <n-image class="ml-2" :src="hotel?.coverPicture" />
-                <n-image class="ml-2" :src="hotel?.coverPicture" />
+                <n-image v-for="item in hotel?.listImages.slice(2, 5)" :key="item" :src="item" />
               </div>
             </v-card-text>
             <v-card-actions>
@@ -157,17 +184,23 @@
     <v-sheet class="ma-5 pa-5 rounded-xl">
       <div v-html="hotel?.rules" />
     </v-sheet>
-    <v-sheet>
-      <div>
-        <n-map />
-        <iframe
-          :src="`https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d30686.57175578836!2d${hotel?.longitude}!3d${hotel?.latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1684080267215!5m2!1svi!2s`"
-          width="500"
-          height="400"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-        />
-      </div>
+    <v-sheet class="ma-5 rounded-xl">
+      <n-map />
+      <v-row class="ma-5 justify-space-around h-75">
+        <v-col cols="5">
+          <iframe
+            :src="`https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d30686.57175578836!2d${hotel?.longitude}!3d${hotel?.latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1684080267215!5m2!1svi!2s`"
+            loading="lazy"
+            width= "100%"
+            height= "400"
+            referrerpolicy="no-referrer-when-downgrade"
+          />
+        </v-col>
+        <v-col cols="7">
+          <h2>Hotel: {{ hotel?.name }}</h2>
+          <p><strong>Address: </strong>{{ hotel?.address }}</p>
+        </v-col>
+      </v-row>
     </v-sheet>
   </v-sheet>
 </template>
@@ -176,21 +209,15 @@ import NImage from '@/components/NImage.vue'
 import NMap from '@/components/NMap.vue'
 import '@/assets/scss/detail.scss'
 import { useHotelUtil } from '@/composables/useHotel'
-import { convertionType } from '@/helpers/convertion'
-import { onMounted } from 'vue'
-import { useRoute } from 'vue-router'
 
-const route = useRoute()
-const hotelId = route.params.id as string
-const { hotel, rooms, getHotelById } = useHotelUtil()
-const { deCodeHtml } = convertionType()
-const minDate = (date: Date) => {
-  date.setHours(0, 0, 0, 0)
-  return date.toISOString().split('T')[0]
-}
-onMounted(() => {
-  getHotelById(hotelId)
-})
+const {
+  hotel,
+  rooms,
+  filterDetail,
+  minDate,
+  deCodeHtml,
+  getRoomByDate
+} = useHotelUtil()
 </script>
 <style lang="scss" scoped>
 ::v-deep {
@@ -211,6 +238,11 @@ onMounted(() => {
       display: flex;
       align-items: center;
       justify-content: flex-start;
+    }
+    .hotelDetailTitle {
+      font-size: 30px;
+      font-weight: 800;
+      padding: 5px;
     }
     .font-bold {
       width: 15%;
@@ -234,6 +266,10 @@ onMounted(() => {
       font-weight: 800;
       padding: 5px;
     }
+  }
+  // room css
+  .ChildRoomsList-room-bucketspan {
+    font-weight: bold;
   }
 }
 </style>

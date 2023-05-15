@@ -21,7 +21,7 @@
           <v-card
             class="mx-auto my-12 rounded-xl bg-theme-status"
             elevation="8"
-            width="330"
+            width="340"
             @click="() => router.push({ name: 'tourDetail', params: { id: tour?.id } })"
           >
             <n-image
@@ -120,7 +120,7 @@
           v-model="selectedCity"
           show-arrows
           mandatory
-          class="width-80 font-weight-600;"
+          class="width-80 font-weight-600"
         >
           <v-slide-group-item
             v-for="city in recomendCities"
