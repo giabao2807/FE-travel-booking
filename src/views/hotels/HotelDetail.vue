@@ -87,57 +87,72 @@
         :key="room?.id"
       >
         <v-col col="12">
-          <v-card class="card-detail" height="300">
-            <div class="d-flex flex-no-wrap justify-between">
-              <v-carousel
-                class="carousel"
-                height="300"
-                cycle
-                show-arrows="hover"
-                hide-delimiters
-                hide-delimiter-background
-              >
-                <v-carousel-item
-                  v-for="(item, i) in room?.listImages"
-                  :key="i"
-                  :src="item"
-                  cover
-                />
-                <template #placeholder>
-                  <v-row
-                    class="fill-height ma-0"
-                    align="center"
-                    justify="center"
-                  >
-                    <v-progress-circular
-                      indeterminate
-                      color="red"
-                    />
-                  </v-row>
-                </template>
-              </v-carousel>
-              <div>
+          <v-card elevation="12" class="card-detail">
+            <v-row>
+              <v-col cols="3">
+                <v-carousel
+                  class="carousel"
+                  height="300"
+                  cycle
+                  show-arrows="hover"
+                  hide-delimiters
+                  hide-delimiter-background
+                >
+                  <v-carousel-item
+                    v-for="(item, i) in room?.listImages"
+                    :key="i"
+                    :src="item"
+                    cover
+                  />
+                  <template #placeholder>
+                    <v-row
+                      class="fill-height ma-0"
+                      align="center"
+                      justify="center"
+                    >
+                      <v-progress-circular
+                        indeterminate
+                        color="red"
+                      />
+                    </v-row>
+                  </template>
+                </v-carousel>
+              </v-col>
+              <v-col cols="8">
                 <v-card-title class="text-h5">
                   {{ room?.name }}
                 </v-card-title>
-                <v-card-text>
-                  <p>Bed {{ room?.beds }}</p>
-                  <p>Square {{ room?.square }}</p>
-                  <p>Price {{ room?.price }}</p>
-                  <p>Quantity {{ room?.quantity }}</p>
+                <v-card-text class="mt-5">
+                  <v-row>
+                    <v-col class="mx-5">
+                      <p class="my-2">
+                        <v-icon icon="mdi-bed-queen-outline" />
+                        Giường: {{ room?.beds }}
+                      </p>
+                      <p class="my-2">
+                        <v-icon icon="mdi-home-export-outline" />
+                        Diện tích phòng: {{ room?.square }}
+                      </p>
+                      <p class="my-2">
+                        <v-icon icon="mdi-home-roof" />
+                        Số lượng phòng: {{ room?.quantity }} phòng
+                      </p>
+                      <p class="my-2">
+                        <v-icon icon="mdi-cash-multiple" />
+                        Giá thuê: {{ formatCurrency(room?.price) }}
+                      </p>
+                    </v-col>
+                    <v-col class="mx-5" style="border-left: 1px solid #000">
+                      <div v-html="room?.description" />
+                    </v-col>
+                  </v-row>
                 </v-card-text>
-                <v-card-subtitle v-html="room?.description" />
                 <v-card-actions>
-                  <v-btn
-                    class="ms-2"
-                    variant="outlined"
-                    size="small"
-                  >
-                    Booking Now
-                  </v-btn>
+                  <v-spacer />
+                  <v-btn class="mx-5" color="primary" variant="tonal">Book now</v-btn>
                 </v-card-actions>
-              </div>
-            </div>
+              </v-col>
+            </v-row>
           </v-card>
         </v-col>
       </v-row>
@@ -155,7 +170,13 @@
               <div class="intro-hotel" v-html="deCodeHtml('section.htdt-description', hotel?.descriptions)[0]" />
               <v-divider class="mx-5 my-2" />
               <div class="d-flex mt-2">
-                <n-image v-for="item in hotel?.listImages.slice(2, 5)" :key="item" :src="item" />
+                <n-image
+                  v-for="item in hotel?.listImages.slice(2, 5)"
+                  :key="item"
+                  :src="item"
+                  class="mx-1"
+                  style="max-height: 150px;"
+                />
               </div>
             </v-card-text>
             <v-card-actions>
@@ -209,6 +230,7 @@ import NImage from '@/components/NImage.vue'
 import NMap from '@/components/NMap.vue'
 import '@/assets/scss/detail.scss'
 import { useHotelUtil } from '@/composables/useHotel'
+import { convertionType } from '@/helpers/convertion'
 
 const {
   hotel,
@@ -218,6 +240,7 @@ const {
   deCodeHtml,
   getRoomByDate
 } = useHotelUtil()
+const { formatCurrency } = convertionType()
 </script>
 <style lang="scss" scoped>
 ::v-deep {
@@ -271,5 +294,16 @@ const {
   .ChildRoomsList-room-bucketspan {
     font-weight: bold;
   }
+  .ChildRoomsList-roomFeature-TitleWrapper {
+    display: flex;
+    span {
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+  }
+  .RoomFeature__FreeMessage {
+    opacity: 0;
+  }
+
 }
 </style>

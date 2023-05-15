@@ -104,7 +104,25 @@
           </v-menu>
         </div>
         <div v-if="display.xs">
-          <v-icon icon="mdi-menu" />
+          <v-menu location="start">
+            <template #activator="{ props }">
+              <v-icon icon="mdi-menu" v-bind="props" />
+            </template>
+
+            <v-list>
+              <v-list-item>
+                Thông báo
+              </v-list-item>
+              <v-divider class="mx-2" />
+              <v-list-item @click="() => router.push('/sign_in')">
+                Đăng nhập
+              </v-list-item>
+              <v-divider class="mx-2" />
+              <v-list-item @click="() => router.push('/sign_up')">
+                Đăng ký
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </div>
       </template>
     </v-app-bar>

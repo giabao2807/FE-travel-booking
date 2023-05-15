@@ -2,7 +2,7 @@ import { onMounted } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { useHotelUtil } from './useHotel'
 import { useTourUtil } from './useTour'
-
+import { COMMENTRATE } from '@/resources/mockData'
 
 const useHome = () => {
   const {
@@ -13,12 +13,6 @@ const useHome = () => {
     getRecomendCities
   } = useHotelUtil()
   const { popularTours, getTraffic, getPopularTours } = useTourUtil()
-  const COMMENTRATE = [
-    { icon: 'mdi-heart-multiple-outline', name: 'Tuyệt vời' },
-    { icon: 'mdi-heart-plus-outline', name:  'Ấn Tượng' },
-    { icon: 'mdi-like-outline', name:  'Bình Thường' },
-    { icon: 'mdi-emoticon-sad-outline', name:  'Tệ' }
-  ]
   const voteText = (rate: number) => {
     if (rate > 4.5) {
       return COMMENTRATE[0]

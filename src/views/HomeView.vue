@@ -22,7 +22,7 @@
             class="mx-auto my-12 rounded-xl bg-theme-status"
             elevation="8"
             width="340"
-            @click="() => router.push({ name: 'tourDetail', params: { id: tour?.id } })"
+            @click="() => hanldeRoute({ name: 'tourDetail', params: { id: tour?.id } })"
           >
             <n-image
               class="align-end text-white"
@@ -158,7 +158,7 @@
         >
           <v-card
             class="element-card mt-5"
-            @click="()=> router.push({ name: 'hotelDetail', params: { id: hotel?.id } })"
+            @click="()=> hanldeRoute({ name: 'hotelDetail', params: { id: hotel?.id } })"
           >
             <n-image
               class="align-end text-white"
@@ -234,7 +234,7 @@
 <script lang="ts" setup>
 import NButtonAnimated from '@/components/NButtonAnimated.vue'
 import NImage from '@/components/NImage.vue'
-import router from '@/router'
+import { hanldeRoute } from '@/helpers/loadingRoute'
 import { useHomeUtil } from '@/composables/useHomeUtil'
 import { convertionType } from '@/helpers/convertion'
 

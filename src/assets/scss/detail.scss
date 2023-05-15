@@ -56,11 +56,10 @@
     margin-top: 5rem;
   }
   .card-detail {
-    border-radius: 5px;
+    background-color: transparent;
+    border-radius: 10px;
   }
   .carousel {
-    width: 30%;
-    position: relative;
     border: 1px solid var(--loading-bgcolor);
   }
   .card-decs-detail {
