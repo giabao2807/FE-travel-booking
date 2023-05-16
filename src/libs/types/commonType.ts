@@ -26,6 +26,6 @@ export type IParamPage = {
   page?: number
 }
 export type IFilterDate = {
-    startDate: Date,
-    endDate: Date
+    startDate: string,
+    endDate: string
 }

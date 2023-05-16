@@ -2,11 +2,11 @@
   <div>
     <v-app-bar
       scroll-behavior="fade-image"
-      color="transparent"
+      color="rgba(255, 224, 230, 0.4)"
       image=""
       extended
       extension-height="10"
-      :elevation="2"
+      :elevation="4"
       flat
     >
       <template #image>

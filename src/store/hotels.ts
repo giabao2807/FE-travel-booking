@@ -23,8 +23,8 @@ export type IParamHotel = IParamPage & {
 }
 export type IParamRoomType = {
   id: string,
-  startDate?: Date,
-  endDate?: Date
+  startDate?: string,
+  endDate?: string
 }
 export type IDetailHotel = IHotel & {
 createdAt: string,

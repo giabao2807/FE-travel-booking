@@ -157,7 +157,7 @@
         </v-slide-group>
       </v-row>
       <n-skeleton-loader class="mx-6" :loading="loading" :quantity="8" />
-      <v-row class="mx-6">
+      <v-row v-if="!loading" class="mx-6">
         <v-col
           v-for="hotel in hotels"
           :key="hotel.id"

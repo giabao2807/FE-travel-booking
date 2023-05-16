@@ -8,6 +8,7 @@
   --loading-bgcolor: rgb(33, 33, 33);
   --loading-border-color: rgb(33, 33, 33);
   --color-boni-like: rgb(255, 224, 230);
+  --color-boni-like-two: rgba(255, 224, 230, 0.2);
   --color-border-black: rgba(57, 54, 54, 0.5);
   --color-border-white: #fff;
 }

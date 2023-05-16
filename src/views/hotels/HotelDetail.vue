@@ -50,26 +50,31 @@
               v-model="filterDetail.startDate"
               label="Ngày nhận phòng"
               name="startDate"
-              prepend-icon="mdi-clipboard-text-clock-outline"
               type="Date"
-              :min="minDate(new Date)"
+              :min="minDate(new Date())"
+              prepend-icon="mdi-clipboard-text-clock-outline"
               color="primary"
+              variant="outlined"
               hide-details="auto"
               class="text-field"
-              variant="outlined"
+              @update:model-value="() => changeEndDate()"
             />
             <v-text-field
               v-model="filterDetail.endDate"
               label="Ngày trả phòng"
               name="endDate"
               type="Date"
-              :min="minDate(new Date(filterDetail.startDate))"
+              :min="filterDetail.startDate"
               color="primary"
-              prepend-icon="mdi-fast-forward-outline"
               variant="outlined"
               hide-details="auto"
               class="text-field"
-            />
+            >
+              <template #prepend>
+                <p class="text-h6 text-disabled mt-n1">{{ countDate }}</p>
+                <v-icon class="mx-1" icon="mdi-weather-night" />
+              </template>
+            </v-text-field>
             <v-btn
               class="text-none mx-5 btn-shadown"
               size="40"
@@ -88,13 +93,14 @@
     <v-sheet class="mx-5 rooms-detail">
       <v-row align="center" justify="center">
         <h2 class="heading-secondary">Thông Tin Phòng Khách Sạn</h2>
+        <n-panel-loading />
       </v-row>
       <v-row
         class="mx-5"
         v-for="room in rooms"
         :key="room?.id"
       >
-        <v-col col="12">
+        <v-col v-if="!loading" col="12">
           <v-card elevation="12" class="card-detail">
             <v-row>
               <v-col>
@@ -250,20 +256,27 @@
 </template>
 <script lang="ts" setup>
 import NImage from '@/components/NImage.vue'
+import NPanelLoading from '@/components/NPanelLoading.vue'
 import NMap from '@/components/NMap.vue'
 import '@/assets/scss/detail.scss'
 import { useHotelUtil } from '@/composables/useHotel'
 import { convertionType } from '@/helpers/convertion'
+import { usePanelLoading } from '@/composables/usePanelLoading'
 
+const { loading } = usePanelLoading()
 const {
   hotel,
   rooms,
   filterDetail,
+  countDate,
   minDate,
   deCodeHtml,
   getRoomByDate
 } = useHotelUtil()
 const { formatCurrency } = convertionType()
+const changeEndDate = () => {
+  filterDetail.value.endDate = ''
+}
 </script>
 <style lang="scss" scoped>
 ::v-deep {

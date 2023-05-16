@@ -1,51 +1,50 @@
 <template>
   <v-sheet class="container-detail">
-    <v-carousel
-      class="carousel"
-      cycle
-      show-arrows="hover"
-      hide-delimiters
-      hide-delimiter-background
-    >
-      <v-carousel-item
-        v-for="(item, i) in tour?.listImages"
-        :key="i"
-        :src="item"
-        cover
-      />
-    </v-carousel>
-    <v-card
-      elevation="10"
-      class="toolbar"
-    >
-      <div class="d-flex align-center flex-wrap ma-4">
-        <v-text-field
-          label="Email"
-          name="Email"
-          prepend-inner-icon="mdi-shield-account-outline"
-          type="Date"
-          :min="minDate"
-          color="primary"
-          hide-details="auto"
-          class="text-field"
-          variant="outlined"
-        />
-        <v-text-field
-          label="Password"
-          name="password"
-          type="Date"
-          prepend-inner-icon="mdi-lock-outline"
-          color="primary"
-          variant="outlined"
-          hide-details="auto"
-          class="text-field"
-        />
-        <v-btn>
-          Tìm kiếm
-        </v-btn>
-      </div>
-    </v-card>
-    <div style="height: 500px;" />
+    <v-sheet>
+      <v-sheet>
+        <v-carousel
+          cycle
+          show-arrows="hover"
+          hide-delimiters
+          hide-delimiter-background
+        >
+          <v-carousel-item
+            v-for="(item, i) in tourInfo?.listImages"
+            :key="i"
+            :src="item"
+            cover
+          >
+            <template #placeholder>
+              <v-row
+                class="fill-height ma-0"
+                align="center"
+                justify="center"
+              >
+                <v-progress-circular
+                  indeterminate
+                  color="primary"
+                />
+              </v-row>
+            </template>
+            <template #default>
+              <v-row
+                class="fill-height ma-0"
+                align="start"
+                justify="center"
+              >
+                <h1 class="heading-primary text-custom-shadow">
+                  <span class="heading-primary--main">{{ tourInfo?.name }}</span>
+                </h1>
+              </v-row>
+            </template>
+          </v-carousel-item>
+        </v-carousel>
+      </v-sheet>
+    </v-sheet>
+    <v-sheet class="mx-5 rooms-detail">
+      <div v-html="tourInfo?.descriptions" />
+      <div v-html="tourInfo?.scheduleContent" />
+    </v-sheet>
   </v-sheet>
 </template>
 <script lang="ts" setup>
@@ -55,7 +54,7 @@ import { useTourUtil } from '@/composables/useTour'
 
 const route = useRoute()
 const tourId = route.params.id as string
-const { tour, getTourById } = useTourUtil()
+const { tourInfo, getTourById } = useTourUtil()
 const minDate = computed(() => {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
