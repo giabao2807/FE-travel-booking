@@ -1,13 +1,13 @@
+import { usePanelLoading } from './usePanelLoading'
 import { storeToRefs } from 'pinia'
 import { createSharedComposable } from '@vueuse/core'
-import { useLoading } from './useLoading'
 import { useTourStore } from '@/store/tours'
 import { TRAFFICS } from '@/resources/mockData'
 
 const createTour = () => {
   const tourStore = useTourStore()
   const { popularTours, tourInfo } = storeToRefs(tourStore)
-  const { startLoading, finishLoading } = useLoading()
+  const { startLoading, finishLoading } = usePanelLoading()
   const getPopularTours = async() => {
     startLoading()
     await tourStore.getPopularTours()

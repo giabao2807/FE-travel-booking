@@ -1,7 +1,12 @@
 <template>
-  <div v-if="loading" class="v-overlay v-overlay--active theme--dark dialog">
-    <v-progress-circular color="primary" size="200" width="20" indeterminate />
-  </div>
+  <v-dialog
+    v-model="loading"
+    :scrim="false"
+    persistent
+    class="dialog"
+  >
+    <v-progress-circular class="align-self-center" color="primary" size="200" width="20" indeterminate />
+  </v-dialog>
 </template>
 <script lang="ts" setup>
 import { useLoading } from '@/composables/useLoading'
@@ -10,8 +15,6 @@ const { loading } = useLoading()
 
 <style scoped>
 .dialog {
-  align-items: center;
-  justify-content: center;
   opacity: 0.8;
   background-color: var(--loading-bgcolor);
   border-color: var(--loading-border-color);

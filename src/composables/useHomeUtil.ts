@@ -8,6 +8,7 @@ const useHome = () => {
   const {
     hotels,
     recomendCities,
+    loading,
     selectedCity,
     getRecomendHotelByCity,
     getRecomendCities
@@ -30,11 +31,12 @@ const useHome = () => {
     await getRecomendCities()
     getRecomendHotelByCity(selectedCity.value)
     await getPopularTours()
-
   })
+
   return {
     recomendCities,
     hotels,
+    loading,
     selectedCity,
     popularTours,
     getTraffic,

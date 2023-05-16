@@ -107,6 +107,7 @@
     filter: drop-shadow(18px 10px 6px var(--color-boni-like));
   }
 
+
   @media screen and (max-width: 1190px) {
     .rooms-detail {
       margin-top: 10rem;
@@ -121,6 +122,10 @@
   }
   
   @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
+    .custom-voucher {
+      background-color: #ec488c;;
+      clip-path: polygon(25% 0, 100% 0, 100% 100%, 0 100%);
+    }
     .custom-image {
       clip-path: polygon(0 20%, 100% 0,100% 80%, 0 100%);
       height: 500px;

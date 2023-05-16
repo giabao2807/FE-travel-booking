@@ -12,7 +12,6 @@
           Most popular tours
         </h2>
       </div>
-
       <v-row>
         <v-col
           v-for="tour in popularTours"
@@ -106,7 +105,13 @@
         </v-col>
       </v-row>
       <div class="text-center">
-        <n-button-animated label="Discover our tours" width="20rem" fontSize="1rem" />
+        <n-panel-loading />
+        <n-button-animated
+          label="Discover our tours"
+          width="20rem"
+          fontSize="1rem"
+          @click="() => hanldeRoute({ name: 'tours' })"
+        />
       </div>
     </v-container>
     <v-container fluid class="section-features my-15">
@@ -120,6 +125,7 @@
           v-model="selectedCity"
           show-arrows
           mandatory
+          center-active
           class="width-80 font-weight-600"
         >
           <v-slide-group-item
@@ -150,6 +156,7 @@
           </v-slide-group-item>
         </v-slide-group>
       </v-row>
+      <n-skeleton-loader class="mx-6" :loading="loading" :quantity="8" />
       <v-row class="mx-6">
         <v-col
           v-for="hotel in hotels"
@@ -233,6 +240,8 @@
 </template>
 <script lang="ts" setup>
 import NButtonAnimated from '@/components/NButtonAnimated.vue'
+import NPanelLoading from '@/components/NPanelLoading.vue'
+import NSkeletonLoader from '@/components/NSkeletonLoader.vue'
 import NImage from '@/components/NImage.vue'
 import { hanldeRoute } from '@/helpers/loadingRoute'
 import { useHomeUtil } from '@/composables/useHomeUtil'
@@ -242,6 +251,7 @@ const {
   recomendCities,
   selectedCity,
   hotels,
+  loading,
   popularTours,
   getTraffic,
   voteText,

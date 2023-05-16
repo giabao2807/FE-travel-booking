@@ -30,6 +30,15 @@
 .font-size-min-rem {
   font-size: .8rem
 }
+.height-400px {
+  height: 400px;
+}
+.max-height-150 {
+  max-height: 150px;
+}
+.border-left-black {
+  border-left: 1px solid #000
+}
 
 .text-custom-shadow {
   letter-spacing: 5px;

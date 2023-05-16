@@ -14,20 +14,28 @@
             :src="item"
             cover
           >
+            <template #placeholder>
+              <v-row
+                class="fill-height ma-0"
+                align="center"
+                justify="center"
+              >
+                <v-progress-circular
+                  indeterminate
+                  color="primary"
+                />
+              </v-row>
+            </template>
             <template #default>
-              <n-image :src="item">
-                <template #default>
-                  <v-row
-                    class="fill-height ma-0"
-                    align="start"
-                    justify="center"
-                  >
-                    <h1 class="heading-primary text-custom-shadow">
-                      <span class="heading-primary--main">{{ hotel?.name }}</span>
-                    </h1>
-                  </v-row>
-                </template>
-              </n-image>
+              <v-row
+                class="fill-height ma-0"
+                align="start"
+                justify="center"
+              >
+                <h1 class="heading-primary text-custom-shadow">
+                  <span class="heading-primary--main">{{ hotel?.name }}</span>
+                </h1>
+              </v-row>
             </template>
           </v-carousel-item>
         </v-carousel>
@@ -89,7 +97,7 @@
         <v-col col="12">
           <v-card elevation="12" class="card-detail">
             <v-row>
-              <v-col cols="3">
+              <v-col>
                 <v-carousel
                   class="carousel"
                   height="300"
@@ -99,26 +107,29 @@
                   hide-delimiter-background
                 >
                   <v-carousel-item
+                    cover
+                    eager
                     v-for="(item, i) in room?.listImages"
                     :key="i"
                     :src="item"
-                    cover
-                  />
-                  <template #placeholder>
-                    <v-row
-                      class="fill-height ma-0"
-                      align="center"
-                      justify="center"
-                    >
-                      <v-progress-circular
-                        indeterminate
-                        color="red"
-                      />
-                    </v-row>
-                  </template>
+                    :lazy-src="item"
+                  >
+                    <template #placeholder>
+                      <v-row
+                        class="fill-height ma-0"
+                        align="center"
+                        justify="center"
+                      >
+                        <v-progress-circular
+                          indeterminate
+                          color="primary"
+                        />
+                      </v-row>
+                    </template>
+                  </v-carousel-item>
                 </v-carousel>
               </v-col>
-              <v-col cols="8">
+              <v-col cols="6">
                 <v-card-title class="text-h5">
                   {{ room?.name }}
                 </v-card-title>
@@ -137,20 +148,33 @@
                         <v-icon icon="mdi-home-roof" />
                         Số lượng phòng: {{ room?.quantity }} phòng
                       </p>
-                      <p class="my-2">
-                        <v-icon icon="mdi-cash-multiple" />
-                        Giá thuê: {{ formatCurrency(room?.price) }}
+                      <p v-show="room?.availableRoomAmount" class="my-2">
+                        <v-icon icon="mdi-home-variant-outline" />
+                        Phòng trống: {{ room?.availableRoomAmount }} phòng
                       </p>
                     </v-col>
-                    <v-col class="mx-5" style="border-left: 1px solid #000">
+                    <v-col class="mx-5 border-left-black">
                       <div v-html="room?.description" />
                     </v-col>
                   </v-row>
                 </v-card-text>
-                <v-card-actions>
-                  <v-spacer />
-                  <v-btn class="mx-5" color="primary" variant="tonal">Book now</v-btn>
-                </v-card-actions>
+              </v-col>
+              <v-col class="custom-voucher">
+                <div color="transparent" class="ml-14 mt-5 pa-4">
+                  <div class="my-2">
+                    <p class="text-subtitle-2">Subject to Cashback Terms</p>
+                    <div class="text-h5 animate-charcter my-2">
+                      <v-icon icon="mdi-cash-multiple" class="mt-n2 animate-charcter" />
+                      {{ formatCurrency(room?.price) }}
+                    </div>
+                  </div>
+                  <p class="my-2 text-caption">
+                    Giá đã bao gồm:
+                    Sales & Services tax (216.160đ)
+                    Khuyến mãi trong thời gian có hạn. Giá phòng đã có giảm giá 0%!
+                  </p>
+                  <v-btn class="mt-2" color="primary" variant="tonal">Book now</v-btn>
+                </div>
               </v-col>
             </v-row>
           </v-card>
@@ -174,8 +198,7 @@
                   v-for="item in hotel?.listImages.slice(2, 5)"
                   :key="item"
                   :src="item"
-                  class="mx-1"
-                  style="max-height: 150px;"
+                  class="mx-1 max-height-150"
                 />
               </div>
             </v-card-text>

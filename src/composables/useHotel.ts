@@ -3,7 +3,6 @@ import { IParamHotel, IParamRoomType } from '@/store/hotels'
 import { storeToRefs } from 'pinia'
 import { useHotelStore } from '@/store/hotels'
 import { createSharedComposable } from '@vueuse/core'
-import { useLoading } from '@/composables/useLoading'
 import { IFilterDate } from '@/libs/types/commonType'
 import { convertionType } from '@/helpers/convertion'
 import { useRoute } from 'vue-router'
@@ -11,12 +10,12 @@ import { useRoute } from 'vue-router'
 const createHotel = () => {
   const hotelStore = useHotelStore()
   const { recomendCities, hotels, hotel, rooms } = storeToRefs(hotelStore)
-  const { startLoading, finishLoading } = useLoading()
   const filterDetail = ref<IFilterDate>({
     startDate: new Date,
     endDate: new Date
   })
   const selectedCity = ref<number>(0)
+  const loading = ref<boolean>(true)
   const route = useRoute()
   const hotelId = route.params.id as string
   const { deCodeHtml } = convertionType()
@@ -26,12 +25,13 @@ const createHotel = () => {
     selectedCity.value = recomendCities.value[0]?.id
   }
   const getRecomendHotelByCity = async(id: number) => {
+    loading.value = true
     const param:IParamHotel = {
       cityId: id,
       page: 1,
       pageSize: 8
     }
-    await hotelStore.getHotelByCity(param)
+    await hotelStore.getHotelByCity(param).then(() => loading.value = false)
   }
 
   const getHotelById = async(id: string) => {
@@ -58,6 +58,7 @@ const createHotel = () => {
     hotel,
     rooms,
     filterDetail,
+    loading,
     minDate,
     deCodeHtml,
     getRoomByDate,

@@ -13,11 +13,10 @@ const createLoading = () => {
 
   const finishLoading = () => {
     loadingCount.value--
-    if (loadingCount.value <= 0) {
+    if (loadingCount.value === 0) {
       loadingCount.value = 0
       loading.value = false
     }
-    loading.value = loadingCount.value > 0
   }
 
   return {
