@@ -6,10 +6,24 @@
         <span class="heading-primary--sub">is where life happens is where life</span>
       </h1>
     </v-container>
+    <v-container>
+      <div class="text-align-center">
+        <h2 class="heading-secondary">
+          Điểm đến yêu thích trong nước
+        </h2>
+      </div>
+      <v-row class="my-5">
+        <v-col v-for="item in recomendCities" :key="item.id" :cols="Math.floor(Math.random() * 6) + 4">
+          <n-image :src="item?.image">
+            {{ item?.name }}
+          </n-image>
+        </v-col>
+      </v-row>
+    </v-container>
     <v-container fluid>
       <div class="text-align-center">
         <h2 class="heading-secondary">
-          Most popular tours
+          Những Tour Du Lịch Hấp Dẫn
         </h2>
       </div>
       <v-row>

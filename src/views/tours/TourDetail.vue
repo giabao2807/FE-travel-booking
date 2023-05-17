@@ -43,6 +43,7 @@
     </v-sheet>
     <v-sheet class="mx-5 rooms-detail">
       <div v-html="tourInfo?.descriptions" />
+      <div v-html="tourInfo?.note" />
       <div v-html="tourInfo?.scheduleContent" />
     </v-sheet>
   </v-sheet>

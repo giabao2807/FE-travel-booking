@@ -237,7 +237,9 @@
     <v-sheet class="ma-5 rounded-xl">
       <n-map />
       <v-row class="ma-5 justify-space-around h-75">
-        <v-col cols="5">
+        <v-col cols="4">
+          <h2>Hotel: {{ hotel?.name }}</h2>
+          <p><strong>Address: </strong>{{ hotel?.address }}</p>
           <iframe
             :src="`https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d30686.57175578836!2d${hotel?.longitude}!3d${hotel?.latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1684080267215!5m2!1svi!2s`"
             loading="lazy"
@@ -246,9 +248,21 @@
             referrerpolicy="no-referrer-when-downgrade"
           />
         </v-col>
-        <v-col cols="7">
-          <h2>Hotel: {{ hotel?.name }}</h2>
-          <p><strong>Address: </strong>{{ hotel?.address }}</p>
+        <v-col cols="8">
+          <div class="text-center">
+            <h2>Review từ Khách Hàng</h2>
+          </div>
+          <v-form class="w-75 text-center">
+            <v-text-field clearable label="Title" variant="underlined" />
+            <v-textarea
+              label="Content"
+              auto-grow
+              variant="outlined"
+              rows="3"
+              row-height="25"
+              shaped
+            />
+          </v-form>
         </v-col>
       </v-row>
     </v-sheet>

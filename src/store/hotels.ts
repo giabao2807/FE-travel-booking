@@ -5,7 +5,8 @@ import { ref } from 'vue'
 
 export type ICity = {
   id: number,
-  name?: string
+  name?: string,
+  image?: string
 }
 export type IHotel = {
   id: string,
