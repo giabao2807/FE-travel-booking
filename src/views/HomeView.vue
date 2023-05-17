@@ -5,17 +5,60 @@
         <span class="heading-primary--main">Travels and booking</span>
         <span class="heading-primary--sub">is where life happens is where life</span>
       </h1>
+      <v-card
+        elevation="10"
+        class="toolbar rounded-xl"
+      >
+        <v-card-text>
+          <div class="d-flex align-center flex-wrap ma-5">
+            <v-text-field
+              label="Ngày nhận phòng"
+              name="startDate"
+              type="Date"
+              prepend-icon="mdi-clipboard-text-clock-outline"
+              color="primary"
+              variant="outlined"
+              hide-details="auto"
+              class="text-field"
+            />
+            <v-text-field
+              label="Ngày trả phòng"
+              name="endDate"
+              type="Date"
+              color="primary"
+              variant="outlined"
+              hide-details="auto"
+              class="text-field"
+            />
+            <v-btn
+              class="text-none mx-5 btn-shadown"
+              size="40"
+              color="#8a0642"
+              min-width="110"
+              rounded
+              variant="flat"
+            >
+              Tìm Kiếm
+            </v-btn>
+          </div>
+        </v-card-text>
+      </v-card>
     </v-container>
-    <v-container>
+    <v-container fluid>
       <div class="text-align-center">
         <h2 class="heading-secondary">
           Điểm đến yêu thích trong nước
         </h2>
       </div>
-      <v-row class="my-5">
-        <v-col v-for="item in recomendCities" :key="item.id" :cols="Math.floor(Math.random() * 6) + 4">
-          <n-image :src="item?.image">
-            {{ item?.name }}
+      <v-divider class="mx-15" />
+      <v-row class="ma-5">
+        <v-col v-for="item in getCitiesPanel" :key="item.id" :cols="item.col">
+          <n-image :src="item?.image" height="300" class="image-transform">
+            <template #default>
+              <div class="d-flex align-center justify-center fill-height image-container">
+                <span class="text">{{ item?.name }}</span>
+              </div>
+            </template>
           </n-image>
         </v-col>
       </v-row>
@@ -200,7 +243,7 @@
                     <v-col>
                       <div>
                         <v-icon :icon="voteText(hotel?.rateAverage).icon" color="primary" class="mr-1" />
-                        <strong class="text-color-black">{{ voteText(hotel?.rateAverage).name }}</strong>
+                        <strong class="text-disabled">{{ voteText(hotel?.rateAverage).name }}</strong>
                       </div>
                     </v-col>
                     <v-col>
@@ -216,7 +259,7 @@
                   </v-row>
                   <div class="mt-2">
                     <v-icon color="primary" icon="mdi-vote-outline" />
-                    <span class="text-disabled font-size-min-rem ml-2 mb-n2">Đánh giá -
+                    <strong class="text-disabled font-size-min-rem ml-2 mb-n2">Đánh giá -
                       <v-chip
                         color="primary"
                         size="small"
@@ -225,7 +268,7 @@
                       >
                         {{ hotel?.numReview }}
                       </v-chip>
-                    </span>
+                    </strong>
                   </div>
                 </v-card-text>
                 <v-divider color="#000" class="mx-5" />
@@ -267,6 +310,7 @@ const {
   hotels,
   loading,
   popularTours,
+  getCitiesPanel,
   getTraffic,
   voteText,
   getRecomendHotelByCity
@@ -275,4 +319,22 @@ const { formatCurrency } = convertionType()
 </script>
 <style scoped>
 @import '@/assets/css/home.css';
+.image-transform:hover {
+  transform: scale(1.08);
+  z-index: 2;
+}
+.image-container:hover {
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    overflow: hidden;
+    outline: 2px solid var(--color-border-white);
+    outline-offset: -15px;
+    box-shadow: 5px 10px 40px 5px rgba(0,0,0,0.5);
+}
+.image-container .text {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--color-border-white);
+}
 </style>

@@ -236,8 +236,8 @@
     </v-sheet>
     <v-sheet class="ma-5 rounded-xl">
       <n-map />
-      <v-row class="ma-5 justify-space-around h-75">
-        <v-col cols="4">
+      <v-row class="ma-5 h-75" justify="space-between">
+        <v-col cols="5">
           <h2>Hotel: {{ hotel?.name }}</h2>
           <p><strong>Address: </strong>{{ hotel?.address }}</p>
           <iframe
@@ -248,21 +248,22 @@
             referrerpolicy="no-referrer-when-downgrade"
           />
         </v-col>
-        <v-col cols="8">
+        <v-spacer />
+        <v-col cols="6">
           <div class="text-center">
             <h2>Review từ Khách Hàng</h2>
+            <v-form>
+              <v-text-field clearable label="Title" variant="underlined" />
+              <v-textarea
+                label="Content"
+                auto-grow
+                variant="outlined"
+                rows="3"
+                row-height="25"
+                shaped
+              />
+            </v-form>
           </div>
-          <v-form class="w-75 text-center">
-            <v-text-field clearable label="Title" variant="underlined" />
-            <v-textarea
-              label="Content"
-              auto-grow
-              variant="outlined"
-              rows="3"
-              row-height="25"
-              shaped
-            />
-          </v-form>
         </v-col>
       </v-row>
     </v-sheet>

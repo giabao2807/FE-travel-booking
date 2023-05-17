@@ -34,9 +34,9 @@ const createHotel = () => {
   })
   const getRecomendCities = async() => {
     await hotelStore.getRecomendCities()
-    selectedCity.value = recomendCities.value[0]?.id
+    recomendCities.value[0]?.id ? selectedCity.value = recomendCities.value[0].id : ''
   }
-  const getRecomendHotelByCity = async(id: number) => {
+  const getRecomendHotelByCity = async(id: Partial<number>) => {
     loading.value = true
     const param:IParamHotel = {
       cityId: id,

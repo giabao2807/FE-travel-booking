@@ -2,7 +2,7 @@
   <div>
     <v-app-bar
       scroll-behavior="fade-image"
-      color="rgba(255, 224, 230, 0.4)"
+      color="rgba(255, 224, 230, 0.5)"
       image=""
       extended
       extension-height="10"
@@ -13,12 +13,17 @@
         <n-image :src="require(`@/assets/img/app_bar.jpg`)" />
       </template>
       <v-app-bar-title>
-        <p class="header-title" @click="() => router.push({ name: 'homepage' }) ">TraveNE</p>
+        <p class="header-title" @click="() => { router.push({ name: 'homepage' }), slideValue = undefined }">TraveNE</p>
       </v-app-bar-title>
-      <v-slide-group show-arrows class="width-50">
+      <v-slide-group
+        v-model="slideValue"
+        show-arrows
+        mandatory
+        class="width-50 mb-n1"
+      >
         <v-slide-group-item
-          v-for="n in ['Tours', 'Hotels', 'Bookings', 'FAQ']"
-          :key="n"
+          v-for="item in ['Tours', 'Hotels', 'Bookings', 'FAQ']"
+          :key="item"
           v-slot="{ isSelected, toggle }"
         >
           <div class="align-center justify-center">
@@ -28,13 +33,16 @@
               rounded
               variant="text"
               :color="isSelected ? 'primary' : '#000'"
-              @click="toggle"
+              @click="() => {
+                hanldeRoute({ name: item.toLowerCase() })
+                toggle()
+              }"
             >
-              {{ n }}
+              {{ item }}
             </v-btn>
-            <div v-show="isSelected" class="my-n5 ml-5">
+            <div v-show="isSelected" class="my-n5 ml-7">
               <svg
-                class="image-container"
+                class="svg-custom"
                 width="83"
                 viewBox="0 0 83 7"
                 fill="none"
@@ -152,10 +160,13 @@ import router from '@/router'
 import { ref } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useAuthentication } from '@/composables/useAuth'
+import { hanldeRoute } from '@/helpers/loadingRoute'
+
 const display = ref(useDisplay())
 const authStore = useAuthStore()
 const { authUser } = storeToRefs(authStore)
 const { checkAvatar, signOut } = useAuthentication()
+const slideValue = ref<number>()
 </script>
 <style scoped>
 .header-title {
@@ -180,7 +191,7 @@ const { checkAvatar, signOut } = useAuthentication()
   font-family: "Wotfard", "Wotfard-fallback", sans-serif;
   font-weight: 600;
 }
-.image-container {
+.svg-custom {
   opacity: 0;
   animation: fadeIn ease-in 1;
   animation-fill-mode: forwards;

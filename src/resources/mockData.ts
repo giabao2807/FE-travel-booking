@@ -10,3 +10,15 @@ export const COMMENTRATE = [
   { icon: 'mdi-like-outline', name:  'Bình Thường' },
   { icon: 'mdi-emoticon-sad-outline', name:  'Tệ' }
 ]
+export const PANEL_IMAGE = [
+  { col: 8 },
+  { col: 4 },
+  { col: 4 },
+  { col: 4 },
+  { col: 4 },
+  { col: 6 },
+  { col: 6 },
+  { col: 4 },
+  { col: 4 },
+  { col: 4 }
+]

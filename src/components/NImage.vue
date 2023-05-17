@@ -19,7 +19,9 @@
         />
       </v-row>
     </template>
-    <slot />
+    <template #default>
+      <slot name="default" />
+    </template>
   </v-img>
 </template>
 <script lang="ts" setup>
