@@ -19,7 +19,7 @@ type Props = {
   fontSize?: string,
   backgroundColor?: string,
   color?: string,
-  disabled: boolean
+  disabled?: boolean
 }
 const styleButton = computed(()=>{
   return {

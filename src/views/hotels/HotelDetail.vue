@@ -28,12 +28,12 @@
             </template>
             <template #default>
               <v-row
-                class="fill-height ma-0"
-                align="start"
+                class="fill-height mt-n10"
+                align="center"
                 justify="center"
               >
                 <h1 class="heading-primary text-custom-shadow">
-                  <span class="heading-primary--main">{{ hotel?.name }}</span>
+                  <span class="heading-main">{{ hotel?.name }}</span>
                 </h1>
               </v-row>
             </template>
@@ -167,7 +167,7 @@
               </v-col>
               <v-col class="custom-voucher">
                 <div color="transparent" class="ml-14 mt-5 pa-4">
-                  <div class="my-2">
+                  <div class="ma-2">
                     <p class="text-subtitle-2">Subject to Cashback Terms</p>
                     <div class="text-h5 animate-charcter my-2">
                       <v-icon icon="mdi-cash-multiple" class="mt-n2 animate-charcter" />
@@ -232,12 +232,8 @@
     </v-container>
     <v-sheet />
     <v-sheet class="ma-5 pa-5 rounded-xl">
-      <div v-html="hotel?.rules" />
-    </v-sheet>
-    <v-sheet class="ma-5 rounded-xl">
-      <n-map />
-      <v-row class="ma-5 h-75" justify="space-between">
-        <v-col cols="5">
+      <v-row>
+        <v-col cols="4">
           <h2>Hotel: {{ hotel?.name }}</h2>
           <p><strong>Address: </strong>{{ hotel?.address }}</p>
           <iframe
@@ -248,31 +244,54 @@
             referrerpolicy="no-referrer-when-downgrade"
           />
         </v-col>
-        <v-spacer />
-        <v-col cols="6">
-          <div class="text-center">
-            <h2>Review từ Khách Hàng</h2>
-            <v-form>
-              <v-text-field clearable label="Title" variant="underlined" />
-              <v-textarea
-                label="Content"
-                auto-grow
-                variant="outlined"
-                rows="3"
-                row-height="25"
-                shaped
-              />
-            </v-form>
-          </div>
+        <v-col cols="8">
+          <div v-html="hotel?.rules" />
         </v-col>
       </v-row>
+    </v-sheet>
+    <v-sheet class="ma-5 pa-5 rounded-xl">
+      <h2 class="my-5 text-center">Reviews Hotel</h2>
+      <v-slide-group
+        class="pa-4"
+        center-active
+        show-arrows
+      >
+        <v-slide-group-item
+          v-for="review in dataReview?.results"
+          :key="review?.id"
+        >
+          <v-card
+            class="mx-5 rounded-xl"
+            color="#26c6da"
+            theme="dark"
+            width="450"
+            height="300"
+          >
+            <v-card-title class="ma-2">
+              {{ review?.title }}
+            </v-card-title>
+            <v-card-text>
+              {{ review?.content }}
+              <v-list-item class="ml-n5 mt-5">
+                <template #prepend>
+                  <v-avatar
+                    color="grey-darken-3"
+                    :image="review?.owner.avatar"
+                  />
+                </template>
+
+                <v-list-item-title>{{ review?.owner.name }}</v-list-item-title>
+              </v-list-item>
+            </v-card-text>
+          </v-card>
+        </v-slide-group-item>
+      </v-slide-group>
     </v-sheet>
   </v-sheet>
 </template>
 <script lang="ts" setup>
 import NImage from '@/components/NImage.vue'
 import NPanelLoading from '@/components/NPanelLoading.vue'
-import NMap from '@/components/NMap.vue'
 import '@/assets/scss/detail.scss'
 import { useHotelUtil } from '@/composables/useHotel'
 import { convertionType } from '@/helpers/convertion'
@@ -284,6 +303,7 @@ const {
   rooms,
   filterDetail,
   countDate,
+  dataReview,
   minDate,
   deCodeHtml,
   getRoomByDate
@@ -319,7 +339,7 @@ const changeEndDate = () => {
       padding: 5px;
     }
     .font-bold {
-      width: 15%;
+      width: 25%;
     }
     .txt-justify {
       width: 80%;

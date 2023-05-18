@@ -22,6 +22,9 @@ export type IHotel = {
 export type IParamHotel = IParamPage & {
   cityId: number
 }
+export type IParamReview = IParamPage & {
+  id: string
+}
 export type IParamRoomType = {
   id: string,
   startDate?: string,
@@ -88,6 +91,15 @@ export const useHotelStore = defineStore('hotelStore', () => {
       params: { startDate: param.startDate, endDate: param.endDate }
     }).then((data) => (rooms.value = data))
   }
+  const getReviewsHotel = async(param: Partial<IParamReview>) => {
+    const reviews = await connectionsAPI({
+      methods: 'GET',
+      path: `hotel/${param.id}/get_reviews/?page=1&page_size=12`,
+      headers: { 'Content-Type': 'application/json' },
+      params: { page: param.page, pageSize: param.pageSize }
+    })
+    return reviews
+  }
   return {
     recomendCities,
     hotels,
@@ -96,6 +108,7 @@ export const useHotelStore = defineStore('hotelStore', () => {
     getRecomendCities,
     getHotelByCity,
     getHotelSumaryById,
-    getRoomTypeById
+    getRoomTypeById,
+    getReviewsHotel
   }
 })

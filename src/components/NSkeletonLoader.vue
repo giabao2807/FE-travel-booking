@@ -19,7 +19,7 @@ import { defineProps, withDefaults } from 'vue'
 type Props = {
   loading: boolean,
   quantity: number,
-  height: string
+  height?: string
 }
 const propItems = withDefaults(defineProps<Props>(), {
   loading: true,

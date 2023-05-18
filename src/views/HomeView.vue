@@ -1,35 +1,70 @@
 <template>
   <v-sheet>
-    <v-container fluid class="container_main d-flex justify-center">
-      <h1 class="heading-primary">
-        <span class="heading-primary--main">Travels and booking</span>
-        <span class="heading-primary--sub">is where life happens is where life</span>
-      </h1>
+    <v-container fluid class="pa-0">
+      <div class="container_main">
+        <v-row class="h-50 w-100" align="end" justify="center">
+          <h1 class="heading-primary">
+            <span class="heading-primary--main">Travels and booking</span>
+            <span class="heading-primary--sub">is where life happens is where life</span>
+          </h1>
+        </v-row>
+      </div>
       <v-card
         elevation="10"
-        class="toolbar rounded-xl"
+        class="home-toolbar rounded-xl"
       >
         <v-card-text>
+          <v-text-field
+            label="City"
+            name="city"
+            prepend-icon="mdi-map-marker-radius-outline"
+            color="primary"
+            variant="underlined"
+            hide-details="auto"
+            class="mx-5"
+          />
           <div class="d-flex align-center flex-wrap ma-5">
             <v-text-field
-              label="Ngày nhận phòng"
+              label="Start Date"
               name="startDate"
               type="Date"
               prepend-icon="mdi-clipboard-text-clock-outline"
               color="primary"
-              variant="outlined"
+              variant="underlined"
               hide-details="auto"
-              class="text-field"
+              class="mr-5"
             />
             <v-text-field
-              label="Ngày trả phòng"
+              label="End Date"
               name="endDate"
               type="Date"
               color="primary"
-              variant="outlined"
+              variant="underlined"
               hide-details="auto"
-              class="text-field"
-            />
+            >
+              <template #prepend>
+                <v-icon class="mx-1" icon="mdi-weather-night" />
+              </template>
+            </v-text-field>
+          </div>
+          <div class="d-flex align-center flex-wrap ma-5">
+            <v-icon icon="mdi-map-legend text-disabled" size="25" />
+            <v-label text="Options:" class="mx-2" />
+            <v-radio-group
+              inline
+              hide-details
+              class="ml-5"
+            >
+              <v-radio
+                label="Tours"
+                value="radio-1"
+                class="mx-4"
+              />
+              <v-radio
+                label="Hotels"
+                value="radio-2"
+              />
+            </v-radio-group>
             <v-btn
               class="text-none mx-5 btn-shadown"
               size="40"
@@ -44,13 +79,13 @@
         </v-card-text>
       </v-card>
     </v-container>
-    <v-container fluid>
+    <v-container fluid class="home-panel-tour">
       <div class="text-align-center">
         <h2 class="heading-secondary">
           Điểm đến yêu thích trong nước
         </h2>
       </div>
-      <v-divider class="mx-15" />
+      <v-divider :thickness="2" class="mx-15" />
       <v-row class="ma-5">
         <v-col v-for="item in getCitiesPanel" :key="item.id" :cols="item.col">
           <n-image :src="item?.image" height="300" class="image-transform">
@@ -336,5 +371,14 @@ const { formatCurrency } = convertionType()
   font-size: 2rem;
   font-weight: bold;
   color: var(--color-border-white);
+}
+.home-toolbar {
+  width: 60%;
+  position: absolute;
+  left: 50%;
+  margin-top: -50px;
+  transform: translate(-50%, -50%);
+  border-top: 12px solid var(--color-boni-like);
+  z-index: 1;
 }
 </style>

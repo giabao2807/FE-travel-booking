@@ -56,11 +56,6 @@ import { useTourUtil } from '@/composables/useTour'
 const route = useRoute()
 const tourId = route.params.id as string
 const { tourInfo, getTourById } = useTourUtil()
-const minDate = computed(() => {
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-  return today.toISOString().split('T')[0]
-})
 onMounted(async() => {
   await getTourById(tourId)
 })
@@ -81,7 +76,7 @@ onMounted(async() => {
   position: absolute;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 9999;
+  z-index: 1;
 }
 .carousel {
   border-bottom: 1px solid var(--loading-bgcolor);

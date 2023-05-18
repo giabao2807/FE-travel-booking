@@ -31,7 +31,7 @@ const useHome = () => {
   }
   const getCitiesPanel = computed(() => {
     const citiesCols: IImageCol[] = []
-    recomendCities.value?.forEach((item, index) => citiesCols.push({ ...PANEL_IMAGE[index], ...item }))
+    recomendCities.value?.slice(0, 5).forEach((item, index) => citiesCols.push({ ...PANEL_IMAGE[index], ...item }))
     return citiesCols
   })
 

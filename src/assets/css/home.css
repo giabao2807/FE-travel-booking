@@ -19,10 +19,10 @@
                10px 10px 0px#553c9a;
 }
 .container_main {
-  background-image: linear-gradient(to bottom, rgba(248, 230, 248, 0.5),rgba(235, 178, 244, 0.2)),
-    url('@/assets/img/bg_1.jpg');
+  background-image: linear-gradient(to bottom, rgba(248, 230, 248, 0.2),rgba(235, 178, 244, 0.2)),
+    url('@/assets/img/bg_home.jpeg');
   background-size: cover;
-  height: 100%;
+  height: 60%;
 }
 @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
   .container_main {
@@ -55,37 +55,44 @@
   text-transform: uppercase;
   backface-visibility: hidden;
   text-align: center;
-  margin-top: 8rem;
 }
 .heading-primary--main {
     display: block;
-    font-size: 80px;
-    font-weight: 600;
-    letter-spacing: 1.5rem;
+    font-weight: bold;
+    font-size: 70px;
+    letter-spacing: 1.1rem;
     animation-name: moveInLeft;
     animation-duration: 1s;
     animation-timing-function: ease-out;
 }
 .heading-primary--sub {
   display: block;
-  font-size: 40px;
+  font-size: 30px;
   font-weight: 300;
   letter-spacing: 1.2rem;
   animation: moveInRight 1s ease-out;
 }
-@media only screen and (max-width: 390em) {
+@media only screen and (max-width: 1000px) {
   .heading-primary--main {
       letter-spacing: 1rem;
-      font-size: 50px;
+      font-size: 30px;
   }
   .heading-primary--sub {
     letter-spacing: 1rem;
-    font-size: 30px;
+    font-size: 20px;
+  }
+}
+.home-panel-tour {
+  margin-top: 55px;
+}
+@media only screen and (max-width: 750px) {
+  .home-panel-tour {
+    margin-top: 85px
   }
 }
 .heading-secondary {
   margin-top: 3rem;
-  font-size: 3rem;
+  font-size: 2.5rem;
   text-transform: uppercase;
   font-weight: 700;
   display: inline-block;
@@ -95,7 +102,7 @@
 }
 .heading-panel-2 {
   margin-top: 3rem;
-  font-size: 3rem;
+  font-size: 2.5rem;
   text-transform: uppercase;
   font-weight: 700;
   display: inline-block;
@@ -105,15 +112,15 @@
 }
 @media only screen and (max-width: 56.25em) {
   .heading-panel-2 {
-    font-size: 3rem; }
+    font-size: 2.5rem; }
   .heading-secondary {
-    font-size: 3rem; }
+    font-size: 2.5rem; }
 }
 @media only screen and (max-width: 37.5em) {
   .heading-panel-2 {
-    font-size: 2.5rem; }
+    font-size: 2rem; }
   .heading-secondary {
-    font-size: 2.5rem; }
+    font-size: 2rem; }
 }
 .heading-panel-2:hover {
   transform: skewY(2deg) skewX(15deg) scale(1.1);
