@@ -22,8 +22,8 @@ export type IError = IFeedBack & {
 }
 
 export type IParamPage = {
-  pageSize?: number,
-  page?: number
+  pageSize: number,
+  page: number
 }
 export type IFilterDate = {
     startDate: string,

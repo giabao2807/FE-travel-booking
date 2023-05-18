@@ -252,7 +252,7 @@
       <v-row v-if="!loading" class="mx-6">
         <v-col
           v-for="hotel in hotels"
-          :key="hotel.id"
+          :key="hotel?.id"
           md="3"
         >
           <v-card
@@ -264,6 +264,16 @@
               height="100%"
               :src="hotel.coverPicture"
             >
+              <div
+                class="ma-2" variant="outlined" style="
+              position: absolute; top: 0; right: 0;
+              background-image: url('@/assets/img/coupon.png');
+              background-size: cover;"
+              >
+                <span class="font-weight-600">
+                  {{ hotel?.couponData.discountPercent }}%
+                </span>
+              </div>
               <div class="background-card-title">
                 <v-card-title class="title-animation font-weight-bold">
                   {{ hotel?.name }}

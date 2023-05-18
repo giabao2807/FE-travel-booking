@@ -233,9 +233,9 @@
     <v-sheet />
     <v-sheet class="ma-5 pa-5 rounded-xl">
       <v-row>
-        <v-col cols="4">
+        <v-col cols="4" class="mt-5">
           <h2>Hotel: {{ hotel?.name }}</h2>
-          <p><strong>Address: </strong>{{ hotel?.address }}</p>
+          <p>Address: {{ hotel?.address }}</p>
           <iframe
             :src="`https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d30686.57175578836!2d${hotel?.longitude}!3d${hotel?.latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1684080267215!5m2!1svi!2s`"
             loading="lazy"
@@ -250,7 +250,8 @@
       </v-row>
     </v-sheet>
     <v-sheet class="ma-5 pa-5 rounded-xl">
-      <h2 class="my-5 text-center">Reviews Hotel</h2>
+      <h1 class="my-5 text-center">Reviews Hotel</h1>
+      <v-divider class="mx-15" />
       <v-slide-group
         class="pa-4"
         center-active
@@ -261,18 +262,12 @@
           :key="review?.id"
         >
           <v-card
-            class="mx-5 rounded-xl"
-            color="#26c6da"
-            theme="dark"
-            width="450"
-            height="300"
+            elevation="4"
+            class="ma-5 pa-2 rounded-xl"
+            width="400"
           >
-            <v-card-title class="ma-2">
-              {{ review?.title }}
-            </v-card-title>
-            <v-card-text>
-              {{ review?.content }}
-              <v-list-item class="ml-n5 mt-5">
+            <v-card-title class="ml-n5">
+              <v-list-item>
                 <template #prepend>
                   <v-avatar
                     color="grey-darken-3"
@@ -281,12 +276,99 @@
                 </template>
 
                 <v-list-item-title>{{ review?.owner.name }}</v-list-item-title>
+                <v-list-item-subtitle>{{ review?.title }}</v-list-item-subtitle>
               </v-list-item>
+            </v-card-title>
+            <v-card-text>
+              <v-lazy
+                :max-height="150"
+                :options="{ 'threshold':0.5 }"
+                class="overflow-y-auto"
+                transition="fade-transition"
+              >
+                {{ review?.content }}
+              </v-lazy>
             </v-card-text>
           </v-card>
         </v-slide-group-item>
       </v-slide-group>
+      <div class="text-end">
+        <v-dialog
+          v-model="dialogReview"
+          fullscreen
+          :scrim="false"
+          transition="dialog-bottom-transition"
+          width="55%"
+        >
+          <template #activator="{ props }">
+            <v-btn
+              class="mx-5"
+              color="primary"
+              variant="outlined"
+              v-bind="props"
+            >
+              Xem thêm ...
+            </v-btn>
+          </template>
+          <v-card>
+            <v-toolbar
+              title="Tất cả reviews"
+            >
+              <v-btn
+                icon
+                @click="dialogReview = false"
+              >
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </v-toolbar>
+            <v-card-item>
+              <v-timeline side="end">
+                <v-timeline-item
+                  v-for="item in dataReview?.results"
+                  :key="item.id"
+                >
+                  <template #icon>
+                    <v-avatar
+                      color="grey-darken-3"
+                      :image="item?.owner.avatar"
+                    />
+                    <v-tooltip
+                      activator="parent"
+                      :text="item?.owner.name"
+                      location="top"
+                    />
+                  </template>
+                  <v-list-item width="90%">
+                    <v-list-item-title class="d-flex align-center justify-space-between">
+                      {{ item?.title }}
+                      <v-rating
+                        :model-value="item?.rate"
+                        color="amber"
+                        density="compact"
+                        half-increments
+                        readonly
+                        class="mx-5"
+                        size="small"
+                      />
+                    </v-list-item-title>
+                    <v-list-item-subtitle>{{ item?.content }}</v-list-item-subtitle>
+                  </v-list-item>
+                </v-timeline-item>
+              </v-timeline>
+            </v-card-item>
+            <div class="text-center">
+              <v-pagination
+                v-model="initParamReview.page"
+                :total-visible="5"
+                :length="dataReview?.pageNumber"
+                @update:modelValue="() => getReviews(initParamReview)"
+              />
+            </div>
+          </v-card>
+        </v-dialog>
+      </div>
     </v-sheet>
+    <v-spacer class="pa-2" />
   </v-sheet>
 </template>
 <script lang="ts" setup>
@@ -304,9 +386,12 @@ const {
   filterDetail,
   countDate,
   dataReview,
+  initParamReview,
+  dialogReview,
   minDate,
   deCodeHtml,
-  getRoomByDate
+  getRoomByDate,
+  getReviews
 } = useHotelUtil()
 const { formatCurrency } = convertionType()
 const changeEndDate = () => {

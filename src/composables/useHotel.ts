@@ -21,6 +21,7 @@ const createHotel = () => {
     endDate: ''
   })
   const dataReview = ref<any>()
+  const dialogReview = ref<boolean>(false)
 
   const minDate = (date: Date) => date.toISOString().slice(0, 10)
   const countDate = computed(() => {
@@ -67,16 +68,16 @@ const createHotel = () => {
     finishLoading()
   }
 
-  const getReviews = async() => {
+  const initParamReview = ref<IParamReview>({
+    id: hotelId,
+    page: 1,
+    pageSize: 12
+  })
+
+  const getReviews = async(params: IParamReview = initParamReview.value) => {
     startLoading()
-    const params: IParamReview = ({
-      id: hotelId,
-      page: 1,
-      pageSize: 12
-    })
     await hotelStore.getReviewsHotel(params)
       .then(data => dataReview.value = data)
-    console.log(dataReview.value)
     finishLoading()
   }
 
@@ -96,12 +97,15 @@ const createHotel = () => {
     loading,
     countDate,
     dataReview,
+    initParamReview,
+    dialogReview,
     minDate,
     deCodeHtml,
     getRoomByDate,
     getRecomendHotelByCity,
     getRecomendCities,
-    getHotelById
+    getHotelById,
+    getReviews
   }
 }
 export const useHotelUtil = createSharedComposable(createHotel)

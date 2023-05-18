@@ -1,7 +1,8 @@
 <template>
   <v-dialog
-    transition="dialog-top-transition"
-    width="30%"
+    :transition="propItems.transition"
+    :width="propItems.width"
+    :fullscreen="propItems.fullScreen"
   >
     <template #activator="{ props }">
       <a v-bind="props">{{ propItems.textDialog }}</a>
@@ -40,7 +41,10 @@ type Props = {
   title: string,
   labelBtnOne: string,
   labelBtnSecond: string,
-  iconToolBar?: string
+  iconToolBar?: string,
+  width: string,
+  fullScreen: boolean,
+  transition: string
 }
 const emit = defineEmits(['action-one', 'action-second'])
 const handleAction = (action: 'action-one'|'action-second') => {
@@ -52,6 +56,9 @@ const propItems = withDefaults(defineProps<Props>(), {
   title: '',
   labelBtnOne: 'cancel',
   labelBtnSecond: 'submit',
-  iconToolBar: ''
+  iconToolBar: '',
+  width: '',
+  fullScreen: false,
+  transition: 'dialog-top-transition'
 })
 </script>
