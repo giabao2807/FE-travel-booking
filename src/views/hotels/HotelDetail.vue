@@ -93,14 +93,14 @@
     <v-sheet class="mx-5 rooms-detail">
       <v-row align="center" justify="center">
         <h2 class="heading-secondary">Thông Tin Phòng Khách Sạn</h2>
-        <n-panel-loading />
+        <n-panel-loading :loading="rooms.length === 0" />
       </v-row>
       <v-row
         class="mx-5"
         v-for="room in rooms"
         :key="room?.id"
       >
-        <v-col v-if="!loading" col="12">
+        <v-col col="12">
           <v-card elevation="12" class="card-detail">
             <v-row>
               <v-col>
@@ -252,13 +252,14 @@
     <v-sheet class="ma-5 pa-5 rounded-xl">
       <h1 class="my-5 text-center">Reviews Hotel</h1>
       <v-divider class="mx-15" />
+      <n-panel-loading :loading="!firstPageReview" />
       <v-slide-group
         class="pa-4"
         center-active
         show-arrows
       >
         <v-slide-group-item
-          v-for="review in dataReview?.results"
+          v-for="review in firstPageReview?.results"
           :key="review?.id"
         >
           <v-card
@@ -298,7 +299,7 @@
           fullscreen
           :scrim="false"
           transition="dialog-bottom-transition"
-          width="55%"
+          width="65%"
         >
           <template #activator="{ props }">
             <v-btn
@@ -306,6 +307,7 @@
               color="primary"
               variant="outlined"
               v-bind="props"
+              @click="() => getReviews()"
             >
               Xem thêm ...
             </v-btn>
@@ -322,7 +324,8 @@
               </v-btn>
             </v-toolbar>
             <v-card-item>
-              <v-timeline side="end">
+              <n-panel-loading :loading="loadingReview" />
+              <v-timeline v-if="!loadingReview" side="end">
                 <v-timeline-item
                   v-for="item in dataReview?.results"
                   :key="item.id"
@@ -339,18 +342,20 @@
                     />
                   </template>
                   <v-list-item width="90%">
-                    <v-list-item-title class="d-flex align-center justify-space-between">
-                      {{ item?.title }}
-                      <v-rating
-                        :model-value="item?.rate"
-                        color="amber"
-                        density="compact"
-                        half-increments
-                        readonly
-                        class="mx-5"
-                        size="small"
-                      />
-                    </v-list-item-title>
+                    <v-row class="align-center justify-space-between">
+                      <v-col cols="9"><h4>{{ item?.title }}</h4></v-col>
+                      <v-col>
+                        <v-rating
+                          :model-value="item?.rate"
+                          color="amber"
+                          density="compact"
+                          half-increments
+                          readonly
+                          class="mr-5"
+                          size="small"
+                        />
+                      </v-col>
+                    </v-row>
                     <v-list-item-subtitle>{{ item?.content }}</v-list-item-subtitle>
                   </v-list-item>
                 </v-timeline-item>
@@ -358,6 +363,7 @@
             </v-card-item>
             <div class="text-center">
               <v-pagination
+                v-if="dataReview"
                 v-model="initParamReview.page"
                 :total-visible="5"
                 :length="dataReview?.pageNumber"
@@ -375,24 +381,23 @@
 import NImage from '@/components/NImage.vue'
 import NPanelLoading from '@/components/NPanelLoading.vue'
 import '@/assets/scss/detail.scss'
-import { useHotelUtil } from '@/composables/useHotel'
+import { useHotelDetailUtil } from '@/composables/useHotelDetail'
 import { convertionType } from '@/helpers/convertion'
-import { usePanelLoading } from '@/composables/usePanelLoading'
-
-const { loading } = usePanelLoading()
 const {
   hotel,
   rooms,
   filterDetail,
   countDate,
+  firstPageReview,
   dataReview,
   initParamReview,
   dialogReview,
+  loadingReview,
   minDate,
   deCodeHtml,
   getRoomByDate,
   getReviews
-} = useHotelUtil()
+} = useHotelDetailUtil()
 const { formatCurrency } = convertionType()
 const changeEndDate = () => {
   filterDetail.value.endDate = ''

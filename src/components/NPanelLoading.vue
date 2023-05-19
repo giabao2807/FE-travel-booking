@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="loading" class="height-400px">
+  <v-container v-if="propItems.loading" class="height-400px">
     <v-row
       class="fill-height"
       align-content="center"
@@ -9,7 +9,7 @@
         class="text-subtitle-1 text-center"
         cols="12"
       >
-        Getting your files
+        Getting data
       </v-col>
       <v-col cols="6">
         <v-progress-linear
@@ -23,8 +23,15 @@
   </v-container>
 </template>
 <script lang="ts" setup>
-import { usePanelLoading } from '@/composables/usePanelLoading'
-const { loading } = usePanelLoading()
+import { defineProps, withDefaults } from 'vue'
+type Props = {
+  loading: boolean,
+}
+const propItems = withDefaults(defineProps<Props>(), {
+  loading: false
+})
+
+console.log(propItems.loading)
 </script>
 
 <style scoped>

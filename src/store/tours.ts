@@ -39,8 +39,18 @@ export const useTourStore = defineStore('tourStore', () => {
     pageSize: 6,
     page: 1
   })
+  const tours = ref<ITour[]>()
   const popularTours = ref<ITour[]>([])
   const tourInfo = ref<IDetailTour>()
+
+  const getTours = async(params: IParamPage = initParamTour) =>{
+    await connectionsAPI({
+      methods: 'GET',
+      path: 'tour',
+      params: params,
+      headers: { 'Content-Type': 'application/json' }
+    }).then(data => tours.value = data.results)
+  }
 
   const getPopularTours = async(params: IParamPage = initParamTour) =>{
     await connectionsAPI({
@@ -60,9 +70,11 @@ export const useTourStore = defineStore('tourStore', () => {
   }
 
   return {
+    tours,
     popularTours,
     tourInfo,
     getPopularTours,
-    getTourById
+    getTourById,
+    getTours
   }
 })

@@ -1,5 +1,7 @@
 <template>
   <div>
-    this is tours page
   </div>
 </template>
+<script lang="ts" setup>
+import { useTourUtil } from '@/composables/useTour'
+</script>

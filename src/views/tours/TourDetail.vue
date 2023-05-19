@@ -1,6 +1,6 @@
 <template>
   <v-sheet>
-    <v-row class="py-5" justify="space-between">
+    <v-row class="py-5" justify="center">
       <v-col cols="8" class="mx-5">
         <h1>
           {{ tourInfo?.name }}
@@ -8,6 +8,7 @@
         <v-sheet>
           <v-sheet>
             <v-carousel
+              class="mt-5"
               cycle
               show-arrows="hover"
               hide-delimiters
@@ -33,19 +34,76 @@
                 </template>
               </v-carousel-item>
             </v-carousel>
+            <v-toolbar class="pa-5">
+              <div class="w-100 py-2">
+                <v-row>
+                  <v-col>
+                    <v-icon icon="mdi-clock-start" />
+                    Khởi hành:
+                    <strong class="mx-2">{{ tourInfo?.departure }}</strong>
+                  </v-col>
+                  <v-col>
+                    <v-icon icon="mdi-map-marker-multiple-outline" />
+                    Địa điểm:
+                    <strong class="mx-2">{{ tourInfo?.city }}</strong>
+                  </v-col>
+                  <v-col>
+                    <v-icon icon="mdi-map-clock-outline" />
+                    Thời gian:
+                    <strong class="mx-2">{{ tourInfo?.totalDays }}</strong>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-icon icon="mdi-shoe-sneaker" />
+                    Phương tiện:
+                    <v-icon
+                      v-for="item in getTraffic(tourInfo?.traffics)"
+                      :key="item.value"
+                      :icon="item?.icon"
+                      class="mx-2"
+                    />
+                  </v-col>
+                  <v-col>
+                    <v-icon icon="mdi-translate-variant" />
+                    Ngôn ngữ:
+                    <strong class="mx-2">{{ tourInfo?.languageTour }}</strong>
+                  </v-col>
+                  <v-col>
+                    <v-row
+                      align="center"
+                      class="ma-0"
+                    >
+                      <v-icon icon="mdi-vote-outline" />
+                      Rating:
+                      <v-rating
+                        :model-value="tourInfo?.rate"
+                        class="mx-2"
+                        color="amber"
+                        density="compact"
+                        half-increments
+                        readonly
+                        size="small"
+                      />
+                      {{ tourInfo?.rate }}
+                    </v-row>
+                  </v-col>
+                </v-row>
+              </div>
+            </v-toolbar>
           </v-sheet>
         </v-sheet>
         <v-container class="mx-5">
-          <div v-html="tourInfo?.descriptions" />
-          <div v-html="tourInfo?.note" />
-          <div v-html="tourInfo?.scheduleContent" />
+          <div class="my-2" v-html="tourInfo?.descriptions" />
+          <div class="my-2" v-html="tourInfo?.scheduleContent" />
+          <div class="my-2" v-html="tourInfo?.note" />
         </v-container>
       </v-col>
-      <v-col class="mt-n5">
+      <v-col class="mt-n2 pa-0">
         <v-card
-          class="mx-5 my-12"
-          max-width="374"
-          style="position: fixed;"
+          elevation="5"
+          class="mx-auto my-12 card-drawer"
+          width="374"
         >
           <template #loader="{ isActive }">
             <v-progress-linear
@@ -69,43 +127,34 @@
               />
             </v-card-subtitle>
           </v-card-item>
-
           <v-card-text>
-            <v-row
-              align="center"
-              class="mx-0"
-            >
-              <v-rating
-                :model-value="4.5"
-                color="amber"
-                density="compact"
-                half-increments
-                readonly
-                size="small"
-              />
-
-              <div class="text-grey ms-4">
-                4.5 (413)
-              </div>
-            </v-row>
-
-            <div class="my-4 text-subtitle-1">
-              $ • Italian, Cafe
-            </div>
-
-            <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>
+            <v-text-field
+              label="Ngày khởi hành"
+              name="startDate"
+              type="Date"
+              color="primary"
+              variant="outlined"
+              hide-details="auto"
+            />
+            <v-card class="my-5 pa-5">
+              <v-row>
+                <v-col>
+                  <h4>Số lượng:</h4>
+                </v-col>
+                <v-col>
+                  <v-icon icon="mdi-minus-thick" class="mx-2" />
+                  10
+                  <v-icon icon="mdi-plus-thick" class="mx-2" />
+                </v-col>
+              </v-row>
+            </v-card>
+            <v-divider class="ma-5" />
+            <h3>Tổng tiền: {{ tourInfo?.price }}</h3>
           </v-card-text>
-
-          <v-divider class="mx-4 mb-1" />
-
-          <v-card-title>Tonight's availability</v-card-title>
-
           <v-card-actions>
-            <v-btn
-              color="deep-purple-lighten-2"
-              variant="text"
-            >
-              Reserve
+            <v-spacer />
+            <v-btn variant="outlined">
+              Booking
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -120,7 +169,7 @@ import { useTourUtil } from '@/composables/useTour'
 
 const route = useRoute()
 const tourId = route.params.id as string
-const { tourInfo, getTourById } = useTourUtil()
+const { tourInfo, getTraffic, getTourById } = useTourUtil()
 onMounted(async() => {
   await getTourById(tourId)
 })
@@ -158,5 +207,12 @@ onMounted(async() => {
 .el-range-editor .is-active:hover {
     box-shadow: 0 0 0 1px #d32f2f inset;
 }
-
+.card-drawer {
+  position: none;
+}
+@media screen and (min-width: 1300px) {
+  .card-drawer {
+    position: fixed !important;
+  }
+}
 </style>

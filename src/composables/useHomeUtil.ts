@@ -11,8 +11,8 @@ const useHome = () => {
   const {
     hotels,
     recomendCities,
-    loading,
     selectedCity,
+    loadingPanelHotel,
     getRecomendHotelByCity,
     getRecomendCities
   } = useHotelUtil()
@@ -34,7 +34,6 @@ const useHome = () => {
     recomendCities.value?.slice(0, 5).forEach((item, index) => citiesCols.push({ ...PANEL_IMAGE[index], ...item }))
     return citiesCols
   })
-
   onMounted(async()=>{
     await getRecomendCities()
     getRecomendHotelByCity(selectedCity.value)
@@ -44,10 +43,10 @@ const useHome = () => {
   return {
     recomendCities,
     hotels,
-    loading,
     selectedCity,
     popularTours,
     getCitiesPanel,
+    loadingPanelHotel,
     getTraffic,
     voteText,
     getRecomendHotelByCity

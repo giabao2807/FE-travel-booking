@@ -152,7 +152,7 @@
                   size="small"
                 />
                 <div class="text-grey ms-4">
-                  {{ tour.rate }} ({{ tour.numReview }})
+                  {{ tour?.rate }} ({{ tour?.numReview }})
                 </div>
               </v-row>
               <div class="d-flex align-center justify-space-between my-5">
@@ -197,7 +197,7 @@
         </v-col>
       </v-row>
       <div class="text-center">
-        <n-panel-loading />
+        <n-panel-loading :loading="popularTours.length === 0" />
         <n-button-animated
           label="Discover our tours"
           width="20rem"
@@ -248,8 +248,8 @@
           </v-slide-group-item>
         </v-slide-group>
       </v-row>
-      <n-skeleton-loader class="mx-6" :loading="loading" :quantity="8" />
-      <v-row v-if="!loading" class="mx-6">
+      <n-skeleton-loader class="mx-6" :loading="loadingPanelHotel" :quantity="8" />
+      <v-row v-if="!loadingPanelHotel" class="mx-6">
         <v-col
           v-for="hotel in hotels"
           :key="hotel?.id"
@@ -264,13 +264,8 @@
               height="100%"
               :src="hotel.coverPicture"
             >
-              <div
-                class="ma-2" variant="outlined" style="
-              position: absolute; top: 0; right: 0;
-              background-image: url('@/assets/img/coupon.png');
-              background-size: cover;"
-              >
-                <span class="font-weight-600">
+              <div class="ma-2 home-coupon" variant="outlined">
+                <span class="font-weight-800" style="font-size: 15px">
                   {{ hotel?.couponData.discountPercent }}%
                 </span>
               </div>
@@ -353,9 +348,9 @@ const {
   recomendCities,
   selectedCity,
   hotels,
-  loading,
   popularTours,
   getCitiesPanel,
+  loadingPanelHotel,
   getTraffic,
   voteText,
   getRecomendHotelByCity
@@ -390,5 +385,13 @@ const { formatCurrency } = convertionType()
   transform: translate(-50%, -50%);
   border-top: 12px solid var(--color-boni-like);
   z-index: 1;
+}
+.home-coupon {
+  position: absolute; top: 0; right: 0;
+  background-image: url('@/assets/img/coupon.png');
+  background-size: cover;
+  padding: 2px 0 6px 8px;
+  width: 75px;
+  height: 35px
 }
 </style>

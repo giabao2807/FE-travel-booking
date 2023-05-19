@@ -59,6 +59,7 @@ export const useHotelStore = defineStore('hotelStore', () => {
   const hotels = ref<IHotel[]>([])
   const hotel = ref<IDetailHotel>()
   const rooms = ref<IRoomType[]>([])
+
   const getRecomendCities = async(amount = 10) =>{
     await connectionsAPI({
       methods: 'GET',
