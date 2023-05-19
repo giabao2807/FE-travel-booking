@@ -1,5 +1,5 @@
 <template>
-  <v-sheet>
+  <v-sheet class="pa-0 ma-0 tour-container">
     <v-row class="py-5" justify="center">
       <v-col cols="8" class="mx-5">
         <h1>
@@ -93,10 +93,22 @@
             </v-toolbar>
           </v-sheet>
         </v-sheet>
-        <v-container class="mx-5">
-          <div class="my-2" v-html="tourInfo?.descriptions" />
-          <div class="my-2" v-html="tourInfo?.scheduleContent" />
-          <div class="my-2" v-html="tourInfo?.note" />
+        <v-container>
+          <v-card color="transparent" class="mx-0 rounded-xl" elevation="2">
+            <v-card-text>
+              <div v-html="tourInfo?.descriptions" />
+            </v-card-text>
+          </v-card>
+          <v-card color="transparent" class="my-5 rounded-xl" elevation="2">
+            <v-card-text>
+              <div v-html="tourInfo?.scheduleContent" />
+            </v-card-text>
+          </v-card>
+          <v-card color="transparent" class="my-5 rounded-xl" elevation="2">
+            <v-card-text>
+              <div v-html="tourInfo?.note" />
+            </v-card-text>
+          </v-card>
         </v-container>
       </v-col>
       <v-col class="mt-n2 pa-0">
@@ -115,7 +127,9 @@
           </template>
 
           <v-card-item>
-            <v-card-title>Booking in here</v-card-title>
+            <v-card-title class="font-weight-bold pa-3">
+              <h2>Booking in here</h2>
+            </v-card-title>
 
             <v-card-subtitle>
               <span class="me-1">Local Favorite</span>
@@ -175,44 +189,61 @@ onMounted(async() => {
 })
 </script>
 
-<style scoped>
-.container-detail {
-  position: relative;
-  z-index: 1;
-  background-image: url('@/assets/img/bg-detail.png');
-  background-size: cover;
-  height: 100%;
-}
-.toolbar {
-  width: 60%;
-  min-height: 12%;
-  justify-content: center;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-}
-.carousel {
-  border-bottom: 1px solid var(--loading-bgcolor);
-}
-.text-field {
-  width: 30% !important;
-}
-.text-field:hover{
-  border-radius: 8px;
-  box-shadow: var(--txt-shadow-color) -8px 2px 0px 0px;
-  border-collapse: collapse;
-  opacity: 1;
-}
-.el-range-editor .is-active:hover {
-    box-shadow: 0 0 0 1px #d32f2f inset;
-}
-.card-drawer {
-  position: none;
-}
-@media screen and (min-width: 1300px) {
-  .card-drawer {
-    position: fixed !important;
+<style lang="scss" scoped>
+.tour-container {
+  background-image: url('@/assets/img/map-bg.png');
+  background-size:cover;
+  width: 100%;
+
+  .container-detail {
+    position: relative;
+    z-index: 1;
+    background-image: url('@/assets/img/bg-detail.png');
+    background-size: cover;
+    height: 100%;
   }
+  .toolbar {
+    width: 60%;
+    min-height: 12%;
+    justify-content: center;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+  .carousel {
+    border-bottom: 1px solid var(--loading-bgcolor);
+  }
+  .text-field {
+    width: 30% !important;
+  }
+  .text-field:hover{
+    border-radius: 8px;
+    box-shadow: var(--txt-shadow-color) -8px 2px 0px 0px;
+    border-collapse: collapse;
+    opacity: 1;
+  }
+  .el-range-editor .is-active:hover {
+      box-shadow: 0 0 0 1px #d32f2f inset;
+  }
+  @media screen and (min-width: 1300px) {
+    .card-drawer {
+      position: fixed !important;
+      width: 380px
+    }
+  }
+
+
+}
+::v-deep {
+  .single-box-excerpt, .content-tour-item {
+    span {
+      line-height: 1.8;
+    }
+    li {
+      margin-left: 2rem !important;
+    }
+  }
+
 }
 </style>

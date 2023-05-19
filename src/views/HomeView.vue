@@ -264,8 +264,8 @@
               height="100%"
               :src="hotel.coverPicture"
             >
-              <div class="ma-2 home-coupon" variant="outlined">
-                <span class="font-weight-800" style="font-size: 15px">
+              <div class="mx-2 mt-n1 home-coupon" variant="outlined">
+                <span class="font-weight-bold mx-auto" style="font-size: 15px">
                   {{ hotel?.couponData.discountPercent }}%
                 </span>
               </div>
@@ -359,39 +359,5 @@ const { formatCurrency } = convertionType()
 </script>
 <style scoped>
 @import '@/assets/css/home.css';
-.image-transform:hover {
-  transform: scale(1.08);
-  z-index: 2;
-}
-.image-container:hover {
-    -webkit-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-    overflow: hidden;
-    outline: 2px solid var(--color-border-white);
-    outline-offset: -15px;
-    box-shadow: 5px 10px 40px 5px rgba(0,0,0,0.5);
-}
-.image-container .text {
-  font-size: 2rem;
-  font-weight: bold;
-  color: var(--color-border-white);
-}
-.home-toolbar {
-  width: 60%;
-  position: absolute;
-  left: 50%;
-  margin-top: -50px;
-  transform: translate(-50%, -50%);
-  border-top: 12px solid var(--color-boni-like);
-  z-index: 1;
-}
-.home-coupon {
-  position: absolute; top: 0; right: 0;
-  background-image: url('@/assets/img/coupon.png');
-  background-size: cover;
-  padding: 2px 0 6px 8px;
-  width: 75px;
-  height: 35px
-}
+
 </style>

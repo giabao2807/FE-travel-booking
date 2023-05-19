@@ -1,5 +1,7 @@
 <template>
-  <v-container v-if="propItems.loading" class="height-400px">
+  <v-container
+    v-if="propItems.loading"
+  >
     <v-row
       class="fill-height"
       align-content="center"
@@ -9,14 +11,14 @@
         class="text-subtitle-1 text-center"
         cols="12"
       >
-        Getting data
+        <strong>Getting data</strong>
       </v-col>
-      <v-col cols="6">
+      <v-col cols="2">
         <v-progress-linear
-          color="deep-purple-accent-4"
+          color="primary"
           indeterminate
           rounded
-          height="10"
+          height="15"
         />
       </v-col>
     </v-row>
@@ -26,12 +28,14 @@
 import { defineProps, withDefaults } from 'vue'
 type Props = {
   loading: boolean,
+  width: string,
+  height: string,
 }
 const propItems = withDefaults(defineProps<Props>(), {
-  loading: false
+  loading: false,
+  width: '80px',
+  height: '200px'
 })
-
-console.log(propItems.loading)
 </script>
 
 <style scoped>

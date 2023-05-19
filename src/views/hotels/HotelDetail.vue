@@ -268,17 +268,29 @@
             width="400"
           >
             <v-card-title class="ml-n5">
-              <v-list-item>
-                <template #prepend>
-                  <v-avatar
-                    color="grey-darken-3"
-                    :image="review?.owner.avatar"
-                  />
-                </template>
+              <v-row>
+                <v-col>
+                  <v-list-item>
+                    <template #prepend>
+                      <v-avatar
+                        color="grey-darken-3"
+                        :image="review?.owner.avatar"
+                      />
+                    </template>
 
-                <v-list-item-title>{{ review?.owner.name }}</v-list-item-title>
-                <v-list-item-subtitle>{{ review?.title }}</v-list-item-subtitle>
-              </v-list-item>
+                    <v-list-item-title>
+                      {{ review?.owner.name }}
+                      <br>
+                      {{ review?.title }}
+                    </v-list-item-title>
+                  </v-list-item>
+                </v-col>
+                <v-col cols="3">
+                  <span class="text-caption text-medium-emphasis">
+                    {{ new Date(review?.updatedAt).toLocaleDateString("en-GB").split("/").reverse().join("/") }}
+                  </span>
+                </v-col>
+              </v-row>
             </v-card-title>
             <v-card-text>
               <v-lazy
@@ -343,7 +355,10 @@
                   </template>
                   <v-list-item width="90%">
                     <v-row class="align-center justify-space-between">
-                      <v-col cols="9"><h4>{{ item?.title }}</h4></v-col>
+                      <v-col cols="9">
+                        <h4>{{ item?.title }}</h4>
+                        <span class="text-caption text-medium-emphasis">{{ item?.updatedAt }}</span>
+                      </v-col>
                       <v-col>
                         <v-rating
                           :model-value="item?.rate"
@@ -356,7 +371,7 @@
                         />
                       </v-col>
                     </v-row>
-                    <v-list-item-subtitle>{{ item?.content }}</v-list-item-subtitle>
+                    <v-list-item-subtitle class="my-1">{{ item?.content }}</v-list-item-subtitle>
                   </v-list-item>
                 </v-timeline-item>
               </v-timeline>
