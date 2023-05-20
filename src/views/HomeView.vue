@@ -14,17 +14,21 @@
         class="home-toolbar rounded-xl"
       >
         <v-card-text>
-          <v-text-field
+          <v-autocomplete
+            :items="allCities"
             label="City"
             name="city"
-            prepend-icon="mdi-map-marker-radius-outline"
             color="primary"
+            prepend-icon="mdi-map-marker-radius-outline"
+            item-title="name"
+            item-value="id"
+            placeholder="Select..."
             variant="underlined"
-            hide-details="auto"
-            class="mx-5"
+            class="ma-5"
           />
           <div class="d-flex align-center flex-wrap ma-5">
             <v-text-field
+              v-model="filterPanel.startDate"
               label="Start Date"
               name="startDate"
               type="Date"
@@ -81,17 +85,16 @@
     </v-container>
     <v-container fluid class="home-panel-tour">
       <div class="text-align-center">
-        <h2 class="heading-secondary">
+        <h2 class="heading-secondary font-bungee">
           Điểm đến yêu thích trong nước
         </h2>
       </div>
-      <v-divider :thickness="2" class="mx-15" />
       <v-row class="ma-5">
         <v-col v-for="item in getCitiesPanel" :key="item.id" :cols="item.col">
           <n-image :src="item?.image" height="300" class="image-transform">
             <template #default>
               <div class="d-flex align-center justify-center fill-height image-container">
-                <span class="text">{{ item?.name }}</span>
+                <p class="text">{{ item?.name }}</p>
               </div>
             </template>
           </n-image>
@@ -100,7 +103,7 @@
     </v-container>
     <v-container fluid>
       <div class="text-align-center">
-        <h2 class="heading-secondary">
+        <h2 class="heading-secondary font-bungee">
           Những Tour Du Lịch Hấp Dẫn
         </h2>
       </div>
@@ -120,7 +123,7 @@
               height="200"
               :src="tour?.coverPicture"
             >
-              <v-card-title class="title-animation-tour font-weight-bold">
+              <v-card-title class="font-rowdies font-weight-bold">
                 {{ tour?.name }}
                 <v-tooltip
                   width="300"
@@ -185,7 +188,7 @@
             <v-card-actions>
               <v-spacer />
               <v-btn
-                color="deep-purple-lighten-2"
+                color="deep-purple-lighten-2  font-bungee"
                 variant="text"
               >
                 See More...
@@ -208,7 +211,7 @@
     </v-container>
     <v-container fluid class="section-features my-15">
       <div class="text-align-center">
-        <h2 class="heading-panel-2 mt-n2">
+        <h2 class="heading-panel-2 font-bungee mt-n2">
           Những khách sạn nổi bật
         </h2>
       </div>
@@ -265,12 +268,12 @@
               :src="hotel.coverPicture"
             >
               <div class="mx-2 mt-n1 home-coupon" variant="outlined">
-                <span class="font-weight-bold mx-auto" style="font-size: 15px">
+                <span class="font-weight-bold font-size-15 mx-auto">
                   {{ hotel?.couponData.discountPercent }}%
                 </span>
               </div>
               <div class="background-card-title">
-                <v-card-title class="title-animation font-weight-bold">
+                <v-card-title class="font-rowdies font-weight-bold">
                   {{ hotel?.name }}
                   <v-tooltip
                     activator="parent"
@@ -348,9 +351,11 @@ const {
   recomendCities,
   selectedCity,
   hotels,
+  allCities,
   popularTours,
   getCitiesPanel,
   loadingPanelHotel,
+  filterPanel,
   getTraffic,
   voteText,
   getRecomendHotelByCity
@@ -359,5 +364,4 @@ const { formatCurrency } = convertionType()
 </script>
 <style scoped>
 @import '@/assets/css/home.css';
-
 </style>

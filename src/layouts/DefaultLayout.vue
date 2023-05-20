@@ -13,7 +13,9 @@
         <n-image :src="require(`@/assets/img/app_bar.jpg`)" />
       </template>
       <v-app-bar-title>
-        <p class="header-title" @click="() => { router.push({ name: 'homepage' }), slideValue = undefined }">TraveNE</p>
+        <p class="header-title" @click="() => { router.push({ name: 'homepage' }), slideValue = undefined }">
+          TraveNE
+        </p>
       </v-app-bar-title>
       <v-slide-group
         v-model="slideValue"
@@ -38,7 +40,7 @@
                 toggle()
               }"
             >
-              {{ item }}
+              <p class="font-palanquin">{{ item }}</p>
             </v-btn>
             <div v-show="isSelected" class="my-n5 ml-7">
               <svg

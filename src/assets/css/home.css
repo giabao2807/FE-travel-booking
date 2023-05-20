@@ -83,7 +83,8 @@
   }
 }
 .home-panel-tour {
-  margin-top: 55px;
+  margin-top: 10rem;
+  margin-bottom: 3rem;
 }
 @media only screen and (max-width: 750px) {
   .home-panel-tour {
@@ -92,7 +93,7 @@
 }
 .heading-secondary {
   margin-top: 3rem;
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   text-transform: uppercase;
   font-weight: 700;
   display: inline-block;
@@ -102,7 +103,7 @@
 }
 .heading-panel-2 {
   margin-top: 3rem;
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   text-transform: uppercase;
   font-weight: 700;
   display: inline-block;

@@ -7,5 +7,5 @@ export const hanldeRoute = (paramRoute: any) => {
   setTimeout(() => {
     router.push(paramRoute)
     finishLoading()
-  }, 1500)
+  }, 1000)
 }

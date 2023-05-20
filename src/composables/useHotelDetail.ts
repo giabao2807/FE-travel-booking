@@ -1,25 +1,29 @@
-import { ref, onMounted, computed } from 'vue'
-import { useHotelStore, IParamReview, IParamRoomType } from '@/store/hotels'
-import { storeToRefs } from 'pinia'
+import { ref, computed, watchEffect } from 'vue'
+import { useHotelStore } from '@/store/hotels'
 import { createSharedComposable } from '@vueuse/core'
 import { IFilterDate } from '@/libs/types/commonType'
 import { convertionType } from '@/helpers/convertion'
 import { useRoute } from 'vue-router'
+import { IDetailHotel, IHotel, IParamReview, IParamRoomType, IReview, IRoomType } from '@/libs/types/hotelType'
 
 const createHotelDetail = () => {
   const hotelStore = useHotelStore()
-  const { hotel, rooms } = storeToRefs(hotelStore)
-  const { deCodeHtml } = convertionType()
   const route = useRoute()
-  const hotelId = route.params.id as string
+  const anotherHotels = ref<IHotel[]>([])
+  const hotelInfo = ref<IDetailHotel>()
+  const rooms = ref<IRoomType[]>([])
+  const { deCodeHtml } = convertionType()
   const filterDetail = ref<IFilterDate>({
     startDate: '',
     endDate: ''
   })
-  const firstPageReview = ref<any>()
-  const dataReview = ref<any>()
-  const loadingReview = ref<boolean>(true)
+  const firstPageReview = ref<IReview[]>([])
+  const dataReview = ref<IReview[]>([])
+  const pageReview = ref<number>(1)
+  const loadingReview = ref<boolean>(false)
   const dialogReview = ref<boolean>(false)
+  const loadingHotels = ref<boolean>(false)
+  const hotelId = computed(() => route.params.id as string)
 
   const minDate = (date: Date) => date.toISOString().slice(0, 10)
   const countDate = computed(() => {
@@ -32,54 +36,65 @@ const createHotelDetail = () => {
     }
     return null
   })
-
-  const getHotelById = async(id: string) => {
-    await hotelStore.getHotelSumaryById(id)
-    await hotelStore.getRoomTypeById({ id: id })
+  const getRooms = (idHotel: string) => {
+    hotelStore.getRoomTypeById({ id: idHotel })
+      .then(data => rooms.value = data)
   }
 
-  const getRoomByDate = async() => {
-    const params: IParamRoomType = ({
-      id: hotelId,
-      startDate: filterDetail.value.startDate,
-      endDate: filterDetail.value.endDate
-    })
-    await hotelStore.getRoomTypeById(params)
+  const getRoomByDate = (params: IParamRoomType) => {
+    hotelStore.getRoomTypeById(params)
+      .then(data => rooms.value = data)
   }
 
-  const initParamReview = ref<IParamReview>({
-    id: hotelId,
-    page: 1,
-    pageSize: 12
-  })
-  const getFirstPageReviews = async() => {
-    await hotelStore.getReviewsHotel(initParamReview.value)
+  const getFirstPageReviews = (params: IParamReview) => {
+    hotelStore.getReviewsHotel(params)
       .then(data => firstPageReview.value = data)
   }
 
-  const getReviews = async(params: IParamReview = initParamReview.value) => {
+  const getReviews = (params: IParamReview) => {
     loadingReview.value = true
-    await hotelStore.getReviewsHotel(params)
+    hotelStore.getReviewsHotel(params)
       .then(data => {
         dataReview.value = data
         loadingReview.value = false
       })
   }
 
-  onMounted(() => {
-    getHotelById(hotelId)
-    getFirstPageReviews()
+  const getAnotherHotelsByCity = async(id: string) => {
+    loadingHotels.value = true
+    await hotelStore.getHotelByCity({ cityId: hotelInfo.value?.city })
+      .then(data => {
+        anotherHotels.value = data.results.filter((item: IHotel) => item.id !== id)
+      })
+    loadingHotels.value = false
+  }
+
+  const getHotelById = async(id: string) => {
+    await hotelStore.getHotelSumaryById(id)
+      .then(data => hotelInfo.value = data)
+    getRooms(id)
+    getAnotherHotelsByCity(id)
+  }
+
+  watchEffect(async() => {
+    hotelId.value
+    if (hotelId.value) {
+      pageReview.value = 1
+      await getHotelById(hotelId.value)
+      getFirstPageReviews({ id: hotelId.value })
+    }
   })
   return {
-    hotel,
+    hotelInfo,
     rooms,
     filterDetail,
     countDate,
     firstPageReview,
     dataReview,
-    initParamReview,
     dialogReview,
     loadingReview,
+    anotherHotels,
+    pageReview,
     minDate,
     deCodeHtml,
     getRoomByDate,

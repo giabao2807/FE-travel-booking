@@ -6,7 +6,7 @@
     :style="styleButton"
     @click="$emit('click', $event)"
   >
-    {{ label }}
+    <span class="font-palanquin btn-text">{{ label }}</span>
   </button>
 </template>
 <script lang="ts" setup>
@@ -89,5 +89,8 @@ const props = withDefaults(defineProps<Props>(), {
 .btn--animated {
   animation: moveInBottom .5s ease-out .75s;
   animation-fill-mode: backwards;
+}
+.btn-text {
+  font-size: 18px
 }
 </style>

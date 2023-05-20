@@ -22,10 +22,17 @@ export type IError = IFeedBack & {
 }
 
 export type IParamPage = {
-  pageSize: number,
-  page: number
+  pageSize?: number,
+  page?: number
 }
 export type IFilterDate = {
-    startDate: string,
-    endDate: string
+  startDate: string,
+  endDate: string
+}
+export type ICityText = {
+ id: number,
+ createdAt: string,
+ name: string,
+ zipcode: string,
+ country: string,
 }

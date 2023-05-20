@@ -105,6 +105,18 @@
   .card-desc-text {
     height: 80%;
   }
+  .card-item-bg {
+    background-color: var(--color-bg-card-second)
+  }
+  .card-content-coupon {
+    position: absolute; top: 0; right: 0;
+    background-image: url('@/assets/img/coupon5.png');
+    background-size: cover;
+    padding-top: 8px;
+    padding-left: 6px;
+    width: 40px;
+    height: 80px
+  }
   .card-expansion {
     top: 0;
     left: 0;

@@ -1,13 +1,23 @@
-import { computed, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { IFilterDate } from '@/libs/types/commonType'
 import { createSharedComposable } from '@vueuse/core'
 import { useHotelUtil } from './useHotel'
 import { useTourUtil } from './useTour'
 import { COMMENTRATE, PANEL_IMAGE } from '@/resources/mockData'
-import { ICity } from '@/store/hotels'
+import { ICity } from '@/libs/types/tourType'
+
 export type IImageCol = ICity & {
   col?: number
 }
+export type IFilterPanel = IFilterDate & {
+  cityId: number
+}
 const useHome = () => {
+  const filterPanel = ref<IFilterPanel>({
+    cityId: 0,
+    startDate: '',
+    endDate: ''
+  })
   const {
     hotels,
     recomendCities,
@@ -16,7 +26,13 @@ const useHome = () => {
     getRecomendHotelByCity,
     getRecomendCities
   } = useHotelUtil()
-  const { popularTours, getTraffic, getPopularTours } = useTourUtil()
+  const {
+    popularTours,
+    allCities,
+    getTraffic,
+    getPopularTours,
+    getAllCities
+  } = useTourUtil()
   const voteText = (rate: number) => {
     if (rate > 4.5) {
       return COMMENTRATE[0]
@@ -36,8 +52,10 @@ const useHome = () => {
   })
   onMounted(async()=>{
     await getRecomendCities()
-    getRecomendHotelByCity(selectedCity.value)
     await getPopularTours()
+    getRecomendHotelByCity(selectedCity.value)
+    getAllCities()
+    console.log(allCities)
   })
 
   return {
@@ -47,6 +65,8 @@ const useHome = () => {
     popularTours,
     getCitiesPanel,
     loadingPanelHotel,
+    allCities,
+    filterPanel,
     getTraffic,
     voteText,
     getRecomendHotelByCity

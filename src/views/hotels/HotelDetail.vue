@@ -1,6 +1,6 @@
 <template>
   <v-sheet class="container-detail">
-    <v-sheet>
+    <v-container fluid class="pa-0">
       <v-sheet>
         <v-carousel
           cycle
@@ -9,7 +9,7 @@
           hide-delimiter-background
         >
           <v-carousel-item
-            v-for="(item, i) in hotel?.listImages"
+            v-for="(item, i) in hotelInfo?.listImages"
             :key="i"
             :src="item"
             cover
@@ -33,7 +33,7 @@
                 justify="center"
               >
                 <h1 class="heading-primary text-custom-shadow">
-                  <span class="heading-main">{{ hotel?.name }}</span>
+                  <span class="heading-main">{{ hotelInfo?.name }}</span>
                 </h1>
               </v-row>
             </template>
@@ -89,7 +89,7 @@
           </div>
         </v-card-text>
       </v-card>
-    </v-sheet>
+    </v-container>
     <v-sheet class="mx-5 rooms-detail">
       <v-row align="center" justify="center">
         <h2 class="heading-secondary">Thông Tin Phòng Khách Sạn</h2>
@@ -191,17 +191,17 @@
       <v-row class="mx-0">
         <v-col class="px-0">
           <div class="position-relative">
-            <n-image :src="hotel?.listImages[1]" height="600" class="composition__photo" />
+            <n-image :src="hotelInfo?.listImages[1]" height="600" class="composition__photo" />
           </div>
         </v-col>
         <v-col class="px-0">
           <v-card elevation="12" class="mr-10 card-decs-detail">
             <v-card-text class="mt-5 mx-5 card-desc-text">
-              <div class="intro-hotel" v-html="deCodeHtml('section.htdt-description', hotel?.descriptions)[0]" />
+              <div class="intro-hotel" v-html="deCodeHtml('section.htdt-description', hotelInfo?.descriptions)[0]" />
               <v-divider class="mx-5 my-2" />
               <div class="d-flex mt-2">
                 <n-image
-                  v-for="item in hotel?.listImages.slice(2, 5)"
+                  v-for="item in hotelInfo?.listImages.slice(2, 5)"
                   :key="item"
                   :src="item"
                   class="mx-1 max-height-150"
@@ -221,7 +221,7 @@
         <v-card-text class="ma-5">
           <v-row>
             <v-col>
-              <div v-html="deCodeHtml('section.htdt-description', hotel?.descriptions)[1]" />
+              <div v-html="deCodeHtml('section.htdt-description', hotelInfo?.descriptions)[1]" />
             </v-col>
             <v-col class="custom-c-iamge">
               <n-image class="custom-image" src="https://images.template.net/18017/Travel-Agent-Hotel-Voucher-0.jpg" />
@@ -230,14 +230,13 @@
         </v-card-text>
       </v-card>
     </v-container>
-    <v-sheet />
     <v-sheet class="ma-5 pa-5 rounded-xl">
       <v-row>
         <v-col cols="4" class="mt-5">
-          <h2>Hotel: {{ hotel?.name }}</h2>
-          <p>Address: {{ hotel?.address }}</p>
+          <h2>Hotel: {{ hotelInfo?.name }}</h2>
+          <p>Address: {{ hotelInfo?.address }}</p>
           <iframe
-            :src="`https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d30686.57175578836!2d${hotel?.longitude}!3d${hotel?.latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1684080267215!5m2!1svi!2s`"
+            :src="`https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d30686.57175578836!2d${hotelInfo?.longitude}!3d${hotelInfo?.latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1684080267215!5m2!1svi!2s`"
             loading="lazy"
             width= "100%"
             height= "400"
@@ -245,7 +244,7 @@
           />
         </v-col>
         <v-col cols="8">
-          <div v-html="hotel?.rules" />
+          <div v-html="hotelInfo?.rules" />
         </v-col>
       </v-row>
     </v-sheet>
@@ -319,7 +318,7 @@
               color="primary"
               variant="outlined"
               v-bind="props"
-              @click="() => getReviews()"
+              @click="() => getReviews({ id: hotelInfo.id })"
             >
               Xem thêm ...
             </v-btn>
@@ -379,17 +378,96 @@
             <div class="text-center">
               <v-pagination
                 v-if="dataReview"
-                v-model="initParamReview.page"
+                v-model="pageReview"
                 :total-visible="5"
                 :length="dataReview?.pageNumber"
-                @update:modelValue="() => getReviews(initParamReview)"
+                @update:modelValue="() => getReviews({ id: hotelInfo.id, page: pageReview })"
               />
             </div>
           </v-card>
         </v-dialog>
       </div>
     </v-sheet>
-    <v-spacer class="pa-2" />
+    <v-sheet color="transparent" class="pa-2">
+      <div class="text-center">
+        <h2>Những Khách Sạn Khác</h2>
+      </div>
+      <v-slide-group
+        v-model="model"
+        class="pa-4"
+        selected-class="bg-success"
+        show-arrows
+      >
+        <v-slide-group-item
+          v-for="item in anotherHotels"
+          :key="item.id"
+        >
+          <v-card
+            class="ma-5"
+            width="300"
+            @click="()=> hanldeRoute({ name: 'hotelDetail', params: { id: item?.id } })"
+          >
+            <n-image
+              class="align-end text-white"
+              height="100%"
+              :src="item?.coverPicture"
+            >
+              <div class="mx-2 mt-n1 card-content-coupon" variant="outlined">
+                <span class="text-h7 font-weight-bold mx-auto">
+                  {{ item?.couponData.discountPercent }}%
+                </span>
+              </div>
+              <div class="card-item-bg">
+                <v-card-title class="font-weight-bold">
+                  {{ item?.name }}
+                  <v-tooltip
+                    activator="parent"
+                    :text="item?.name"
+                    location="top"
+                  />
+                </v-card-title>
+                <v-card-text class="pt-2">
+                  <v-row justify-space-between>
+                    <v-col>
+                      <v-icon class="mr-2" color="primary" icon="mdi-vote-outline" />
+                      <v-chip
+                        color="primary"
+                        size="small"
+                        label
+                        text-color="white"
+                      >
+                        {{ item?.numReview }}
+                      </v-chip>
+                    </v-col>
+                    <v-col>
+                      <v-rating
+                        :model-value="item?.rateAverage"
+                        color="amber"
+                        density="compact"
+                        half-increments
+                        readonly
+                        size="small"
+                      />
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+                <v-card-actions>
+                  <v-icon icon="mdi-cash-multiple" size="18" class="ml-1 mb-1 animate-charcter" />
+                  <p class="mx-2 animate-charcter">{{ item?.priceRange }}</p>
+                  <v-spacer />
+                  <v-icon
+                    size="18"
+                    class="mr-3"
+                    color="primary"
+                    icon="mdi-page-next-outline"
+                  />
+                </v-card-actions>
+              </div>
+            </n-image>
+          </v-card>
+        </v-slide-group-item>
+      </v-slide-group>
+    </v-sheet>
   </v-sheet>
 </template>
 <script lang="ts" setup>
@@ -398,16 +476,19 @@ import NPanelLoading from '@/components/NPanelLoading.vue'
 import '@/assets/scss/detail.scss'
 import { useHotelDetailUtil } from '@/composables/useHotelDetail'
 import { convertionType } from '@/helpers/convertion'
+import { hanldeRoute } from '@/helpers/loadingRoute'
+
 const {
-  hotel,
+  anotherHotels,
+  hotelInfo,
   rooms,
   filterDetail,
   countDate,
   firstPageReview,
   dataReview,
-  initParamReview,
   dialogReview,
   loadingReview,
+  pageReview,
   minDate,
   deCodeHtml,
   getRoomByDate,
@@ -425,6 +506,9 @@ const changeEndDate = () => {
   }
   .font-bold {
     font-weight: bold;
+  }
+  article {
+    line-height: 1.5
   }
   .txt-justify {
     margin-left: 10px;
