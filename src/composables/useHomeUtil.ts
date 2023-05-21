@@ -55,7 +55,6 @@ const useHome = () => {
     await getPopularTours()
     getRecomendHotelByCity(selectedCity.value)
     getAllCities()
-    console.log(allCities)
   })
 
   return {

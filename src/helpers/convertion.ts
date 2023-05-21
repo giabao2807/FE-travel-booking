@@ -1,6 +1,6 @@
 export const convertionType = () => {
   const formatCurrency = (item: number) => {
-    return item.toLocaleString('vi', { style : 'currency', currency : 'VND' })
+    return item?.toLocaleString('vi', { style : 'currency', currency : 'VND' })
   }
   const deCodeHtml = (tagCut: string, html?: string) => {
     const container = document.createElement('div')

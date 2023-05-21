@@ -90,7 +90,7 @@
               @click:append-inner="showConfirmPassword = !showConfirmPassword"
             />
             <div class="text-center">
-              <n-button-animated label="Đăng ký" />
+              <n-button-animated label="Sign Up" />
               <div class="ma-4">
                 <span class="double-line text-medium-emphasis">Hoặc đăng ký với
                   <v-avatar size="x-small" @click="signUpWithGoogle">

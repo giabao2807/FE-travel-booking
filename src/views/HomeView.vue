@@ -22,6 +22,7 @@
             prepend-icon="mdi-map-marker-radius-outline"
             item-title="name"
             item-value="id"
+            hide-details="auto"
             placeholder="Select..."
             variant="underlined"
             class="ma-5"
@@ -85,7 +86,7 @@
     </v-container>
     <v-container fluid class="home-panel-tour">
       <div class="text-align-center">
-        <h2 class="heading-secondary font-bungee">
+        <h2 class="heading-secondary font-bungee my-5">
           Điểm đến yêu thích trong nước
         </h2>
       </div>
@@ -94,7 +95,7 @@
           <n-image :src="item?.image" height="300" class="image-transform">
             <template #default>
               <div class="d-flex align-center justify-center fill-height image-container">
-                <p class="text">{{ item?.name }}</p>
+                <p class="text shadow-text font-size-20">{{ item?.name }}</p>
               </div>
             </template>
           </n-image>
@@ -123,7 +124,9 @@
               height="200"
               :src="tour?.coverPicture"
             >
-              <v-card-title class="font-rowdies font-weight-bold">
+              <v-card-title
+                class="font-rowdies font-weight-bold shadow-text"
+              >
                 {{ tour?.name }}
                 <v-tooltip
                   width="300"
@@ -188,7 +191,8 @@
             <v-card-actions>
               <v-spacer />
               <v-btn
-                color="deep-purple-lighten-2  font-bungee"
+                class="font-bungee"
+                color="primary"
                 variant="text"
               >
                 See More...
@@ -231,7 +235,7 @@
           >
             <div class="align-center justify-center">
               <v-btn
-                class="mx-5 title-group"
+                class="mx-5 title-group font-weight-600"
                 size="large"
                 rounded
                 variant="text"
@@ -264,7 +268,7 @@
           >
             <n-image
               class="align-end text-white"
-              height="100%"
+              height="40%"
               :src="hotel.coverPicture"
             >
               <div class="mx-2 mt-n1 home-coupon" variant="outlined">
@@ -272,66 +276,67 @@
                   {{ hotel?.couponData.discountPercent }}%
                 </span>
               </div>
-              <div class="background-card-title">
-                <v-card-title class="font-rowdies font-weight-bold">
-                  {{ hotel?.name }}
-                  <v-tooltip
-                    activator="parent"
-                    :text="hotel?.name"
-                    location="top"
-                  />
-                </v-card-title>
-                <v-card-text class="pt-2">
-                  <v-row align="center" justify="center">
-                    <v-col>
-                      <div>
-                        <v-icon :icon="voteText(hotel?.rateAverage).icon" color="primary" class="mr-1" />
-                        <strong class="text-disabled">{{ voteText(hotel?.rateAverage).name }}</strong>
-                      </div>
-                    </v-col>
-                    <v-col>
-                      <v-rating
-                        :model-value="hotel?.rateAverage"
-                        color="amber"
-                        density="compact"
-                        half-increments
-                        readonly
-                        size="small"
-                      />
-                    </v-col>
-                  </v-row>
-                  <div class="mt-2">
-                    <v-icon color="primary" icon="mdi-vote-outline" />
-                    <strong class="text-disabled font-size-min-rem ml-2 mb-n2">Đánh giá -
-                      <v-chip
-                        color="primary"
-                        size="small"
-                        label
-                        text-color="white"
-                      >
-                        {{ hotel?.numReview }}
-                      </v-chip>
-                    </strong>
-                  </div>
-                </v-card-text>
-                <v-divider color="#000" class="mx-5" />
-                <div class="ma-2 height-40px">
-                  <v-icon color="primary" icon="mdi-map-marker-outline" />
-                  <span class="text-disabled font-size-min-rem">{{ hotel.address }}</span>
-                </div>
-                <v-card-actions>
-                  <v-icon icon="mdi-cash-multiple" size="18" class="ml-1 mb-1 animate-charcter" />
-                  <p class="mx-2 animate-charcter">{{ hotel?.priceRange }}</p>
-                  <v-spacer />
-                  <v-icon
-                    size="18"
-                    class="mr-3"
-                    color="primary"
-                    icon="mdi-page-next-outline"
-                  />
-                </v-card-actions>
-              </div>
             </n-image>
+            <div class="background-card-title">
+              <v-card-title class="font-rowdies font-weight-bold">
+                {{ hotel?.name }}
+                <v-tooltip
+                  activator="parent"
+                  :text="hotel?.name"
+                  location="top"
+                />
+              </v-card-title>
+              <v-card-text class="pt-2">
+                <v-row class="pa-0" align="center" justify="center">
+                  <v-col>
+                    <v-icon :icon="voteText(hotel?.rateAverage).icon" color="primary" class="mr-1" />
+                    <strong class="font-size-min-rem">{{ voteText(hotel?.rateAverage).name }}</strong>
+                  </v-col>
+                  <v-col>
+                    <v-rating
+                      :model-value="hotel?.rateAverage"
+                      color="amber"
+                      density="compact"
+                      half-increments
+                      readonly
+                      size="small"
+                    />
+                  </v-col>
+                </v-row>
+                <v-row class="mt-0 pa-0" align="center" justify="center">
+                  <v-col>
+                    <v-icon color="primary" icon="mdi-vote-outline" />
+                    <strong class="font-size-min-rem ml-2 mb-n3">Đánh giá</strong>
+                  </v-col>
+                  <v-col>
+                    <v-chip
+                      color="primary"
+                      size="small"
+                      label
+                      text-color="white"
+                    >
+                      {{ hotel?.numReview }}
+                    </v-chip>
+                  </v-col>
+                </v-row>
+              </v-card-text>
+              <v-divider color="#000" class="mx-5" />
+              <div class="mx-3 my-1 height-40px">
+                <v-icon color="primary" icon="mdi-map-marker-outline" />
+                <span class="font-size-min-rem">{{ hotel.address }}</span>
+              </div>
+              <v-card-actions class="mx-2">
+                <v-icon icon="mdi-cash-multiple" size="18" class="mb-1 animate-charcter" />
+                <p class="mx-2 animate-charcter">{{ hotel?.priceRange }}</p>
+                <v-spacer />
+                <v-icon
+                  size="18"
+                  class="mr-3"
+                  color="primary"
+                  icon="mdi-page-next-outline"
+                />
+              </v-card-actions>
+            </div>
           </v-card>
         </v-col>
       </v-row>

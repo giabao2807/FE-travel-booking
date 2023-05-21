@@ -46,7 +46,7 @@
               </n-dialog>
             </div>
             <div class="text-center">
-              <n-button-animated label="Đăng Nhập" />
+              <n-button-animated label="Sign In" />
               <div class="ma-4">
                 <span class="double-line text-medium-emphasis">Hoặc đăng nhập với
                   <v-avatar class="btn-g" size="x-small" @click="signInWithGoogle">
