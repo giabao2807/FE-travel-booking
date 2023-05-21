@@ -124,6 +124,11 @@
               height="200"
               :src="tour?.coverPicture"
             >
+              <div class="mx-2 mt-n1 home-tour-coupon" variant="outlined">
+                <span class="font-weight-bold font-size-15 mx-auto">
+                  {{ tour?.couponData.discountPercent }}%
+                </span>
+              </div>
               <v-card-title
                 class="font-rowdies font-weight-bold shadow-text"
               >
@@ -161,7 +166,10 @@
                   {{ tour?.rate }} ({{ tour?.numReview }})
                 </div>
               </v-row>
-              <div class="d-flex align-center justify-space-between my-5">
+              <div class="mt-5 mb-2 revome-text">
+                {{ formatCurrency(tour?.price) }}
+              </div>
+              <div class="d-flex align-center justify-space-between mb-3">
                 <div class="text-subtitle-1 animate-charcter">
                   <v-icon icon="mdi-cash-multiple" class="mt-n2 animate-charcter" />
                   {{ formatCurrency(tour?.price) }}
@@ -341,6 +349,47 @@
         </v-col>
       </v-row>
     </v-container>
+    <v-container class="my-10">
+      <div class="text-center mb-8">
+        <h3 class="text-primary text-uppercase">Services</h3>
+        <h1 class="heading-secondary font-bungee mt-n2">Tours & Travel Services</h1>
+      </div>
+      <v-row>
+        <v-col>
+          <v-card width="350" height="300">
+            <v-card-text class="text-center">
+              <v-icon size="50" icon="mdi-map-marker-path" />
+              <h2 class="ma-5">Travel Guide</h2>
+              <p class="ma-5">
+                Travel information to inspire global travellers.
+                From cities to airports, cruise ports to ski and beach resorts, attractions to events, our guides provide ...
+              </p>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col>
+          <v-card width="350" height="300">
+            <v-card-text class="text-center">
+              <v-icon size="50" icon="mdi-ticket-percent-outline" />
+              <h2 class="ma-5">Ticket Booking</h2>
+              <p class="ma-5">
+                Enjoy Easy Cancellation & Instant Refunds with Flexible Date Change of Flight Tickets.
+                Easily compare and book from a wide selection of International flights on MakeMyTrip.
+              </p>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col>
+          <v-card width="350" height="300">
+            <v-card-text class="text-center">
+              <v-icon size="50" icon="mdi-home-city-outline" />
+              <h2 class="ma-5">Hotel Booking</h2>
+              <p class="ma-5">I just made a hotel booking for my upcoming trip to ensure a comfortable stay during my travels.</p>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
   </v-sheet>
 </template>
 <script lang="ts" setup>
@@ -362,11 +411,11 @@ const {
   loadingPanelHotel,
   filterPanel,
   getTraffic,
-  voteText,
   getRecomendHotelByCity
 } = useHomeUtil()
-const { formatCurrency } = convertionType()
+const { formatCurrency, voteText } = convertionType()
 </script>
 <style scoped>
 @import '@/assets/css/home.css';
+
 </style>

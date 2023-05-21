@@ -2,43 +2,19 @@
   <v-sheet class="container-detail">
     <v-container fluid class="pa-0">
       <v-sheet>
-        <v-carousel
-          cycle
-          show-arrows="hover"
-          hide-delimiters
-          hide-delimiter-background
-        >
-          <v-carousel-item
-            v-for="(item, i) in hotelInfo?.listImages"
-            :key="i"
-            :src="item"
-            cover
-          >
-            <template #placeholder>
-              <v-row
-                class="fill-height ma-0"
-                align="center"
-                justify="center"
-              >
-                <v-progress-circular
-                  indeterminate
-                  color="primary"
-                />
-              </v-row>
-            </template>
-            <template #default>
-              <v-row
-                class="fill-height mt-n10"
-                align="center"
-                justify="center"
-              >
-                <h1 class="heading-primary text-custom-shadow">
-                  <span class="heading-main">{{ hotelInfo?.name }}</span>
-                </h1>
-              </v-row>
-            </template>
-          </v-carousel-item>
-        </v-carousel>
+        <n-carousel :data="hotelInfo?.listImages">
+          <template #default>
+            <v-row
+              class="fill-height mt-n10 ma-2"
+              align="center"
+              justify="center"
+            >
+              <h1 class="heading-primary text-custom-shadow">
+                <span class="heading-main">{{ hotelInfo?.name }}</span>
+              </h1>
+            </v-row>
+          </template>
+        </n-carousel>
       </v-sheet>
       <v-card
         elevation="10"
@@ -104,7 +80,8 @@
           <v-card elevation="12" class="card-detail">
             <v-row>
               <v-col>
-                <v-carousel
+                <n-carousel class="carousel" height="300" />
+                <!-- <v-carousel
                   class="carousel"
                   height="300"
                   cycle
@@ -133,7 +110,7 @@
                       </v-row>
                     </template>
                   </v-carousel-item>
-                </v-carousel>
+                </v-carousel> -->
               </v-col>
               <v-col cols="6">
                 <v-card-title class="text-h5">
@@ -472,6 +449,7 @@
 </template>
 <script lang="ts" setup>
 import NImage from '@/components/NImage.vue'
+import NCarousel from '@/components/NCarousel.vue'
 import NPanelLoading from '@/components/NPanelLoading.vue'
 import '@/assets/scss/detail.scss'
 import { useHotelDetailUtil } from '@/composables/useHotelDetail'

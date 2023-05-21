@@ -3,7 +3,7 @@ import { IFilterDate } from '@/libs/types/commonType'
 import { createSharedComposable } from '@vueuse/core'
 import { useHotelUtil } from './useHotel'
 import { useTourUtil } from './useTour'
-import { COMMENTRATE, PANEL_IMAGE } from '@/resources/mockData'
+import { PANEL_IMAGE } from '@/resources/mockData'
 import { ICity } from '@/libs/types/tourType'
 
 export type IImageCol = ICity & {
@@ -33,18 +33,7 @@ const useHome = () => {
     getPopularTours,
     getAllCities
   } = useTourUtil()
-  const voteText = (rate: number) => {
-    if (rate > 4.5) {
-      return COMMENTRATE[0]
-    }
-    else if (rate >= 4) {
-      return COMMENTRATE[1]
-    }
-    else if (rate >= 3) {
-      return COMMENTRATE[2]
-    }
-    return COMMENTRATE[3]
-  }
+
   const getCitiesPanel = computed(() => {
     const citiesCols: IImageCol[] = []
     recomendCities.value?.slice(0, 5).forEach((item, index) => citiesCols.push({ ...PANEL_IMAGE[index], ...item }))
@@ -67,7 +56,6 @@ const useHome = () => {
     allCities,
     filterPanel,
     getTraffic,
-    voteText,
     getRecomendHotelByCity
   }
 }

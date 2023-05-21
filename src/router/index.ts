@@ -10,6 +10,7 @@ import PartnerView from '@/views/dashboard/partner/index.vue'
 import AdminView from '@/views/dashboard/admin/index.vue'
 import HotelsView from '@/views/hotels/HotelsView.vue'
 import HotelDetail from '@/views/hotels/HotelDetail.vue'
+import UserView from '@/views/user/index.vue'
 import requireAuth from '@/router/guard'
 
 const routes: Array<RouteRecordRaw> = [
@@ -23,7 +24,8 @@ const routes: Array<RouteRecordRaw> = [
       { path: 'tours', name:'tours', component: ToursView },
       { path: 'tour/:id', name:'tourDetail', component: TourDetail },
       { path: 'hotels', name:'hotels', component: HotelsView },
-      { path: 'hotel/:id', name:'hotelDetail', component: HotelDetail }
+      { path: 'hotel/:id', name:'hotelDetail', component: HotelDetail },
+      { path: 'userinfo', name:'userInfo', component: UserView }
     ]
   },
   {

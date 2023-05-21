@@ -104,6 +104,7 @@
               <v-list-item
                 prepend-icon="mdi-information-box-outline"
                 title="Quản lí tài khoản"
+                @click="() => router.push({ name: 'userInfo' })"
               />
               <v-list-item
                 prepend-icon="mdi-logout"

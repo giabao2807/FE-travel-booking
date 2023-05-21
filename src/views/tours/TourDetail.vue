@@ -5,34 +5,14 @@
         <h1>
           {{ tourInfo?.name }}
         </h1>
+        <div class="mt-5">
+          <v-icon :icon="voteText(tourInfo?.rate).icon" color="primary" class="mr-1" />
+          <strong class="text-color-priamry">{{ voteText(tourInfo?.rate).name }}</strong>
+          |
+          <strong>{{ tourInfo?.numReview }} đánh giá.</strong>
+        </div>
         <v-sheet color="transparent">
-          <v-carousel
-            class="mt-5"
-            cycle
-            show-arrows="hover"
-            hide-delimiters
-            hide-delimiter-background
-          >
-            <v-carousel-item
-              v-for="(item, i) in tourInfo?.listImages"
-              :key="i"
-              :src="item"
-              cover
-            >
-              <template #placeholder>
-                <v-row
-                  class="fill-height ma-0"
-                  align="center"
-                  justify="center"
-                >
-                  <v-progress-circular
-                    indeterminate
-                    color="primary"
-                  />
-                </v-row>
-              </template>
-            </v-carousel-item>
-          </v-carousel>
+          <n-carousel class="mt-5" :data="tourInfo?.listImages" />
           <v-card color="transparent" class="pa-5">
             <v-row>
               <v-col>
@@ -83,7 +63,6 @@
                     readonly
                     size="small"
                   />
-                  {{ tourInfo?.rate }}
                 </v-row>
               </v-col>
             </v-row>
@@ -92,19 +71,19 @@
         <v-container>
           <v-card color="transparent" class="mx-0 rounded-xl" elevation="2">
             <v-card-text>
-              <h2 class="mt-2 mb-5 text-center">Những Trải Nghiệm Thú Vị</h2>
+              <h2 class="mt-2 mb-5 text-color-priamry text-center">Những Trải Nghiệm Thú Vị</h2>
               <div v-html="tourInfo?.descriptions" />
             </v-card-text>
           </v-card>
           <v-card color="transparent" class="my-5 rounded-xl" elevation="2">
             <v-card-text>
-              <h1 class="mt-2 mb-5 text-center">Chương Trình Tour</h1>
+              <h1 class="mt-2 mb-5 text-color-priamry text-center">Chương Trình Tour</h1>
               <div v-html="tourInfo?.scheduleContent" />
             </v-card-text>
           </v-card>
           <v-card color="transparent" class="my-5 rounded-xl" elevation="2">
             <v-card-text>
-              <h2 class="mt-2 mb-5 text-center">Những Lưu Ý Khi Tham Gia</h2>
+              <h2 class="mt-2 mb-5 text-color-priamry text-center">Những Lưu Ý Khi Tham Gia</h2>
               <div v-html="tourInfo?.note" />
             </v-card-text>
           </v-card>
@@ -165,18 +144,31 @@
             </v-card>
             <v-divider class="ma-5" />
             <v-row class="ml-3">
-              <v-col cols="6"><h3>Giá Tour:</h3></v-col>
+              <v-col cols="6">
+                <h5>
+                  <v-icon icon="mdi-ticket-percent-outline" />
+                  Giảm giá:
+                </h5>
+              </v-col>
               <v-col>
                 <h2 class="animate-charcter">
-                  {{ formatCurrency(tourInfo?.price) }}
+                  20%
                 </h2>
               </v-col>
             </v-row>
             <v-row class="ml-3">
-              <v-col cols="6"><h3>Tổng tiền:</h3></v-col>
+              <v-col cols="6"><h4>Giá Tour:</h4></v-col>
+              <v-col>
+                <h3 class="revome-text">
+                  <p>{{ formatCurrency(tourInfo?.price) }}</p>
+                </h3>
+              </v-col>
+            </v-row>
+            <v-row class="ml-3">
+              <v-col cols="6"><h4>Tổng tiền:</h4></v-col>
               <v-col>
                 <h2 class="animate-charcter">
-                  {{ formatCurrency(tourInfo?.price*bookingTour.amount) }}
+                  {{ formatCurrency(tourInfo?.price*bookingTour.amount-(0.2*tourInfo?.price)) }}
                 </h2>
               </v-col>
             </v-row>
@@ -198,9 +190,10 @@
 <script lang="ts" setup>
 import { useTourDetail } from '@/composables/useTourDetail'
 import { convertionType } from '@/helpers/convertion'
+import NCarousel from '@/components/NCarousel.vue'
 
 const { tourInfo, getTraffic, bookingTour, hanldeAmount } = useTourDetail()
-const { formatCurrency } = convertionType()
+const { formatCurrency, voteText } = convertionType()
 </script>
 
 <style lang="scss" scoped>

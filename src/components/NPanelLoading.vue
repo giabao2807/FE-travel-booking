@@ -28,13 +28,9 @@
 import { defineProps, withDefaults } from 'vue'
 type Props = {
   loading: boolean,
-  width: string,
-  height: string,
 }
 const propItems = withDefaults(defineProps<Props>(), {
-  loading: false,
-  width: '80px',
-  height: '200px'
+  loading: false
 })
 </script>
 

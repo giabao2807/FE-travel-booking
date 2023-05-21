@@ -160,11 +160,13 @@
 }
 
 .element-card {
+  cursor: pointer;
   width: 300px;
   height: 400px;
 	transition: all 0.6s cubic-bezier(0.680, -0.550, 0.265, 1.550);
   border: 1px solid #FFF;
   border-radius: 15px;
+  box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
 }
 .element-card:hover {
   border: 1px solid #000;
@@ -317,18 +319,22 @@ white-space: nowrap;
 overflow: hidden;
 animation: run-left 5s linear infinite;
 }
+.image-transform {
+  cursor: pointer;
+  transition: all 0.6s cubic-bezier(0.680, -0.550, 0.265, 1.550);
+}
 .image-transform:hover {
   transform: scale(1.08);
   z-index: 2;
 }
 .image-container:hover {
-    -webkit-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-    overflow: hidden;
-    outline: 2px solid var(--color-border-white);
-    outline-offset: -15px;
-    box-shadow: 5px 10px 40px 5px rgba(0,0,0,0.5);
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  overflow: hidden;
+  outline: 2px solid var(--color-border-white);
+  outline-offset: -15px;
+  box-shadow: 5px 10px 40px 5px rgba(0,0,0,0.5);
 }
 .image-container .text {
   font-size: 2rem;
@@ -352,4 +358,17 @@ animation: run-left 5s linear infinite;
   padding-left: 6px;
   width: 40px;
   height: 80px
+}
+.home-tour-coupon {
+  position: absolute; top: 0; right: 0;
+  background-image: url('@/assets/img/coupon5.png');
+  background-size: cover;
+  padding-top: 8px;
+  padding-left: 6px;
+  width: 40px;
+  height: 80px
+}
+
+.revome-text {
+  text-decoration: line-through var(--txt-shadow-color);
 }

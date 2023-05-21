@@ -83,3 +83,6 @@
 .shadow-text {
   text-shadow: -3px 2px 0px #363333;
 }
+.text-color-priamry {
+  color: var(--txt-shadow-color);
+}
