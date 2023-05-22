@@ -24,8 +24,8 @@
         class="width-50 mb-n1"
       >
         <v-slide-group-item
-          v-for="item in ['Tours', 'Hotels', 'Bookings', 'FAQ']"
-          :key="item"
+          v-for="item in HEADER_TAB"
+          :key="item.value"
           v-slot="{ isSelected, toggle }"
         >
           <div class="align-center justify-center">
@@ -36,11 +36,11 @@
               variant="text"
               :color="isSelected ? 'primary' : '#000'"
               @click="() => {
-                hanldeRoute({ name: item.toLowerCase() })
+                hanldeRoute({ name: item.name.toLowerCase() })
                 toggle()
               }"
             >
-              <p class="font-palanquin">{{ item }}</p>
+              <p class="font-palanquin">{{ item.name }}</p>
             </v-btn>
             <div v-show="isSelected" class="my-n5 ml-7">
               <svg
@@ -157,19 +157,18 @@
 </template>
 <script lang="ts" setup>
 import NImage from '@/components/NImage.vue'
-import { storeToRefs } from 'pinia'
-import { useAuthStore } from '@/store/auth'
 import router from '@/router'
-import { ref } from 'vue'
-import { useDisplay } from 'vuetify'
-import { useAuthentication } from '@/composables/useAuth'
 import { hanldeRoute } from '@/helpers/loadingRoute'
+import { useDefaultLayout } from '@/composables/useDefalutLayout'
+import { HEADER_TAB } from '@/resources/mockData'
 
-const display = ref(useDisplay())
-const authStore = useAuthStore()
-const { authUser } = storeToRefs(authStore)
-const { checkAvatar, signOut } = useAuthentication()
-const slideValue = ref<number>()
+const {
+  display,
+  authUser,
+  checkAvatar,
+  signOut,
+  slideValue
+} = useDefaultLayout()
 </script>
 <style scoped>
 .header-title {

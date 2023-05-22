@@ -1,7 +1,7 @@
 import { COMMENTRATE } from '@/resources/mockData'
 
 export const convertionType = () => {
-  const formatCurrency = (item: number) => {
+  const formatCurrency = (item = 0) => {
     return item?.toLocaleString('vi', { style : 'currency', currency : 'VND' })
   }
   const deCodeHtml = (tagCut: string, html?: string) => {
@@ -14,7 +14,7 @@ export const convertionType = () => {
     arrHtml.push(sectionHeader, container.outerHTML)
     return arrHtml
   }
-  const voteText = (rate: number) => {
+  const voteText = (rate = 0) => {
     if (rate > 4.5) {
       return COMMENTRATE[0]
     }
@@ -26,10 +26,14 @@ export const convertionType = () => {
     }
     return COMMENTRATE[3]
   }
-
+  const getPriceDiscount = (price = 0, coupon = 0) => {
+    console.log(price, coupon)
+    return price - (price * (coupon / 100))
+  }
   return {
     formatCurrency,
     deCodeHtml,
-    voteText
+    voteText,
+    getPriceDiscount
   }
 }

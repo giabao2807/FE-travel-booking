@@ -2,7 +2,8 @@ import { ref } from 'vue'
 import { useHotelStore } from '@/store/hotels'
 import { createSharedComposable } from '@vueuse/core'
 import { convertionType } from '@/helpers/convertion'
-import { ICity, IHotel, IParamHotel } from '@/libs/types/hotelType'
+import { IHotel, IParamHotel } from '@/libs/types/hotelType'
+import { ICity } from '@/libs/types/commonType'
 
 const createHotel = () => {
   const hotelStore = useHotelStore()

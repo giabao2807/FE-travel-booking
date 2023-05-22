@@ -10,6 +10,7 @@ const createTour = () => {
   const tours = ref<ITour[]>()
   const popularTours = ref<ITour[]>([])
   const allCities = ref<ICityText[]>([])
+
   const getPopularTours = () => {
     tourStore.getPopularTours()
       .then(data => popularTours.value = data.results)
@@ -17,6 +18,10 @@ const createTour = () => {
   const getTraffic = (traffics?: string[]) => TRAFFICS.filter(item => traffics?.includes(item.value))
   const getAllCities = () => {
     tourStore.getAllCity().then(data => allCities.value = data)
+  }
+
+  const getTourByFilterPanel = () => {
+    tourStore.getToursByFilter()
   }
   return {
     popularTours,

@@ -34,16 +34,16 @@
 </template>
 <script lang="ts" setup>
 import { defineProps, withDefaults } from 'vue'
-
 type Props = {
   data: string[],
-  height: string,
+  height?: string,
   colorProgress?: string,
   showArrows?: string | boolean,
   hideDelimiters?: boolean,
   hideDelimiterBackground?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
+  data: () => ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNmfwGLPWD-EENBmCN2h81S3KeP93ooRJf_w&usqp=CAU'],
   colorProgress: 'primary',
   showArrows: 'hover',
   hideDelimiters: true,

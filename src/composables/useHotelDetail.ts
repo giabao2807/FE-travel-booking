@@ -17,8 +17,8 @@ const createHotelDetail = () => {
     startDate: '',
     endDate: ''
   })
-  const firstPageReview = ref<IReview[]>([])
-  const dataReview = ref<IReview[]>([])
+  const firstPageReview = ref<IReview>()
+  const dataReview = ref<IReview>()
   const pageReview = ref<number>(1)
   const loadingReview = ref<boolean>(false)
   const dialogReview = ref<boolean>(false)
@@ -76,6 +76,9 @@ const createHotelDetail = () => {
     getAnotherHotelsByCity(id)
   }
 
+  const changeEndDate = () => {
+    filterDetail.value.endDate = ''
+  }
   watchEffect(async() => {
     hotelId.value
     if (hotelId.value) {
@@ -99,7 +102,8 @@ const createHotelDetail = () => {
     deCodeHtml,
     getRoomByDate,
     getHotelById,
-    getReviews
+    getReviews,
+    changeEndDate
   }
 }
 export const useHotelDetailUtil = createSharedComposable(createHotelDetail)

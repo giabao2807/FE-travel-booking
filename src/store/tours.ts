@@ -36,10 +36,19 @@ export const useTourStore = defineStore('tourStore', () => {
     })
   }
 
-  const getAllCity = async() =>{
+  const getAllCity = async() => {
     return await connectionsAPI({
       methods: 'GET',
       path: 'general/city',
+      headers: { 'Content-Type': 'application/json' }
+    })
+  }
+
+  const getToursByFilter = async(params: any) => {
+    return await connectionsAPI({
+      methods: 'GET',
+      path: 'tour/filter_by_date',
+      params: params,
       headers: { 'Content-Type': 'application/json' }
     })
   }
@@ -47,6 +56,7 @@ export const useTourStore = defineStore('tourStore', () => {
     getPopularTours,
     getTourById,
     getTours,
-    getAllCity
+    getAllCity,
+    getToursByFilter
   }
 })

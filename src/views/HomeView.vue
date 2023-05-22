@@ -15,6 +15,7 @@
       >
         <v-card-text>
           <v-autocomplete
+            v-model="filterPanel.cityId"
             :items="allCities"
             label="City"
             name="city"
@@ -40,6 +41,7 @@
               class="mr-5"
             />
             <v-text-field
+              v-model="filterPanel.endDate"
               label="End Date"
               name="endDate"
               type="Date"
@@ -56,18 +58,17 @@
             <v-icon icon="mdi-map-legend text-disabled" size="25" />
             <v-label text="Options:" class="mx-2" />
             <v-radio-group
+              v-model="flagSearch"
               inline
               hide-details
               class="ml-5"
             >
               <v-radio
-                label="Tours"
-                value="radio-1"
+                v-for="item in SEARCH_FOR"
+                :key="item"
+                :value="item"
+                :label="item"
                 class="mx-4"
-              />
-              <v-radio
-                label="Hotels"
-                value="radio-2"
               />
             </v-radio-group>
             <v-btn
@@ -77,6 +78,7 @@
               min-width="110"
               rounded
               variant="flat"
+              @click="() => filterTourAndHotel()"
             >
               Tìm Kiếm
             </v-btn>
@@ -166,13 +168,17 @@
                   {{ tour?.rate }} ({{ tour?.numReview }})
                 </div>
               </v-row>
-              <div class="mt-5 mb-2 revome-text">
+              <div class="mt-5 mb-2 revome-text text-grey-darken-2">
                 {{ formatCurrency(tour?.price) }}
               </div>
               <div class="d-flex align-center justify-space-between mb-3">
                 <div class="text-subtitle-1 animate-charcter">
                   <v-icon icon="mdi-cash-multiple" class="mt-n2 animate-charcter" />
-                  {{ formatCurrency(tour?.price) }}
+                  {{
+                    formatCurrency(
+                      getPriceDiscount(tour?.price, tour?.couponData.discountPercent)
+                    )
+                  }}
                 </div>
                 <div>
                   <v-icon
@@ -397,6 +403,7 @@ import NButtonAnimated from '@/components/NButtonAnimated.vue'
 import NPanelLoading from '@/components/NPanelLoading.vue'
 import NSkeletonLoader from '@/components/NSkeletonLoader.vue'
 import NImage from '@/components/NImage.vue'
+import { SEARCH_FOR } from '@/resources/mockData'
 import { hanldeRoute } from '@/helpers/loadingRoute'
 import { useHomeUtil } from '@/composables/useHomeUtil'
 import { convertionType } from '@/helpers/convertion'
@@ -410,10 +417,12 @@ const {
   getCitiesPanel,
   loadingPanelHotel,
   filterPanel,
+  flagSearch,
   getTraffic,
-  getRecomendHotelByCity
+  getRecomendHotelByCity,
+  filterTourAndHotel
 } = useHomeUtil()
-const { formatCurrency, voteText } = convertionType()
+const { formatCurrency, voteText, getPriceDiscount } = convertionType()
 </script>
 <style scoped>
 @import '@/assets/css/home.css';

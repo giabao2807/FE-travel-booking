@@ -58,7 +58,7 @@
               min-width="110"
               rounded
               variant="flat"
-              @click="() => getRoomByDate()"
+              @click="() => getRoomByDate({ id: hotelInfo?.id, ...filterDetail })"
             >
               Tìm Kiếm
             </v-btn>
@@ -295,7 +295,7 @@
               color="primary"
               variant="outlined"
               v-bind="props"
-              @click="() => getReviews({ id: hotelInfo.id })"
+              @click="() => getReviews({ id: hotelInfo?.id })"
             >
               Xem thêm ...
             </v-btn>
@@ -358,7 +358,7 @@
                 v-model="pageReview"
                 :total-visible="5"
                 :length="dataReview?.pageNumber"
-                @update:modelValue="() => getReviews({ id: hotelInfo.id, page: pageReview })"
+                @update:modelValue="() => getReviews({ id: hotelInfo?.id, page: pageReview })"
               />
             </div>
           </v-card>
@@ -370,7 +370,6 @@
         <h2>Những Khách Sạn Khác</h2>
       </div>
       <v-slide-group
-        v-model="model"
         class="pa-4"
         selected-class="bg-success"
         show-arrows
@@ -470,12 +469,11 @@ const {
   minDate,
   deCodeHtml,
   getRoomByDate,
-  getReviews
+  getReviews,
+  changeEndDate
 } = useHotelDetailUtil()
 const { formatCurrency } = convertionType()
-const changeEndDate = () => {
-  filterDetail.value.endDate = ''
-}
+
 </script>
 <style lang="scss" scoped>
 ::v-deep {

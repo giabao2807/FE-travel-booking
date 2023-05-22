@@ -1,10 +1,5 @@
 import { IParamPage } from './commonType'
 
-export type ICity = {
-  id: number,
-  name: string,
-  image?: string
-}
 export type IHotel = {
   id: string,
   name: string,
@@ -21,10 +16,10 @@ export type IParamHotel = IParamPage & {
   cityId: number
 }
 export type IParamReview = IParamPage & {
-  id: string
+  id?: string
 }
 export type IParamRoomType = {
-  id: string,
+  id?: string,
   startDate?: string,
   endDate?: string
 }
@@ -67,7 +62,7 @@ export type IResultReview = {
   content: string,
   rate: number,
   hotel: string,
-  owner: IOwner[]
+  owner: IOwner
 }
 
 export type IReview = {

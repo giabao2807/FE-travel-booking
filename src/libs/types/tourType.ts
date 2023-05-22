@@ -1,7 +1,5 @@
-export type ICity = {
-  id: number,
-  name?: string
-}
+import { ICoupon } from './commonType'
+
 export type ITour = {
   id: string,
   name: string,
@@ -14,7 +12,8 @@ export type ITour = {
   numReview: number,
   city: number,
   departure: string,
-  traffics: string[]
+  traffics: string[],
+  couponData: ICoupon
 }
 
 export type IDetailTour = ITour & {

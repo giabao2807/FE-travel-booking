@@ -168,7 +168,11 @@
               <v-col cols="6"><h4>Tổng tiền:</h4></v-col>
               <v-col>
                 <h2 class="animate-charcter">
-                  {{ formatCurrency(tourInfo?.price*bookingTour.amount-(0.2*tourInfo?.price)) }}
+                  {{
+                    formatCurrency(
+                      getPriceDiscount(tourInfo?.price, tourInfo?.couponData.discountPercent) * bookingTour.amount
+                    )
+                  }}
                 </h2>
               </v-col>
             </v-row>
@@ -192,8 +196,8 @@ import { useTourDetail } from '@/composables/useTourDetail'
 import { convertionType } from '@/helpers/convertion'
 import NCarousel from '@/components/NCarousel.vue'
 
-const { tourInfo, getTraffic, bookingTour, hanldeAmount } = useTourDetail()
-const { formatCurrency, voteText } = convertionType()
+const { tourInfo, bookingTour, getTraffic, hanldeAmount } = useTourDetail()
+const { formatCurrency, voteText, getPriceDiscount } = convertionType()
 </script>
 
 <style lang="scss" scoped>

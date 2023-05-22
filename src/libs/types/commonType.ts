@@ -29,10 +29,23 @@ export type IFilterDate = {
   startDate: string,
   endDate: string
 }
+export type ICity = {
+  id: number,
+  name: string,
+  image?: string
+}
 export type ICityText = {
  id: number,
  createdAt: string,
  name: string,
  zipcode: string,
  country: string,
+}
+
+export type ICoupon = {
+  id: string,
+  name: string,
+  startDate: string,
+  endDate: string,
+  discountPercent: number
 }

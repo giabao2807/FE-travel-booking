@@ -1,10 +1,10 @@
+import { hanldeRoute } from '@/helpers/loadingRoute'
 import { ref, computed, onMounted } from 'vue'
-import { IFilterDate } from '@/libs/types/commonType'
+import { ICity, IFilterDate } from '@/libs/types/commonType'
 import { createSharedComposable } from '@vueuse/core'
 import { useHotelUtil } from './useHotel'
 import { useTourUtil } from './useTour'
 import { PANEL_IMAGE } from '@/resources/mockData'
-import { ICity } from '@/libs/types/tourType'
 
 export type IImageCol = ICity & {
   col?: number
@@ -14,10 +14,11 @@ export type IFilterPanel = IFilterDate & {
 }
 const useHome = () => {
   const filterPanel = ref<IFilterPanel>({
-    cityId: 0,
+    cityId: 1,
     startDate: '',
     endDate: ''
   })
+  const flagSearch = ref<string>('Tours')
   const {
     hotels,
     recomendCities,
@@ -39,7 +40,15 @@ const useHome = () => {
     recomendCities.value?.slice(0, 5).forEach((item, index) => citiesCols.push({ ...PANEL_IMAGE[index], ...item }))
     return citiesCols
   })
-  onMounted(async()=>{
+
+  const filterTourAndHotel = () => {
+    if (flagSearch.value === 'Tours') {
+      return hanldeRoute({ name: 'tours' })
+    }
+    return hanldeRoute({ name: 'hotels' })
+  }
+
+  onMounted(async() => {
     await getRecomendCities()
     await getPopularTours()
     getRecomendHotelByCity(selectedCity.value)
@@ -55,8 +64,10 @@ const useHome = () => {
     loadingPanelHotel,
     allCities,
     filterPanel,
+    flagSearch,
     getTraffic,
-    getRecomendHotelByCity
+    getRecomendHotelByCity,
+    filterTourAndHotel
   }
 }
 export const useHomeUtil = createSharedComposable(useHome)
