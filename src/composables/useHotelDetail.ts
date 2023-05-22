@@ -23,9 +23,9 @@ const createHotelDetail = () => {
   const loadingReview = ref<boolean>(false)
   const dialogReview = ref<boolean>(false)
   const loadingHotels = ref<boolean>(false)
+  const loadingRooms = ref<boolean>(false)
   const hotelId = computed(() => route.params.id as string)
 
-  const minDate = (date: Date) => date.toISOString().slice(0, 10)
   const countDate = computed(() => {
     const ONE_DAY = 1000 * 60 * 60 * 24
     if (filterDetail.value.startDate && filterDetail.value.endDate) {
@@ -37,13 +37,21 @@ const createHotelDetail = () => {
     return null
   })
   const getRooms = (idHotel: string) => {
+    loadingRooms.value = true
     hotelStore.getRoomTypeById({ id: idHotel })
-      .then(data => rooms.value = data)
+      .then(data => {
+        rooms.value = data
+        loadingRooms.value = false
+      })
   }
 
   const getRoomByDate = (params: IParamRoomType) => {
+    loadingRooms.value = true
     hotelStore.getRoomTypeById(params)
-      .then(data => rooms.value = data)
+      .then(data => {
+        rooms.value = data
+        loadingRooms.value = false
+      })
   }
 
   const getFirstPageReviews = (params: IParamReview) => {
@@ -96,9 +104,9 @@ const createHotelDetail = () => {
     dataReview,
     dialogReview,
     loadingReview,
+    loadingRooms,
     anotherHotels,
     pageReview,
-    minDate,
     deCodeHtml,
     getRoomByDate,
     getHotelById,

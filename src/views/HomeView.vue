@@ -31,6 +31,7 @@
           <div class="d-flex align-center flex-wrap ma-5">
             <v-text-field
               v-model="filterPanel.startDate"
+              :min="minDate(new Date())"
               label="Start Date"
               name="startDate"
               type="Date"
@@ -39,9 +40,11 @@
               variant="underlined"
               hide-details="auto"
               class="mr-5"
+              @update:model-value="() => changeEndDate()"
             />
             <v-text-field
               v-model="filterPanel.endDate"
+              :min="filterPanel.startDate"
               label="End Date"
               name="endDate"
               type="Date"
@@ -50,6 +53,7 @@
               hide-details="auto"
             >
               <template #prepend>
+                <p class="text-h6 text-disabled mt-n1 font-rowdies">{{ countDate }}</p>
                 <v-icon class="mx-1" icon="mdi-weather-night" />
               </template>
             </v-text-field>
@@ -72,16 +76,23 @@
               />
             </v-radio-group>
             <v-btn
-              class="text-none mx-5 btn-shadown"
-              size="40"
-              color="#8a0642"
-              min-width="110"
+              class="text-none mx-7"
+              color="primary"
               rounded
-              variant="flat"
+              min-width="110"
+              variant="outlined"
               @click="() => filterTourAndHotel()"
             >
               Tìm Kiếm
             </v-btn>
+            <!-- <v-btn
+
+              size="40"
+              color="#8a0642"
+
+              rounded
+              variant="flat"
+            /> -->
           </div>
         </v-card-text>
       </v-card>
@@ -416,13 +427,15 @@ const {
   popularTours,
   getCitiesPanel,
   loadingPanelHotel,
+  countDate,
   filterPanel,
   flagSearch,
   getTraffic,
+  changeEndDate,
   getRecomendHotelByCity,
   filterTourAndHotel
 } = useHomeUtil()
-const { formatCurrency, voteText, getPriceDiscount } = convertionType()
+const { formatCurrency, voteText, getPriceDiscount, minDate } = convertionType()
 </script>
 <style scoped>
 @import '@/assets/css/home.css';

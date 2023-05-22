@@ -21,7 +21,7 @@ const createTour = () => {
   }
 
   const getTourByFilterPanel = () => {
-    tourStore.getToursByFilter()
+    // tourStore.getToursByFilter()
   }
   return {
     popularTours,

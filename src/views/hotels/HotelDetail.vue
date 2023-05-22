@@ -69,9 +69,10 @@
     <v-sheet class="mx-5 rooms-detail">
       <v-row align="center" justify="center">
         <h2 class="heading-secondary">Thông Tin Phòng Khách Sạn</h2>
-        <n-panel-loading :loading="rooms.length === 0" />
+        <n-panel-loading :loading="loadingRooms" />
       </v-row>
       <v-row
+        v-show="!loadingRooms"
         class="mx-5"
         v-for="room in rooms"
         :key="room?.id"
@@ -80,42 +81,12 @@
           <v-card elevation="12" class="card-detail">
             <v-row>
               <v-col>
-                <n-carousel class="carousel" height="300" />
-                <!-- <v-carousel
-                  class="carousel"
-                  height="300"
-                  cycle
-                  show-arrows="hover"
-                  hide-delimiters
-                  hide-delimiter-background
-                >
-                  <v-carousel-item
-                    cover
-                    eager
-                    v-for="(item, i) in room?.listImages"
-                    :key="i"
-                    :src="item"
-                    :lazy-src="item"
-                  >
-                    <template #placeholder>
-                      <v-row
-                        class="fill-height ma-0"
-                        align="center"
-                        justify="center"
-                      >
-                        <v-progress-circular
-                          indeterminate
-                          color="primary"
-                        />
-                      </v-row>
-                    </template>
-                  </v-carousel-item>
-                </v-carousel> -->
+                <n-carousel :data="room?.listImages" height="300" />
               </v-col>
               <v-col cols="6">
-                <v-card-title class="text-h5">
+                <h2 class="mt-5 ml-2 font-rowdies">
                   {{ room?.name }}
-                </v-card-title>
+                </h2>
                 <v-card-text class="mt-5">
                   <v-row>
                     <v-col class="mx-5">
@@ -145,18 +116,26 @@
               <v-col class="custom-voucher">
                 <div color="transparent" class="ml-14 mt-5 pa-4">
                   <div class="ma-2">
-                    <p class="text-subtitle-2">Subject to Cashback Terms</p>
-                    <div class="text-h5 animate-charcter my-2">
-                      <v-icon icon="mdi-cash-multiple" class="mt-n2 animate-charcter" />
+                    <p class="my-3 text-caption">
+                      <v-icon icon="mdi-ticket-percent-outline" />
+                      Giá đã bao gồm:
+                      Sales & Services tax.
+                      Khuyến mãi trong thời gian có hạn. Giá phòng đã có giảm giá 12%!
+                    </p>
+                    <p class="revome-text">
+                      <v-icon icon="mdi-cash-multiple" class="mt-n1 mx-2" />
                       {{ formatCurrency(room?.price) }}
+                    </p>
+                    <div class="text-h6 animate-charcter my-2">
+                      <v-icon icon="mdi-cash-multiple" class="mt-n1 animate-charcter" />
+                      {{ formatCurrency(getPriceDiscount(room?.price, 12)) }}
                     </div>
                   </div>
-                  <p class="my-2 text-caption">
-                    Giá đã bao gồm:
-                    Sales & Services tax (216.160đ)
-                    Khuyến mãi trong thời gian có hạn. Giá phòng đã có giảm giá 0%!
-                  </p>
-                  <v-btn class="mt-2" color="primary" variant="tonal">Book now</v-btn>
+
+                  <v-row align="center" class="mt-8">
+                    <v-btn prepend-icon="mdi-cart-variant" class="mr-2" color="primary" variant="tonal">Cart</v-btn>
+                    <v-btn prepend-icon="mdi-checkbox-marked-circle-auto-outline" class="ml-3" color="primary" variant="tonal">Book now</v-btn>
+                  </v-row>
                 </div>
               </v-col>
             </v-row>
@@ -465,14 +444,14 @@ const {
   dataReview,
   dialogReview,
   loadingReview,
+  loadingRooms,
   pageReview,
-  minDate,
   deCodeHtml,
   getRoomByDate,
   getReviews,
   changeEndDate
 } = useHotelDetailUtil()
-const { formatCurrency } = convertionType()
+const { formatCurrency, getPriceDiscount, minDate } = convertionType()
 
 </script>
 <style lang="scss" scoped>

@@ -10,6 +10,7 @@
   --color-boni-like: rgb(255, 189, 234);
   --color-bg-card-second: rgba(59, 54, 57, 0.5);
   --color-border-black: rgba(57, 54, 54, 0.5);
+  --color-coupon: rgb(249, 192, 225);
   --color-border-white: #fff;
 }
 @import url('https://fonts.googleapis.com/css2?family=Palanquin+Dark:wght@500;700&display=swap');
@@ -85,4 +86,7 @@
 }
 .text-color-priamry {
   color: var(--txt-shadow-color);
+}
+.revome-text {
+  text-decoration: line-through var(--txt-shadow-color);
 }

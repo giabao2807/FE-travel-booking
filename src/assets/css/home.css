@@ -146,7 +146,7 @@
   padding: 6rem 0;
   height: 100%;
   background-image: linear-gradient(to right bottom, rgba(175, 64, 64, 0.2), rgba(70, 26, 45, 0.5)),
-  url("https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/beautiful-view-of-sunset-from-a-beach-imagewerks.jpg");
+  url('@/assets/img/bg-2.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   transform: skewY(-4deg);
@@ -367,8 +367,4 @@ animation: run-left 5s linear infinite;
   padding-left: 6px;
   width: 40px;
   height: 80px
-}
-
-.revome-text {
-  text-decoration: line-through var(--txt-shadow-color);
 }

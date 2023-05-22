@@ -30,10 +30,12 @@ export const convertionType = () => {
     console.log(price, coupon)
     return price - (price * (coupon / 100))
   }
+  const minDate = (date: Date) => date.toISOString().slice(0, 10)
   return {
     formatCurrency,
     deCodeHtml,
     voteText,
-    getPriceDiscount
+    getPriceDiscount,
+    minDate
   }
 }

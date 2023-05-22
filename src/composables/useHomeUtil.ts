@@ -48,6 +48,21 @@ const useHome = () => {
     return hanldeRoute({ name: 'hotels' })
   }
 
+  const countDate = computed(() => {
+    const ONE_DAY = 1000 * 60 * 60 * 24
+    if (filterPanel.value.startDate && filterPanel.value.endDate) {
+      const startDate = new Date(filterPanel.value.startDate)
+      const endDate = new Date(filterPanel.value.endDate)
+      const time = Math.abs(startDate.getTime() - endDate.getTime())
+      return Math.round(time / ONE_DAY)
+    }
+    return null
+  })
+
+  const changeEndDate = () => {
+    filterPanel.value.endDate = ''
+  }
+
   onMounted(async() => {
     await getRecomendCities()
     await getPopularTours()
@@ -65,9 +80,11 @@ const useHome = () => {
     allCities,
     filterPanel,
     flagSearch,
+    countDate,
     getTraffic,
     getRecomendHotelByCity,
-    filterTourAndHotel
+    filterTourAndHotel,
+    changeEndDate
   }
 }
 export const useHomeUtil = createSharedComposable(useHome)

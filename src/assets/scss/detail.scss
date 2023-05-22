@@ -142,7 +142,7 @@
   
   @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
     .custom-voucher {
-      background-color: #ec488c;;
+      background-color: var(--color-coupon);
       clip-path: polygon(25% 0, 100% 0, 100% 100%, 0 100%);
     }
     .custom-image {
