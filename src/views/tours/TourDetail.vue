@@ -152,7 +152,7 @@
               </v-col>
               <v-col>
                 <h2 class="animate-charcter">
-                  20%
+                  {{ tourInfo?.couponData.discountPercent }}%
                 </h2>
               </v-col>
             </v-row>

@@ -81,18 +81,10 @@
               rounded
               min-width="110"
               variant="outlined"
-              @click="() => filterTourAndHotel()"
+              @click="() => handleFilter()"
             >
               Tìm Kiếm
             </v-btn>
-            <!-- <v-btn
-
-              size="40"
-              color="#8a0642"
-
-              rounded
-              variant="flat"
-            /> -->
           </div>
         </v-card-text>
       </v-card>
@@ -283,7 +275,7 @@
       <n-skeleton-loader class="mx-6" :loading="loadingPanelHotel" :quantity="8" />
       <v-row v-if="!loadingPanelHotel" class="mx-6">
         <v-col
-          v-for="hotel in hotels"
+          v-for="hotel in popularHotels"
           :key="hotel?.id"
           md="3"
         >
@@ -352,7 +344,9 @@
               </div>
               <v-card-actions class="mx-2">
                 <v-icon icon="mdi-cash-multiple" size="18" class="mb-1 animate-charcter" />
-                <p class="mx-2 animate-charcter">{{ hotel?.priceRange }}</p>
+                <p class="mx-2 animate-charcter">
+                  {{ rangePrice(hotel?.minPrice, hotel?.maxPrice, hotel?.couponData.discountPercent) }}
+                </p>
                 <v-spacer />
                 <v-icon
                   size="18"
@@ -378,7 +372,7 @@
               <v-icon size="50" icon="mdi-map-marker-path" />
               <h2 class="ma-5">Travel Guide</h2>
               <p class="ma-5">
-                Travel information to inspire global travellers.
+                Travel information to inspire global travelers.
                 From cities to airports, cruise ports to ski and beach resorts, attractions to events, our guides provide ...
               </p>
             </v-card-text>
@@ -422,7 +416,7 @@ import { convertionType } from '@/helpers/convertion'
 const {
   recomendCities,
   selectedCity,
-  hotels,
+  popularHotels,
   allCities,
   popularTours,
   getCitiesPanel,
@@ -433,9 +427,15 @@ const {
   getTraffic,
   changeEndDate,
   getRecomendHotelByCity,
-  filterTourAndHotel
+  handleFilter
 } = useHomeUtil()
-const { formatCurrency, voteText, getPriceDiscount, minDate } = convertionType()
+const {
+  formatCurrency,
+  voteText,
+  getPriceDiscount,
+  minDate,
+  rangePrice
+} = convertionType()
 </script>
 <style scoped>
 @import '@/assets/css/home.css';

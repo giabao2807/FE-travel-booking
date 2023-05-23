@@ -1,3 +1,4 @@
+import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { useTourStore } from '@/store/tours'
@@ -7,7 +8,7 @@ import { ICityText } from '@/libs/types/commonType'
 
 const createTour = () => {
   const tourStore = useTourStore()
-  const tours = ref<ITour[]>()
+  const { tours } = storeToRefs(tourStore)
   const popularTours = ref<ITour[]>([])
   const allCities = ref<ICityText[]>([])
 
@@ -20,15 +21,17 @@ const createTour = () => {
     tourStore.getAllCity().then(data => allCities.value = data)
   }
 
-  const getTourByFilterPanel = () => {
-    // tourStore.getToursByFilter()
+  const getToursByFilterPanel = (params: any) => {
+    tourStore.getToursByFilter(params).then(data => tours.value = data)
   }
   return {
+    tours,
     popularTours,
     allCities,
     getTraffic,
     getPopularTours,
-    getAllCities
+    getAllCities,
+    getToursByFilterPanel
   }
 }
 export const useTourUtil = createSharedComposable(createTour)

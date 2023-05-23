@@ -1,16 +1,17 @@
-import { IParamPage } from './commonType'
+import { ICoupon, IParamPage } from './commonType'
 
 export type IHotel = {
   id: string,
   name: string,
   address: string,
   numReview: number,
-  priceRange: string,
+  minPrice: number,
+  maxPrice: number,
   coverPicture: string,
   rateAverage: number,
   longitude: number,
   latitude: number,
-  couponData: any,
+  couponData: ICoupon,
 }
 export type IParamHotel = IParamPage & {
   cityId: number

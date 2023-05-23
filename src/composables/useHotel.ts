@@ -1,3 +1,4 @@
+import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import { useHotelStore } from '@/store/hotels'
 import { createSharedComposable } from '@vueuse/core'
@@ -7,7 +8,8 @@ import { ICity } from '@/libs/types/commonType'
 
 const createHotel = () => {
   const hotelStore = useHotelStore()
-  const hotels = ref<IHotel[]>([])
+  const { hotels } = storeToRefs(hotelStore)
+  const popularHotels = ref<IHotel[]>([])
   const recomendCities = ref<ICity[]>([])
   const { deCodeHtml } = convertionType()
   const selectedCity = ref<number>(0)
@@ -30,19 +32,26 @@ const createHotel = () => {
     loadingPanelHotel.value = true
     hotelStore.getHotelByCity(param)
       .then(data => {
-        hotels.value = data.results
+        popularHotels.value = data.results
         loadingPanelHotel.value = false
       })
   }
 
+  const getHotelsByFilterPanel = (params: any) => {
+    hotelStore.getHotelsByFilter(params)
+      .then(data => hotels.value = data.results)
+  }
+
   return {
     hotels,
+    popularHotels,
     recomendCities,
     selectedCity,
     loadingPanelHotel,
     deCodeHtml,
     getRecomendHotelByCity,
-    getRecomendCities
+    getRecomendCities,
+    getHotelsByFilterPanel
   }
 }
 export const useHotelUtil = createSharedComposable(createHotel)

@@ -20,19 +20,22 @@ const useHome = () => {
   })
   const flagSearch = ref<string>('Tours')
   const {
-    hotels,
+    popularHotels,
     recomendCities,
     selectedCity,
     loadingPanelHotel,
     getRecomendHotelByCity,
-    getRecomendCities
+    getRecomendCities,
+    getHotelsByFilterPanel
   } = useHotelUtil()
+
   const {
     popularTours,
     allCities,
     getTraffic,
     getPopularTours,
-    getAllCities
+    getAllCities,
+    getToursByFilterPanel
   } = useTourUtil()
 
   const getCitiesPanel = computed(() => {
@@ -40,13 +43,6 @@ const useHome = () => {
     recomendCities.value?.slice(0, 5).forEach((item, index) => citiesCols.push({ ...PANEL_IMAGE[index], ...item }))
     return citiesCols
   })
-
-  const filterTourAndHotel = () => {
-    if (flagSearch.value === 'Tours') {
-      return hanldeRoute({ name: 'tours' })
-    }
-    return hanldeRoute({ name: 'hotels' })
-  }
 
   const countDate = computed(() => {
     const ONE_DAY = 1000 * 60 * 60 * 24
@@ -62,7 +58,16 @@ const useHome = () => {
   const changeEndDate = () => {
     filterPanel.value.endDate = ''
   }
-
+  const handleFilter = () => {
+    if (flagSearch.value === 'Tours') {
+      getToursByFilterPanel(filterPanel.value)
+      hanldeRoute({ name: 'tours' })
+    }
+    else {
+      getHotelsByFilterPanel(filterPanel.value)
+      hanldeRoute({ name: 'hotels' })
+    }
+  }
   onMounted(async() => {
     await getRecomendCities()
     await getPopularTours()
@@ -72,7 +77,7 @@ const useHome = () => {
 
   return {
     recomendCities,
-    hotels,
+    popularHotels,
     selectedCity,
     popularTours,
     getCitiesPanel,
@@ -83,8 +88,8 @@ const useHome = () => {
     countDate,
     getTraffic,
     getRecomendHotelByCity,
-    filterTourAndHotel,
-    changeEndDate
+    changeEndDate,
+    handleFilter
   }
 }
 export const useHomeUtil = createSharedComposable(useHome)

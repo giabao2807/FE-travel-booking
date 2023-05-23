@@ -86,7 +86,6 @@
                 class="mx-4"
               />
             </template>
-
             <v-list>
               <v-list-item>
                 <div class="d-flex flex-column justify-center align-center py-5">

@@ -15,7 +15,7 @@
         </v-col>
       </v-row>
       <v-row align="start" justify="center">
-        <v-avatar style="z-index: 1" class="half-circle" :image="require('@/assets/img/avatar.png')" size="300" />
+        <v-avatar style="z-index: 1" class="half-circle" :image="checkAvatar" size="290" />
       </v-row>
     </v-container>
     <v-container class="font-rowdies">
@@ -23,16 +23,25 @@
         <v-container>
           <v-card-text style="margin-top: 8rem;">
             <div class="text-center">
-              NAME USER
+              <h1>{{ `${userInfo?.lastName} ${userInfo?.firstName}` }}</h1>
             </div>
             <v-divider class="ma-5" />
             <div class="mx-5">
-              <h4 class="my-5">USER INFORMATION</h4>
+              <h4 class="my-5">
+                USER INFORMATION
+                <v-icon
+                  class="mx-5"
+                  icon="mdi-clipboard-edit-outline"
+                  @click="() => isEditInfo = !isEditInfo"
+                />
+              </h4>
               <div class="ml-10">
                 <v-row justify="space-between">
                   <v-col cols="5">
                     Last Name
                     <v-text-field
+                      v-model="userInfo.lastName"
+                      :disabled="!isEditInfo"
                       clearable
                       class="ma-2"
                       variant="solo-filled"
@@ -41,6 +50,8 @@
                   <v-col cols="5">
                     First Name
                     <v-text-field
+                      v-model="userInfo.firstName"
+                      :disabled="!isEditInfo"
                       clearable
                       class="ma-2"
                       variant="solo-filled"
@@ -51,6 +62,9 @@
                   <v-col cols="5">
                     Birthday
                     <v-text-field
+                      v-model="userInfo.birthday"
+                      :disabled="!isEditInfo"
+                      type="Date"
                       clearable
                       class="ma-2"
                       variant="solo-filled"
@@ -58,20 +72,35 @@
                   </v-col>
                   <v-col cols="5">
                     Gender
-                    <v-text-field
+                    <v-select
+                      v-model="userInfo.gender"
+                      :disabled="!isEditInfo"
+                      :items="GENDER_DATA"
                       clearable
                       class="ma-2"
                       variant="solo-filled"
+                      item-title="name"
+                      item-value="value"
+                      prepend-inner-icon="mdi-gender-male-female"
                     />
                   </v-col>
                 </v-row>
               </div>
-              <h4 class="my-5">CONTACT INFORMATION</h4>
+              <h4 class="my-5">
+                CONTACT INFORMATION
+                <v-icon
+                  class="mx-5"
+                  icon="mdi-clipboard-edit-outline"
+                  @click="() => isEditContact = !isEditContact"
+                />
+              </h4>
               <div class="ml-10">
                 <v-row justify="space-between">
                   <v-col cols="5">
                     Email
                     <v-text-field
+                      v-model="userInfo.email"
+                      :disabled="!isEditContact"
                       clearable
                       class="ma-2"
                       variant="solo-filled"
@@ -80,6 +109,8 @@
                   <v-col cols="5">
                     Phone
                     <v-text-field
+                      v-model="userInfo.phone"
+                      :disabled="!isEditContact"
                       clearable
                       class="ma-2"
                       variant="solo-filled"
@@ -90,6 +121,8 @@
                   <v-col>
                     Address
                     <v-text-field
+                      v-model="userInfo.address"
+                      :disabled="!isEditContact"
                       clearable
                       class="ma-2"
                       variant="solo-filled"
@@ -99,6 +132,10 @@
               </div>
             </div>
           </v-card-text>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn v-if="isEditInfo || isEditContact" class="mx-7">Save</v-btn>
+          </v-card-actions>
         </v-container>
       </v-row>
     </v-container>
@@ -106,8 +143,15 @@
 </template>
 <script lang="ts" setup>
 import { useUserUtil } from '@/composables/useUser'
+import { GENDER_DATA } from '@/resources/mockData'
 
-const { userInfo } = useUserUtil()
+const {
+  userInfo,
+  isEditInfo,
+  isEditContact,
+  checkAvatar,
+  updateUserInfo
+} = useUserUtil()
 </script>
 
 <style lang="scss" scoped>

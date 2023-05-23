@@ -120,7 +120,8 @@
                       <v-icon icon="mdi-ticket-percent-outline" />
                       Giá đã bao gồm:
                       Sales & Services tax.
-                      Khuyến mãi trong thời gian có hạn. Giá phòng đã có giảm giá 12%!
+                      Khuyến mãi trong thời gian có hạn. Giá phòng đã có giảm giá
+                      {{ hotelInfo?.couponData.discountPercent }}%!
                     </p>
                     <p class="revome-text">
                       <v-icon icon="mdi-cash-multiple" class="mt-n1 mx-2" />
@@ -128,13 +129,26 @@
                     </p>
                     <div class="text-h6 animate-charcter my-2">
                       <v-icon icon="mdi-cash-multiple" class="mt-n1 animate-charcter" />
-                      {{ formatCurrency(getPriceDiscount(room?.price, 12)) }}
+                      {{ formatCurrency(getPriceDiscount(room?.price, hotelInfo?.couponData.discountPercent)) }}
                     </div>
                   </div>
 
                   <v-row align="center" class="mt-8">
-                    <v-btn prepend-icon="mdi-cart-variant" class="mr-2" color="primary" variant="tonal">Cart</v-btn>
-                    <v-btn prepend-icon="mdi-checkbox-marked-circle-auto-outline" class="ml-3" color="primary" variant="tonal">Book now</v-btn>
+                    <v-btn
+                      prepend-icon="mdi-cart-variant"
+                      class="ml-n5 mr-2" color="primary"
+                      variant="tonal"
+                    >
+                      Cart
+                    </v-btn>
+                    <v-btn
+                      prepend-icon="mdi-checkbox-marked-circle-auto-outline"
+                      class="ml-2"
+                      color="primary"
+                      variant="tonal"
+                    >
+                      Book now
+                    </v-btn>
                   </v-row>
                 </div>
               </v-col>
@@ -408,7 +422,9 @@
                 </v-card-text>
                 <v-card-actions>
                   <v-icon icon="mdi-cash-multiple" size="18" class="ml-1 mb-1 animate-charcter" />
-                  <p class="mx-2 animate-charcter">{{ item?.priceRange }}</p>
+                  <p class="mx-2 animate-charcter">
+                    {{ rangePrice(item?.minPrice, item?.maxPrice, item?.couponData.discountPercent) }}
+                  </p>
                   <v-spacer />
                   <v-icon
                     size="18"
@@ -451,7 +467,7 @@ const {
   getReviews,
   changeEndDate
 } = useHotelDetailUtil()
-const { formatCurrency, getPriceDiscount, minDate } = convertionType()
+const { formatCurrency, getPriceDiscount, minDate, rangePrice } = convertionType()
 
 </script>
 <style lang="scss" scoped>

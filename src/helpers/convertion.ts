@@ -27,15 +27,20 @@ export const convertionType = () => {
     return COMMENTRATE[3]
   }
   const getPriceDiscount = (price = 0, coupon = 0) => {
-    console.log(price, coupon)
     return price - (price * (coupon / 100))
   }
   const minDate = (date: Date) => date.toISOString().slice(0, 10)
+  const rangePrice = (min: number, max: number, coupon: number) => {
+    const minPriceCoupon = getPriceDiscount(min, coupon)
+    const maxPriceCoupon = getPriceDiscount(max, coupon)
+    return `${formatCurrency(minPriceCoupon)} - ${formatCurrency(maxPriceCoupon)}`
+  }
   return {
     formatCurrency,
     deCodeHtml,
     voteText,
     getPriceDiscount,
-    minDate
+    minDate,
+    rangePrice
   }
 }

@@ -1,12 +1,12 @@
 import { IParamPage } from '@/libs/types/commonType'
-import { IParamHotel, IParamReview, IParamRoomType } from '@/libs/types/hotelType'
+import { IHotel, IParamHotel, IParamReview, IParamRoomType } from '@/libs/types/hotelType'
 import connectionsAPI from '@/plugins/axios'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 
 export const useHotelStore = defineStore('hotelStore', () => {
-
+  const hotels = ref<IHotel[]>([])
 
   const getRecomendCities = async(amount = 10) =>{
     return await connectionsAPI({
@@ -49,7 +49,19 @@ export const useHotelStore = defineStore('hotelStore', () => {
       params: { page: param.page, pageSize: param.pageSize }
     })
   }
+
+  const getHotelsByFilter = async(params: any) => {
+    return await connectionsAPI({
+      methods: 'GET',
+      path: 'hotel',
+      headers: { 'Content-Type': 'application/json' },
+      params: params
+    })
+  }
+
   return {
+    hotels,
+    getHotelsByFilter,
     getRecomendCities,
     getHotelByCity,
     getHotelSumaryById,
