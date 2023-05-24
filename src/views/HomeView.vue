@@ -3,7 +3,7 @@
     <v-container fluid class="pa-0">
       <div class="container_main">
         <v-row class="h-50 w-100" align="end" justify="center">
-          <h1 class="heading-primary">
+          <h1 class="heading-primary shadow-text">
             <span class="heading-primary--main">Travels and booking</span>
             <span class="heading-primary--sub">is where life happens is where life</span>
           </h1>
