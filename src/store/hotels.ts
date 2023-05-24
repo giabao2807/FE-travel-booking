@@ -1,12 +1,19 @@
-import { IParamPage } from '@/libs/types/commonType'
-import { IHotel, IParamHotel, IParamReview, IParamRoomType } from '@/libs/types/hotelType'
+import { IFilterPanel } from '@/libs/types/commonType'
+import { IParamHotel, IParamReview, IParamRoomType, IResponseHotel } from '@/libs/types/hotelType'
 import connectionsAPI from '@/plugins/axios'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 
 export const useHotelStore = defineStore('hotelStore', () => {
-  const hotels = ref<IHotel[]>([])
+  const hotels = ref<IResponseHotel>()
+  const initFilterHotel = ref<IFilterPanel>({
+    pageSize: 12,
+    page: 1,
+    cityId: undefined,
+    startDate: '',
+    endDate: ''
+  })
 
   const getRecomendCities = async(amount = 10) =>{
     return await connectionsAPI({
@@ -50,12 +57,13 @@ export const useHotelStore = defineStore('hotelStore', () => {
     })
   }
 
-  const getHotelsByFilter = async(params: any) => {
+  const getHotelsByFilter = async(params?: IFilterPanel) => {
+    const objParam = Object.assign(initFilterHotel.value, params)
     return await connectionsAPI({
       methods: 'GET',
       path: 'hotel',
       headers: { 'Content-Type': 'application/json' },
-      params: params
+      params: objParam
     })
   }
 

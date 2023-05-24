@@ -3,8 +3,8 @@ import { ref } from 'vue'
 import { useHotelStore } from '@/store/hotels'
 import { createSharedComposable } from '@vueuse/core'
 import { convertionType } from '@/helpers/convertion'
-import { IHotel, IParamHotel } from '@/libs/types/hotelType'
-import { ICity } from '@/libs/types/commonType'
+import { IHotel, IParamHotel, IResponseHotel } from '@/libs/types/hotelType'
+import { ICity, IFilterPanel } from '@/libs/types/commonType'
 
 const createHotel = () => {
   const hotelStore = useHotelStore()
@@ -14,6 +14,8 @@ const createHotel = () => {
   const { deCodeHtml } = convertionType()
   const selectedCity = ref<number>(0)
   const loadingPanelHotel = ref<boolean>(false)
+  const loadingHotels = ref<boolean>(false)
+  const pageHotel = ref<number>(1)
 
   const getRecomendCities = async() => {
     await hotelStore.getRecomendCities()
@@ -31,15 +33,19 @@ const createHotel = () => {
     }
     loadingPanelHotel.value = true
     hotelStore.getHotelByCity(param)
-      .then((data: any) => {
+      .then((data: IResponseHotel) => {
         popularHotels.value = data.results
         loadingPanelHotel.value = false
       })
   }
 
-  const getHotelsByFilterPanel = (params: any) => {
+  const getHotelsByFilterPanel = (params?: IFilterPanel) => {
+    loadingHotels.value = true
     hotelStore.getHotelsByFilter(params)
-      .then(data => hotels.value = data.results)
+      .then(data => {
+        hotels.value = data
+        loadingHotels.value = false
+      })
   }
 
   return {
@@ -48,6 +54,8 @@ const createHotel = () => {
     recomendCities,
     selectedCity,
     loadingPanelHotel,
+    loadingHotels,
+    pageHotel,
     deCodeHtml,
     getRecomendHotelByCity,
     getRecomendCities,

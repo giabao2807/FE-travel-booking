@@ -8,7 +8,7 @@
       justify="center"
     >
       <v-col
-        class="text-subtitle-1 text-center"
+        class="pa-0 text-subtitle-1 text-center"
         cols="12"
       >
         <strong>Getting data</strong>

@@ -43,7 +43,7 @@ type Props = {
   hideDelimiterBackground?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
-  data: () => ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNmfwGLPWD-EENBmCN2h81S3KeP93ooRJf_w&usqp=CAU'],
+  data: () => ['https://wallpaperaccess.com/full/459026.jpg'],
   colorProgress: 'primary',
   showArrows: 'hover',
   hideDelimiters: true,

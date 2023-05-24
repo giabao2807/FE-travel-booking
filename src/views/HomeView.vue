@@ -171,7 +171,7 @@
                   {{ tour?.rate }} ({{ tour?.numReview }})
                 </div>
               </v-row>
-              <div class="mt-5 mb-2 revome-text text-grey-darken-2">
+              <div class="mt-5 mb-2 remove-text text-grey-darken-2">
                 {{ formatCurrency(tour?.price) }}
               </div>
               <div class="d-flex align-center justify-space-between mb-3">

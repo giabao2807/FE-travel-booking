@@ -81,7 +81,7 @@
               <div v-html="tourInfo?.scheduleContent" />
             </v-card-text>
           </v-card>
-          <v-card color="transparent" class="my-5 rounded-xl" elevation="2">
+          <v-card v-if="tourInfo?.note" color="transparent" class="my-5 rounded-xl" elevation="2">
             <v-card-text>
               <h2 class="mt-2 mb-5 text-color-priamry text-center">Những Lưu Ý Khi Tham Gia</h2>
               <div v-html="tourInfo?.note" />
@@ -159,7 +159,7 @@
             <v-row class="ml-3">
               <v-col cols="6"><h4>Giá Tour:</h4></v-col>
               <v-col>
-                <h3 class="revome-text">
+                <h3 class="remove-text">
                   <p>{{ formatCurrency(tourInfo?.price) }}</p>
                 </h3>
               </v-col>

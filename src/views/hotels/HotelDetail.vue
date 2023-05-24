@@ -123,7 +123,7 @@
                       Khuyến mãi trong thời gian có hạn. Giá phòng đã có giảm giá
                       {{ hotelInfo?.couponData.discountPercent }}%!
                     </p>
-                    <p class="revome-text">
+                    <p class="remove-text">
                       <v-icon icon="mdi-cash-multiple" class="mt-n1 mx-2" />
                       {{ formatCurrency(room?.price) }}
                     </p>

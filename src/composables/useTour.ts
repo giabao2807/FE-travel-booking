@@ -12,6 +12,7 @@ const createTour = () => {
   const popularTours = ref<ITour[]>([])
   const allCities = ref<ICityText[]>([])
   const pageTours = ref<number>(1)
+  const loadingTours = ref<boolean>(false)
 
 
   const getPopularTours = () => {
@@ -23,14 +24,21 @@ const createTour = () => {
     tourStore.getAllCity().then((data: ICityText[]) => allCities.value = data)
   }
 
-  const getToursByFilterPanel = (params: Partial<IFilterPanel>) => {
-    tourStore.getToursByFilter(params).then((data: IResponseTour) => tours.value = data)
+  const getToursByFilterPanel = (params?: IFilterPanel) => {
+    loadingTours.value = true
+    tourStore.getToursByFilter(params)
+      .then((data: IResponseTour) => {
+        tours.value = data
+        loadingTours.value = false
+      })
   }
+
   return {
     tours,
     popularTours,
     allCities,
     pageTours,
+    loadingTours,
     getTraffic,
     getPopularTours,
     getAllCities,

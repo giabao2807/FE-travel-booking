@@ -87,6 +87,6 @@
 .text-color-priamry {
   color: var(--txt-shadow-color);
 }
-.revome-text {
+.remove-text {
   text-decoration: line-through var(--txt-shadow-color);
 }

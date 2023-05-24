@@ -73,3 +73,9 @@ export type IReview = {
  count: number,
   results: IResultReview[]
 }
+export type IResponseHotel = {
+  pageSize: number,
+  pageNumber: number,
+  count: number,
+  results: IHotel[]
+}

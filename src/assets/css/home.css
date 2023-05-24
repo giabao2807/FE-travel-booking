@@ -145,8 +145,8 @@
 .section-features {
   padding: 6rem 0;
   height: 100%;
-  background-image: linear-gradient(to right bottom, rgba(175, 64, 64, 0.2), rgba(70, 26, 45, 0.5)),
-  url('@/assets/img/bg-2.jpg');
+  background-image: linear-gradient(to right bottom, rgba(211, 156, 156, 0.2), rgba(70, 26, 45, 0.2)),
+  url('@/assets/img/bg-test.jpeg');
   background-size: cover;
   background-repeat: no-repeat;
   transform: skewY(-4deg);
