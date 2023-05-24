@@ -8,7 +8,7 @@ import { ICityText, IFilterPanel } from '@/libs/types/commonType'
 
 const createTour = () => {
   const tourStore = useTourStore()
-  const { tours } = storeToRefs(tourStore)
+  const { tours, initFilterTour } = storeToRefs(tourStore)
   const popularTours = ref<ITour[]>([])
   const allCities = ref<ICityText[]>([])
   const pageTours = ref<number>(1)
@@ -39,6 +39,7 @@ const createTour = () => {
     allCities,
     pageTours,
     loadingTours,
+    initFilterTour,
     getTraffic,
     getPopularTours,
     getAllCities,

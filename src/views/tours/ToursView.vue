@@ -27,6 +27,9 @@
         </v-list>
       </v-navigation-drawer>
       <v-main class="my-5">
+        <h4 class="mx-2 my-10">
+          Những tour du lịch ở {{ initFilterTour?.cityId }} từ ngày {{ initFilterTour?.startDate }} đến {{ initFilterTour?.endDate }}
+        </h4>
         <n-panel-loading :loading="loadingTours" />
         <v-row v-if="!loadingTours">
           <v-col v-for="item in tours?.results" :key="item?.id" cols="12">
@@ -135,7 +138,14 @@ import { onMounted } from 'vue'
 import { convertionType } from '@/helpers/convertion'
 import { hanldeRoute } from '@/helpers/loadingRoute'
 
-const { tours, pageTours, loadingTours, getTraffic, getToursByFilterPanel } = useTourUtil()
+const {
+  tours,
+  pageTours,
+  loadingTours,
+  initFilterTour,
+  getTraffic,
+  getToursByFilterPanel
+} = useTourUtil()
 const { formatCurrency, getPriceDiscount } = convertionType()
 onMounted(() => {
   getToursByFilterPanel()

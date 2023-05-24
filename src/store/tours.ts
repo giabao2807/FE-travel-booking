@@ -10,7 +10,7 @@ export const useTourStore = defineStore('tourStore', () => {
     pageSize: 6,
     page: 1
   })
-  const initFilterTour: IFilterPanel = ({
+  const initFilterTour = ref<IFilterPanel>({
     pageSize: 12,
     page: 1,
     cityId: undefined,
@@ -52,17 +52,19 @@ export const useTourStore = defineStore('tourStore', () => {
   }
 
   const getToursByFilter = async(params?: IFilterPanel) => {
-    const objectParam = Object.assign(initFilterTour, params)
+    initFilterTour.value = Object.assign(initFilterTour.value, params)
     return await connectionsAPI({
       methods: 'GET',
       path: 'tour/filter_by_date_city',
-      params: objectParam,
+      params: initFilterTour.value,
       headers: { 'Content-Type': 'application/json' }
     })
+    console.log(initFilterTour.value)
   }
 
   return {
     tours,
+    initFilterTour,
     getPopularTours,
     getTourById,
     getTours,
