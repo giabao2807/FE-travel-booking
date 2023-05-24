@@ -2,26 +2,29 @@
 <template>
   <v-pagination
     class="my-5"
-    v-model="propItems.page"
+    v-model="page"
     :total-visible="5"
     :length="propItems.length"
-    @update:modelValue="() => handleAction()"
+    @update:modelValue="(event) => handleAction(event)"
   />
 </template>
 <script lang="ts" setup>
-import { defineEmits, withDefaults, defineProps } from 'vue'
+import { defineEmits, withDefaults, defineProps, ref } from 'vue'
 
 type Props = {
-  page: number,
   length: number
 }
-const emit = defineEmits(['changePage'])
-const handleAction = () => {
-  emit('changePage')
+const page = ref<number>()
+const emit = defineEmits<{
+  (event: 'change'): void
+  (event: 'update:modelValue', id: number): void
+}>()
+const handleAction = (event: number) => {
+  emit('update:modelValue', event)
+  emit('change')
   window.scrollTo(0, 0)
 }
 const propItems = withDefaults(defineProps<Props>(), {
-  page: 0,
   length: 0
 })
 </script>

@@ -12,30 +12,82 @@
     </v-container>
     <v-layout>
       <v-navigation-drawer
+        width="350"
         floating
         permanent
       >
-        <v-list
-          density="compact"
-          nav
-        >
-          <v-list-item class="mx-auto">
-            <v-card>
-              <h3>Search Panel</h3>
-            </v-card>
-          </v-list-item>
-        </v-list>
+        <v-card class="pa-2">
+          <h3 class="text-center">Search Tours</h3>
+          <v-card-text>
+            <h4>Thông tin đặt tours</h4>
+            <n-cities-select class="mx-2 mb-5" />
+            <v-row class="mx-2" align="center">
+              <v-col cols="3">
+                <p class="text-h7 text-disabled font-rowdies">
+                  2
+                  <v-icon class="mt-n2" icon="mdi-weather-night" />
+                </p>
+              </v-col>
+              <v-col class="px-0">
+                <v-text-field
+                  label="Start Date"
+                  name="startDate"
+                  type="Date"
+                  color="primary"
+                  variant="underlined"
+                  hide-details="auto"
+                  class="mb-1"
+                />
+                <v-text-field
+                  label="End Date"
+                  name="endDate"
+                  type="Date"
+                  color="primary"
+                  variant="underlined"
+                  hide-details="auto"
+                  class="mt-1"
+                />
+              </v-col>
+            </v-row>
+            <h4 class="my-5">Khoảng giá tour</h4>
+            <v-row>
+              <v-range-slider
+                :max="10"
+                :min="0"
+                :step="1"
+                hide-details
+                class="mx-8 my-5"
+                thumb-label="always"
+              />
+            </v-row>
+            <v-row justify="center">
+              <v-btn class="mx-2">
+                Clear
+              </v-btn>
+              <v-btn class="mx-2">
+                Search
+              </v-btn>
+            </v-row>
+          </v-card-text>
+        </v-card>
       </v-navigation-drawer>
-      <v-main class="my-5">
-        <h4 class="mx-2 my-10">
-          Những tour du lịch ở {{ initFilterTour?.cityId }} từ ngày {{ initFilterTour?.startDate }} đến {{ initFilterTour?.endDate }}
-        </h4>
+      <v-main class="ma-5">
+        <v-card elevation="3" class="mb-5">
+          <v-card-text>
+            <h3 class="ma-2">
+              <v-icon icon="mdi-map-search-outline" />
+              Những tour du lịch
+              <span v-if="initFilterTour?.cityId"> ở {{ getCityById(initFilterTour?.cityId)?.name }}</span>
+              <span v-if="initFilterTour?.endDate"> từ ngày {{ initFilterTour?.startDate }} đến {{ initFilterTour?.endDate }}</span>
+            </h3>
+          </v-card-text>
+        </v-card>
         <n-panel-loading :loading="loadingTours" />
         <v-row v-if="!loadingTours">
           <v-col v-for="item in tours?.results" :key="item?.id" cols="12">
             <v-card
               elevation="0"
-              class="ml-10 my-5 tour-card"
+              class="ml-5 my-5 tour-card"
               color="transparent"
               @click="() => hanldeRoute({ name: 'tourDetail', params: { id: item?.id } })"
             >
@@ -44,7 +96,7 @@
                   <n-image :src="item?.coverPicture" height="300" />
                 </v-col>
                 <v-col>
-                  <h2 class="mt-5 ml-2">
+                  <h2 class="mt-5 mx-2">
                     {{ item?.name }}
                   </h2>
                   <v-card-text class="mx-3">
@@ -85,11 +137,11 @@
                   <div class="card-actions">
                     <v-row>
                       <v-col>
-                        <p class="text-caption animate-charcter">
+                        <p v-if="item?.couponData" class="text-caption animate-charcter">
                           <v-icon icon="mdi-billboard" class="animate-charcter" />
                           Ưu đãi du lịch - {{ item?.couponData.discountPercent }}%
                         </p>
-                        <p class="remove-text">{{ formatCurrency(item?.price) }}</p>
+                        <p v-if="item?.couponData" class="remove-text">{{ formatCurrency(item?.price) }}</p>
                         <h2 class="animate-charcter">
                           {{ formatCurrency(getPriceDiscount(item?.price, item?.couponData.discountPercent)) }}
                         </h2>
@@ -121,9 +173,9 @@
         <n-pagination
           v-if="tours?.results"
           class="my-5"
-          :page="pageTours"
+          v-model="pageTours"
           :length="tours?.pageNumber"
-          @changePage="() => getToursByFilterPanel({ page: pageTours })"
+          @change="getToursByFilterPanel({ page: pageTours })"
         />
       </v-main>
     </v-layout>
@@ -133,8 +185,10 @@
 import NImage from '@/components/NImage.vue'
 import NPanelLoading from '@/components/NPanelLoading.vue'
 import NPagination from '@/components/NPagination.vue'
-import { useTourUtil } from '@/composables/useTour'
+import NCitiesSelect from '@/components/NCitiesSelect.vue'
 import { onMounted } from 'vue'
+import { useTourUtil } from '@/composables/useTour'
+import { useCities } from '@/composables/useCities'
 import { convertionType } from '@/helpers/convertion'
 import { hanldeRoute } from '@/helpers/loadingRoute'
 
@@ -147,6 +201,7 @@ const {
   getToursByFilterPanel
 } = useTourUtil()
 const { formatCurrency, getPriceDiscount } = convertionType()
+const { getCityById } = useCities()
 onMounted(() => {
   getToursByFilterPanel()
 })
@@ -167,7 +222,7 @@ onMounted(() => {
     margin-bottom: 25px;
   }
   .tour-card {
-    width: 90%;
+    width: 85%;
     cursor: pointer;
     transition: all 0.6s cubic-bezier(0.680, -0.550, 0.265, 1.550);
   }

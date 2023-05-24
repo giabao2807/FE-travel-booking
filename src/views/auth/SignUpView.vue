@@ -1,5 +1,5 @@
 <template>
-  <v-container class="fill-height container" fluid>
+  <v-container class="fill-height container-auth" fluid>
     <v-row class="mx-5" justify="end">
       <v-card min-width="38%" class="elevation-10 pa-5 pb-2 box-sign-up rounded-xl rounded-be-0" color="surface">
         <v-card-text>

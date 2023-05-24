@@ -120,10 +120,12 @@
                       <v-icon icon="mdi-ticket-percent-outline" />
                       Giá đã bao gồm:
                       Sales & Services tax.
-                      Khuyến mãi trong thời gian có hạn. Giá phòng đã có giảm giá
-                      {{ hotelInfo?.couponData.discountPercent }}%!
+                      <span v-if="hotelInfo?.couponData">
+                        Khuyến mãi trong thời gian có hạn. Giá phòng đã có giảm giá
+                        {{ hotelInfo?.couponData.discountPercent }}%!
+                      </span>
                     </p>
-                    <p class="remove-text">
+                    <p v-if="hotelInfo?.couponData" class="remove-text">
                       <v-icon icon="mdi-cash-multiple" class="mt-n1 mx-2" />
                       {{ formatCurrency(room?.price) }}
                     </p>
@@ -381,7 +383,7 @@
               height="100%"
               :src="item?.coverPicture"
             >
-              <div class="mx-2 mt-n1 card-content-coupon" variant="outlined">
+              <div v-if="item?.couponData" class="mx-2 mt-n1 card-content-coupon" variant="outlined">
                 <span class="text-h7 font-weight-bold mx-auto">
                   {{ item?.couponData.discountPercent }}%
                 </span>

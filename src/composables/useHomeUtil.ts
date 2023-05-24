@@ -29,10 +29,8 @@ const useHome = () => {
 
   const {
     popularTours,
-    allCities,
     getTraffic,
     getPopularTours,
-    getAllCities,
     getToursByFilterPanel
   } = useTourUtil()
 
@@ -70,7 +68,6 @@ const useHome = () => {
     await getRecomendCities()
     await getPopularTours()
     getRecomendHotelByCity(selectedCity.value)
-    getAllCities()
   })
 
   return {
@@ -80,7 +77,6 @@ const useHome = () => {
     popularTours,
     getCitiesPanel,
     loadingPanelHotel,
-    allCities,
     filterPanel,
     flagSearch,
     countDate,

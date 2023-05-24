@@ -67,11 +67,11 @@
                 <div class="card-actions">
                   <v-row>
                     <v-col>
-                      <p class="text-caption animate-charcter">
+                      <p v-if="item?.couponData" class="text-caption animate-charcter">
                         <v-icon icon="mdi-home-city-outline" class="animate-charcter" />
                         Ưu đãi khách sạn - {{ item?.couponData.discountPercent }}%
                       </p>
-                      <p class="remove-text">{{ rangePrice(item?.minPrice, item?.maxPrice) }}</p>
+                      <p v-if="item?.couponData" class="remove-text">{{ rangePrice(item?.minPrice, item?.maxPrice) }}</p>
                       <h3 class="animate-charcter">
                         {{ rangePrice(item?.minPrice, item?.maxPrice, item?.couponData.discountPercent) }}
                       </h3>

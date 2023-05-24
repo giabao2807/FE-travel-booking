@@ -14,18 +14,9 @@
         class="home-toolbar rounded-xl"
       >
         <v-card-text>
-          <v-autocomplete
+          <n-cities-select
             v-model="filterPanel.cityId"
-            :items="allCities"
-            label="City"
-            name="city"
-            color="primary"
-            prepend-icon="mdi-map-marker-radius-outline"
-            item-title="name"
-            item-value="id"
-            hide-details="auto"
-            placeholder="Select..."
-            variant="underlined"
+            prependIcon="mdi-map-marker-radius-outline"
             class="ma-5"
           />
           <div class="d-flex align-center flex-wrap ma-5">
@@ -129,7 +120,7 @@
               height="200"
               :src="tour?.coverPicture"
             >
-              <div class="mx-2 mt-n1 home-tour-coupon" variant="outlined">
+              <div v-if="tour?.couponData" class="mx-2 mt-n1 home-tour-coupon" variant="outlined">
                 <span class="font-weight-bold font-size-15 mx-auto">
                   {{ tour?.couponData.discountPercent }}%
                 </span>
@@ -171,7 +162,7 @@
                   {{ tour?.rate }} ({{ tour?.numReview }})
                 </div>
               </v-row>
-              <div class="mt-5 mb-2 remove-text text-grey-darken-2">
+              <div v-if="tour?.couponData" class="mt-5 mb-2 remove-text text-grey-darken-2">
                 {{ formatCurrency(tour?.price) }}
               </div>
               <div class="d-flex align-center justify-space-between mb-3">
@@ -288,7 +279,7 @@
               height="40%"
               :src="hotel.coverPicture"
             >
-              <div class="mx-2 mt-n1 home-coupon" variant="outlined">
+              <div v-if="hotel?.couponData" class="mx-2 mt-n1 home-coupon" variant="outlined">
                 <span class="font-weight-bold font-size-15 mx-auto">
                   {{ hotel?.couponData.discountPercent }}%
                 </span>
@@ -407,6 +398,7 @@
 import NButtonAnimated from '@/components/NButtonAnimated.vue'
 import NPanelLoading from '@/components/NPanelLoading.vue'
 import NSkeletonLoader from '@/components/NSkeletonLoader.vue'
+import NCitiesSelect from '@/components/NCitiesSelect.vue'
 import NImage from '@/components/NImage.vue'
 import { SEARCH_FOR } from '@/resources/mockData'
 import { hanldeRoute } from '@/helpers/loadingRoute'
@@ -417,7 +409,6 @@ const {
   recomendCities,
   selectedCity,
   popularHotels,
-  allCities,
   popularTours,
   getCitiesPanel,
   loadingPanelHotel,

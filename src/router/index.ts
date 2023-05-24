@@ -11,6 +11,7 @@ import AdminView from '@/views/dashboard/admin/index.vue'
 import HotelsView from '@/views/hotels/HotelsView.vue'
 import HotelDetail from '@/views/hotels/HotelDetail.vue'
 import UserView from '@/views/user/index.vue'
+import NotFound from '@/views/NotFound.vue'
 import requireAuth from '@/router/guard'
 
 const routes: Array<RouteRecordRaw> = [
@@ -49,7 +50,8 @@ const routes: Array<RouteRecordRaw> = [
     name: 'signUp',
     component: SignUpView,
     meta: { requiresAuth: false, allowedRoles: ['guest'] }
-  }
+  },
+  { path: '/:pathMatch(.*)*', component: NotFound }
 ]
 
 const router = createRouter({

@@ -88,6 +88,90 @@
             </v-card-text>
           </v-card>
         </v-container>
+        <v-sheet color="transparent" class="pa-2">
+          <div class="text-center">
+            <h2>Những Tours Tương Tự</h2>
+          </div>
+          <v-slide-group
+            class="pa-4"
+            selected-class="bg-success"
+            show-arrows
+          >
+            <v-slide-group-item
+              v-for="item in anotherTours"
+              :key="item.id"
+            >
+              <v-card
+                class="ma-5"
+                width="300"
+                @click="()=> hanldeRoute({ name: 'hotelDetail', params: { id: item?.id } })"
+              >
+                <v-card-title class="font-weight-bold">
+                  <n-image
+                    :src="item?.coverPicture"
+                  />
+                  {{ item?.name }}
+                  <v-tooltip
+                    activator="parent"
+                    :text="item?.name"
+                    location="top"
+                  />
+                </v-card-title>
+                <v-card-text class="pt-2">
+                  <v-row
+                    align="center"
+                    class="mx-0"
+                  >
+                    <v-rating
+                      :model-value="item.rate"
+                      color="amber"
+                      density="compact"
+                      half-increments
+                      readonly
+                      size="small"
+                    />
+                    <div class="text-grey ms-4">
+                      {{ item?.rate }} ({{ item?.numReview }})
+                    </div>
+                  </v-row>
+                  <div v-if="item?.couponData" class="mt-5 mb-2 remove-text text-grey-darken-2">
+                    {{ formatCurrency(item?.price) }}
+                  </div>
+                  <div class="d-flex align-center justify-space-between mb-3">
+                    <div class="text-subtitle-1 animate-charcter">
+                      <v-icon icon="mdi-cash-multiple" class="mt-n2 animate-charcter" />
+                      {{
+                        formatCurrency(
+                          getPriceDiscount(item?.price, item?.couponData.discountPercent)
+                        )
+                      }}
+                    </div>
+                    <div>
+                      <v-icon
+                        v-for="traffic in getTraffic(item?.traffics)"
+                        :key="traffic.value"
+                        :icon="traffic?.icon"
+                        color="primary"
+                      />
+                    </div>
+                  </div>
+                  <v-divider class="mx-n2 mb-1" />
+                  <div class="d-flex align-center justify-space-between my-3">
+                    <div>
+                      <v-icon icon="mdi-calendar-text-outline" color="primary" />
+                      Thời gian:
+                    </div>
+                    <v-chip label color="primary">{{ item?.totalDays }}</v-chip>
+                  </div>
+                  <div>
+                    <v-icon icon="mdi-calendar-start-outline" color="primary" />
+                    Khởi hành: {{ item?.departure }}
+                  </div>
+                </v-card-text>
+              </v-card>
+            </v-slide-group-item>
+          </v-slide-group>
+        </v-sheet>
       </v-col>
       <v-col class="mt-n2 pa-0">
         <v-card
@@ -143,7 +227,7 @@
               </v-row>
             </v-card>
             <v-divider class="ma-5" />
-            <v-row class="ml-3">
+            <v-row v-if="tourInfo?.couponData" class="ml-3">
               <v-col cols="6">
                 <h5>
                   <v-icon icon="mdi-ticket-percent-outline" />
@@ -156,7 +240,7 @@
                 </h2>
               </v-col>
             </v-row>
-            <v-row class="ml-3">
+            <v-row v-if="tourInfo?.couponData" class="ml-3">
               <v-col cols="6"><h4>Giá Tour:</h4></v-col>
               <v-col>
                 <h3 class="remove-text">
@@ -194,9 +278,11 @@
 <script lang="ts" setup>
 import { useTourDetail } from '@/composables/useTourDetail'
 import { convertionType } from '@/helpers/convertion'
+import { hanldeRoute } from '@/helpers/loadingRoute'
 import NCarousel from '@/components/NCarousel.vue'
+import NImage from '@/components/NImage.vue'
 
-const { tourInfo, bookingTour, getTraffic, hanldeAmount } = useTourDetail()
+const { tourInfo, bookingTour, anotherTours, getTraffic, hanldeAmount } = useTourDetail()
 const { formatCurrency, voteText, getPriceDiscount } = convertionType()
 </script>
 
