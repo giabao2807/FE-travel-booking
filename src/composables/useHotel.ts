@@ -17,7 +17,7 @@ const createHotel = () => {
 
   const getRecomendCities = async() => {
     await hotelStore.getRecomendCities()
-      .then(data => {
+      .then((data: ICity[]) => {
         recomendCities.value = data
       })
     recomendCities.value[0]?.id ? selectedCity.value = recomendCities.value[0].id : ''
@@ -31,7 +31,7 @@ const createHotel = () => {
     }
     loadingPanelHotel.value = true
     hotelStore.getHotelByCity(param)
-      .then(data => {
+      .then((data: any) => {
         popularHotels.value = data.results
         loadingPanelHotel.value = false
       })

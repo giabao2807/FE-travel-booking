@@ -1,16 +1,22 @@
 import { ref } from 'vue'
-import { ITour } from '@/libs/types/tourType'
-import { IParamPage } from '@/libs/types/commonType'
+import { IResponseTour } from '@/libs/types/tourType'
+import { IFilterPanel, IParamPage } from '@/libs/types/commonType'
 import connectionsAPI from '@/plugins/axios'
 import { defineStore } from 'pinia'
 
 export const useTourStore = defineStore('tourStore', () => {
+  const tours = ref<IResponseTour>()
   const initParamTour: IParamPage = ({
     pageSize: 6,
     page: 1
   })
-  const tours = ref<any>([])
-  const filterParam = ref<any>()
+  const initFilterTour = ref<IFilterPanel>({
+    pageSize: 12,
+    page: 1,
+    cityId: undefined,
+    startDate: '',
+    endDate: ''
+  })
   const getTours = async(params: IParamPage = initParamTour) =>{
     return await connectionsAPI({
       methods: 'GET',
@@ -45,18 +51,18 @@ export const useTourStore = defineStore('tourStore', () => {
     })
   }
 
-  const getToursByFilter = async(params: any) => {
+  const getToursByFilter = async(params: Partial<IFilterPanel>) => {
+    const object = Object.assign(initFilterTour.value, params)
     return await connectionsAPI({
       methods: 'GET',
       path: 'tour/filter_by_date_city',
-      params: params,
+      params: object,
       headers: { 'Content-Type': 'application/json' }
     })
   }
 
   return {
     tours,
-    filterParam,
     getPopularTours,
     getTourById,
     getTours,

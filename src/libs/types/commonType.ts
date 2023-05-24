@@ -26,8 +26,8 @@ export type IParamPage = {
   page?: number
 }
 export type IFilterDate = {
-  startDate: string,
-  endDate: string
+  startDate?: string,
+  endDate?: string
 }
 export type ICity = {
   id: number,
@@ -48,4 +48,7 @@ export type ICoupon = {
   startDate: string,
   endDate: string,
   discountPercent: number
+}
+export type IFilterPanel = IFilterDate & IParamPage & {
+  cityId?: number
 }

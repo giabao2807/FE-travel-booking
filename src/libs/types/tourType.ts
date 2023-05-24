@@ -16,6 +16,13 @@ export type ITour = {
   couponData: ICoupon
 }
 
+export type IResponseTour = {
+  pageSize: number,
+  pageNumber: number,
+  count: number,
+  results: ITour[]
+}
+
 export type IDetailTour = ITour & {
   createdAt: string,
   updatedAt: string,
