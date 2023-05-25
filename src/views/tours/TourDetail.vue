@@ -205,6 +205,7 @@
           </v-card-item>
           <v-card-text>
             <v-text-field
+              v-model="bookingTour.startDate"
               label="Ngày khởi hành"
               name="startDate"
               type="Date"
@@ -262,7 +263,18 @@
             </v-row>
           </v-card-text>
           <v-card-actions class="ma-5">
-            <v-btn prepend-icon="mdi-cart-outline" variant="outlined">
+            <v-btn
+              @click="() => addToCart({
+                id: tourInfo?.id,
+                name: tourInfo?.name,
+                image: tourInfo?.coverPicture,
+                amount: bookingTour?.amount,
+                startDate: bookingTour?.startDate,
+                price: tourInfo?.price
+              })"
+              prepend-icon="mdi-cart-outline"
+              variant="outlined"
+            >
               Add To Cart
             </v-btn>
             <v-spacer />
@@ -282,7 +294,7 @@ import { hanldeRoute } from '@/helpers/loadingRoute'
 import NCarousel from '@/components/NCarousel.vue'
 import NImage from '@/components/NImage.vue'
 
-const { tourInfo, bookingTour, anotherTours, getTraffic, hanldeAmount } = useTourDetail()
+const { tourInfo, bookingTour, anotherTours, addToCart, getTraffic, hanldeAmount } = useTourDetail()
 const { formatCurrency, voteText, getPriceDiscount } = convertionType()
 </script>
 

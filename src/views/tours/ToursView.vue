@@ -20,16 +20,18 @@
           <h3 class="text-center">Search Tours</h3>
           <v-card-text>
             <h4>Thông tin đặt tours</h4>
-            <n-cities-select class="mx-2 mb-5" />
+            <n-cities-select v-model="initFilterTour.cityId" class="mx-2 mb-5" />
             <v-row class="mx-2" align="center">
               <v-col cols="3">
                 <p class="text-h7 text-disabled font-rowdies">
-                  2
+                  {{ countDate }}
                   <v-icon class="mt-n2" icon="mdi-weather-night" />
                 </p>
               </v-col>
               <v-col class="px-0">
                 <v-text-field
+                  v-model="initFilterTour.startDate"
+                  :min="minDate(new Date())"
                   label="Start Date"
                   name="startDate"
                   type="Date"
@@ -39,6 +41,8 @@
                   class="mb-1"
                 />
                 <v-text-field
+                  v-model="initFilterTour.endDate"
+                  :min="initFilterTour.startDate"
                   label="End Date"
                   name="endDate"
                   type="Date"
@@ -64,7 +68,10 @@
               <v-btn class="mx-2">
                 Clear
               </v-btn>
-              <v-btn class="mx-2">
+              <v-btn
+                class="mx-2"
+                @click="() => getToursByFilterPanel()"
+              >
                 Search
               </v-btn>
             </v-row>
@@ -197,10 +204,11 @@ const {
   pageTours,
   loadingTours,
   initFilterTour,
+  countDate,
   getTraffic,
   getToursByFilterPanel
 } = useTourUtil()
-const { formatCurrency, getPriceDiscount } = convertionType()
+const { formatCurrency, getPriceDiscount, minDate } = convertionType()
 const { getCityById } = useCities()
 onMounted(() => {
   getToursByFilterPanel()

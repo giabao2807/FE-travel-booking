@@ -1,5 +1,5 @@
 import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useHotelStore } from '@/store/hotels'
 import { createSharedComposable } from '@vueuse/core'
 import { convertionType } from '@/helpers/convertion'
@@ -8,7 +8,7 @@ import { ICity, IFilterPanel } from '@/libs/types/commonType'
 
 const createHotel = () => {
   const hotelStore = useHotelStore()
-  const { hotels } = storeToRefs(hotelStore)
+  const { hotels, initFilterHotel } = storeToRefs(hotelStore)
   const popularHotels = ref<IHotel[]>([])
   const recomendCities = ref<ICity[]>([])
   const { deCodeHtml } = convertionType()
@@ -48,6 +48,17 @@ const createHotel = () => {
       })
   }
 
+  const countDate = computed(() => {
+    const ONE_DAY = 1000 * 60 * 60 * 24
+    if (initFilterHotel.value.startDate && initFilterHotel.value.endDate) {
+      const startDate = new Date(initFilterHotel.value.startDate)
+      const endDate = new Date(initFilterHotel.value.endDate)
+      const time = Math.abs(startDate.getTime() - endDate.getTime())
+      return Math.round(time / ONE_DAY)
+    }
+    return null
+  })
+
   return {
     hotels,
     popularHotels,
@@ -56,6 +67,8 @@ const createHotel = () => {
     loadingPanelHotel,
     loadingHotels,
     pageHotel,
+    countDate,
+    initFilterHotel,
     deCodeHtml,
     getRecomendHotelByCity,
     getRecomendCities,

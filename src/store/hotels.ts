@@ -66,9 +66,15 @@ export const useHotelStore = defineStore('hotelStore', () => {
       params: objParam
     })
   }
-
+  const addToCart = (data?: any) => {
+    const cartHotels = JSON.parse(localStorage.getItem('hotels-cart') || '[]')
+    cartHotels.push(data)
+    localStorage.setItem('hotels-cart', JSON.stringify(cartHotels))
+  }
   return {
     hotels,
+    initFilterHotel,
+    addToCart,
     getHotelsByFilter,
     getRecomendCities,
     getHotelByCity,

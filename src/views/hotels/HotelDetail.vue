@@ -140,6 +140,7 @@
                       prepend-icon="mdi-cart-variant"
                       class="ml-n5 mr-2" color="primary"
                       variant="tonal"
+                      @click="() => addToCart(hotelInfo)"
                     >
                       Cart
                     </v-btn>
@@ -464,6 +465,7 @@ const {
   loadingReview,
   loadingRooms,
   pageReview,
+  addToCart,
   deCodeHtml,
   getRoomByDate,
   getReviews,

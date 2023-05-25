@@ -63,8 +63,11 @@
       </v-slide-group>
       <template #append>
         <div v-if="!display.xs" class="d-flex justify-center align-center">
+          <v-badge @click="() => hanldeRoute({ name: 'cart' })" class="mx-5 icons" dot>
+            <v-icon icon="mdi-cart-heart" />
+          </v-badge>
           <v-badge class="icons" dot>
-            <v-icon icon="mdi-bell-outline" size="small" />
+            <v-icon icon="mdi-bell-outline" />
           </v-badge>
           <v-btn
             v-show="!authUser?.accessToken"

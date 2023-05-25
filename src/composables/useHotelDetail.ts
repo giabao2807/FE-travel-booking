@@ -87,6 +87,9 @@ const createHotelDetail = () => {
   const changeEndDate = () => {
     filterDetail.value.endDate = ''
   }
+  const addToCart = (data: any) => {
+    hotelStore.addToCart(data)
+  }
   watchEffect(async() => {
     hotelId.value
     if (hotelId.value) {
@@ -107,6 +110,7 @@ const createHotelDetail = () => {
     loadingRooms,
     anotherHotels,
     pageReview,
+    addToCart,
     deCodeHtml,
     getRoomByDate,
     getHotelById,

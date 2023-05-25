@@ -1,5 +1,5 @@
 import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { useTourStore } from '@/store/tours'
 import { TRAFFICS } from '@/resources/mockData'
@@ -26,6 +26,16 @@ const createTour = () => {
         loadingTours.value = false
       })
   }
+  const countDate = computed(() => {
+    const ONE_DAY = 1000 * 60 * 60 * 24
+    if (initFilterTour.value.startDate && initFilterTour.value.endDate) {
+      const startDate = new Date(initFilterTour.value.startDate)
+      const endDate = new Date(initFilterTour.value.endDate)
+      const time = Math.abs(startDate.getTime() - endDate.getTime())
+      return Math.round(time / ONE_DAY)
+    }
+    return null
+  })
 
   return {
     tours,
@@ -33,6 +43,7 @@ const createTour = () => {
     pageTours,
     loadingTours,
     initFilterTour,
+    countDate,
     getTraffic,
     getPopularTours,
     getToursByFilterPanel
