@@ -140,7 +140,14 @@
                       prepend-icon="mdi-cart-variant"
                       class="ml-n5 mr-2" color="primary"
                       variant="tonal"
-                      @click="() => addToCart(hotelInfo)"
+                      @click="() => addToCart({
+                        idHotel: hotelInfo?.id,
+                        nameHotel: hotelInfo?.name,
+                        idRoom: room?.id,
+                        nameRoom: room?.name,
+                        imageRoom: room?.listImages[0],
+                        priceRoom: room?.price
+                      })"
                     >
                       Cart
                     </v-btn>
@@ -367,6 +374,7 @@
       </div>
       <v-slide-group
         class="pa-4"
+        center-active
         selected-class="bg-success"
         show-arrows
       >
@@ -381,7 +389,7 @@
           >
             <n-image
               class="align-end text-white"
-              height="100%"
+              height="300"
               :src="item?.coverPicture"
             >
               <div v-if="item?.couponData" class="mx-2 mt-n1 card-content-coupon" variant="outlined">
