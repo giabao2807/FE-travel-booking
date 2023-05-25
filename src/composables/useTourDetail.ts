@@ -4,11 +4,13 @@ import { useTourStore } from '@/store/tours'
 import { TRAFFICS } from '@/resources/mockData'
 import { IDetailTour, ITour } from '@/libs/types/tourType'
 import { useRoute } from 'vue-router'
+import { cartStorage } from '@/helpers/cartLocal'
 
 const createTourDetail = () => {
   const tourStore = useTourStore()
   const route = useRoute()
   const tourId = computed(() => route.params.id as string)
+  const { addToCart } = cartStorage()
   const anotherTours = ref<ITour[]>([])
   const tourInfo = ref<IDetailTour>()
 
@@ -34,8 +36,8 @@ const createTourDetail = () => {
       .then(data => tourInfo.value = data)
     getAnotherToursByCity(id)
   }
-  const addToCart = (data: any) => {
-    tourStore.addToCart(data)
+  const addTourToCart = (data: any) => {
+    addToCart('tours', data)
   }
   onMounted(async() => {
     await getTourById(tourId.value)
@@ -44,7 +46,7 @@ const createTourDetail = () => {
     tourInfo,
     bookingTour,
     anotherTours,
-    addToCart,
+    addTourToCart,
     hanldeAmount,
     getTraffic,
     getTourById,

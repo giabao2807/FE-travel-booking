@@ -61,15 +61,9 @@ export const useTourStore = defineStore('tourStore', () => {
     })
   }
 
-  const addToCart = (data?: any) => {
-    const cartTours = JSON.parse(localStorage.getItem('tours-cart') || '[]')
-    cartTours.push(data)
-    localStorage.setItem('tours-cart', JSON.stringify(cartTours))
-  }
   return {
     tours,
     initFilterTour,
-    addToCart,
     getPopularTours,
     getTourById,
     getTours,

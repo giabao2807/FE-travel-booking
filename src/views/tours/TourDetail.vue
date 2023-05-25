@@ -264,7 +264,7 @@
           </v-card-text>
           <v-card-actions class="ma-5">
             <v-btn
-              @click="() => addToCart({
+              @click="() => addTourToCart({
                 id: tourInfo?.id,
                 name: tourInfo?.name,
                 image: tourInfo?.coverPicture,
@@ -294,7 +294,7 @@ import { hanldeRoute } from '@/helpers/loadingRoute'
 import NCarousel from '@/components/NCarousel.vue'
 import NImage from '@/components/NImage.vue'
 
-const { tourInfo, bookingTour, anotherTours, addToCart, getTraffic, hanldeAmount } = useTourDetail()
+const { tourInfo, bookingTour, anotherTours, addTourToCart, getTraffic, hanldeAmount } = useTourDetail()
 const { formatCurrency, voteText, getPriceDiscount } = convertionType()
 </script>
 

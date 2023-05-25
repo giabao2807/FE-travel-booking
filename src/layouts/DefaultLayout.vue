@@ -63,12 +63,18 @@
       </v-slide-group>
       <template #append>
         <div v-if="!display.xs" class="d-flex justify-center align-center">
-          <v-badge @click="() => hanldeRoute({ name: 'cart' })" class="mx-5 icons" dot>
-            <v-icon icon="mdi-cart-heart" />
-          </v-badge>
-          <v-badge class="icons" dot>
-            <v-icon icon="mdi-bell-outline" />
-          </v-badge>
+          <div class="mb-n3">
+            <v-badge
+              :content="amountCart"
+              @click="() => hanldeRoute({ name: 'cart' })"
+              class="mx-5 icons"
+            >
+              <v-icon icon="mdi-cart-heart" />
+            </v-badge>
+            <v-badge class="icons" dot>
+              <v-icon icon="mdi-bell-outline" />
+            </v-badge>
+          </div>
           <v-btn
             v-show="!authUser?.accessToken"
             class="text-none mx-5 btn-shadown"
@@ -168,8 +174,9 @@ const {
   display,
   authUser,
   checkAvatar,
-  signOut,
-  slideValue
+  amountCart,
+  slideValue,
+  signOut
 } = useDefaultLayout()
 </script>
 <style scoped>

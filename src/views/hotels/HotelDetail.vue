@@ -102,8 +102,8 @@
                         <v-icon icon="mdi-home-roof" />
                         Số lượng phòng: {{ room?.quantity }} phòng
                       </p>
-                      <p v-show="room?.availableRoomAmount" class="my-2">
-                        <v-icon icon="mdi-home-variant-outline" />
+                      <p v-show="room?.availableRoomAmount" class="text-red my-2">
+                        <v-icon class="mt-n2" icon="mdi-home-variant-outline" />
                         Phòng trống: {{ room?.availableRoomAmount }} phòng
                       </p>
                     </v-col>
@@ -116,17 +116,30 @@
               <v-col class="custom-voucher">
                 <div color="transparent" class="ml-14 mt-5 pa-4">
                   <div class="ma-2">
-                    <p class="my-3 text-caption">
+                    <p class="mt-3 text-caption">
                       <v-icon icon="mdi-ticket-percent-outline" />
                       Giá đã bao gồm:
                       Sales & Services tax.
                       <span v-if="hotelInfo?.couponData">
-                        Khuyến mãi trong thời gian có hạn. Giá phòng đã có giảm giá
+                        Khuyến mãi trong thời gian có hạn
                         {{ hotelInfo?.couponData.discountPercent }}%!
                       </span>
                     </p>
+                    <p class="mx-2">
+                      <v-row class="mt-4 mb-1" align="end" justify="start">
+                        <p class="mr-2">Số lượng:</p>
+                        <el-select v-model="room.amount" placeholder="0" class="w-25" size="small">
+                          <el-option
+                            v-for="item in room?.availableRoomAmount"
+                            :key="item"
+                            :label="item"
+                            :value="item"
+                          />
+                        </el-select>
+                        <p class="mx-1">phòng</p>
+                      </v-row>
+                    </p>
                     <p v-if="hotelInfo?.couponData" class="remove-text">
-                      <v-icon icon="mdi-cash-multiple" class="mt-n1 mx-2" />
                       {{ formatCurrency(room?.price) }}
                     </p>
                     <div class="text-h6 animate-charcter my-2">
@@ -135,7 +148,7 @@
                     </div>
                   </div>
 
-                  <v-row align="center" class="mt-8">
+                  <v-row align="center" class="mt-5">
                     <v-btn
                       prepend-icon="mdi-cart-variant"
                       class="ml-n5 mr-2" color="primary"
@@ -166,6 +179,26 @@
           </v-card>
         </v-col>
       </v-row>
+      <v-card class="ma-6 pa-5">
+        <v-row align="center">
+          <v-col cols="10">
+            <v-card-title>
+              <h2>Yours Booking Rooms</h2>
+            </v-card-title>
+            <v-card-text>
+              <h4 class="ma-5">Tổng số phòng đã chọn: {{ totalAmountBook }}</h4>
+              <h4 class="ma-5">Tổng tiền:</h4>
+            </v-card-text>
+          </v-col>
+          <v-col>
+            <n-button-animated
+              label="Booking"
+              width="10rem"
+              fontSize="0.5rem"
+            />
+          </v-col>
+        </v-row>
+      </v-card>
     </v-sheet>
     <v-container class="px-0 description">
       <v-row class="mx-0">
@@ -456,6 +489,7 @@
 import NImage from '@/components/NImage.vue'
 import NCarousel from '@/components/NCarousel.vue'
 import NPanelLoading from '@/components/NPanelLoading.vue'
+import NButtonAnimated from '@/components/NButtonAnimated.vue'
 import '@/assets/scss/detail.scss'
 import { useHotelDetailUtil } from '@/composables/useHotelDetail'
 import { convertionType } from '@/helpers/convertion'
@@ -473,6 +507,8 @@ const {
   loadingReview,
   loadingRooms,
   pageReview,
+  totalAmountBook,
+  totalPrice,
   addToCart,
   deCodeHtml,
   getRoomByDate,

@@ -90,12 +90,26 @@ const createHotelDetail = () => {
   const addToCart = (data: any) => {
     hotelStore.addToCart(data)
   }
+  const totalAmountBook = computed(() => {
+    let total = 0
+    rooms?.value.forEach(item => {
+      total += item.amount ? item.amount : 0
+    })
+    return total
+  })
+  const totalPrice = computed(() => {
+    return rooms?.value.reduce((total, item) => {
+      const amount = item.amount ? item.amount : 0
+      return total + (amount * (item.price - (item.price * item?.couponData.discountPercent))) }, 0)
+  })
   watchEffect(async() => {
     hotelId.value
     if (hotelId.value) {
       pageReview.value = 1
       await getHotelById(hotelId.value)
       getFirstPageReviews({ id: hotelId.value })
+      totalAmountBook.value
+      totalPrice.value
     }
   })
   return {
@@ -110,6 +124,8 @@ const createHotelDetail = () => {
     loadingRooms,
     anotherHotels,
     pageReview,
+    totalAmountBook,
+    totalPrice,
     addToCart,
     deCodeHtml,
     getRoomByDate,

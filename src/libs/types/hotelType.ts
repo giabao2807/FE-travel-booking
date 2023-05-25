@@ -45,7 +45,9 @@ export type IRoomType = {
   square: string,
   quantity: number,
   totalRoomAmount: number,
-  availableRoomAmount: number
+  availableRoomAmount: number,
+  couponData: ICoupon,
+  amount: number
 }
 
 export type IOwner = {
