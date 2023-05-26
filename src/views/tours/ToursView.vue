@@ -156,19 +156,19 @@
                     </v-row>
                     <v-row>
                       <v-btn
-                        prepend-icon="mdi-cart-variant"
-                        color="primary"
-                        variant="tonal"
-                      >
-                        Cart
-                      </v-btn>
-                      <v-btn
                         prepend-icon="mdi-checkbox-marked-circle-auto-outline"
-                        class="ml-2"
+                        class="mr-2"
                         color="primary"
                         variant="tonal"
                       >
                         Book now
+                      </v-btn>
+                      <v-btn
+                        color="primary"
+                        variant="tonal"
+                        class="text-none"
+                      >
+                        More...
                       </v-btn>
                     </v-row>
                   </div>

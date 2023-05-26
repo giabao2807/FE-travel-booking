@@ -148,25 +148,10 @@
                     </div>
                   </div>
 
-                  <v-row align="center" class="mt-5">
-                    <v-btn
-                      prepend-icon="mdi-cart-variant"
-                      class="ml-n5 mr-2" color="primary"
-                      variant="tonal"
-                      @click="() => addToCart({
-                        idHotel: hotelInfo?.id,
-                        nameHotel: hotelInfo?.name,
-                        idRoom: room?.id,
-                        nameRoom: room?.name,
-                        imageRoom: room?.listImages[0],
-                        priceRoom: room?.price
-                      })"
-                    >
-                      Cart
-                    </v-btn>
+                  <v-row align="center" justify="end" class="mt-5">
                     <v-btn
                       prepend-icon="mdi-checkbox-marked-circle-auto-outline"
-                      class="ml-2"
+                      class="mx-2"
                       color="primary"
                       variant="tonal"
                     >
@@ -180,14 +165,17 @@
         </v-col>
       </v-row>
       <v-card class="ma-6 pa-5">
-        <v-row align="center">
+        <v-row class="border-black" align="center">
           <v-col cols="10">
             <v-card-title>
               <h2>Yours Booking Rooms</h2>
             </v-card-title>
             <v-card-text>
-              <h4 class="ma-5">Tổng số phòng đã chọn: {{ totalAmountBook }}</h4>
-              <h4 class="ma-5">Tổng tiền:</h4>
+              <h3 class="ma-5">
+                Tổng số phòng đã chọn: {{ totalAmountBook }}
+                <v-icon icon="mdi-home-group" />
+              </h3>
+              <h3 class="ma-5">Tổng tiền: {{ formatCurrency(totalPrice) }}</h3>
             </v-card-text>
           </v-col>
           <v-col>
@@ -509,7 +497,6 @@ const {
   pageReview,
   totalAmountBook,
   totalPrice,
-  addToCart,
   deCodeHtml,
   getRoomByDate,
   getReviews,

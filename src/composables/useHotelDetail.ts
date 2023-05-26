@@ -87,9 +87,6 @@ const createHotelDetail = () => {
   const changeEndDate = () => {
     filterDetail.value.endDate = ''
   }
-  const addToCart = (data: any) => {
-    hotelStore.addToCart(data)
-  }
   const totalAmountBook = computed(() => {
     let total = 0
     rooms?.value.forEach(item => {
@@ -99,8 +96,9 @@ const createHotelDetail = () => {
   })
   const totalPrice = computed(() => {
     return rooms?.value.reduce((total, item) => {
-      const amount = item.amount ? item.amount : 0
-      return total + (amount * (item.price - (item.price * item?.couponData.discountPercent))) }, 0)
+      const amount = item.amount || 0
+      const coupon = hotelInfo?.value?.couponData.discountPercent || 0
+      return total + (amount * (item.price - (item.price * coupon / 100))) }, 0)
   })
   watchEffect(async() => {
     hotelId.value
@@ -126,7 +124,6 @@ const createHotelDetail = () => {
     pageReview,
     totalAmountBook,
     totalPrice,
-    addToCart,
     deCodeHtml,
     getRoomByDate,
     getHotelById,

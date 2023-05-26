@@ -46,7 +46,6 @@ export type IRoomType = {
   quantity: number,
   totalRoomAmount: number,
   availableRoomAmount: number,
-  couponData: ICoupon,
   amount: number
 }
 

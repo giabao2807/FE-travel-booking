@@ -25,3 +25,28 @@ export const HEADER_TAB = [
   { value: 3, name: 'Bookings' },
   { value: 4, name: 'FAQ' }
 ]
+
+export const BANK = [
+  { value: 'NCB', name: 'NCB' },
+  { value: 'AGRIBANK', name: 'Agribank' },
+  { value: 'SCB', name: 'SCB' },
+  { value: 'SACOMBANK', name: 'SacomBank' },
+  { value: 'EXIMBANK', name: 'EximBank' },
+  { value: 'MSBANK', name: 'MSBANK' },
+  { value: 'NAMABANK', name: 'NamABank' },
+  { value: 'VNMART', name: 'VnMart' },
+  { value: 'VIETINBANK', name: 'Vietinbank' },
+  { value: 'VIETCOMBANK', name: 'VCB' },
+  { value: 'HDBANK', name: 'HDBank' },
+  { value: 'DONGABANK', name: 'Dong A' },
+  { value: 'TPBANK', name: 'TPBank' },
+  { value: 'OJB', name: 'OceanBank' },
+  { value: 'BIDV', name: 'BIDV' },
+  { value: 'TECHCOMBANK', name: 'Techcombank' },
+  { value: 'VPBANK', name: 'VPBank' },
+  { value: 'MBBANK', name: 'MBBank' },
+  { value: 'ACB', name: 'ACB' },
+  { value: 'OCB', name: 'OCB' },
+  { value: 'IVB', name: 'IVB' },
+  { value: 'VISA', name:  'VISA/MASTER' }
+]

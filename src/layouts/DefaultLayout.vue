@@ -64,13 +64,6 @@
       <template #append>
         <div v-if="!display.xs" class="d-flex justify-center align-center">
           <div class="mb-n3">
-            <v-badge
-              :content="amountCart"
-              @click="() => hanldeRoute({ name: 'cart' })"
-              class="mx-5 icons"
-            >
-              <v-icon icon="mdi-cart-heart" />
-            </v-badge>
             <v-badge class="icons" dot>
               <v-icon icon="mdi-bell-outline" />
             </v-badge>
@@ -174,7 +167,6 @@ const {
   display,
   authUser,
   checkAvatar,
-  amountCart,
   slideValue,
   signOut
 } = useDefaultLayout()

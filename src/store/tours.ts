@@ -61,9 +61,18 @@ export const useTourStore = defineStore('tourStore', () => {
     })
   }
 
+  const bookingTour = async(data?: any) => {
+    return await connectionsAPI({
+      methods: 'POST',
+      path: 'booking',
+      data: data
+    })
+  }
+
   return {
     tours,
     initFilterTour,
+    bookingTour,
     getPopularTours,
     getTourById,
     getTours,
