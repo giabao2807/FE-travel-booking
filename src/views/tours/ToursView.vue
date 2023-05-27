@@ -96,7 +96,6 @@
               elevation="0"
               class="ml-5 my-5 tour-card"
               color="transparent"
-              @click="() => hanldeRoute({ name: 'tourDetail', params: { id: item?.id } })"
             >
               <v-row>
                 <v-col cols="4">
@@ -155,18 +154,28 @@
                       </v-col>
                     </v-row>
                     <v-row>
-                      <v-btn
-                        prepend-icon="mdi-checkbox-marked-circle-auto-outline"
-                        class="mr-2"
-                        color="primary"
-                        variant="tonal"
+                      <n-dialog-book
+                        v-model="item.dialog"
+                        titleDialog="BOOK TOUR"
+                        :tourInfo="item"
                       >
-                        Book now
-                      </v-btn>
+                        <template #action>
+                          <v-btn
+                            prepend-icon="mdi-checkbox-marked-circle-auto-outline"
+                            class="mr-2"
+                            color="primary"
+                            variant="tonal"
+                            @click="() => item.dialog = true"
+                          >
+                            Book now
+                          </v-btn>
+                        </template>
+                      </n-dialog-book>
                       <v-btn
                         color="primary"
                         variant="tonal"
                         class="text-none"
+                        @click="() => hanldeRoute({ name: 'tourDetail', params: { id: item?.id } })"
                       >
                         More...
                       </v-btn>
@@ -193,6 +202,7 @@ import NImage from '@/components/NImage.vue'
 import NPanelLoading from '@/components/NPanelLoading.vue'
 import NPagination from '@/components/NPagination.vue'
 import NCitiesSelect from '@/components/NCitiesSelect.vue'
+import NDialogBook from '@/components/NDialogBook.vue'
 import { onMounted } from 'vue'
 import { useTourUtil } from '@/composables/useTour'
 import { useCities } from '@/composables/useCities'
@@ -204,11 +214,12 @@ const {
   pageTours,
   loadingTours,
   initFilterTour,
+  bookingTour,
   countDate,
-  getTraffic,
+  dialogBooking,
   getToursByFilterPanel
 } = useTourUtil()
-const { formatCurrency, getPriceDiscount, minDate } = convertionType()
+const { formatCurrency, getPriceDiscount, minDate, getTraffic } = convertionType()
 const { getCityById } = useCities()
 onMounted(() => {
   getToursByFilterPanel()

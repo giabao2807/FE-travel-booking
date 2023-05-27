@@ -415,7 +415,6 @@ const {
   countDate,
   filterPanel,
   flagSearch,
-  getTraffic,
   changeEndDate,
   getRecomendHotelByCity,
   handleFilter
@@ -425,7 +424,8 @@ const {
   voteText,
   getPriceDiscount,
   minDate,
-  rangePrice
+  rangePrice,
+  getTraffic
 } = convertionType()
 </script>
 <style scoped>

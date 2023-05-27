@@ -205,7 +205,7 @@
           </v-card-item>
           <v-card-text>
             <v-text-field
-              v-model="bookingTour.startDate"
+              v-model="bookTour.startDate"
               :min="minDate(new Date())"
               label="Ngày khởi hành"
               name="startDate"
@@ -222,7 +222,7 @@
                 <v-col>
                   <v-row>
                     <v-icon icon="mdi-minus-thick" class="mr-5" @click="() => hanldeAmount()" />
-                    <h2>{{ bookingTour?.bookingItems[0].quantity }}</h2>
+                    <h2>{{ bookTour?.bookingItems[0].quantity }}</h2>
                     <v-icon icon="mdi-plus-thick" class="ml-5" @click="() => hanldeAmount(true)" />
                   </v-row>
                 </v-col>
@@ -257,7 +257,7 @@
                   {{
                     formatCurrency(
                       getPriceDiscount(tourInfo?.price, tourInfo?.couponData.discountPercent)
-                        * bookingTour?.bookingItems[0].quantity
+                        * bookTour?.bookingItems[0].quantity
                     )
                   }}
                 </h2>
@@ -266,191 +266,46 @@
           </v-card-text>
           <v-card-actions class="ma-5">
             <v-spacer />
-            <v-btn
-              :disabled="!bookingTour.startDate"
-              prepend-icon="mdi-checkbox-marked-circle-auto-outline"
-              color="primary"
-              variant="tonal"
-              @click="() => dialogBooking = true"
+            <n-dialog-book
+              v-model="dialogBooking"
+              titleDialog="BOOK TOUR"
+              :tourInfo="tourInfo"
             >
-              Book now
-            </v-btn>
+              <template #action>
+                <v-btn
+                  prepend-icon="mdi-checkbox-marked-circle-auto-outline"
+                  class="mr-2"
+                  color="primary"
+                  variant="tonal"
+                  @click="() => dialogBooking = true"
+                >
+                  Book now
+                </v-btn>
+              </template>
+            </n-dialog-book>
           </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
-    <v-dialog persistent width="70%" v-model="dialogBooking">
-      <v-card>
-        <v-card-title class="justify-space-between">
-          <h2 class="text-center ma-2">BOOK TOUR</h2>
-          <v-timeline direction="horizontal" truncate-line="both">
-            <v-timeline-item
-              v-for="n in 3"
-              :key="n"
-              :icon="['mdi-cube-scan', 'mdi-credit-card-outline', 'mdi-cloud-check-variant'][n-1]"
-              :icon-color="step === n ? 'primary' : '#000'"
-              dot-color="transparent"
-            />
-          </v-timeline>
-        </v-card-title>
-
-        <v-window v-model="step">
-          <v-window-item :value="1">
-            <v-card-text class="ml-2">
-              <h2 class="mb-5">Confirm Tour Information</h2>
-              <v-row>
-                <v-col cols="4">
-                  <n-image :src="tourInfo?.listImages[0]" height="250" />
-                  <div class="my-2">
-                    <v-icon icon="mdi-clock-start" />
-                    Khởi hành:
-                    <strong class="mx-2">{{ tourInfo?.departure }}</strong>
-                  </div>
-                  <div class="my-2">
-                    <v-icon icon="mdi-shoe-sneaker" />
-                    Phương tiện di chuyển:
-                    <v-icon
-                      v-for="item in getTraffic(tourInfo?.traffics)"
-                      :key="item.value"
-                      :icon="item?.icon"
-                      class="mx-2"
-                    />
-                  </div>
-                  <div class="my-2">
-                    <v-icon icon="mdi-weather-cloudy-clock" />
-                    Thời gian:
-                    <strong class="mx-2">{{ tourInfo?.totalDays }}</strong>
-                  </div>
-                </v-col>
-                <v-col>
-                  <div>
-                    <h2>{{ tourInfo?.name }}</h2>
-                  </div>
-                  <div class="mt-5 mb-2">
-                    <v-icon icon="mdi-map-clock-outline" />
-                    Ngày Khởi hành:
-                    <strong class="mx-2">{{ bookingTour?.startDate }}</strong>
-                  </div>
-                  <div class="my-2">
-                    <v-icon icon="mdi-ticket-account" />
-                    Số lượng:
-                    <strong class="mx-2">{{ bookingTour?.bookingItems[0].quantity }}</strong>
-                    <v-icon icon="mdi-account-multiple" />
-                  </div>
-                  <div class="w-75">
-                    <v-icon icon="mdi-note-edit-outline" />
-                    Ghi chú (nếu có)
-                    <v-textarea
-                      variant="outlined"
-                      auto-grow
-                      rows="2"
-                      row-height="20"
-                      color="primary"
-                      hide-details="auto"
-                      class="text-field"
-                    />
-                  </div>
-                  <div class="w-75">
-                    <v-icon icon="mdi-bank-outline" />
-                    Chọn ngân hàng thanh toán
-                    <v-select
-                      v-model="bookingTour.bankCode"
-                      :items="BANK"
-                      item-title="name"
-                      item-value="value"
-                      color="primary"
-                      hide-details="auto"
-                      class="text-field"
-                      variant="outlined"
-                      clearable
-                    />
-                  </div>
-                </v-col>
-              </v-row>
-              <v-row justify="end">
-                <div class="text-h6 ma-2 animate-charcter">
-                  Tổng tiền:
-                  <strong class="mx-2">
-                    {{
-                      formatCurrency(
-                        getPriceDiscount(tourInfo?.price, tourInfo?.couponData.discountPercent)
-                          * bookingTour?.bookingItems[0].quantity
-                      )
-                    }}
-                  </strong>
-                </div>
-              </v-row>
-            </v-card-text>
-          </v-window-item>
-
-          <v-window-item :value="2">
-            <v-card-text />
-          </v-window-item>
-
-          <v-window-item :value="3">
-            <div class="pa-4 text-center">
-              <v-img
-                class="mb-4"
-                contain
-                height="128"
-                src="https://cdn.vuetifyjs.com/images/logos/v.svg"
-              />
-              <h3 class="text-h6 font-weight-light mb-2">
-                Welcome to Vuetify
-              </h3>
-              <span class="text-caption text-grey">Thanks for signing up!</span>
-            </div>
-          </v-window-item>
-        </v-window>
-
-        <v-divider />
-
-        <v-card-actions>
-          <v-btn
-            v-if="step > 1"
-            variant="text"
-            @click="step--"
-          >
-            Back
-          </v-btn>
-          <v-spacer />
-          <v-btn
-            :disabled="!bookingTour?.bankCode"
-            v-if="step < 3"
-            color="primary"
-            variant="flat"
-            @click="() => {
-              handldeBookingTours(bookingTour)
-              step++
-            }"
-          >
-            Next
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </v-sheet>
 </template>
 <script lang="ts" setup>
+import { ref } from 'vue'
 import { useTourDetail } from '@/composables/useTourDetail'
 import { convertionType } from '@/helpers/convertion'
 import { hanldeRoute } from '@/helpers/loadingRoute'
 import NCarousel from '@/components/NCarousel.vue'
+import NDialogBook from '@/components/NDialogBook.vue'
 import NImage from '@/components/NImage.vue'
-import { BANK } from '@/resources/mockData'
-import { ref } from 'vue'
 
 const {
   tourInfo,
-  bookingTour,
+  bookTour,
   anotherTours,
-  dialogBooking,
-  handldeBookingTours,
-  getTraffic,
   hanldeAmount
 } = useTourDetail()
-const { formatCurrency, voteText, getPriceDiscount, minDate } = convertionType()
-const step = ref<number>(1)
+const { formatCurrency, voteText, getPriceDiscount, minDate, getTraffic } = convertionType()
+const dialogBooking = ref<boolean>(false)
 </script>
 
 <style lang="scss" scoped>

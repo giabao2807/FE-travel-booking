@@ -63,7 +63,6 @@
         </v-card-text>
       </v-card>
     </v-row>
-    <n-snackbar :title="initError.message" />
   </v-container>
 </template>
 <script lang="ts" setup>
@@ -78,10 +77,8 @@ const {
   showPassword,
   rememberMe,
   formRef,
-  initError,
   signIn,
-  signInWithGoogle,
-  isRememberMe
+  signInWithGoogle
 } = useAuthentication()
 </script>
 <style scoped>

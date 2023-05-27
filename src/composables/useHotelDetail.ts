@@ -25,6 +25,17 @@ const createHotelDetail = () => {
   const loadingHotels = ref<boolean>(false)
   const loadingRooms = ref<boolean>(false)
   const hotelId = computed(() => route.params.id as string)
+  const bookingHotel = ref<any>({
+    bookingItems: [
+      {
+        room_id: '',
+        quantity: 0
+      }
+    ],
+    startDate: '',
+    type: 1,
+    bankCode: ''
+  })
 
   const countDate = computed(() => {
     const ONE_DAY = 1000 * 60 * 60 * 24
@@ -100,6 +111,9 @@ const createHotelDetail = () => {
       const coupon = hotelInfo?.value?.couponData.discountPercent || 0
       return total + (amount * (item.price - (item.price * coupon / 100))) }, 0)
   })
+  const roomsBook = computed(() => {
+    return rooms?.value.filter(item => item.amount !== 0)
+  })
   watchEffect(async() => {
     hotelId.value
     if (hotelId.value) {
@@ -123,6 +137,7 @@ const createHotelDetail = () => {
     anotherHotels,
     pageReview,
     totalAmountBook,
+    roomsBook,
     totalPrice,
     deCodeHtml,
     getRoomByDate,

@@ -1,4 +1,4 @@
-import { COMMENTRATE } from '@/resources/mockData'
+import { COMMENTRATE, TRAFFICS } from '@/resources/mockData'
 
 export const convertionType = () => {
   const formatCurrency = (item = 0) => {
@@ -35,12 +35,15 @@ export const convertionType = () => {
     const maxPriceCoupon = getPriceDiscount(max, coupon)
     return `${formatCurrency(minPriceCoupon)} - ${formatCurrency(maxPriceCoupon)}`
   }
+
+  const getTraffic = (traffics?: string[]) => TRAFFICS.filter(item => traffics?.includes(item.value))
   return {
     formatCurrency,
     deCodeHtml,
     voteText,
     getPriceDiscount,
     minDate,
-    rangePrice
+    rangePrice,
+    getTraffic
   }
 }

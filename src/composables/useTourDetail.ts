@@ -1,9 +1,9 @@
 import { ref, computed, onMounted } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { useTourStore } from '@/store/tours'
-import { TRAFFICS } from '@/resources/mockData'
 import { IDetailTour, ITour } from '@/libs/types/tourType'
 import { useRoute } from 'vue-router'
+import { useBooking } from '@/composables/useBooking'
 
 const createTourDetail = () => {
   const tourStore = useTourStore()
@@ -13,21 +13,11 @@ const createTourDetail = () => {
   const tourInfo = ref<IDetailTour>()
   const dialogBooking = ref<boolean>(false)
   const loadingAnotherTours = ref<boolean>(false)
-  const bookingTour = ref<any>({
-    bookingItems: [
-      {
-        tourId: tourId.value,
-        quantity: 1
-      }
-    ],
-    startDate: '',
-    type: 2,
-    bankCode: ''
-  })
+  const { bookTour } = useBooking()
   const hanldeAmount = (increase = false) => {
-    increase ? bookingTour.value.amount++ : bookingTour.value.amount--
+    increase ? bookTour.value.amount++ : bookTour.value.amount--
   }
-  const getTraffic = (traffics?: string[]) => TRAFFICS.filter(item => traffics?.includes(item.value))
+
   const getAnotherToursByCity = async(id: string) => {
     loadingAnotherTours.value = true
     await tourStore.getToursByFilter({ cityId:  14 })
@@ -41,21 +31,15 @@ const createTourDetail = () => {
       .then(data => tourInfo.value = data)
     getAnotherToursByCity(id)
   }
-  const handldeBookingTours = (data: any) => {
-    return tourStore.bookingTour(data)
-      .then(data => data)
-  }
   onMounted(async() => {
     await getTourById(tourId.value)
   })
   return {
     tourInfo,
-    bookingTour,
+    bookTour,
     anotherTours,
     dialogBooking,
-    handldeBookingTours,
     hanldeAmount,
-    getTraffic,
     getTourById,
     getAnotherToursByCity
   }

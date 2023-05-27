@@ -36,6 +36,7 @@
 import { defineProps, withDefaults } from 'vue'
 type Props = {
   data: string[],
+  // eslint-disable-next-line vue/require-default-prop
   height?: string,
   colorProgress?: string,
   showArrows?: string | boolean,

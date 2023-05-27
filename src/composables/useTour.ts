@@ -2,7 +2,6 @@ import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { useTourStore } from '@/store/tours'
-import { TRAFFICS } from '@/resources/mockData'
 import { IResponseTour, ITour } from '@/libs/types/tourType'
 import { IFilterPanel } from '@/libs/types/commonType'
 
@@ -12,12 +11,23 @@ const createTour = () => {
   const popularTours = ref<ITour[]>([])
   const pageTours = ref<number>(1)
   const loadingTours = ref<boolean>(false)
+  const dialogBooking = ref<boolean>(false)
+  const bookingTour = ref<any>({
+    bookingItems: [
+      {
+        tourId: '',
+        quantity: 1
+      }
+    ],
+    startDate: '',
+    type: 2,
+    bankCode: ''
+  })
 
   const getPopularTours = () => {
     tourStore.getPopularTours()
       .then((data: IResponseTour) => popularTours.value = data.results)
   }
-  const getTraffic = (traffics?: string[]) => TRAFFICS.filter(item => traffics?.includes(item.value))
   const getToursByFilterPanel = (params?: IFilterPanel) => {
     loadingTours.value = true
     tourStore.getToursByFilter(params)
@@ -43,8 +53,9 @@ const createTour = () => {
     pageTours,
     loadingTours,
     initFilterTour,
+    bookingTour,
     countDate,
-    getTraffic,
+    dialogBooking,
     getPopularTours,
     getToursByFilterPanel
   }

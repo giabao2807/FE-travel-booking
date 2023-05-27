@@ -179,10 +179,14 @@
             </v-card-text>
           </v-col>
           <v-col>
-            <n-button-animated
+            <!-- <n-button-animated
               label="Booking"
               width="10rem"
               fontSize="0.5rem"
+            /> -->
+            <n-dialog-book
+              titleDialog="BOOK TOUR"
+              typeBook="hotel"
             />
           </v-col>
         </v-row>
@@ -494,6 +498,7 @@ const {
   dialogReview,
   loadingReview,
   loadingRooms,
+  roomsBook,
   pageReview,
   totalAmountBook,
   totalPrice,

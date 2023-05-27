@@ -23,7 +23,7 @@ const { allCities } = useCities()
 type Props = {
   prependIcon?: string,
   prependInnerIcon?: string,
-  variant: 'underlined' | 'filled' | 'outlined' | 'plain' | 'solo' | 'solo-inverted' | 'solo-filled' | undefined
+  variant?: 'underlined' | 'filled' | 'outlined' | 'plain' | 'solo' | 'solo-inverted' | 'solo-filled'
 }
 const emit = defineEmits<{
   (event: 'update:modelValue', id: number): void

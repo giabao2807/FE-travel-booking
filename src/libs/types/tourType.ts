@@ -13,14 +13,15 @@ export type ITour = {
   city: number,
   departure: string,
   traffics: string[],
-  couponData: ICoupon
+  couponData: ICoupon,
+  dialog: boolean
 }
 
 export type IResponseTour = {
   pageSize: number,
   pageNumber: number,
   count: number,
-  results: ITour[]
+  results: ITour[],
 }
 
 export type IDetailTour = ITour & {

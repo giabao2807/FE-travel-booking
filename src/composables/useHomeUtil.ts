@@ -29,7 +29,6 @@ const useHome = () => {
 
   const {
     popularTours,
-    getTraffic,
     getPopularTours,
     getToursByFilterPanel
   } = useTourUtil()
@@ -80,7 +79,6 @@ const useHome = () => {
     filterPanel,
     flagSearch,
     countDate,
-    getTraffic,
     getRecomendHotelByCity,
     changeEndDate,
     handleFilter
