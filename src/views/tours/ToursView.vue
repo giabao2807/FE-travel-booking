@@ -214,9 +214,7 @@ const {
   pageTours,
   loadingTours,
   initFilterTour,
-  bookingTour,
   countDate,
-  dialogBooking,
   getToursByFilterPanel
 } = useTourUtil()
 const { formatCurrency, getPriceDiscount, minDate, getTraffic } = convertionType()

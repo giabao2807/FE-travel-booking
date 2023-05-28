@@ -61,22 +61,22 @@ export const useTourStore = defineStore('tourStore', () => {
     })
   }
 
-  const bookingTour = async(data?: any) => {
+  const getQuantityByDate = async(params: any) => {
     return await connectionsAPI({
-      methods: 'POST',
-      path: 'booking',
-      data: data
+      methods: 'GET',
+      path: `tour/${params?.id}/get_available_group_size`,
+      params: { startDate: params?.startDate },
+      headers: { 'Content-Type': 'application/json' }
     })
   }
-
   return {
     tours,
     initFilterTour,
-    bookingTour,
     getPopularTours,
     getTourById,
     getTours,
     getAllCity,
-    getToursByFilter
+    getToursByFilter,
+    getQuantityByDate
   }
 })

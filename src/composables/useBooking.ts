@@ -4,33 +4,48 @@ import { createSharedComposable } from '@vueuse/core'
 import { useBookStore } from '@/store/booking'
 import { useLoading } from '@/composables/useLoading'
 import { IError } from '@/libs/types/commonType'
-
+import { useHotelStore } from '@/store/hotels'
+import { storeToRefs } from 'pinia'
+import { IBookingHotel, IBookingTour } from '@/libs/types/bookType'
 
 const createBooking = () => {
   const bookStore = useBookStore()
+  const hotelStore = useHotelStore()
+  const { initFilterHotel } = storeToRefs(hotelStore)
   const step = ref<number>(1)
   const linkPayment = ref<string>()
   const errorFeedBack = ref<IError>()
-  const dialog = ref<boolean>(false)
-  const bookTour = ref<any>({
+  const initBookngTour: IBookingTour = {
     bookingItems: [
       {
         tourId: '',
         quantity: 1
       }
     ],
+    note: '',
     startDate: '',
     type: 2,
     bankCode: ''
-  })
-  const { startLoading, finishLoading } = useLoading()
-  const hanldeClose = (a: any) => {
-    dialog.value = false
-    step.value = 1
   }
-  const bookingService = async() => {
+  const initBookngHotel: IBookingHotel = {
+    bookingItems: [
+      {
+        roomId: '',
+        quantity: 1
+      }
+    ],
+    note: '',
+    startDate: '',
+    endDate: '',
+    type: 1,
+    bankCode: ''
+  }
+  const bookTour = ref<IBookingTour>(initBookngTour)
+  const bookHotel = ref<IBookingHotel>(initBookngHotel)
+  const { startLoading, finishLoading } = useLoading()
+  const bookingService = async(paramsBook: any) => {
     startLoading()
-    await bookStore.bookingService(bookTour.value).then((data) => {
+    await bookStore.bookingService(paramsBook).then((data) => {
       window.location.href = data.paymentLink
       finishLoading()
     }).catch(error => {
@@ -39,13 +54,23 @@ const createBooking = () => {
       step.value++
     })
   }
+  const resetBookTour = () => {
+    step.value = 1
+    bookTour.value = initBookngTour
+  }
+  const resetBookHotel = () => {
+    step.value = 1
+    bookHotel.value = initBookngHotel
+  }
   return {
     step,
     linkPayment,
     errorFeedBack,
-    dialog,
+    initFilterHotel,
     bookTour,
-    hanldeClose,
+    bookHotel,
+    resetBookTour,
+    resetBookHotel,
     bookingService
   }
 }

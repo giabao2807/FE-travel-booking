@@ -23,7 +23,7 @@
         <v-card-text>
           <div class="d-flex align-center flex-wrap ma-5">
             <v-text-field
-              v-model="filterDetail.startDate"
+              v-model="initFilterHotel.startDate"
               label="Ngày nhận phòng"
               name="startDate"
               type="Date"
@@ -36,11 +36,11 @@
               @update:model-value="() => changeEndDate()"
             />
             <v-text-field
-              v-model="filterDetail.endDate"
+              v-model="initFilterHotel.endDate"
               label="Ngày trả phòng"
               name="endDate"
               type="Date"
-              :min="filterDetail.startDate"
+              :min="initFilterHotel.startDate"
               color="primary"
               variant="outlined"
               hide-details="auto"
@@ -58,7 +58,7 @@
               min-width="110"
               rounded
               variant="flat"
-              @click="() => getRoomByDate({ id: hotelInfo?.id, ...filterDetail })"
+              @click="() => getRoomByDate({ id: hotelInfo?.id, ...initFilterHotel })"
             >
               Tìm Kiếm
             </v-btn>
@@ -125,21 +125,7 @@
                         {{ hotelInfo?.couponData.discountPercent }}%!
                       </span>
                     </p>
-                    <p class="mx-2">
-                      <v-row class="mt-4 mb-1" align="end" justify="start">
-                        <p class="mr-2">Số lượng:</p>
-                        <el-select v-model="room.amount" placeholder="0" class="w-25" size="small">
-                          <el-option
-                            v-for="item in room?.availableRoomAmount"
-                            :key="item"
-                            :label="item"
-                            :value="item"
-                          />
-                        </el-select>
-                        <p class="mx-1">phòng</p>
-                      </v-row>
-                    </p>
-                    <p v-if="hotelInfo?.couponData" class="remove-text">
+                    <p v-if="hotelInfo?.couponData" class="mt-4 mb-1 remove-text">
                       {{ formatCurrency(room?.price) }}
                     </p>
                     <div class="text-h6 animate-charcter my-2">
@@ -149,6 +135,11 @@
                   </div>
 
                   <v-row align="center" justify="end" class="mt-5">
+                    <n-select-quantity
+                      v-model="room.amount"
+                      :quantity="room?.availableRoomAmount"
+                      class="w-25 mx-5"
+                    />
                     <v-btn
                       prepend-icon="mdi-checkbox-marked-circle-auto-outline"
                       class="mx-2"
@@ -179,15 +170,23 @@
             </v-card-text>
           </v-col>
           <v-col>
-            <!-- <n-button-animated
-              label="Booking"
-              width="10rem"
-              fontSize="0.5rem"
-            /> -->
             <n-dialog-book
+              v-model="dialogBooking"
               titleDialog="BOOK TOUR"
               typeBook="hotel"
-            />
+              :hotelInfo="hotelInfo"
+              :roomInfo="roomsBook"
+            >
+              <template #action>
+                <n-button-animated
+                  :disabled="roomsBook.length === 0"
+                  label="Booking"
+                  width="10rem"
+                  fontSize="0.5rem"
+                  @click="dialogBooking=true"
+                />
+              </template>
+            </n-dialog-book>
           </v-col>
         </v-row>
       </v-card>
@@ -481,17 +480,21 @@
 import NImage from '@/components/NImage.vue'
 import NCarousel from '@/components/NCarousel.vue'
 import NPanelLoading from '@/components/NPanelLoading.vue'
+import NDialogBook from '@/components/NDialogBook.vue'
+import NSelectQuantity from '@/components/NSelectQuantity.vue'
 import NButtonAnimated from '@/components/NButtonAnimated.vue'
+import { onMounted, watch, watchEffect } from 'vue'
 import '@/assets/scss/detail.scss'
 import { useHotelDetailUtil } from '@/composables/useHotelDetail'
 import { convertionType } from '@/helpers/convertion'
 import { hanldeRoute } from '@/helpers/loadingRoute'
+import { useLoading } from '@/composables/useLoading'
 
 const {
   anotherHotels,
   hotelInfo,
   rooms,
-  filterDetail,
+  initFilterHotel,
   countDate,
   firstPageReview,
   dataReview,
@@ -500,15 +503,36 @@ const {
   loadingRooms,
   roomsBook,
   pageReview,
+  dialogBooking,
   totalAmountBook,
   totalPrice,
+  hotelId,
+  getHotelById,
   deCodeHtml,
   getRoomByDate,
   getReviews,
   changeEndDate
 } = useHotelDetailUtil()
 const { formatCurrency, getPriceDiscount, minDate, rangePrice } = convertionType()
-
+const { startLoading, finishLoading } = useLoading()
+onMounted(async() => {
+  startLoading()
+  await getHotelById(hotelId.value)
+  finishLoading()
+})
+watch(hotelId, async(newId) => {
+  if (newId) {
+    startLoading()
+    await getHotelById(newId)
+    finishLoading()
+  }
+})
+watchEffect(async() => {
+  hotelId.value
+  if (hotelId.value) {
+    pageReview.value = 1
+  }
+})
 </script>
 <style lang="scss" scoped>
 ::v-deep {

@@ -15,13 +15,13 @@
         </v-col>
       </v-row>
       <v-row align="start" justify="center">
-        <v-avatar style="z-index: 1" class="half-circle" :image="checkAvatar" size="290" />
+        <v-avatar class="zindex-1 half-circle" :image="checkAvatar" size="290" />
       </v-row>
     </v-container>
     <v-container class="font-rowdies">
       <v-row justify="center">
         <v-container>
-          <v-card-text style="margin-top: 8rem;">
+          <v-card-text class="margin-top-8rem">
             <div class="text-center">
               <h1>{{ `${userInfo?.lastName} ${userInfo?.firstName}` }}</h1>
             </div>

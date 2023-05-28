@@ -1,10 +1,9 @@
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { useTourStore } from '@/store/tours'
 import { IDetailTour, ITour } from '@/libs/types/tourType'
 import { useRoute } from 'vue-router'
 import { useBooking } from '@/composables/useBooking'
-
 const createTourDetail = () => {
   const tourStore = useTourStore()
   const route = useRoute()
@@ -13,9 +12,13 @@ const createTourDetail = () => {
   const tourInfo = ref<IDetailTour>()
   const dialogBooking = ref<boolean>(false)
   const loadingAnotherTours = ref<boolean>(false)
+  const quantityByStartDate = ref<number>(1)
   const { bookTour } = useBooking()
-  const hanldeAmount = (increase = false) => {
-    increase ? bookTour.value.amount++ : bookTour.value.amount--
+
+  const getQuantityByStartDate = (event: any) => {
+    const a = event ? tourStore.getQuantityByDate({ id: tourId.value, startDate: event }) : null
+    console.log(a)
+
   }
 
   const getAnotherToursByCity = async(id: string) => {
@@ -28,18 +31,19 @@ const createTourDetail = () => {
   }
   const getTourById = async(id: string) => {
     await tourStore.getTourById(id)
-      .then(data => tourInfo.value = data)
+      .then(data => {
+        tourInfo.value = data
+      })
     getAnotherToursByCity(id)
   }
-  onMounted(async() => {
-    await getTourById(tourId.value)
-  })
   return {
     tourInfo,
     bookTour,
     anotherTours,
     dialogBooking,
-    hanldeAmount,
+    tourId,
+    quantityByStartDate,
+    getQuantityByStartDate,
     getTourById,
     getAnotherToursByCity
   }

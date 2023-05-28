@@ -104,7 +104,7 @@
               <v-card
                 class="ma-5"
                 width="300"
-                @click="()=> hanldeRoute({ name: 'hotelDetail', params: { id: item?.id } })"
+                @click="()=> hanldeRoute({ name: 'tourDetail', params: { id: item?.id } })"
               >
                 <v-card-title class="font-weight-bold">
                   <n-image
@@ -207,6 +207,7 @@
             <v-text-field
               v-model="bookTour.startDate"
               :min="minDate(new Date())"
+              @update:model-value="(event) => getQuantityByStartDate(event)"
               label="Ngày khởi hành"
               name="startDate"
               type="Date"
@@ -214,20 +215,7 @@
               variant="outlined"
               hide-details="auto"
             />
-            <v-card class="my-5 pa-5">
-              <v-row align="center">
-                <v-col cols="8">
-                  <p class="text-disabled text-body-1">Số lượng</p>
-                </v-col>
-                <v-col>
-                  <v-row>
-                    <v-icon icon="mdi-minus-thick" class="mr-5" @click="() => hanldeAmount()" />
-                    <h2>{{ bookTour?.bookingItems[0].quantity }}</h2>
-                    <v-icon icon="mdi-plus-thick" class="ml-5" @click="() => hanldeAmount(true)" />
-                  </v-row>
-                </v-col>
-              </v-row>
-            </v-card>
+            <n-select-quantity label="Số lượng" v-model="bookTour.bookingItems[0].quantity" :quantity="quantityByStartDate" />
             <v-divider class="ma-5" />
             <v-row v-if="tourInfo?.couponData" class="ml-3">
               <v-col cols="6">
@@ -277,7 +265,7 @@
                   class="mr-2"
                   color="primary"
                   variant="tonal"
-                  @click="() => dialogBooking = true"
+                  @click="dialogBooking = true"
                 >
                   Book now
                 </v-btn>
@@ -290,22 +278,40 @@
   </v-sheet>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { useTourDetail } from '@/composables/useTourDetail'
-import { convertionType } from '@/helpers/convertion'
-import { hanldeRoute } from '@/helpers/loadingRoute'
+import NSelectQuantity from '@/components/NSelectQuantity.vue'
 import NCarousel from '@/components/NCarousel.vue'
 import NDialogBook from '@/components/NDialogBook.vue'
 import NImage from '@/components/NImage.vue'
+import { onMounted, watch } from 'vue'
+import { useTourDetail } from '@/composables/useTourDetail'
+import { convertionType } from '@/helpers/convertion'
+import { hanldeRoute } from '@/helpers/loadingRoute'
+import { useLoading } from '@/composables/useLoading'
 
 const {
   tourInfo,
   bookTour,
   anotherTours,
-  hanldeAmount
+  tourId,
+  dialogBooking,
+  quantityByStartDate,
+  getQuantityByStartDate,
+  getTourById
 } = useTourDetail()
 const { formatCurrency, voteText, getPriceDiscount, minDate, getTraffic } = convertionType()
-const dialogBooking = ref<boolean>(false)
+const { startLoading, finishLoading } = useLoading()
+onMounted(async() => {
+  startLoading()
+  await getTourById(tourId.value)
+  finishLoading()
+})
+watch(tourId, async(newId) => {
+  if (newId){
+    startLoading()
+    await getTourById(newId)
+    finishLoading()
+  }
+})
 </script>
 
 <style lang="scss" scoped>

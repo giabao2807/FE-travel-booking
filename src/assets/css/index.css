@@ -39,6 +39,9 @@
 .height-400px {
   height: 400px;
 }
+.height-300px {
+  height: 300px;
+}
 .max-height-150 {
   max-height: 150px;
 }
@@ -93,4 +96,10 @@
 }
 .remove-text {
   text-decoration: line-through var(--txt-shadow-color);
+}
+.zindex-1 {
+  z-index: 1;
+}
+.margin-top-8rem {
+  margin-top: 8rem;
 }

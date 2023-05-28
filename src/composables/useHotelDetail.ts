@@ -1,22 +1,19 @@
-import { ref, computed, watchEffect } from 'vue'
+import { ref, computed } from 'vue'
 import { useHotelStore } from '@/store/hotels'
 import { createSharedComposable } from '@vueuse/core'
-import { IFilterDate } from '@/libs/types/commonType'
 import { convertionType } from '@/helpers/convertion'
 import { useRoute } from 'vue-router'
 import { IDetailHotel, IHotel, IParamReview, IParamRoomType, IReview, IRoomType } from '@/libs/types/hotelType'
+import { storeToRefs } from 'pinia'
 
 const createHotelDetail = () => {
   const hotelStore = useHotelStore()
+  const { initFilterHotel } = storeToRefs(hotelStore)
   const route = useRoute()
   const anotherHotels = ref<IHotel[]>([])
   const hotelInfo = ref<IDetailHotel>()
   const rooms = ref<IRoomType[]>([])
   const { deCodeHtml } = convertionType()
-  const filterDetail = ref<IFilterDate>({
-    startDate: '',
-    endDate: ''
-  })
   const firstPageReview = ref<IReview>()
   const dataReview = ref<IReview>()
   const pageReview = ref<number>(1)
@@ -25,23 +22,13 @@ const createHotelDetail = () => {
   const loadingHotels = ref<boolean>(false)
   const loadingRooms = ref<boolean>(false)
   const hotelId = computed(() => route.params.id as string)
-  const bookingHotel = ref<any>({
-    bookingItems: [
-      {
-        room_id: '',
-        quantity: 0
-      }
-    ],
-    startDate: '',
-    type: 1,
-    bankCode: ''
-  })
+  const dialogBooking = ref<boolean>(false)
 
   const countDate = computed(() => {
     const ONE_DAY = 1000 * 60 * 60 * 24
-    if (filterDetail.value.startDate && filterDetail.value.endDate) {
-      const startDate = new Date(filterDetail.value.startDate)
-      const endDate = new Date(filterDetail.value.endDate)
+    if (initFilterHotel.value.startDate && initFilterHotel.value.endDate) {
+      const startDate = new Date(initFilterHotel.value.startDate)
+      const endDate = new Date(initFilterHotel.value.endDate)
       const time = Math.abs(startDate.getTime() - endDate.getTime())
       return Math.round(time / ONE_DAY)
     }
@@ -93,10 +80,11 @@ const createHotelDetail = () => {
       .then(data => hotelInfo.value = data)
     getRooms(id)
     getAnotherHotelsByCity(id)
+    getFirstPageReviews({ id : id })
   }
 
   const changeEndDate = () => {
-    filterDetail.value.endDate = ''
+    initFilterHotel.value.endDate = ''
   }
   const totalAmountBook = computed(() => {
     let total = 0
@@ -112,22 +100,12 @@ const createHotelDetail = () => {
       return total + (amount * (item.price - (item.price * coupon / 100))) }, 0)
   })
   const roomsBook = computed(() => {
-    return rooms?.value.filter(item => item.amount !== 0)
-  })
-  watchEffect(async() => {
-    hotelId.value
-    if (hotelId.value) {
-      pageReview.value = 1
-      await getHotelById(hotelId.value)
-      getFirstPageReviews({ id: hotelId.value })
-      totalAmountBook.value
-      totalPrice.value
-    }
+    return rooms?.value.filter(item => item.amount > 0)
   })
   return {
     hotelInfo,
     rooms,
-    filterDetail,
+    initFilterHotel,
     countDate,
     firstPageReview,
     dataReview,
@@ -138,7 +116,9 @@ const createHotelDetail = () => {
     pageReview,
     totalAmountBook,
     roomsBook,
+    dialogBooking,
     totalPrice,
+    hotelId,
     deCodeHtml,
     getRoomByDate,
     getHotelById,

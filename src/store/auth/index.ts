@@ -5,17 +5,16 @@ import { ref } from 'vue'
 
 
 export const useAuthStore = defineStore('authStore', () => {
-  const initUser = ref<IAuthResponse>({
+  const initUser: IAuthResponse = {
     fullName: '',
     email: '',
     role: '',
     avatar: '',
     accessToken: '',
     refreshToken: ''
-  })
+  }
 
-  const authUser = ref<IAuthResponse>()
-  const authToken = ref<IRefreshToken>()
+  const authUser = ref<IAuthResponse>(initUser)
   const userSignIn = ref<ISignInInput>({
     email: '',
     password: ''
@@ -27,69 +26,46 @@ export const useAuthStore = defineStore('authStore', () => {
     email: '',
     password: ''
   })
-  const refreshTokenTimeout = ref<number>(0)
+  const refreshTokenTimeout = ref<number>(30 * 60 * 1000)
 
   const refreshToken = async() => {
-    authToken.value = await connectionsAPI({
+    const response = await connectionsAPI({
       methods: 'GET',
       path: '/user/action/refresh_new_token',
-      params: authToken.value?.refreshToken
+      params: { refreshToken: authUser.value?.refreshToken }
     })
+    authUser.value.refreshToken = response.refreshToken || '',
+    authUser.value.accessToken = response.accessToken || ''
     startRefreshTokenTimer()
   }
   const startRefreshTokenTimer = () => {
-    const jwtToken = authToken.value?.accessToken ? JSON.parse(authToken.value?.accessToken) : ''
-    console.log(jwtToken)
-
-    const expires = new Date(jwtToken.exp * 1000)
-    const timeout = expires.getTime() - Date.now() - (60 * 1000)
-    refreshTokenTimeout.value = setTimeout(refreshToken, timeout)
+    sessionStorage.setItem('userData', JSON.stringify(authUser.value))
   }
 
   const stopRefreshTokenTimer = () => {
-    clearTimeout(refreshTokenTimeout.value)
+    clearInterval(refreshTokenTimeout.value)
   }
   const signInUser = async() => {
-    const response = await connectionsAPI({
+    authUser.value = await connectionsAPI({
       methods: 'POST',
       path: 'user/action/login',
       data: userSignIn.value
     })
-    const userInfo: IAuthResponse = ({
-      fullName: response.fullName,
-      email: response.email,
-      role: response.role,
-      avatar: response.avatar,
-      accessToken: response.accessToken,
-      refreshToken: response.refreshToken
-    })
-    authUser.value = userInfo
-    sessionStorage.setItem('userData', JSON.stringify(userInfo))
-    return response
+    sessionStorage.setItem('userData', JSON.stringify(authUser.value))
   }
 
   const signUpUser = async() => {
-    const response = await connectionsAPI({
+    authUser.value = await connectionsAPI({
       methods: 'POST',
       path: 'user/action/sign_up',
       data: userSignUp.value
     })
-    const userInfo: IAuthResponse = ({
-      fullName: response.fullName,
-      email: response.email,
-      role: response.role,
-      avatar: response.avatar,
-      accessToken: response.accessToken,
-      refreshToken: response.refreshToken
-    })
-    authUser.value = userInfo
-    sessionStorage.setItem('userData', JSON.stringify(userInfo))
-    return response
+    sessionStorage.setItem('userData', JSON.stringify(authUser.value))
   }
 
 
   const resetAuthUser = () => {
-    authUser.value = initUser.value
+    authUser.value = initUser
     stopRefreshTokenTimer()
     sessionStorage.clear()
   }
@@ -97,6 +73,8 @@ export const useAuthStore = defineStore('authStore', () => {
     userSignIn,
     userSignUp,
     authUser,
+    refreshTokenTimeout,
+    refreshToken,
     signInUser,
     signUpUser,
     resetAuthUser

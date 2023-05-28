@@ -13,7 +13,7 @@
 import { computed, defineProps, withDefaults } from 'vue'
 type Props = {
   label?: string,
-  type?: string,
+  type?: 'submit' | 'button' | 'reset' | undefined,
   width?: string,
   height?: string,
   fontSize?: string,

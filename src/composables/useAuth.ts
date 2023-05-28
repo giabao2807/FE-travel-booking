@@ -12,7 +12,7 @@ import { GENDER_DATA } from '@/resources/mockData'
 const useAuth = () => {
   const authStore = useAuthStore()
   const feedBackStore = useFeedBackStore()
-  const { userSignIn, userSignUp, authUser } = storeToRefs(authStore)
+  const { userSignIn, userSignUp, authUser, refreshTokenTimeout } = storeToRefs(authStore)
   const { initError } = storeToRefs(feedBackStore)
   const { startLoading, finishLoading } = useLoading()
   const showPassword = ref<boolean>(false)
@@ -91,6 +91,9 @@ const useAuth = () => {
     authUser.value = session ? JSON.parse(session) : ''
     routeDirectional(authUser.value)
     isRememberMe()
+    setInterval(() => {
+      authStore.refreshToken()
+    }, refreshTokenTimeout.value)
   })
   return {
     userSignIn,

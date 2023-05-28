@@ -12,17 +12,6 @@ const createTour = () => {
   const pageTours = ref<number>(1)
   const loadingTours = ref<boolean>(false)
   const dialogBooking = ref<boolean>(false)
-  const bookingTour = ref<any>({
-    bookingItems: [
-      {
-        tourId: '',
-        quantity: 1
-      }
-    ],
-    startDate: '',
-    type: 2,
-    bankCode: ''
-  })
 
   const getPopularTours = () => {
     tourStore.getPopularTours()
@@ -53,7 +42,6 @@ const createTour = () => {
     pageTours,
     loadingTours,
     initFilterTour,
-    bookingTour,
     countDate,
     dialogBooking,
     getPopularTours,
