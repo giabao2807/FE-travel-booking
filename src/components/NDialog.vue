@@ -5,7 +5,9 @@
     :fullscreen="propItems.fullScreen"
   >
     <template #activator="{ props }">
-      <a v-bind="props">{{ propItems.textDialog }}</a>
+      <a v-bind="props">
+        <slot name="btnDialog" />
+      </a>
     </template>
     <template #default="{ isActive }">
       <v-card class="rounded-xl">

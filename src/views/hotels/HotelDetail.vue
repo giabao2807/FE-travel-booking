@@ -44,7 +44,7 @@
               color="primary"
               variant="outlined"
               hide-details="auto"
-              class="text-field"
+              class="text-field ml-2"
             >
               <template #prepend>
                 <p class="text-h6 text-disabled mt-n1">{{ countDate }}</p>
@@ -136,11 +136,13 @@
 
                   <v-row align="center" justify="end" class="mt-5">
                     <n-select-quantity
+                      :disabled="!room?.availableRoomAmount"
                       v-model="room.amount"
                       :quantity="room?.availableRoomAmount"
-                      class="w-25 mx-5"
+                      class="text-field text-field-width"
                     />
                     <v-btn
+                      :disabled="!room?.availableRoomAmount"
                       prepend-icon="mdi-checkbox-marked-circle-auto-outline"
                       class="mx-2"
                       color="primary"
@@ -175,7 +177,6 @@
               titleDialog="BOOK TOUR"
               typeBook="hotel"
               :hotelInfo="hotelInfo"
-              :roomInfo="roomsBook"
             >
               <template #action>
                 <n-button-animated
@@ -531,10 +532,14 @@ watchEffect(async() => {
   hotelId.value
   if (hotelId.value) {
     pageReview.value = 1
+    roomsBook.value = rooms.value.filter(item => item.amount > 0)
   }
 })
 </script>
 <style lang="scss" scoped>
+.text-field-width {
+  width: 50px !important;
+}
 ::v-deep {
   .htdt-policy, .htdt-description {
     background-color: transparent !important;

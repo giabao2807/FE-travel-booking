@@ -5,6 +5,7 @@ import { convertionType } from '@/helpers/convertion'
 import { useRoute } from 'vue-router'
 import { IDetailHotel, IHotel, IParamReview, IParamRoomType, IReview, IRoomType } from '@/libs/types/hotelType'
 import { storeToRefs } from 'pinia'
+import { useBooking } from './useBooking'
 
 const createHotelDetail = () => {
   const hotelStore = useHotelStore()
@@ -23,6 +24,7 @@ const createHotelDetail = () => {
   const loadingRooms = ref<boolean>(false)
   const hotelId = computed(() => route.params.id as string)
   const dialogBooking = ref<boolean>(false)
+  const { roomsBook } = useBooking()
 
   const countDate = computed(() => {
     const ONE_DAY = 1000 * 60 * 60 * 24
@@ -34,14 +36,6 @@ const createHotelDetail = () => {
     }
     return null
   })
-  const getRooms = (idHotel: string) => {
-    loadingRooms.value = true
-    hotelStore.getRoomTypeById({ id: idHotel })
-      .then(data => {
-        rooms.value = data
-        loadingRooms.value = false
-      })
-  }
 
   const getRoomByDate = (params: IParamRoomType) => {
     loadingRooms.value = true
@@ -78,7 +72,7 @@ const createHotelDetail = () => {
   const getHotelById = async(id: string) => {
     await hotelStore.getHotelSumaryById(id)
       .then(data => hotelInfo.value = data)
-    getRooms(id)
+    getRoomByDate({ id: id, startDate: initFilterHotel.value.startDate, endDate: initFilterHotel.value.endDate })
     getAnotherHotelsByCity(id)
     getFirstPageReviews({ id : id })
   }
@@ -98,9 +92,6 @@ const createHotelDetail = () => {
       const amount = item.amount || 0
       const coupon = hotelInfo?.value?.couponData.discountPercent || 0
       return total + (amount * (item.price - (item.price * coupon / 100))) }, 0)
-  })
-  const roomsBook = computed(() => {
-    return rooms?.value.filter(item => item.amount > 0)
   })
   return {
     hotelInfo,

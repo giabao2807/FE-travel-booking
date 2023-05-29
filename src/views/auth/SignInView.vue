@@ -33,7 +33,10 @@
             />
             <div class="d-flex align-center flex-wrap ma-4">
               <v-checkbox v-model="rememberMe" hide-details label="Ghi nhớ tài khoản" color="primary" class="mb-1" />
-              <n-dialog textDialog="Quên mật khẩu?" title="Forgot the password">
+              <n-dialog title="Forgot the password">
+                <template #btnDialog>
+                  <a>Quên mật khẩu ?</a>
+                </template>
                 <template #content>
                   <v-text-field
                     label="Email"
@@ -69,6 +72,7 @@
 import NButtonAnimated from '@/components/NButtonAnimated.vue'
 import NDialog from '@/components/NDialog.vue'
 import NImage from '@/components/NImage.vue'
+import { onMounted } from 'vue'
 import { useAuthentication } from '@/composables/useAuth'
 import { validations } from '@/helpers/validate'
 const { ruleRequired, ruleEmail } = validations()
@@ -77,9 +81,23 @@ const {
   showPassword,
   rememberMe,
   formRef,
+  authUser,
+  refreshTokenTimeout,
   signIn,
-  signInWithGoogle
+  signInWithGoogle,
+  routeDirectional,
+  refreshToken,
+  isRememberMe
 } = useAuthentication()
+onMounted(() => {
+  const session = sessionStorage.getItem('userData')
+  authUser.value = session ? JSON.parse(session) : ''
+  routeDirectional(authUser.value)
+  isRememberMe()
+  setInterval(() => {
+    refreshToken()
+  }, refreshTokenTimeout.value)
+})
 </script>
 <style scoped>
 @import '@/assets/css/signIn.css';

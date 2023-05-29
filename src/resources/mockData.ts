@@ -22,8 +22,8 @@ export const SEARCH_FOR = ['Tours', 'Hotels']
 export const HEADER_TAB = [
   { value: 0, name: 'Tours' },
   { value: 1, name: 'Hotels' },
-  { value: 3, name: 'Bookings' },
-  { value: 4, name: 'FAQ' }
+  { value: 2, name: 'Booking' },
+  { value: 3, name: 'FAQ' }
 ]
 
 export const BANK = [

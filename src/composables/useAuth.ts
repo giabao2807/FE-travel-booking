@@ -1,6 +1,6 @@
 import { useFeedBackStore } from '@/store/feedBack'
 import { createSharedComposable } from '@vueuse/core'
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useAuthStore } from '@/store/auth'
 import router from '@/router'
 import { storeToRefs } from 'pinia'
@@ -86,15 +86,9 @@ const useAuth = () => {
       }
     }
   }
-  onMounted(() => {
-    const session = sessionStorage.getItem('userData')
-    authUser.value = session ? JSON.parse(session) : ''
-    routeDirectional(authUser.value)
-    isRememberMe()
-    setInterval(() => {
-      authStore.refreshToken()
-    }, refreshTokenTimeout.value)
-  })
+  const refreshToken = () => {
+    authStore.refreshToken()
+  }
   return {
     userSignIn,
     userSignUp,
@@ -105,12 +99,16 @@ const useAuth = () => {
     GENDER_DATA,
     initError,
     checkAvatar,
+    authUser,
+    refreshTokenTimeout,
+    routeDirectional,
     isRememberMe,
     signIn,
     signUp,
     signOut,
     signInWithGoogle,
-    signUpWithGoogle
+    signUpWithGoogle,
+    refreshToken
   }
 }
 export const useAuthentication = createSharedComposable(useAuth)

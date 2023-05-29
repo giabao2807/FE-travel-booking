@@ -10,7 +10,7 @@ export type ITour = {
   price: number,
   rate: number,
   numReview: number,
-  city: number,
+  city: string,
   departure: string,
   traffics: string[],
   couponData: ICoupon,
@@ -32,5 +32,6 @@ export type IDetailTour = ITour & {
   scheduleContent: string,
   note: string,
   owner: string,
-  listImages: string[]
+  listImages: string[],
+  amount: number
 }

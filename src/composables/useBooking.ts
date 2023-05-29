@@ -1,20 +1,24 @@
-
 import { ref } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { useBookStore } from '@/store/booking'
+import { useHotelStore } from '@/store/hotels'
+import { useTourStore } from '@/store/tours'
 import { useLoading } from '@/composables/useLoading'
 import { IError } from '@/libs/types/commonType'
-import { useHotelStore } from '@/store/hotels'
 import { storeToRefs } from 'pinia'
 import { IBookingHotel, IBookingTour } from '@/libs/types/bookType'
+import { IRoomType } from '@/libs/types/hotelType'
 
 const createBooking = () => {
   const bookStore = useBookStore()
   const hotelStore = useHotelStore()
+  const tourStore = useTourStore()
   const { initFilterHotel } = storeToRefs(hotelStore)
   const step = ref<number>(1)
-  const linkPayment = ref<string>()
   const errorFeedBack = ref<IError>()
+  const roomsBook = ref<IRoomType[]>([])
+  const quantityTour = ref<number>(1)
+  const messageStatusPayment = ref<string>('')
   const initBookngTour: IBookingTour = {
     bookingItems: [
       {
@@ -62,16 +66,28 @@ const createBooking = () => {
     step.value = 1
     bookHotel.value = initBookngHotel
   }
+  const getQuantityTour = (params: any) => {
+    tourStore.getQuantityByDate(params)
+      .then(data => quantityTour.value = data.availableGroupSize)
+  }
+  const callBackPayment = (params: any) => {
+    bookStore.callBackPayment(params)
+      .then(data => messageStatusPayment.value = data.message)
+  }
   return {
     step,
-    linkPayment,
     errorFeedBack,
     initFilterHotel,
     bookTour,
     bookHotel,
+    roomsBook,
+    quantityTour,
+    messageStatusPayment,
     resetBookTour,
     resetBookHotel,
-    bookingService
+    bookingService,
+    getQuantityTour,
+    callBackPayment
   }
 }
 export const useBooking = createSharedComposable(createBooking)

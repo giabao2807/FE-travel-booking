@@ -42,7 +42,7 @@
   transform: scale(1.2);
 }
 .text-field{
-  margin: 15px;
+  margin: 15px 0;
 }
 .v-text-field--outlined fieldset {
   border-radius: 15px !important;

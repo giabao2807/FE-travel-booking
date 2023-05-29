@@ -13,13 +13,17 @@ const createCities = () => {
   const getCityById = (id: number) => {
     return allCities?.value.find(city => city.id === id)
   }
+  const getCityByName = (name: string) => {
+    return allCities?.value.find(city => city.name.toLowerCase() === name.toLowerCase())
+  }
   onMounted(() => {
     getAllCities()
   })
   return {
     allCities,
     getAllCities,
-    getCityById
+    getCityById,
+    getCityByName
   }
 }
 export const useCities = createSharedComposable(createCities)

@@ -205,17 +205,23 @@
           </v-card-item>
           <v-card-text>
             <v-text-field
-              v-model="bookTour.startDate"
+              v-model="initFilterTour.startDate"
               :min="minDate(new Date())"
               @update:model-value="(event) => getQuantityByStartDate(event)"
               label="Ngày khởi hành"
               name="startDate"
               type="Date"
               color="primary"
-              variant="outlined"
               hide-details="auto"
+              variant="outlined"
+              class="text-field"
             />
-            <n-select-quantity label="Số lượng" v-model="bookTour.bookingItems[0].quantity" :quantity="quantityByStartDate" />
+            <n-select-quantity
+              v-model="tourInfo.amount"
+              label="Số lượng"
+              :quantity="quantityByStartDate"
+              class="text-field"
+            />
             <v-divider class="ma-5" />
             <v-row v-if="tourInfo?.couponData" class="ml-3">
               <v-col cols="6">
@@ -295,6 +301,7 @@ const {
   tourId,
   dialogBooking,
   quantityByStartDate,
+  initFilterTour,
   getQuantityByStartDate,
   getTourById
 } = useTourDetail()
@@ -338,15 +345,6 @@ watch(tourId, async(newId) => {
   }
   .carousel {
     border-bottom: 1px solid var(--loading-bgcolor);
-  }
-  .text-field {
-    width: 30% !important;
-  }
-  .text-field:hover{
-    border-radius: 8px;
-    box-shadow: var(--txt-shadow-color) -8px 2px 0px 0px;
-    border-collapse: collapse;
-    opacity: 1;
   }
   .el-range-editor .is-active:hover {
       box-shadow: 0 0 0 1px #d32f2f inset;

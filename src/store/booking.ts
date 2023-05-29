@@ -10,7 +10,15 @@ export const useBookStore = defineStore('bookStore', () => {
     })
   }
 
+  const callBackPayment = async(params?: any) => {
+    return await connectionsAPI({
+      methods: 'GET',
+      path: 'booking/payment_callback',
+      params: params
+    })
+  }
   return {
-    bookingService
+    bookingService,
+    callBackPayment
   }
 })

@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { useAuthStore } from '@/store/auth'
 import { useAuthentication } from '@/composables/useAuth'
@@ -11,6 +11,10 @@ const createDefaultLayout = () => {
   const { authUser } = storeToRefs(authStore)
   const { checkAvatar, signOut } = useAuthentication()
   const slideValue = ref<number>()
+  onMounted(() => {
+    const session = sessionStorage.getItem('userData')
+    authUser.value = session ? JSON.parse(session) : ''
+  })
   return {
     display,
     authUser,

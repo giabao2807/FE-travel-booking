@@ -11,7 +11,7 @@ import AdminView from '@/views/dashboard/admin/index.vue'
 import HotelsView from '@/views/hotels/HotelsView.vue'
 import HotelDetail from '@/views/hotels/HotelDetail.vue'
 import UserView from '@/views/user/index.vue'
-import CartView from '@/views/user/CartView.vue'
+import BookingView from '@/views/user/BookingView.vue'
 import NotFound from '@/views/NotFound.vue'
 import requireAuth from '@/router/guard'
 
@@ -28,7 +28,7 @@ const routes: Array<RouteRecordRaw> = [
       { path: 'hotels', name:'hotels', component: HotelsView },
       { path: 'hotel/:id', name:'hotelDetail', component: HotelDetail },
       { path: 'userinfo', name:'userInfo', component: UserView },
-      { path: 'cart', name: 'cart', component: CartView }
+      { path: '/booking/payment', name: 'booking', component: BookingView }
     ]
   },
   {
@@ -57,8 +57,8 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
+  history: createWebHistory(),
+  routes: [...routes]
 })
 router.beforeEach((to, from, next) => {
   window.scrollTo(0, 0)
