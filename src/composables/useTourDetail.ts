@@ -5,7 +5,7 @@ import { createSharedComposable } from '@vueuse/core'
 import { useTourStore } from '@/store/tours'
 import { IDetailTour, ITour } from '@/libs/types/tourType'
 import { useRoute } from 'vue-router'
-import { useBooking } from '@/composables/useBooking'
+import { useBookingDialog } from '@/composables/useBookingDialog'
 const createTourDetail = () => {
   const tourStore = useTourStore()
   const { initFilterTour } = storeToRefs(tourStore)
@@ -16,7 +16,7 @@ const createTourDetail = () => {
   const dialogBooking = ref<boolean>(false)
   const loadingAnotherTours = ref<boolean>(false)
   const quantityByStartDate = ref<number>(1)
-  const { bookTour } = useBooking()
+  const { bookTour } = useBookingDialog()
   const { getCityByName } = useCities()
 
   const getQuantityByStartDate = (event: any) => {

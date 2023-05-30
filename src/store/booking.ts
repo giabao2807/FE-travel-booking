@@ -9,7 +9,13 @@ export const useBookStore = defineStore('bookStore', () => {
       data: data
     })
   }
-
+  const getHistoryBooking = async(type: number) => {
+    return await connectionsAPI({
+      methods: 'GET',
+      path: 'booking',
+      params: { type: type }
+    })
+  }
   const callBackPayment = async(params?: any) => {
     return await connectionsAPI({
       methods: 'GET',
@@ -19,6 +25,7 @@ export const useBookStore = defineStore('bookStore', () => {
   }
   return {
     bookingService,
-    callBackPayment
+    callBackPayment,
+    getHistoryBooking
   }
 })

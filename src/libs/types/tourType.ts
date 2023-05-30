@@ -32,6 +32,5 @@ export type IDetailTour = ITour & {
   scheduleContent: string,
   note: string,
   owner: string,
-  listImages: string[],
-  amount: number
+  listImages: string[]
 }

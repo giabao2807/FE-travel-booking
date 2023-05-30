@@ -161,7 +161,7 @@
                 <v-icon icon="mdi-home-edit-outline" />
                 Confirm Hotel Information
               </h2>
-              <v-container style="height: 250px" class="overflow-y-auto">
+              <v-container class="height-250px overflow-y-auto">
                 <v-row class="my-3" v-for="room in roomsBook" :key="room.id">
                   <v-col cols="2">
                     <n-image :src="room?.listImages[0]" />
@@ -344,7 +344,7 @@ import NSelectQuantity from './NSelectQuantity.vue'
 import { computed, defineEmits, defineProps, withDefaults } from 'vue'
 import { BANK, STEP_BOOK } from '@/resources/mockData'
 import { convertionType } from '@/helpers/convertion'
-import { useBooking } from '@/composables/useBooking'
+import { useBookingDialog } from '@/composables/useBookingDialog'
 import { ITour } from '@/libs/types/tourType'
 import { IHotel } from '@/libs/types/hotelType'
 import { IItemHotel } from '@/libs/types/bookType'
@@ -384,9 +384,7 @@ const setBookingHotelInfo = () => {
   roomsBook?.value.forEach(item => roomList.push({ roomId: item.id, quantity: item.amount })),
   bookHotel.value = {
     ...bookHotel.value,
-    bookingItems: roomList,
-    startDate: initFilterHotel.value.startDate || '',
-    endDate: initFilterHotel.value.endDate || ''
+    bookingItems: roomList
   }
 }
 
@@ -394,7 +392,6 @@ const {
   step,
   errorFeedBack,
   bookTour,
-  initFilterHotel,
   bookHotel,
   roomsBook,
   quantityTour,
@@ -402,5 +399,5 @@ const {
   resetBookTour,
   resetBookHotel,
   bookingService
-} = useBooking()
+} = useBookingDialog()
 </script>

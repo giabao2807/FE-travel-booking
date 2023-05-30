@@ -205,7 +205,7 @@
           </v-card-item>
           <v-card-text>
             <v-text-field
-              v-model="initFilterTour.startDate"
+              v-model="bookTour.startDate"
               :min="minDate(new Date())"
               @update:model-value="(event) => getQuantityByStartDate(event)"
               label="Ngày khởi hành"
@@ -217,7 +217,7 @@
               class="text-field"
             />
             <n-select-quantity
-              v-model="tourInfo.amount"
+              v-model="bookTour.bookingItems[0].quantity"
               label="Số lượng"
               :quantity="quantityByStartDate"
               class="text-field"

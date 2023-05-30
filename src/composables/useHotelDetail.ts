@@ -4,12 +4,12 @@ import { createSharedComposable } from '@vueuse/core'
 import { convertionType } from '@/helpers/convertion'
 import { useRoute } from 'vue-router'
 import { IDetailHotel, IHotel, IParamReview, IParamRoomType, IReview, IRoomType } from '@/libs/types/hotelType'
-import { storeToRefs } from 'pinia'
-import { useBooking } from './useBooking'
+import { useBookingDialog } from './useBookingDialog'
 
 const createHotelDetail = () => {
   const hotelStore = useHotelStore()
-  const { initFilterHotel } = storeToRefs(hotelStore)
+  const { initFilterHotel } = hotelStore
+  const filtersHotel = ref<any>(initFilterHotel)
   const route = useRoute()
   const anotherHotels = ref<IHotel[]>([])
   const hotelInfo = ref<IDetailHotel>()
@@ -24,13 +24,13 @@ const createHotelDetail = () => {
   const loadingRooms = ref<boolean>(false)
   const hotelId = computed(() => route.params.id as string)
   const dialogBooking = ref<boolean>(false)
-  const { roomsBook } = useBooking()
+  const { roomsBook } = useBookingDialog()
 
   const countDate = computed(() => {
     const ONE_DAY = 1000 * 60 * 60 * 24
-    if (initFilterHotel.value.startDate && initFilterHotel.value.endDate) {
-      const startDate = new Date(initFilterHotel.value.startDate)
-      const endDate = new Date(initFilterHotel.value.endDate)
+    if (filtersHotel.value.startDate && filtersHotel.value.endDate) {
+      const startDate = new Date(filtersHotel.value.startDate)
+      const endDate = new Date(filtersHotel.value.endDate)
       const time = Math.abs(startDate.getTime() - endDate.getTime())
       return Math.round(time / ONE_DAY)
     }
@@ -72,13 +72,13 @@ const createHotelDetail = () => {
   const getHotelById = async(id: string) => {
     await hotelStore.getHotelSumaryById(id)
       .then(data => hotelInfo.value = data)
-    getRoomByDate({ id: id, startDate: initFilterHotel.value.startDate, endDate: initFilterHotel.value.endDate })
+    getRoomByDate({ id: id, startDate: filtersHotel.value.startDate, endDate: filtersHotel.value.endDate })
     getAnotherHotelsByCity(id)
     getFirstPageReviews({ id : id })
   }
 
   const changeEndDate = () => {
-    initFilterHotel.value.endDate = ''
+    filtersHotel.value.endDate = ''
   }
   const totalAmountBook = computed(() => {
     let total = 0
@@ -96,7 +96,7 @@ const createHotelDetail = () => {
   return {
     hotelInfo,
     rooms,
-    initFilterHotel,
+    filtersHotel,
     countDate,
     firstPageReview,
     dataReview,

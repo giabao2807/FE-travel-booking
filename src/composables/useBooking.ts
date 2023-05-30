@@ -1,93 +1,24 @@
 import { ref } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { useBookStore } from '@/store/booking'
-import { useHotelStore } from '@/store/hotels'
-import { useTourStore } from '@/store/tours'
-import { useLoading } from '@/composables/useLoading'
-import { IError } from '@/libs/types/commonType'
-import { storeToRefs } from 'pinia'
-import { IBookingHotel, IBookingTour } from '@/libs/types/bookType'
-import { IRoomType } from '@/libs/types/hotelType'
 
 const createBooking = () => {
   const bookStore = useBookStore()
-  const hotelStore = useHotelStore()
-  const tourStore = useTourStore()
-  const { initFilterHotel } = storeToRefs(hotelStore)
-  const step = ref<number>(1)
-  const errorFeedBack = ref<IError>()
-  const roomsBook = ref<IRoomType[]>([])
-  const quantityTour = ref<number>(1)
-  const messageStatusPayment = ref<string>('')
-  const initBookngTour: IBookingTour = {
-    bookingItems: [
-      {
-        tourId: '',
-        quantity: 1
-      }
-    ],
-    note: '',
-    startDate: '',
-    type: 2,
-    bankCode: ''
+  const historyBookingTours = ref<any>([])
+  const historyBookingHotels = ref<any>([])
+  const getHistoryBookingTours = () => {
+    bookStore.getHistoryBooking(1)
+      .then(data => historyBookingTours.value = data)
   }
-  const initBookngHotel: IBookingHotel = {
-    bookingItems: [
-      {
-        roomId: '',
-        quantity: 1
-      }
-    ],
-    note: '',
-    startDate: '',
-    endDate: '',
-    type: 1,
-    bankCode: ''
-  }
-  const bookTour = ref<IBookingTour>(initBookngTour)
-  const bookHotel = ref<IBookingHotel>(initBookngHotel)
-  const { startLoading, finishLoading } = useLoading()
-  const bookingService = async(paramsBook: any) => {
-    startLoading()
-    await bookStore.bookingService(paramsBook).then((data) => {
-      window.location.href = data.paymentLink
-      finishLoading()
-    }).catch(error => {
-      errorFeedBack.value = error.data
-      finishLoading()
-      step.value++
-    })
-  }
-  const resetBookTour = () => {
-    step.value = 1
-    bookTour.value = initBookngTour
-  }
-  const resetBookHotel = () => {
-    step.value = 1
-    bookHotel.value = initBookngHotel
-  }
-  const getQuantityTour = (params: any) => {
-    tourStore.getQuantityByDate(params)
-      .then(data => quantityTour.value = data.availableGroupSize)
-  }
-  const callBackPayment = (params: any) => {
-    bookStore.callBackPayment(params)
-      .then(data => messageStatusPayment.value = data.message)
+  const getHistoryBookingHotels = () => {
+    bookStore.getHistoryBooking(2)
+      .then(data => historyBookingHotels.value = data)
   }
   return {
-    step,
-    errorFeedBack,
-    initFilterHotel,
-    bookTour,
-    bookHotel,
-    roomsBook,
-    quantityTour,
-    messageStatusPayment,
-    resetBookTour,
-    resetBookHotel,
-    bookingService,
-    getQuantityTour,
-    callBackPayment
+    historyBookingTours,
+    historyBookingHotels,
+    getHistoryBookingTours,
+    getHistoryBookingHotels
   }
 }
 export const useBooking = createSharedComposable(createBooking)
