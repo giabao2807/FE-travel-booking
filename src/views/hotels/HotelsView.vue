@@ -175,9 +175,9 @@
           <n-pagination
             v-if="hotels?.results"
             class="my-5"
-            :page="pageHotel"
+            v-model="pageHotel"
             :length="hotels?.pageNumber"
-            @changePage="() => getHotelsByFilterPanel({ page: pageHotel })"
+            @change="() => getHotelsByFilterPanel({ page: pageHotel })"
           />
         </v-container>
       </v-main>

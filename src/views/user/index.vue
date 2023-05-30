@@ -3,7 +3,7 @@
     <v-container fluid class="pa-0 profile_main">
       <v-row class="h-75 w-100" align="end">
         <v-col class="ma-10">
-          <h2>Hello Huy,</h2>
+          <h2>Hello {{ userInfo?.firstName }},</h2>
           <p>
             This is your profile travel.
             <br>
@@ -134,7 +134,13 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn v-if="isEditInfo || isEditContact" class="mx-7">Save</v-btn>
+            <v-btn
+              v-if="isEditInfo || isEditContact"
+              @click="() => updateUserInfo({ ...userInfo })"
+              class="mx-7"
+            >
+              Save
+            </v-btn>
           </v-card-actions>
         </v-container>
       </v-row>
@@ -142,15 +148,20 @@
   </v-sheet>
 </template>
 <script lang="ts" setup>
+import { onMounted } from 'vue'
 import { useUserUtil } from '@/composables/useUser'
 import { GENDER_DATA } from '@/resources/mockData'
 
+onMounted(() => {
+  getUserInfo()
+})
 const {
   userInfo,
   isEditInfo,
   isEditContact,
   checkAvatar,
-  updateUserInfo
+  updateUserInfo,
+  getUserInfo
 } = useUserUtil()
 </script>
 

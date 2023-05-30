@@ -33,7 +33,7 @@
             />
             <div class="d-flex align-center flex-wrap ma-4">
               <v-checkbox v-model="rememberMe" hide-details label="Ghi nhớ tài khoản" color="primary" class="mb-1" />
-              <n-dialog title="Forgot the password">
+              <n-dialog title="Forgot the password" width="300">
                 <template #btnDialog>
                   <a>Quên mật khẩu ?</a>
                 </template>

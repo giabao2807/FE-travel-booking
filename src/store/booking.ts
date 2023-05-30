@@ -1,3 +1,4 @@
+import { IHistoryBooking } from '@/libs/types/commonType'
 import connectionsAPI from '@/plugins/axios'
 import { defineStore } from 'pinia'
 
@@ -9,11 +10,11 @@ export const useBookStore = defineStore('bookStore', () => {
       data: data
     })
   }
-  const getHistoryBooking = async(type: number) => {
+  const getHistoryBooking = async(params: IHistoryBooking) => {
     return await connectionsAPI({
       methods: 'GET',
       path: 'booking',
-      params: { type: type }
+      params: params
     })
   }
   const callBackPayment = async(params?: any) => {
@@ -23,9 +24,17 @@ export const useBookStore = defineStore('bookStore', () => {
       params: params
     })
   }
+  const getPaymentLinkAgain = async(params: any) => {
+    return await connectionsAPI({
+      methods: 'GET',
+      path: `booking/${params.id}/get_payment_link`,
+      params: { bankCode: params.bankCode }
+    })
+  }
   return {
     bookingService,
     callBackPayment,
-    getHistoryBooking
+    getHistoryBooking,
+    getPaymentLinkAgain
   }
 })

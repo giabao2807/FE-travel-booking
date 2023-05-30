@@ -1,9 +1,10 @@
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/store/user'
 import { createSharedComposable } from '@vueuse/core'
 import { IError } from '@/libs/types/commonType'
 import { useFeedBackStore } from '@/store/feedBack'
+import { useLoading } from './useLoading'
 
 const createUser = () => {
   const userStore = useUserStore()
@@ -11,22 +12,26 @@ const createUser = () => {
   const feedBackStore = useFeedBackStore()
   const isEditInfo = ref<boolean>(false)
   const isEditContact = ref<boolean>(false)
+  const { startLoading, finishLoading } = useLoading()
   const checkAvatar = computed(() => userInfo.value?.avatar || require('@/assets/img/avatar.png'))
   const updateUserInfo = (data: any) => {
-    userStore.updateUserInfo(userInfo.value.id, { address: 'phuyen' })
+    userStore.updateUserInfo(userInfo.value.id, data)
       .catch((error: IError) => {
         feedBackStore.setErrorInfo(error.data)
       })
   }
-  onMounted(async() => {
+  const getUserInfo = async() => {
+    startLoading()
     await userStore.getUserInfo()
-  })
+    finishLoading()
+  }
   return {
     userInfo,
     isEditInfo,
     isEditContact,
     checkAvatar,
-    updateUserInfo
+    updateUserInfo,
+    getUserInfo
   }
 }
 export const useUserUtil = createSharedComposable(createUser)

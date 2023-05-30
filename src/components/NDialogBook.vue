@@ -122,25 +122,7 @@
                 <v-icon icon="mdi-bank-outline" />
                 Ngân Hàng Thanh toán
               </h2>
-              <v-container class="height-400px overflow-y-auto">
-                <v-row class="mx-2">
-                  <v-col cols="3" v-for="item in BANK" :key="item.value">
-                    <v-card
-                      :class="bookTour.bankCode === item.value ? 'bg-primary' : ''"
-                      height="80"
-                      width="200"
-                      @click="bookTour.bankCode = item.value"
-                    >
-                      <v-card-text align="center">
-                        <n-image
-                          width="100"
-                          :src="item.image"
-                        />
-                      </v-card-text>
-                    </v-card>
-                  </v-col>
-                </v-row>
-              </v-container>
+              <n-select-bank v-model="bookTour.bankCode" />
             </v-card-text>
           </v-window-item>
           <v-window-item :value="3">
@@ -174,7 +156,7 @@
                         </h2>
                       </v-col>
                       <v-col>
-                        <v-icon icon="mdi-delete-empty-outline" @click="() => removeRoom(room.id)" />
+                        <v-icon v-if="roomsBook.length >= 2" icon="mdi-delete-empty-outline" @click="() => removeRoom(room.id)" />
                       </v-col>
                     </v-row>
                     <p class="my-3">
@@ -217,25 +199,7 @@
                 <v-icon icon="mdi-bank-outline" />
                 Ngân Hàng Thanh toán
               </h2>
-              <v-container class="height-400px overflow-y-auto">
-                <v-row class="mx-2">
-                  <v-col cols="3" v-for="item in BANK" :key="item.value">
-                    <v-card
-                      :class="bookHotel.bankCode === item.value ? 'bg-primary' : ''"
-                      height="80"
-                      width="200"
-                      @click="bookHotel.bankCode = item.value"
-                    >
-                      <v-card-text align="center">
-                        <n-image
-                          width="100"
-                          :src="item.image"
-                        />
-                      </v-card-text>
-                    </v-card>
-                  </v-col>
-                </v-row>
-              </v-container>
+              <n-select-bank v-model="bookHotel.bankCode" />
             </v-card-text>
           </v-window-item>
           <v-window-item :value="3">
@@ -341,8 +305,9 @@
 <script lang="ts" setup>
 import NImage from '@/components/NImage.vue'
 import NSelectQuantity from './NSelectQuantity.vue'
+import NSelectBank from './NSelectBank.vue'
 import { computed, defineEmits, defineProps, withDefaults } from 'vue'
-import { BANK, STEP_BOOK } from '@/resources/mockData'
+import { STEP_BOOK } from '@/resources/mockData'
 import { convertionType } from '@/helpers/convertion'
 import { useBookingDialog } from '@/composables/useBookingDialog'
 import { ITour } from '@/libs/types/tourType'

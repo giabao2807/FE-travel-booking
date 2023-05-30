@@ -52,3 +52,7 @@ export type ICoupon = {
 export type IFilterPanel = IFilterDate & IParamPage & {
   cityId?: number
 }
+
+export type IHistoryBooking = IParamPage & {
+  type: number
+}

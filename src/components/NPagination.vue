@@ -2,19 +2,17 @@
 <template>
   <v-pagination
     class="my-5"
-    v-model="page"
     :total-visible="5"
     :length="propItems.length"
     @update:modelValue="(event) => handleAction(event)"
   />
 </template>
 <script lang="ts" setup>
-import { defineEmits, withDefaults, defineProps, ref } from 'vue'
+import { defineEmits, withDefaults, defineProps } from 'vue'
 
 type Props = {
   length: number
 }
-const page = ref<number>()
 const emit = defineEmits<{
   (event: 'change'): void
   (event: 'update:modelValue', id: number): void

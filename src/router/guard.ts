@@ -1,6 +1,4 @@
-import { useDefaultLayout } from '@/composables/useDefalutLayout'
 import { NavigationGuard } from 'vue-router'
-import { HEADER_TAB } from '@/resources/mockData'
 
 const requireAuth: NavigationGuard = (to, from, next) => {
   const session = sessionStorage.getItem('userData')
@@ -16,9 +14,6 @@ const requireAuth: NavigationGuard = (to, from, next) => {
   } else {
     next()
   }
-
-  const { slideValue } = useDefaultLayout()
-  slideValue.value = HEADER_TAB.find(item => item.name.toLowerCase() === to.name)?.value
 }
 
 export default requireAuth

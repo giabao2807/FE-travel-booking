@@ -1,12 +1,15 @@
+import { storeToRefs } from 'pinia'
 import { IError, IParamsAPI } from '@/libs/types/commonType'
 import { useAuthStore } from '@/store/auth'
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 const BASE_URL = 'https://bonitravel.online/api/v1/'
 const authHeader = () => {
-  const { authUser } = useAuthStore()
-  const isLoggedIn = !!authUser?.accessToken
-  if (isLoggedIn) {
-    return { Authorization: `Bearer ${authUser.accessToken}` }
+  const authStore = useAuthStore()
+  const { authUser } = storeToRefs(authStore)
+  const session = sessionStorage.getItem('userData')
+  authUser.value = session ? JSON.parse(session) : ''
+  if (authUser.value.accessToken) {
+    return { Authorization: `Bearer ${authUser.value.accessToken}` }
   } else {
     return { 'Content-Type': 'application/json' }
   }

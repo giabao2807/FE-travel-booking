@@ -1,4 +1,5 @@
 import { COMMENTRATE, TRAFFICS } from '@/resources/mockData'
+import moment from 'moment'
 
 export const convertionType = () => {
   const formatCurrency = (item = 0) => {
@@ -37,6 +38,11 @@ export const convertionType = () => {
   }
 
   const getTraffic = (traffics?: string[]) => TRAFFICS.filter(item => traffics?.includes(item.value))
+
+  const formatDate = (dateString: string) => {
+    const date = moment(dateString).format('DD/MM/YYYY')
+    return date
+  }
   return {
     formatCurrency,
     deCodeHtml,
@@ -44,6 +50,7 @@ export const convertionType = () => {
     getPriceDiscount,
     minDate,
     rangePrice,
-    getTraffic
+    getTraffic,
+    formatDate
   }
 }

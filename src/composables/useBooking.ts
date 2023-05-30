@@ -6,15 +6,19 @@ const createBooking = () => {
   const bookStore = useBookStore()
   const historyBookingTours = ref<any>([])
   const historyBookingHotels = ref<any>([])
-  const getHistoryBookingTours = () => {
-    bookStore.getHistoryBooking(1)
+  const pageTour = ref<number>()
+  const pageHotel = ref<number>()
+  const getHistoryBookingTours = (page?: number) => {
+    bookStore.getHistoryBooking({ type: 2, page: page })
       .then(data => historyBookingTours.value = data)
   }
-  const getHistoryBookingHotels = () => {
-    bookStore.getHistoryBooking(2)
+  const getHistoryBookingHotels = (page?: number) => {
+    bookStore.getHistoryBooking({ type: 1, page: page })
       .then(data => historyBookingHotels.value = data)
   }
   return {
+    pageTour,
+    pageHotel,
     historyBookingTours,
     historyBookingHotels,
     getHistoryBookingTours,

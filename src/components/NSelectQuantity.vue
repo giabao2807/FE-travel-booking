@@ -14,12 +14,12 @@
 import { computed } from 'vue'
 import { defineProps, withDefaults, defineEmits } from 'vue'
 type Props = {
-  quantity: number,
+  quantity: number | null,
   label?: string,
   disabled: boolean
 }
 const propItems = withDefaults(defineProps<Props>(), {
-  quantity: 1,
+  quantity: 0,
   label: '',
   disabled: false
 })
@@ -32,8 +32,10 @@ const hanldeChange = (event: number) => {
 
 const numberOptions = computed(() => {
   let arr = []
-  for (let i = 0; i <= propItems.quantity; i++){
-    arr.push(i)
+  if (propItems.quantity) {
+    for (let i = 0; i <= propItems.quantity; i++) {
+      arr.push(i)
+    }
   }
   return arr
 })

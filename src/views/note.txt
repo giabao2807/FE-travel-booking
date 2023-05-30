@@ -1,3 +1,2 @@
 gộp room cùng tên
-giới hạn sl tours
 xửa city tourdetail

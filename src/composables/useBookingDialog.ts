@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
 import { createSharedComposable } from '@vueuse/core'
 import { useBookStore } from '@/store/booking'
 import { useHotelStore } from '@/store/hotels'
@@ -12,7 +13,7 @@ const createBooking = () => {
   const bookStore = useBookStore()
   const hotelStore = useHotelStore()
   const tourStore = useTourStore()
-  const { initFilterHotel } = hotelStore
+  const { initFilterHotel } = storeToRefs(hotelStore)
   const step = ref<number>(1)
   const errorFeedBack = ref<IError>()
   const roomsBook = ref<IRoomType[]>([])
@@ -38,8 +39,8 @@ const createBooking = () => {
       }
     ],
     note: '',
-    startDate: initFilterHotel.startDate || '',
-    endDate: initFilterHotel.endDate || '',
+    startDate: initFilterHotel.value.startDate || '',
+    endDate: initFilterHotel.value.endDate || '',
     type: 1,
     bankCode: ''
   }
