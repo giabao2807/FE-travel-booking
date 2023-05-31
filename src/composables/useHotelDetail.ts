@@ -5,11 +5,12 @@ import { convertionType } from '@/helpers/convertion'
 import { useRoute } from 'vue-router'
 import { IDetailHotel, IHotel, IParamReview, IParamRoomType, IReview, IRoomType } from '@/libs/types/hotelType'
 import { useBookingDialog } from './useBookingDialog'
+import { IFilterPanel } from '@/libs/types/commonType'
 
 const createHotelDetail = () => {
   const hotelStore = useHotelStore()
   const { initFilterHotel } = hotelStore
-  const filtersHotel = ref<any>(initFilterHotel)
+  const filtersHotel = ref<IFilterPanel>(initFilterHotel)
   const route = useRoute()
   const anotherHotels = ref<IHotel[]>([])
   const hotelInfo = ref<IDetailHotel>()
@@ -19,7 +20,6 @@ const createHotelDetail = () => {
   const dataReview = ref<IReview>()
   const pageReview = ref<number>(1)
   const loadingReview = ref<boolean>(false)
-  const dialogReview = ref<boolean>(false)
   const loadingHotels = ref<boolean>(false)
   const loadingRooms = ref<boolean>(false)
   const hotelId = computed(() => route.params.id as string)
@@ -100,7 +100,6 @@ const createHotelDetail = () => {
     countDate,
     firstPageReview,
     dataReview,
-    dialogReview,
     loadingReview,
     loadingRooms,
     anotherHotels,

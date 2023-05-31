@@ -258,7 +258,7 @@
         </v-col>
       </v-row>
     </v-sheet>
-    <v-sheet class="ma-5 pa-5 rounded-xl">
+    <!-- <v-sheet class="ma-5 pa-5 rounded-xl">
       <h1 class="my-5 text-center">Reviews Hotel</h1>
       <v-divider class="mx-15" />
       <n-panel-loading :loading="!firstPageReview" />
@@ -324,6 +324,7 @@
         >
           <template #activator="{ props }">
             <v-btn
+              rounded
               class="mx-5"
               color="primary"
               variant="outlined"
@@ -397,7 +398,15 @@
           </v-card>
         </v-dialog>
       </div>
-    </v-sheet>
+    </v-sheet> -->
+    <n-panel-review
+      :id="hotelInfo?.id"
+      :firstPageReview="firstPageReview"
+      :loadingReview="loadingReview"
+      :dataReview="dataReview"
+      @getReview="getReviews"
+      @getReviewByPage="getReviews"
+    />
     <v-sheet color="transparent" class="pa-2">
       <div class="text-center">
         <h2>Những Khách Sạn Khác</h2>
@@ -489,6 +498,7 @@ import NPanelLoading from '@/components/NPanelLoading.vue'
 import NDialogBook from '@/components/NDialogBook.vue'
 import NSelectQuantity from '@/components/NSelectQuantity.vue'
 import NButtonAnimated from '@/components/NButtonAnimated.vue'
+import NPanelReview from '@/components/NPanelReview.vue'
 import { onMounted, watch, watchEffect } from 'vue'
 import '@/assets/scss/detail.scss'
 import { useHotelDetailUtil } from '@/composables/useHotelDetail'
@@ -504,7 +514,6 @@ const {
   countDate,
   firstPageReview,
   dataReview,
-  dialogReview,
   loadingReview,
   loadingRooms,
   roomsBook,

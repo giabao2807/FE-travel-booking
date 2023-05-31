@@ -181,7 +181,7 @@ const {
   getHistoryBookingHotels,
   callBackPayment
 } = useBooking()
-const { formatCurrency, getIconStatus, minDate, rangePrice, formatDate } = convertionType()
+const { formatCurrency, getIconStatus, formatDate } = convertionType()
 const route = useRoute()
 const tabWindow = ref<number>(1)
 onMounted(async() => {

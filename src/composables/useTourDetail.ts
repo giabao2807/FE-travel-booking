@@ -6,6 +6,7 @@ import { useTourStore } from '@/store/tours'
 import { IDetailTour, ITour } from '@/libs/types/tourType'
 import { useRoute } from 'vue-router'
 import { useBookingDialog } from '@/composables/useBookingDialog'
+import { IParamReview, IReview } from '@/libs/types/hotelType'
 const createTourDetail = () => {
   const tourStore = useTourStore()
   const { initFilterTour } = storeToRefs(tourStore)
@@ -16,6 +17,10 @@ const createTourDetail = () => {
   const dialogBooking = ref<boolean>(false)
   const loadingAnotherTours = ref<boolean>(false)
   const quantityByStartDate = ref<number>(1)
+  const firstPageReview = ref<IReview>()
+  const dataReview = ref<IReview>()
+  const pageReview = ref<number>(1)
+  const loadingReview = ref<boolean>(false)
   const { bookTour } = useBookingDialog()
   const { getCityByName } = useCities()
 
@@ -38,6 +43,19 @@ const createTourDetail = () => {
         tourInfo.value = data
       })
     getAnotherToursByCity(tourId.value, tourInfo.value?.city)
+  }
+  const getFirstPageReviews = (params: IParamReview) => {
+    tourStore.getReviewsTour(params)
+      .then(data => firstPageReview.value = data)
+  }
+
+  const getReviews = (params: IParamReview) => {
+    loadingReview.value = true
+    tourStore.getReviewsTour(params)
+      .then(data => {
+        dataReview.value = data
+        loadingReview.value = false
+      })
   }
   return {
     tourInfo,

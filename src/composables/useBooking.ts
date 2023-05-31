@@ -14,25 +14,25 @@ const createBooking = () => {
   const dialogBooking = ref<boolean>(false)
   const loadingTours = ref<boolean>(false)
   const loadingHotels = ref<boolean>(false)
-  const getHistoryBookingTours = (page?: number) => {
+  const getHistoryBookingTours = async(page?: number) => {
     loadingTours.value = true
-    bookStore.getHistoryBooking({ type: 2, page: page })
+    await bookStore.getHistoryBooking({ type: 2, page: page })
       .then(data => {
         historyBookingTours.value = data
         loadingTours.value = false
       })
   }
-  const getHistoryBookingHotels = (page?: number) => {
+  const getHistoryBookingHotels = async(page?: number) => {
     loadingHotels.value = true
-    bookStore.getHistoryBooking({ type: 1, page: page })
+    await bookStore.getHistoryBooking({ type: 1, page: page })
       .then(data => {
         historyBookingHotels.value = data
         loadingHotels.value = false
       })
   }
-  const callBackPayment = (params: any) => {
+  const callBackPayment = async(params: any) => {
     startLoading()
-    bookStore.callBackPayment(params)
+    await bookStore.callBackPayment(params)
       .then(data => {
         messageStatusPayment.value = data.message
         dialogBooking.value = true

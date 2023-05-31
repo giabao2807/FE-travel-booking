@@ -3,6 +3,7 @@ import { IResponseTour } from '@/libs/types/tourType'
 import { IFilterPanel, IParamPage } from '@/libs/types/commonType'
 import connectionsAPI from '@/plugins/axios'
 import { defineStore } from 'pinia'
+import { IParamReview } from '@/libs/types/hotelType'
 
 export const useTourStore = defineStore('tourStore', () => {
   const tours = ref<IResponseTour>()
@@ -69,6 +70,14 @@ export const useTourStore = defineStore('tourStore', () => {
       headers: { 'Content-Type': 'application/json' }
     })
   }
+  const getReviewsTour = async(param: Partial<IParamReview>) => {
+    return await connectionsAPI({
+      methods: 'GET',
+      path: `tour/${param.id}/get_reviews`,
+      headers: { 'Content-Type': 'application/json' },
+      params: { page: param.page, pageSize: param.pageSize }
+    })
+  }
   return {
     tours,
     initFilterTour,
@@ -77,6 +86,7 @@ export const useTourStore = defineStore('tourStore', () => {
     getTours,
     getAllCity,
     getToursByFilter,
-    getQuantityByDate
+    getQuantityByDate,
+    getReviewsTour
   }
 })
