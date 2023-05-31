@@ -16,7 +16,7 @@ import { defineProps, withDefaults, defineEmits } from 'vue'
 type Props = {
   quantity: number | null,
   label?: string,
-  disabled: boolean
+  disabled?: boolean
 }
 const propItems = withDefaults(defineProps<Props>(), {
   quantity: 0,

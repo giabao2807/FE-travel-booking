@@ -52,3 +52,9 @@ export const BANK = [
 ]
 
 export const STEP_BOOK = ['mdi-cube-scan', 'mdi-credit-card-outline', 'mdi-cloud-check-variant']
+export const STATUS_ICON = [
+  { icon: 'mdi-map-marker-alert-outline', value: 'unpaid' },
+  { icon: 'mdi-cash-check', value: 'paid' },
+  { icon: 'mdi-close-box-multiple-outline', value: 'canceled' },
+  { icon: 'mdi-bookmark-check-outline', value: 'completed' }
+]

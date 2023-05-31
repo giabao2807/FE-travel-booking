@@ -3,6 +3,7 @@
     :transition="propItems.transition"
     :width="propItems.width"
     :fullscreen="propItems.fullScreen"
+    @update:modelValue="(event) => hanldeChange(event)"
   >
     <template #activator="{ props }">
       <a v-bind="props">
@@ -18,8 +19,9 @@
         <v-card-text>
           <slot name="content" />
         </v-card-text>
-        <v-card-actions class="justify-end">
+        <v-card-actions class="justify-end pa-2">
           <v-btn
+            v-if="!propItems.oneBtn"
             variant="text"
             @click="isActive.value = handleAction('action-one')"
           >
@@ -39,16 +41,20 @@
 <script lang="ts" setup>
 import { defineProps, defineEmits, withDefaults } from 'vue'
 type Props = {
-  textDialog: string,
-  title: string,
-  labelBtnOne: string,
-  labelBtnSecond: string,
+  textDialog?: string,
+  title?: string,
+  labelBtnOne?: string,
+  labelBtnSecond?: string,
   iconToolBar?: string,
-  width: string,
-  fullScreen: boolean,
-  transition: string
+  width?: string,
+  fullScreen?: boolean,
+  transition?: string,
+  oneBtn?: boolean
 }
-const emit = defineEmits(['action-one', 'action-second'])
+const emit = defineEmits(['update:modelValue', 'action-one', 'action-second'])
+const hanldeChange = (event: boolean) => {
+  emit('update:modelValue', event)
+}
 const handleAction = (action: 'action-one'|'action-second') => {
   emit(action)
   return false
@@ -61,6 +67,7 @@ const propItems = withDefaults(defineProps<Props>(), {
   iconToolBar: '',
   width: '',
   fullScreen: false,
-  transition: 'dialog-top-transition'
+  transition: 'dialog-top-transition',
+  oneBtn: false
 })
 </script>

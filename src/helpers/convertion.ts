@@ -1,4 +1,4 @@
-import { COMMENTRATE, TRAFFICS } from '@/resources/mockData'
+import { COMMENTRATE, TRAFFICS, STATUS_ICON } from '@/resources/mockData'
 import moment from 'moment'
 
 export const convertionType = () => {
@@ -43,6 +43,10 @@ export const convertionType = () => {
     const date = moment(dateString).format('DD/MM/YYYY')
     return date
   }
+  const getIconStatus = (status: string) => {
+    const item = STATUS_ICON.find(item => item.value === status.toLowerCase())
+    return item?.icon
+  }
   return {
     formatCurrency,
     deCodeHtml,
@@ -51,6 +55,7 @@ export const convertionType = () => {
     minDate,
     rangePrice,
     getTraffic,
-    formatDate
+    formatDate,
+    getIconStatus
   }
 }

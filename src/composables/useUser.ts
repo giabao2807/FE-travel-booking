@@ -24,6 +24,8 @@ const createUser = () => {
     startLoading()
     await userStore.getUserInfo()
     finishLoading()
+    isEditInfo.value = false
+    isEditContact.value = false
   }
   return {
     userInfo,

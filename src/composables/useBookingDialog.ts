@@ -18,7 +18,6 @@ const createBooking = () => {
   const errorFeedBack = ref<IError>()
   const roomsBook = ref<IRoomType[]>([])
   const quantityTour = ref<number>(1)
-  const messageStatusPayment = ref<string>('')
   const initBookingTour: IBookingTour = {
     bookingItems: [
       {
@@ -70,10 +69,6 @@ const createBooking = () => {
     tourStore.getQuantityByDate(params)
       .then(data => quantityTour.value = data.availableGroupSize)
   }
-  const callBackPayment = (params: any) => {
-    bookStore.callBackPayment(params)
-      .then(data => messageStatusPayment.value = data.message)
-  }
   return {
     step,
     errorFeedBack,
@@ -81,12 +76,10 @@ const createBooking = () => {
     bookHotel,
     roomsBook,
     quantityTour,
-    messageStatusPayment,
     resetBookTour,
     resetBookHotel,
     bookingService,
-    getQuantityTour,
-    callBackPayment
+    getQuantityTour
   }
 }
 export const useBookingDialog = createSharedComposable(createBooking)
