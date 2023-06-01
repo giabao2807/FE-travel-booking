@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.example.tyrphoon_travel",
+      "sha256_cert_fingerprints": [
+        "5F:94:05:98:F3:7C:CE:99:FF:C2:37:8F:6D:C9:F6:5E:4B:FC:81:E8:13:0C:CC:07:E3:8D:E9:F5:91:10:F0:B6"
+      ]
+    }
+  }
+]
