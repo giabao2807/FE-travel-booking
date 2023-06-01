@@ -347,7 +347,7 @@ animation: run-left 5s linear infinite;
   left: 50%;
   margin-top: -50px;
   transform: translate(-50%, -50%);
-  border-top: 12px solid var(--color-boni-like);
+  border-top: 10px solid var(--color-boni-like);
   z-index: 1;
 }
 .home-coupon {

@@ -21,7 +21,7 @@
       labelBtnSecond="Close"
       :oneBtn="true"
       width="350"
-      @action-second="() => hanldeRoute({ name: 'booking' })"
+      @action-second="() => handleRoute({ name: 'booking' })"
     >
       <template #content>
         <p>{{ messageStatusPayment }}</p>
@@ -137,10 +137,127 @@
           <v-row v-if="!loadingHotels" class="my-5">
             <n-panel-loading :loading="loadingHotels" />
             <v-col
-              v-for="hotel in historyBookingHotels.results"
-              :key="hotel.id"
+              v-for="bookItem in historyBookingHotels.results"
+              :key="bookItem.id"
+              cols="12"
             >
-              {{ hotel }}
+              <v-card elevation="0" class="my-2">
+                <v-row>
+                  <v-col cols="4">
+                    <n-image :src="bookItem.hotel.coverPicture" />
+                  </v-col>
+                  <v-col>
+                    <v-card-text>
+                      <v-row>
+                        <v-col cols="9">
+                          <h2>{{ bookItem.hotel.name }}</h2>
+                        </v-col>
+                        <v-col>
+                          <v-chip
+                            size="large"
+                            :color="checkColorTag(bookItem.status)"
+                          >
+                            <h5>
+                              <v-icon :icon="getIconStatus(bookItem.status)" />
+                              <span class="mx-1 font-weight-800">{{ bookItem.status }}</span>
+                            </h5>
+                          </v-chip>
+                        </v-col>
+                      </v-row>
+                      <div class="my-2">
+                        <v-row>
+                          <v-col cols="3">
+                            <v-icon icon="mdi-clipboard-text-clock" />
+                            Checkin/Checkout
+                          </v-col>
+                          <v-col>
+                            <h4>
+                              {{ formatDate(bookItem.startDate) }}
+                              <v-icon icon="mdi-chevron-right" />
+                              {{ formatDate(bookItem.endDate) }}
+                            </h4>
+                          </v-col>
+                        </v-row>
+                        <v-row class="mt-1">
+                          <v-col cols="3">
+                            <v-icon icon="mdi-information-slab-box-outline" />
+                            Rooms booking
+                          </v-col>
+                          <v-col>
+                            <h4 v-for="room in bookItem.bookingItems" :key="room.id">
+                              <v-icon icon="mdi-bed-outline" class="mr-1 mt-n1" />
+                              {{ room.roomName }} x {{ room.quantity }}
+                            </h4>
+                          </v-col>
+                        </v-row>
+                        <v-row class="mt-1">
+                          <v-col cols="3">
+                            <v-icon icon="mdi-map-marker-radius-outline" />
+                            Địa chỉ
+                          </v-col>
+                          <v-col>
+                            <h4>
+                              {{ bookItem.hotel.address }}
+                            </h4>
+                          </v-col>
+                        </v-row>
+                        <p class="mt-2" v-if="bookItem.note">
+                          <v-icon icon="mdi-note-text-outline" />
+                          Ghi chú:
+                          <span class="mx-3 font-weight-600">{{ bookItem.note }}</span>
+                        </p>
+                      </div>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-row>
+                        <v-col cols="9">
+                          <h3 class="animate-charcter">
+                            <v-icon icon="mdi-cash-fast" class="animate-charcter" />
+                            Tổng tiền: {{ formatCurrency(bookItem.totalPrice) }}
+                          </h3>
+                        </v-col>
+                        <v-col>
+                          <n-dialog-pay-again
+                            v-model="bookItem.dialogPayment"
+                            :idBooking="bookItem.id"
+                          >
+                            <template #action>
+                              <v-btn
+                                v-if="bookItem.status === 'Unpaid'"
+                                class="text-none"
+                                color="primary"
+                                variant="tonal"
+                                min-width="110"
+                                @click="bookItem.dialogPayment = true"
+                              >
+                                Thanh toán
+                              </v-btn>
+                            </template>
+                          </n-dialog-pay-again>
+                          <n-dialog-review
+                            v-model="bookItem.dialogReview"
+                            :idBooking="bookItem.id"
+                            title="Tours"
+                          >
+                            <template #action>
+                              <v-btn
+                                v-if="bookItem.status === 'Completed'"
+                                class="text-none"
+                                color="primary"
+                                variant="tonal"
+                                min-width="110"
+                                @click="bookItem.dialogReview = true"
+                              >
+                                Đánh giá
+                              </v-btn>
+                            </template>
+                          </n-dialog-review>
+                        </v-col>
+                      </v-row>
+                    </v-card-actions>
+                  </v-col>
+                </v-row>
+              </v-card>
             </v-col>
           </v-row>
           <n-pagination
@@ -166,7 +283,7 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useBooking } from '@/composables/useBooking'
 import { convertionType } from '@/helpers/convertion'
-import { hanldeRoute } from '@/helpers/loadingRoute'
+import { handleRoute } from '@/helpers/loadingRoute'
 
 const {
   pageTour,
@@ -181,7 +298,7 @@ const {
   getHistoryBookingHotels,
   callBackPayment
 } = useBooking()
-const { formatCurrency, getIconStatus, formatDate } = convertionType()
+const { formatCurrency, getIconStatus, formatDate, checkColorTag } = convertionType()
 const route = useRoute()
 const tabWindow = ref<number>(1)
 onMounted(async() => {

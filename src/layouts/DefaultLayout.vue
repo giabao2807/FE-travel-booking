@@ -36,7 +36,7 @@
               variant="text"
               :color="isSelected ? 'primary' : '#000'"
               @click="() => {
-                hanldeRoute({ name: item.name.toLowerCase() })
+                handleRoute({ name: item.name.toLowerCase() })
                 toggle()
               }"
             >
@@ -159,7 +159,7 @@
 <script lang="ts" setup>
 import NImage from '@/components/NImage.vue'
 import router from '@/router'
-import { hanldeRoute } from '@/helpers/loadingRoute'
+import { handleRoute } from '@/helpers/loadingRoute'
 import { useDefaultLayout } from '@/composables/useDefalutLayout'
 import { HEADER_TAB } from '@/resources/mockData'
 

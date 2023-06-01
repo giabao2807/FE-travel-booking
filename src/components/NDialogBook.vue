@@ -1,16 +1,49 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <v-dialog
-    width="70%"
-    @update:modelValue="(event) => hanldeChange(event)"
-  >
+  <v-dialog persistent class="font-serif" :width="isSignIn ? '70%' : '40%'">
     <template #activator>
       <slot name="action" />
     </template>
     <template #default="{ isActive }">
-      <v-card>
+      <v-card class="rounded-xl" v-if="!isSignIn">
+        <v-toolbar class="px-5">
+          <v-toolbar-title>
+            <v-icon icon="mdi-shield-account-outline" />
+            <strong class="mx-3">Notification</strong>
+          </v-toolbar-title>
+        </v-toolbar>
+        <v-card-text>
+          Please sign in to booking!
+        </v-card-text>
+        <v-card-actions class="mt-15">
+          <v-btn
+            variant="flat"
+            rounded
+            class="text-none"
+            @click="() => {
+              isActive.value = false
+            }"
+          >
+            Close
+          </v-btn>
+          <v-spacer />
+          <v-btn
+            color="primary"
+            variant="flat"
+            rounded
+            class="text-none"
+            @click="() => {
+              isActive.value = false
+              handleRoute({ name: 'signIn' })
+            }"
+          >
+            SignIn
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+      <v-card class="rounded-t-xl" v-if="isSignIn">
         <v-card-title class="justify-space-between">
-          <h2 class="text-center ma-2">{{ propItems.titleDialog }}</h2>
+          <h2 class="text-center mt-5">{{ propItems.titleDialog }}</h2>
           <v-timeline direction="horizontal" truncate-line="both">
             <v-timeline-item
               v-for="(n, idx) in 3"
@@ -25,7 +58,10 @@
         <v-window v-model="step" v-if="propItems.typeBook === 'tour'">
           <v-window-item :value="1">
             <v-card-text class="ml-2">
-              <h2 class="mb-5">Confirm Tour Information</h2>
+              <h3 class="mb-5">
+                <v-icon icon="mdi-wallet-travel" />
+                Confirm Tour Information
+              </h3>
               <v-row>
                 <v-col cols="4">
                   <n-image :src="propItems.tourInfo?.coverPicture" height="250" />
@@ -118,10 +154,10 @@
           </v-window-item>
           <v-window-item :value="2">
             <v-card-text>
-              <h2 class="mx-5 mb-5">
+              <h3 class="mx-5 mb-5">
                 <v-icon icon="mdi-bank-outline" />
                 Ngân Hàng Thanh toán
-              </h2>
+              </h3>
               <n-select-bank v-model="bookTour.bankCode" />
             </v-card-text>
           </v-window-item>
@@ -139,31 +175,68 @@
         <v-window v-model="step" v-if="propItems.typeBook === 'hotel'">
           <v-window-item v-if="propItems.typeBook === 'hotel'" :value="1">
             <v-card-text class="ml-2">
-              <h2 class="mb-2">
+              <h3 class="mb-2">
                 <v-icon icon="mdi-home-edit-outline" />
                 Confirm Hotel Information
-              </h2>
+              </h3>
               <v-container class="height-250px overflow-y-auto">
-                <v-row class="my-3" v-for="room in roomsBook" :key="room.id">
+                <v-row v-if="roomsBook.length === 1" class="my-3">
+                  <v-col cols="4">
+                    <n-image :src="roomsBook[0]?.listImages[0]" />
+                  </v-col>
+                  <v-col>
+                    <v-row>
+                      <v-col cols="9">
+                        <h2>
+                          Phòng:
+                          {{ roomsBook[0]?.name }}
+                        </h2>
+                      </v-col>
+                    </v-row>
+                    <h4 class="my-3">
+                      Số lượng: {{ roomsBook[0]?.amount }}
+                      <v-icon class="mt-n1" icon="mdi-home-variant-outline" />
+                    </h4>
+                    <h4>
+                      Giá tiền:
+                      {{
+                        formatCurrency(roomsBook[0]?.amount
+                          * getPriceDiscount(roomsBook[0]?.price, propItems.hotelInfo?.couponData.discountPercent))
+                      }}
+                    </h4>
+                  </v-col>
+                </v-row>
+                <v-row v-else class="my-3" v-for="room in roomsBook" :key="room.id">
                   <v-col cols="2">
                     <n-image :src="room?.listImages[0]" />
                   </v-col>
                   <v-col>
                     <v-row>
-                      <v-col cols="8">
+                      <v-col cols="9">
                         <h2>
-                          Loại phòng: {{ room.name }}
+                          Phòng:
+                          {{ room.name }}
                         </h2>
                       </v-col>
                       <v-col>
-                        <v-icon v-if="roomsBook.length >= 2" icon="mdi-delete-empty-outline" @click="() => removeRoom(room.id)" />
+                        <v-icon
+                          v-if="roomsBook.length >= 2"
+                          icon="mdi-delete-empty-outline"
+                          @click="() => removeRoom(room.id)"
+                        />
                       </v-col>
                     </v-row>
-                    <p class="my-3">
+                    <h4 class="my-3">
                       Số lượng: {{ room.amount }}
-                      <v-icon class="mt-n1" icon="mdi-home-outline" />
-                    </p>
-                    <h3>Giá tiền: {{ formatCurrency(room.amount*getPriceDiscount(room.price, 12)) }}</h3>
+                      <v-icon class="mt-n1" icon="mdi-home-variant-outline" />
+                    </h4>
+                    <h4>
+                      Giá tiền:
+                      {{
+                        formatCurrency(room.amount
+                          * getPriceDiscount(room.price, propItems.hotelInfo?.couponData.discountPercent))
+                      }}
+                    </h4>
                   </v-col>
                 </v-row>
               </v-container>
@@ -195,10 +268,10 @@
           </v-window-item>
           <v-window-item :value="2">
             <v-card-text>
-              <h2 class="mx-5 mb-5">
+              <h3 class="mx-5 mb-5">
                 <v-icon icon="mdi-bank-outline" />
                 Ngân Hàng Thanh toán
-              </h2>
+              </h3>
               <n-select-bank v-model="bookHotel.bankCode" />
             </v-card-text>
           </v-window-item>
@@ -214,7 +287,17 @@
           </v-window-item>
         </v-window>
         <v-divider />
-        <v-card-actions v-if="propItems.typeBook === 'tour'">
+        <v-card-actions class="mx-2" v-if="propItems.typeBook === 'tour'">
+          <v-btn
+            v-if="step === 1"
+            variant="flat"
+            @click="() => {
+              isActive.value = false
+              resetBookTour()
+            }"
+          >
+            Close
+          </v-btn>
           <v-btn
             v-if="step === 2"
             variant="text"
@@ -255,7 +338,17 @@
             Done
           </v-btn>
         </v-card-actions>
-        <v-card-actions v-if="propItems.typeBook === 'hotel'">
+        <v-card-actions class="mx-2" v-if="propItems.typeBook === 'hotel'">
+          <v-btn
+            v-if="step === 1"
+            variant="flat"
+            @click="() => {
+              isActive.value = false
+              resetBookHotel()
+            }"
+          >
+            Close
+          </v-btn>
           <v-btn
             v-if="step === 2"
             variant="text"
@@ -306,13 +399,15 @@
 import NImage from '@/components/NImage.vue'
 import NSelectQuantity from './NSelectQuantity.vue'
 import NSelectBank from './NSelectBank.vue'
-import { computed, defineEmits, defineProps, withDefaults } from 'vue'
+import { computed, defineProps, withDefaults } from 'vue'
 import { STEP_BOOK } from '@/resources/mockData'
 import { convertionType } from '@/helpers/convertion'
 import { useBookingDialog } from '@/composables/useBookingDialog'
 import { ITour } from '@/libs/types/tourType'
 import { IHotel } from '@/libs/types/hotelType'
 import { IItemHotel } from '@/libs/types/bookType'
+import { checkInfo } from '@/helpers/checkSignIn'
+import { handleRoute } from '@/helpers/loadingRoute'
 
 type Props = {
   titleDialog: string,
@@ -327,14 +422,8 @@ const propItems = withDefaults(defineProps<Props>(), {
   hotelInfo: undefined
 })
 
-const emit = defineEmits<{
-  (event: 'update:modelValue', booking: boolean): void
-}>()
-const hanldeChange = (event: boolean) => {
-  emit('update:modelValue', event)
-}
 const { formatCurrency, getPriceDiscount, minDate, getTraffic } = convertionType()
-
+const { isSignIn } = checkInfo()
 const totalPrice = computed(() => {
   return roomsBook?.value.reduce((total, item) => {
     const amount = item.amount || 0

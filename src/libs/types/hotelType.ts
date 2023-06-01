@@ -46,7 +46,8 @@ export type IRoomType = {
   quantity: number,
   totalRoomAmount: number,
   availableRoomAmount: number,
-  amount: number
+  amount: number,
+  dialog: boolean
 }
 
 export type IOwner = {

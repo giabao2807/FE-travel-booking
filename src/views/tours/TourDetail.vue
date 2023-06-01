@@ -88,11 +88,22 @@
             </v-card-text>
           </v-card>
         </v-container>
+        <n-panel-review
+          :id="tourInfo?.id"
+          title="Tour"
+          :firstPageReview="firstPageReview"
+          :loadingReview="loadingReview"
+          :dataReview="dataReview"
+          @getReview="getReviews"
+          @getReviewByPage="getReviews"
+        />
         <v-sheet color="transparent" class="pa-2">
           <div class="text-center">
             <h2>Những Tours Tương Tự</h2>
           </div>
+          <n-panel-loading :loading="loadingAnotherTours" />
           <v-slide-group
+            v-if="!loadingAnotherTours"
             class="pa-4"
             selected-class="bg-success"
             show-arrows
@@ -104,11 +115,12 @@
               <v-card
                 class="ma-5"
                 width="300"
-                @click="()=> hanldeRoute({ name: 'tourDetail', params: { id: item?.id } })"
+                @click="()=> handleRoute({ name: 'tourDetail', params: { id: item?.id } })"
               >
                 <v-card-title class="font-weight-bold">
                   <n-image
                     :src="item?.coverPicture"
+                    height="150"
                   />
                   {{ item?.name }}
                   <v-tooltip
@@ -288,10 +300,12 @@ import NSelectQuantity from '@/components/NSelectQuantity.vue'
 import NCarousel from '@/components/NCarousel.vue'
 import NDialogBook from '@/components/NDialogBook.vue'
 import NImage from '@/components/NImage.vue'
+import NPanelLoading from '@/components/NPanelLoading.vue'
+import NPanelReview from '@/components/NPanelReview.vue'
 import { onMounted, watch } from 'vue'
 import { useTourDetail } from '@/composables/useTourDetail'
 import { convertionType } from '@/helpers/convertion'
-import { hanldeRoute } from '@/helpers/loadingRoute'
+import { handleRoute } from '@/helpers/loadingRoute'
 import { useLoading } from '@/composables/useLoading'
 
 const {
@@ -301,7 +315,11 @@ const {
   tourId,
   dialogBooking,
   quantityByStartDate,
-  initFilterTour,
+  loadingAnotherTours,
+  loadingReview,
+  dataReview,
+  firstPageReview,
+  getReviews,
   getQuantityByStartDate,
   getTourById
 } = useTourDetail()

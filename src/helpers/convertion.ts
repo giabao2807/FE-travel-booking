@@ -47,6 +47,14 @@ export const convertionType = () => {
     const item = STATUS_ICON.find(item => item.value === status.toLowerCase())
     return item?.icon
   }
+
+  const getIconHuman = (quantity: number) => {
+    return quantity < 2 ? 'mdi-account-outline' : 'mdi-account-multiple-outline'
+  }
+  const checkColorTag = (status: string) => {
+    const item = STATUS_ICON.find(item => item.value === status.toLowerCase())
+    return item?.color
+  }
   return {
     formatCurrency,
     deCodeHtml,
@@ -56,6 +64,8 @@ export const convertionType = () => {
     rangePrice,
     getTraffic,
     formatDate,
-    getIconStatus
+    getIconStatus,
+    getIconHuman,
+    checkColorTag
   }
 }

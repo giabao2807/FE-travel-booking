@@ -49,10 +49,21 @@
           </v-form>
         </v-card-text>
         <v-divider />
-        <v-card-actions>
-          <v-btn @click="() => isActive.value = false">Đóng</v-btn>
+        <v-card-actions class="mx-5 my-2">
+          <v-btn
+            rounded
+            min-width="110"
+            variant="outlined"
+            @click="() => isActive.value = false"
+          >
+            Close
+          </v-btn>
           <v-spacer />
           <v-btn
+            rounded
+            min-width="110"
+            variant="outlined"
+            color="primary"
             @click="() => {
               isActive.value = false
               postReview({ ...paramsReview, booking: propItems.idBooking })

@@ -175,7 +175,7 @@
                         color="primary"
                         variant="tonal"
                         class="text-none"
-                        @click="() => hanldeRoute({ name: 'tourDetail', params: { id: item?.id } })"
+                        @click="() => handleRoute({ name: 'tourDetail', params: { id: item?.id } })"
                       >
                         More...
                       </v-btn>
@@ -207,7 +207,7 @@ import { onMounted } from 'vue'
 import { useTourUtil } from '@/composables/useTour'
 import { useCities } from '@/composables/useCities'
 import { convertionType } from '@/helpers/convertion'
-import { hanldeRoute } from '@/helpers/loadingRoute'
+import { handleRoute } from '@/helpers/loadingRoute'
 
 const {
   tours,

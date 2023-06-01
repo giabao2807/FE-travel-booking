@@ -97,13 +97,13 @@
                 elevation="0"
                 class="my-5 hotel-card"
                 color="transparent"
-                @click="() => hanldeRoute({ name: 'hotelDetail', params: { id: item?.id } })"
+                @click="() => handleRoute({ name: 'hotelDetail', params: { id: item?.id } })"
               >
                 <v-row>
                   <v-col cols="5">
                     <n-image :src="item?.coverPicture" height="300" />
                   </v-col>
-                  <v-col cols="5">
+                  <v-col cols="7">
                     <h1 class="mt-5 ml-2">
                       {{ item?.name }}
                     </h1>
@@ -134,11 +134,9 @@
                         </v-chip>
                       </v-row>
                       <v-row class="my-3">
-                        <v-col class="pa-0" cols="2">
-                          <v-icon color="primary" icon="mdi-map-marker-radius-outline" />
-                          <strong class="font-size-min-rem">Địa chỉ:</strong>
-                        </v-col>
-                        <v-col class="pa-0" cols="8">
+                        <v-icon color="primary" icon="mdi-map-marker-radius-outline" />
+                        <strong class="font-size-min-rem">Địa chỉ:</strong>
+                        <v-col class="pa-0 ml-5" cols="5">
                           {{ item?.address }}
                         </v-col>
                       </v-row>
@@ -191,7 +189,7 @@ import NPagination from '@/components/NPagination.vue'
 import NCitiesSelect from '@/components/NCitiesSelect.vue'
 import { onMounted } from 'vue'
 import { convertionType } from '@/helpers/convertion'
-import { hanldeRoute } from '@/helpers/loadingRoute'
+import { handleRoute } from '@/helpers/loadingRoute'
 import { useHotelUtil } from '@/composables/useHotel'
 import { useCities } from '@/composables/useCities'
 

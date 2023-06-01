@@ -95,9 +95,12 @@
                         Giường: {{ room?.beds }}
                       </p>
                       <p class="my-2">
-                        <v-icon icon="mdi-bed-queen-outline" />
+                        <v-icon :icon="getIconHuman(room?.adults)" />
                         Người lớn: {{ room?.adults }}
-                        Trẻ em: {{ room?.children }}
+                        <span class="ml-3" v-if="room?.children">
+                          <v-icon icon="mdi-teddy-bear" />
+                          Trẻ em: {{ room?.children }}
+                        </span>
                       </p>
                       <p class="my-2">
                         <v-icon icon="mdi-home-export-outline" />
@@ -146,15 +149,25 @@
                       :quantity="room?.availableRoomAmount"
                       class="text-field text-field-width"
                     />
-                    <v-btn
-                      :disabled="!room?.availableRoomAmount"
-                      prepend-icon="mdi-checkbox-marked-circle-auto-outline"
-                      class="mx-2"
-                      color="primary"
-                      variant="tonal"
+                    <n-dialog-book
+                      v-model="room.dialog"
+                      titleDialog="BOOK HOTEL"
+                      typeBook="hotel"
+                      :hotelInfo="hotelInfo"
                     >
-                      Book now
-                    </v-btn>
+                      <template #action>
+                        <v-btn
+                          :disabled="!room?.availableRoomAmount"
+                          prepend-icon="mdi-checkbox-marked-circle-auto-outline"
+                          class="mx-2"
+                          color="primary"
+                          variant="tonal"
+                          @click="() => room.dialog = true"
+                        >
+                          Book now
+                        </v-btn>
+                      </template>
+                    </n-dialog-book>
                   </v-row>
                 </div>
               </v-col>
@@ -171,15 +184,18 @@
             <v-card-text>
               <h3 class="ma-5">
                 Tổng số phòng đã chọn: {{ totalAmountBook }}
-                <v-icon icon="mdi-home-group" />
+                <v-icon class="mt-n2" :icon="totalAmountBook < 2 ? 'mdi-home-variant-outline' : 'mdi-home-group'" />
               </h3>
-              <h3 class="ma-5">Tổng tiền: {{ formatCurrency(totalPrice) }}</h3>
+              <div class="d-flex ma-5">
+                <h3>Tổng tiền:</h3>
+                <h2>{{ formatCurrency(totalPrice) }}</h2>
+              </div>
             </v-card-text>
           </v-col>
           <v-col>
             <n-dialog-book
               v-model="dialogBooking"
-              titleDialog="BOOK TOUR"
+              titleDialog="BOOK HOTEL"
               typeBook="hotel"
               :hotelInfo="hotelInfo"
             >
@@ -258,149 +274,9 @@
         </v-col>
       </v-row>
     </v-sheet>
-    <!-- <v-sheet class="ma-5 pa-5 rounded-xl">
-      <h1 class="my-5 text-center">Reviews Hotel</h1>
-      <v-divider class="mx-15" />
-      <n-panel-loading :loading="!firstPageReview" />
-      <v-slide-group
-        class="pa-4"
-        center-active
-        show-arrows
-      >
-        <v-slide-group-item
-          v-for="review in firstPageReview?.results"
-          :key="review?.id"
-        >
-          <v-card
-            elevation="4"
-            class="ma-5 pa-2 rounded-xl"
-            width="400"
-          >
-            <v-card-title class="ml-n5">
-              <v-row>
-                <v-col>
-                  <v-list-item>
-                    <template #prepend>
-                      <v-avatar
-                        color="grey-darken-3"
-                        :image="review?.owner.avatar"
-                      />
-                    </template>
-
-                    <v-list-item-title>
-                      {{ review?.owner.name }}
-                      <br>
-                      {{ review?.title }}
-                    </v-list-item-title>
-                  </v-list-item>
-                </v-col>
-                <v-col cols="3">
-                  <span class="text-caption text-medium-emphasis">
-                    {{ new Date(review?.updatedAt).toLocaleDateString("en-GB").split("/").reverse().join("/") }}
-                  </span>
-                </v-col>
-              </v-row>
-            </v-card-title>
-            <v-card-text>
-              <v-lazy
-                :max-height="150"
-                :options="{ 'threshold':0.5 }"
-                class="overflow-y-auto"
-                transition="fade-transition"
-              >
-                {{ review?.content }}
-              </v-lazy>
-            </v-card-text>
-          </v-card>
-        </v-slide-group-item>
-      </v-slide-group>
-      <div class="text-end">
-        <v-dialog
-          v-model="dialogReview"
-          fullscreen
-          :scrim="false"
-          transition="dialog-bottom-transition"
-          width="65%"
-        >
-          <template #activator="{ props }">
-            <v-btn
-              rounded
-              class="mx-5"
-              color="primary"
-              variant="outlined"
-              v-bind="props"
-              @click="() => getReviews({ id: hotelInfo?.id })"
-            >
-              Xem thêm ...
-            </v-btn>
-          </template>
-          <v-card>
-            <v-toolbar
-              title="Tất cả reviews"
-            >
-              <v-btn
-                icon
-                @click="dialogReview = false"
-              >
-                <v-icon>mdi-close</v-icon>
-              </v-btn>
-            </v-toolbar>
-            <v-card-item>
-              <n-panel-loading :loading="loadingReview" />
-              <v-timeline v-if="!loadingReview" side="end">
-                <v-timeline-item
-                  v-for="item in dataReview?.results"
-                  :key="item.id"
-                >
-                  <template #icon>
-                    <v-avatar
-                      color="grey-darken-3"
-                      :image="item?.owner.avatar"
-                    />
-                    <v-tooltip
-                      activator="parent"
-                      :text="item?.owner.name"
-                      location="top"
-                    />
-                  </template>
-                  <v-list-item width="90%">
-                    <v-row class="align-center justify-space-between">
-                      <v-col cols="9">
-                        <h4>{{ item?.title }}</h4>
-                        <span class="text-caption text-medium-emphasis">{{ item?.updatedAt }}</span>
-                      </v-col>
-                      <v-col>
-                        <v-rating
-                          :model-value="item?.rate"
-                          color="amber"
-                          density="compact"
-                          half-increments
-                          readonly
-                          class="mr-5"
-                          size="small"
-                        />
-                      </v-col>
-                    </v-row>
-                    <v-list-item-subtitle class="my-1">{{ item?.content }}</v-list-item-subtitle>
-                  </v-list-item>
-                </v-timeline-item>
-              </v-timeline>
-            </v-card-item>
-            <div class="text-center">
-              <v-pagination
-                v-if="dataReview"
-                v-model="pageReview"
-                :total-visible="5"
-                :length="dataReview?.pageNumber"
-                @update:modelValue="() => getReviews({ id: hotelInfo?.id, page: pageReview })"
-              />
-            </div>
-          </v-card>
-        </v-dialog>
-      </div>
-    </v-sheet> -->
     <n-panel-review
       :id="hotelInfo?.id"
+      title="Hotel"
       :firstPageReview="firstPageReview"
       :loadingReview="loadingReview"
       :dataReview="dataReview"
@@ -424,7 +300,7 @@
           <v-card
             class="ma-5"
             width="300"
-            @click="()=> hanldeRoute({ name: 'hotelDetail', params: { id: item?.id } })"
+            @click="()=> handleRoute({ name: 'hotelDetail', params: { id: item?.id } })"
           >
             <n-image
               class="align-end text-white"
@@ -503,7 +379,7 @@ import { onMounted, watch, watchEffect } from 'vue'
 import '@/assets/scss/detail.scss'
 import { useHotelDetailUtil } from '@/composables/useHotelDetail'
 import { convertionType } from '@/helpers/convertion'
-import { hanldeRoute } from '@/helpers/loadingRoute'
+import { handleRoute } from '@/helpers/loadingRoute'
 import { useLoading } from '@/composables/useLoading'
 
 const {
@@ -517,7 +393,6 @@ const {
   loadingReview,
   loadingRooms,
   roomsBook,
-  pageReview,
   dialogBooking,
   totalAmountBook,
   totalPrice,
@@ -528,7 +403,13 @@ const {
   getReviews,
   changeEndDate
 } = useHotelDetailUtil()
-const { formatCurrency, getPriceDiscount, minDate, rangePrice } = convertionType()
+const {
+  formatCurrency,
+  getPriceDiscount,
+  minDate,
+  rangePrice,
+  getIconHuman
+} = convertionType()
 const { startLoading, finishLoading } = useLoading()
 onMounted(async() => {
   startLoading()
@@ -545,7 +426,6 @@ watch(hotelId, async(newId) => {
 watchEffect(async() => {
   hotelId.value
   if (hotelId.value) {
-    pageReview.value = 1
     roomsBook.value = rooms.value.filter(item => item.amount > 0)
   }
 })

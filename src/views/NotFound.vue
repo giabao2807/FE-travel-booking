@@ -10,7 +10,7 @@
           size="large"
           rounded
           variant="outlined"
-          @click="() => hanldeRoute({ name: 'home' })"
+          @click="() => handleRoute({ name: 'home' })"
         >
           go back
         </v-btn>
@@ -19,7 +19,7 @@
   </v-sheet>
 </template>
 <script lang="ts" setup>
-import { hanldeRoute } from '@/helpers/loadingRoute'
+import { handleRoute } from '@/helpers/loadingRoute'
 </script>
 <style scoped>
 .container {

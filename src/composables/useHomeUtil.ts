@@ -1,4 +1,4 @@
-import { hanldeRoute } from '@/helpers/loadingRoute'
+import { handleRoute } from '@/helpers/loadingRoute'
 import { ref, computed, onMounted } from 'vue'
 import { ICity, IFilterPanel } from '@/libs/types/commonType'
 import { createSharedComposable } from '@vueuse/core'
@@ -56,11 +56,11 @@ const useHome = () => {
   const handleFilter = () => {
     if (flagSearch.value === 'Tours') {
       getToursByFilterPanel(filterPanel.value)
-      hanldeRoute({ name: 'tours' })
+      handleRoute({ name: 'tours' })
     }
     else {
       getHotelsByFilterPanel(filterPanel.value)
-      hanldeRoute({ name: 'hotels' })
+      handleRoute({ name: 'hotels' })
     }
   }
   onMounted(async() => {

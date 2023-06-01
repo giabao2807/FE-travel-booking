@@ -18,7 +18,6 @@ const createHotelDetail = () => {
   const { deCodeHtml } = convertionType()
   const firstPageReview = ref<IReview>()
   const dataReview = ref<IReview>()
-  const pageReview = ref<number>(1)
   const loadingReview = ref<boolean>(false)
   const loadingHotels = ref<boolean>(false)
   const loadingRooms = ref<boolean>(false)
@@ -103,7 +102,6 @@ const createHotelDetail = () => {
     loadingReview,
     loadingRooms,
     anotherHotels,
-    pageReview,
     totalAmountBook,
     roomsBook,
     dialogBooking,

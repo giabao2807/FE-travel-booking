@@ -65,6 +65,7 @@
       >
         <template #activator="{ props }">
           <v-btn
+            v-if="(propItems.firstPageReview?.count || 0) > 12"
             rounded
             class="mx-5"
             color="primary"
@@ -164,6 +165,7 @@ const pageReview = ref<number>(1)
 const dialogReview = ref<boolean>(false)
 const emit = defineEmits(['getReviewByPage', 'getReview'])
 const getReview = (id: string) => {
+  pageReview.value = 1
   emit('getReview', { id: id })
 }
 const getReviewByPage = (params: any) => {

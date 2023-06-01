@@ -113,7 +113,7 @@
             class="mx-auto my-12 rounded-xl bg-theme-status"
             elevation="8"
             width="340"
-            @click="() => hanldeRoute({ name: 'tourDetail', params: { id: tour?.id } })"
+            @click="() => handleRoute({ name: 'tourDetail', params: { id: tour?.id } })"
           >
             <n-image
               class="align-end text-white"
@@ -217,7 +217,7 @@
           label="Discover our tours"
           width="20rem"
           fontSize="1rem"
-          @click="() => hanldeRoute({ name: 'tours' })"
+          @click="() => handleRoute({ name: 'tours' })"
         />
       </div>
     </v-container>
@@ -272,7 +272,7 @@
         >
           <v-card
             class="element-card mt-5"
-            @click="()=> hanldeRoute({ name: 'hotelDetail', params: { id: hotel?.id } })"
+            @click="()=> handleRoute({ name: 'hotelDetail', params: { id: hotel?.id } })"
           >
             <n-image
               class="align-end text-white"
@@ -401,7 +401,7 @@ import NSkeletonLoader from '@/components/NSkeletonLoader.vue'
 import NCitiesSelect from '@/components/NCitiesSelect.vue'
 import NImage from '@/components/NImage.vue'
 import { SEARCH_FOR } from '@/resources/mockData'
-import { hanldeRoute } from '@/helpers/loadingRoute'
+import { handleRoute } from '@/helpers/loadingRoute'
 import { useHomeUtil } from '@/composables/useHomeUtil'
 import { convertionType } from '@/helpers/convertion'
 

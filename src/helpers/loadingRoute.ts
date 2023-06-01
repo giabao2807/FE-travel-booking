@@ -1,5 +1,5 @@
 import router from '@/router'
 
-export const hanldeRoute = (paramRoute: any) => {
+export const handleRoute = (paramRoute: any) => {
   router.push(paramRoute)
 }
