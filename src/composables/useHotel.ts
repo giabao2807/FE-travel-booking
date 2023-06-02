@@ -16,6 +16,11 @@ const createHotel = () => {
   const loadingPanelHotel = ref<boolean>(false)
   const loadingHotels = ref<boolean>(false)
   const pageHotel = ref<number>(1)
+  const titlePage = {
+    cityId: initFilterHotel.value.cityId,
+    startDate: initFilterHotel.value.startDate,
+    endDate: initFilterHotel.value.endDate
+  }
 
   const getRecomendCities = async() => {
     await hotelStore.getRecomendCities()
@@ -69,6 +74,7 @@ const createHotel = () => {
     pageHotel,
     countDate,
     initFilterHotel,
+    titlePage,
     deCodeHtml,
     getRecomendHotelByCity,
     getRecomendCities,

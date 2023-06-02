@@ -10,8 +10,3 @@
 import NAppLoading from '@/components/NAppLoading.vue'
 
 </script>
-<style scoped>
-.v-application .v-application--wrap * {
-  font-family: Avenir, Helvetica, Arial, sans-serif !important;
-}
-</style>

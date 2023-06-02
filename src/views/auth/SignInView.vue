@@ -82,11 +82,9 @@ const {
   rememberMe,
   formRef,
   authUser,
-  refreshTokenTimeout,
   signIn,
   signInWithGoogle,
   routeDirectional,
-  refreshToken,
   isRememberMe
 } = useAuthentication()
 onMounted(() => {
@@ -94,9 +92,6 @@ onMounted(() => {
   authUser.value = session ? JSON.parse(session) : ''
   routeDirectional(authUser.value)
   isRememberMe()
-  setInterval(() => {
-    refreshToken()
-  }, refreshTokenTimeout.value)
 })
 </script>
 <style scoped>

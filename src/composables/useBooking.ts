@@ -36,6 +36,9 @@ const createBooking = () => {
       .then(data => {
         messageStatusPayment.value = data.message
         dialogBooking.value = true
+      }).catch(error => {
+        messageStatusPayment.value = error.data.message
+        dialogBooking.value = true
       })
     finishLoading()
   }

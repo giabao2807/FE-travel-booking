@@ -31,8 +31,8 @@ export const useAuthStore = defineStore('authStore', () => {
   const refreshToken = async() => {
     const response = await connectionsAPI({
       methods: 'GET',
-      path: '/user/action/refresh_new_token',
-      params: { refreshToken: authUser.value?.refreshToken }
+      path: 'user/action/refresh_new_token',
+      params: { token: authUser.value?.refreshToken }
     })
     authUser.value.refreshToken = response.refreshToken || '',
     authUser.value.accessToken = response.accessToken || ''

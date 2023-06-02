@@ -272,6 +272,8 @@
   background-clip: text;
 }
 .bg-theme-status {
+  cursor: pointer;
+  transition: all 0.6s cubic-bezier(0.680, -0.550, 0.265, 1.550);
   border: 1px solid var(--color-border-white);
 }
 .bg-theme-status:hover{

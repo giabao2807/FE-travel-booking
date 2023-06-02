@@ -22,7 +22,8 @@ export const useBookStore = defineStore('bookStore', () => {
     return await connectionsAPI({
       methods: 'GET',
       path: 'booking/payment_callback',
-      params: params
+      params: params,
+      headers: { 'Content-Type': 'application/json' }
     })
   }
   const getPaymentLinkAgain = async(params: any) => {

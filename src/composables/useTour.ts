@@ -12,7 +12,11 @@ const createTour = () => {
   const pageTours = ref<number>(1)
   const loadingTours = ref<boolean>(false)
   const dialogBooking = ref<boolean>(false)
-
+  const titlePage = {
+    cityId: initFilterTour.value.cityId,
+    startDate: initFilterTour.value.startDate,
+    endDate: initFilterTour.value.endDate
+  }
   const getPopularTours = () => {
     tourStore.getPopularTours()
       .then((data: IResponseTour) => popularTours.value = data.results)
@@ -44,6 +48,7 @@ const createTour = () => {
     initFilterTour,
     countDate,
     dialogBooking,
+    titlePage,
     getPopularTours,
     getToursByFilterPanel
   }

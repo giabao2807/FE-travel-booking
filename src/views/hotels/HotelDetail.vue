@@ -23,7 +23,7 @@
         <v-card-text>
           <div class="d-flex align-center flex-wrap ma-5">
             <v-text-field
-              v-model="filtersHotel.startDate"
+              v-model="bookHotel.startDate"
               label="Ngày nhận phòng"
               name="startDate"
               type="Date"
@@ -36,11 +36,11 @@
               @update:model-value="() => changeEndDate()"
             />
             <v-text-field
-              v-model="filtersHotel.endDate"
+              v-model="bookHotel.endDate"
               label="Ngày trả phòng"
               name="endDate"
               type="Date"
-              :min="filtersHotel.startDate"
+              :min="bookHotel.startDate"
               color="primary"
               variant="outlined"
               hide-details="auto"
@@ -58,7 +58,7 @@
               min-width="110"
               rounded
               variant="flat"
-              @click="() => getRoomByDate({ id: hotelInfo?.id, ...filtersHotel })"
+              @click="() => getRoomByDate({ id: hotelInfo?.id, ...bookHotel })"
             >
               Tìm Kiếm
             </v-btn>
@@ -386,7 +386,7 @@ const {
   anotherHotels,
   hotelInfo,
   rooms,
-  filtersHotel,
+  bookHotel,
   countDate,
   firstPageReview,
   dataReview,

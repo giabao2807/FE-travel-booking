@@ -10,49 +10,38 @@
         </v-row>
       </div>
     </v-container>
-    <v-layout>
-      <v-navigation-drawer
-        width="350"
-        floating
-        permanent
-      >
-        <v-card class="pa-2">
-          <h3 class="text-center">Search Tours</h3>
+    <v-row>
+      <v-col>
+        <v-card class="card-search">
+          <h3 class="text-center my-3">
+            <v-icon icon="mdi-map-search-outline" />
+            Search Tours
+          </h3>
           <v-card-text>
-            <h4>Thông tin đặt tours</h4>
-            <n-cities-select v-model="initFilterTour.cityId" class="mx-2 mb-5" />
-            <v-row class="mx-2" align="center">
-              <v-col cols="3">
-                <p class="text-h7 text-disabled font-rowdies">
-                  {{ countDate }}
-                  <v-icon class="mt-n2" icon="mdi-weather-night" />
-                </p>
-              </v-col>
-              <v-col class="px-0">
-                <v-text-field
-                  v-model="initFilterTour.startDate"
-                  :min="minDate(new Date())"
-                  label="Start Date"
-                  name="startDate"
-                  type="Date"
-                  color="primary"
-                  variant="underlined"
-                  hide-details="auto"
-                  class="mb-1"
-                />
-                <v-text-field
-                  v-model="initFilterTour.endDate"
-                  :min="initFilterTour.startDate"
-                  label="End Date"
-                  name="endDate"
-                  type="Date"
-                  color="primary"
-                  variant="underlined"
-                  hide-details="auto"
-                  class="mt-1"
-                />
-              </v-col>
-            </v-row>
+            <h4 class="mb-2">Thông tin đặt</h4>
+            <n-cities-select v-model="initFilterTour.cityId" class="mx-2" />
+            <v-text-field
+              v-model="initFilterTour.startDate"
+              :min="minDate(new Date())"
+              label="Start Date"
+              name="startDate"
+              type="Date"
+              color="primary"
+              class="mt-2 mx-2"
+              variant="underlined"
+              hide-details="auto"
+            />
+            <v-text-field
+              v-model="initFilterTour.endDate"
+              :min="initFilterTour.startDate"
+              label="End Date"
+              name="endDate"
+              type="Date"
+              color="primary"
+              class="mt-2 mx-2"
+              variant="underlined"
+              hide-details="auto"
+            />
             <h4 class="my-5">Khoảng giá tour</h4>
             <v-row>
               <v-range-slider
@@ -64,29 +53,31 @@
                 thumb-label="always"
               />
             </v-row>
-            <v-row justify="center">
-              <v-btn class="mx-2">
-                Clear
-              </v-btn>
-              <v-btn
-                class="mx-2"
-                @click="() => getToursByFilterPanel()"
-              >
-                Search
-              </v-btn>
-            </v-row>
+            <h4 class="my-5">Sắp xếp theo giá</h4>
           </v-card-text>
+          <v-card-actions>
+            <v-btn class="mx-2">
+              Clear
+            </v-btn>
+            <v-spacer />
+            <v-btn
+              class="mx-2"
+              @click="() => getToursByFilterPanel()"
+            >
+              Search
+            </v-btn>
+          </v-card-actions>
         </v-card>
-      </v-navigation-drawer>
-      <v-main class="ma-5">
-        <v-card elevation="3" class="mb-5">
+      </v-col>
+      <v-col cols="9" class="card-show">
+        <v-card elevation="0" class="mb-5">
           <v-card-text>
-            <h3 class="ma-2">
-              <v-icon icon="mdi-map-search-outline" />
-              Những tour du lịch
-              <span v-if="initFilterTour?.cityId"> ở {{ getCityById(initFilterTour?.cityId)?.name }}</span>
-              <span v-if="initFilterTour?.endDate"> từ ngày {{ initFilterTour?.startDate }} đến {{ initFilterTour?.endDate }}</span>
-            </h3>
+            <h2 class="ma-2 title-card-show">
+              <v-icon icon="mdi-compass-rose" />
+              Tất cả những tour du lịch hấp dẫn
+              <span v-if="titlePage.cityId"> ở {{ getCityById(titlePage.cityId)?.name }}</span>
+              <span v-if="titlePage.endDate"> từ ngày {{ titlePage.startDate }} đến {{ titlePage.endDate }}</span>
+            </h2>
           </v-card-text>
         </v-card>
         <n-panel-loading :loading="loadingTours" />
@@ -94,22 +85,24 @@
           <v-col v-for="item in tours?.results" :key="item?.id" cols="12">
             <v-card
               elevation="0"
-              class="ml-5 my-5 tour-card"
+              class="ml-5 my-5 tour-card rounded-xl"
               color="transparent"
             >
               <v-row>
                 <v-col cols="4">
-                  <n-image :src="item?.coverPicture" height="300" />
+                  <n-image :src="item?.coverPicture" height="280" />
                 </v-col>
                 <v-col>
                   <h2 class="mt-5 mx-2">
                     {{ item?.name }}
                   </h2>
                   <v-card-text class="mx-3">
-                    <v-row align="center" class="my-3">
+                    <v-row align="start" class="my-3">
                       <v-icon icon="mdi-clock-start" />
                       Khởi hành:
-                      <strong class="mx-2">{{ item?.departure }}</strong>
+                      <v-col cols="5" class="pa-0 ml-2">
+                        <strong>{{ item?.departure }}</strong>
+                      </v-col>
                     </v-row>
                     <v-row align="center" class="my-3">
                       <v-icon icon="mdi-map-clock-outline" />
@@ -187,14 +180,14 @@
           </v-col>
         </v-row>
         <n-pagination
-          v-if="tours?.results"
+          v-if="!loadingTours"
           class="my-5"
           v-model="pageTours"
           :length="tours?.pageNumber"
           @change="getToursByFilterPanel({ page: pageTours })"
         />
-      </v-main>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-sheet>
 </template>
 <script lang="ts" setup>
@@ -205,16 +198,16 @@ import NCitiesSelect from '@/components/NCitiesSelect.vue'
 import NDialogBook from '@/components/NDialogBook.vue'
 import { onMounted } from 'vue'
 import { useTourUtil } from '@/composables/useTour'
-import { useCities } from '@/composables/useCities'
 import { convertionType } from '@/helpers/convertion'
 import { handleRoute } from '@/helpers/loadingRoute'
+import { useCities } from '@/composables/useCities'
 
 const {
   tours,
   pageTours,
   loadingTours,
   initFilterTour,
-  countDate,
+  titlePage,
   getToursByFilterPanel
 } = useTourUtil()
 const { formatCurrency, getPriceDiscount, minDate, getTraffic } = convertionType()
@@ -245,6 +238,19 @@ onMounted(() => {
   }
   .tour-card:hover {
     transform: translateY(-1.3rem) scale(1.05);
+  }
+  .title-card-show {
+    font-weight: 600;
+  }
+  @media screen and (max-width: 1100px) {
+    .card-search {
+      margin: 0 auto;
+      width: 500px
+    }
+    .card-show {
+      flex: 0 0 100% !important;
+      max-width: 100% !important;
+    }
   }
 }
 </style>

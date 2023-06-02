@@ -89,6 +89,9 @@ const useAuth = () => {
   const refreshToken = () => {
     authStore.refreshToken()
   }
+  setInterval(() => {
+    refreshToken()
+  }, refreshTokenTimeout.value)
   return {
     userSignIn,
     userSignUp,

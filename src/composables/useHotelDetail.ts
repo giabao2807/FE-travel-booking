@@ -5,12 +5,16 @@ import { convertionType } from '@/helpers/convertion'
 import { useRoute } from 'vue-router'
 import { IDetailHotel, IHotel, IParamReview, IParamRoomType, IReview, IRoomType } from '@/libs/types/hotelType'
 import { useBookingDialog } from './useBookingDialog'
-import { IFilterPanel } from '@/libs/types/commonType'
 
 const createHotelDetail = () => {
   const hotelStore = useHotelStore()
   const { initFilterHotel } = hotelStore
-  const filtersHotel = ref<IFilterPanel>(initFilterHotel)
+  const { bookHotel } = useBookingDialog()
+  bookHotel.value = {
+    ...bookHotel.value,
+    startDate: initFilterHotel.startDate || '',
+    endDate: initFilterHotel.endDate || ''
+  }
   const route = useRoute()
   const anotherHotels = ref<IHotel[]>([])
   const hotelInfo = ref<IDetailHotel>()
@@ -27,9 +31,9 @@ const createHotelDetail = () => {
 
   const countDate = computed(() => {
     const ONE_DAY = 1000 * 60 * 60 * 24
-    if (filtersHotel.value.startDate && filtersHotel.value.endDate) {
-      const startDate = new Date(filtersHotel.value.startDate)
-      const endDate = new Date(filtersHotel.value.endDate)
+    if (bookHotel.value.startDate && bookHotel.value.endDate) {
+      const startDate = new Date(bookHotel.value.startDate)
+      const endDate = new Date(bookHotel.value.endDate)
       const time = Math.abs(startDate.getTime() - endDate.getTime())
       return Math.round(time / ONE_DAY)
     }
@@ -71,13 +75,13 @@ const createHotelDetail = () => {
   const getHotelById = async(id: string) => {
     await hotelStore.getHotelSumaryById(id)
       .then(data => hotelInfo.value = data)
-    getRoomByDate({ id: id, startDate: filtersHotel.value.startDate, endDate: filtersHotel.value.endDate })
+    getRoomByDate({ id: id, startDate: bookHotel.value.startDate, endDate: bookHotel.value.endDate })
     getAnotherHotelsByCity(id)
     getFirstPageReviews({ id : id })
   }
 
   const changeEndDate = () => {
-    filtersHotel.value.endDate = ''
+    bookHotel.value.endDate = ''
   }
   const totalAmountBook = computed(() => {
     let total = 0
@@ -95,7 +99,8 @@ const createHotelDetail = () => {
   return {
     hotelInfo,
     rooms,
-    filtersHotel,
+    bookHotel,
+    initFilterHotel,
     countDate,
     firstPageReview,
     dataReview,
