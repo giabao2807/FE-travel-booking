@@ -70,7 +70,7 @@
         </v-card>
       </v-col>
       <v-col cols="9" class="card-show">
-        <v-card elevation="0" class="mb-5">
+        <v-card elevation="0" class="mb-5 card-title">
           <v-card-text>
             <h2 class="ma-2 title-card-show">
               <v-icon icon="mdi-compass-rose" />
@@ -86,7 +86,6 @@
             <v-card
               elevation="0"
               class="ml-5 my-5 tour-card rounded-xl"
-              color="transparent"
             >
               <v-row>
                 <v-col cols="4">
@@ -218,6 +217,9 @@ onMounted(() => {
 </script>
 <style lang="scss" scoped>
 .tours-page {
+  background-image: url('@/assets/img/map-bg.png');
+  background-size: contain;
+  background-position: center center;
   .container_tours {
     background-image: linear-gradient(to bottom, rgba(248, 230, 248, 0.2),rgba(235, 178, 244, 0.2)),
     url('@/assets/img/bg-test.jpeg');
@@ -238,6 +240,9 @@ onMounted(() => {
   }
   .tour-card:hover {
     transform: translateY(-1.3rem) scale(1.05);
+  }
+  .card-title {
+    background-color: transparent;
   }
   .title-card-show {
     font-weight: 600;

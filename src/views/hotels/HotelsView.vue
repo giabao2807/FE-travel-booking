@@ -66,7 +66,7 @@
         </v-card>
       </v-col>
       <v-col cols="9" class="card-show">
-        <v-card elevation="0" class="mb-5">
+        <v-card color="transparent" elevation="0" class="mb-5">
           <v-card-text>
             <h2 class="ma-2 title-card-show">
               <v-icon icon="mdi-home-city-outline" />
@@ -83,7 +83,6 @@
               <v-card
                 elevation="0"
                 class="my-5 hotel-card rounded-xl"
-                color="transparent"
                 @click="() => handleRoute({ name: 'hotelDetail', params: { id: item?.id } })"
               >
                 <v-row>
@@ -197,6 +196,9 @@ onMounted(() => {
 </script>
 <style lang="scss" scoped>
 .hotels-page {
+  background-image: url('@/assets/img/map-bg.png');
+  background-size: contain;
+  background-position: center center;
   .container_hotels {
     background-image: linear-gradient(to bottom, rgba(248, 230, 248, 0.2), rgba(235, 178, 244, 0.2)),
       url('@/assets/img/bg-hotel.jpeg');

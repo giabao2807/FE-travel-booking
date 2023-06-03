@@ -1,5 +1,5 @@
 <template>
-  <v-sheet>
+  <v-sheet class="home-container">
     <v-container fluid class="pa-0">
       <div class="container_main">
         <v-row class="h-50 w-100" align="end" justify="center">
@@ -80,7 +80,7 @@
         </v-card-text>
       </v-card>
     </v-container>
-    <v-container fluid class="home-panel-tour">
+    <v-container fluid class="home-panel-city">
       <div class="text-align-center">
         <h2 class="heading-secondary font-bungee my-5">
           Điểm đến yêu thích trong nước
@@ -98,7 +98,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-container fluid>
+    <v-container fluid class="home-panel-tour">
       <div class="text-align-center">
         <h2 class="heading-secondary font-bungee">
           Những Tour Du Lịch Hấp Dẫn
@@ -216,7 +216,6 @@
         <n-button-animated
           label="Discover our tours"
           width="20rem"
-          fontSize="1rem"
           @click="() => handleRoute({ name: 'tours' })"
         />
       </div>

@@ -6,6 +6,9 @@
   rgb(253, 235, 255) 100%
   );
 }
+.home-container {
+  background-image: url('@/assets/img/bg-home.png');
+}
 .header-title{
   padding: 10px;
   font-size: 30px;
@@ -82,12 +85,16 @@
     font-size: 20px;
   }
 }
-.home-panel-tour {
+.home-panel-city {
   margin-top: 10rem;
   margin-bottom: 3rem;
 }
+.home-panel-tour {
+  background-image: url('@/assets/img/flight-bg-1.png');
+  background-position: top end;
+}
 @media only screen and (max-width: 750px) {
-  .home-panel-tour {
+  .home-panel-city {
     margin-top: 85px
   }
 }

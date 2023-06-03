@@ -6,7 +6,10 @@
     :style="styleButton"
     @click="$emit('click', $event)"
   >
-    <span class="font-palanquin btn-text">{{ label }}</span>
+    <span class="font-palanquin btn-text">
+      <v-icon v-if="props.icon" :icon="props.icon" />
+      {{ label }}
+    </span>
   </button>
 </template>
 <script lang="ts" setup>
@@ -16,16 +19,15 @@ type Props = {
   type?: 'submit' | 'button' | 'reset' | undefined,
   width?: string,
   height?: string,
-  fontSize?: string,
   backgroundColor?: string,
   color?: string,
-  disabled?: boolean
+  disabled?: boolean,
+  icon?: string
 }
 const styleButton = computed(()=>{
   return {
     'width': props.width,
     'height': props.height,
-    'font-size': props.fontSize,
     'background-color': props.backgroundColor,
     'color': props.color
   }
@@ -35,17 +37,17 @@ const props = withDefaults(defineProps<Props>(), {
   label: '',
   width: '',
   height: '',
-  fontSize: '1.5rem',
   backgroundColor: '#72064D',
   color: '#f7f7f7',
-  disabled: false
+  disabled: false,
+  icon: ''
 })
 </script>
 <style scoped>
 .btn {
   text-transform: uppercase;
   text-decoration: none;
-  padding: 1.2rem 2rem;
+  padding: 1.1rem 1.8rem;
   display: inline-block;
   border-radius: 10rem;
   transition: all .2s;

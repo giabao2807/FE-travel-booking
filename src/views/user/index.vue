@@ -15,7 +15,8 @@
         </v-col>
       </v-row>
       <v-row align="start" justify="center">
-        <v-avatar class="zindex-1 half-circle" :image="checkAvatar" size="290" />
+        <!-- <v-avatar class="zindex-1 half-circle" :image="checkAvatar" size="290" /> -->
+        <n-avatar :image="checkAvatar" size="290" />
       </v-row>
     </v-container>
     <v-container class="font-rowdies">
@@ -148,6 +149,7 @@
   </v-sheet>
 </template>
 <script lang="ts" setup>
+import NAvatar from '@/components/NAvatar.vue'
 import { onMounted } from 'vue'
 import { useUserUtil } from '@/composables/useUser'
 import { GENDER_DATA } from '@/resources/mockData'
@@ -168,6 +170,7 @@ const {
 <style lang="scss" scoped>
 .profile {
   background-image: url('@/assets/img/map-bg.png');
+  background-position: center center;
   background-size: cover;
   .profile_main {
     background-image: linear-gradient(to bottom, rgba(248, 230, 248, 0.2),rgba(235, 178, 244, 0.2)),

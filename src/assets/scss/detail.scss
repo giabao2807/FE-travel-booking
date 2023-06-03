@@ -2,7 +2,6 @@
   position: relative;
   z-index: 1;
   background-image: url('@/assets/img/bg-detail.png');
-  background-size: cover;
   height: 100%;
 
   @mixin key_frame($name: slide-down, $duration: 1s, $timing: ease-out) {
@@ -89,11 +88,20 @@
     top: 40%;
     z-index: 1;
   }
-  .composition__photo:hover {
-    border-radius: 2px;
-    outline-offset: 0.5rem;
-    outline: 1rem solid var(--color-boni-like);
-    box-shadow: 0 2.5rem 4rem rgba(0, 0, 0, 0.5);
+  .container-photo {
+    overflow: hidden;
+  }
+  .composition-photo {
+    transition: all 0.6s cubic-bezier(0.680, -0.550, 0.265, 1.550);
+  }
+  .composition-photo:hover {
+    transform: scale(1.08) rotate(-3deg);
+  }
+  .composition-child-photo {
+    transition: all 0.6s cubic-bezier(0.680, -0.550, 0.265, 1.550);
+  }
+  .composition-child-photo:hover {
+    transform: scale(1.05)
   }
   .detail-second {
     margin-top: 3rem;

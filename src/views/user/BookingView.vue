@@ -1,5 +1,8 @@
 <template>
   <v-sheet min-height="600">
+    <h2 class="text-center pt-10 pb-5">
+      Yours Booking
+    </h2>
     <v-tabs
       color="primary"
       align-tabs="center"
@@ -27,6 +30,7 @@
         <p>{{ messageStatusPayment }}</p>
       </template>
     </n-dialog>
+    <n-panel-not-found />
     <v-window v-model="tabWindow">
       <v-window-item :value="1">
         <v-container>
@@ -47,37 +51,44 @@
                       <h2>{{ bookItem.tour.name }}</h2>
                       <div class="my-5">
                         <p class="mt-2">
+                          <v-icon icon="mdi-timeline-clock-outline" />
+                          Ngày đặt:
+                          <span class="mx-3 font-weight-600">{{ formatDate(bookItem.createdAt) }}</span>
+                        </p>
+                        <p class="mt-2">
                           <v-icon icon="mdi-account-multiple-outline" />
                           Số lượng:
                           <span class="mx-3 font-weight-600">{{ bookItem.bookingItems.quantity }}</span>
                         </p>
-                        <p class="mt-2">
-                          <v-icon icon="mdi-calendar-arrow-right" />
-                          Ngày khởi hành:
-                          <span class="mx-3 font-weight-600">{{ formatDate(bookItem.startDate) }}</span>
-                        </p>
-                        <p class="mt-2">
-                          <v-icon icon="mdi-calendar-arrow-left" />
-                          Ngày kết thúc:
-                          <span class="mx-3 font-weight-600">{{ formatDate(bookItem.endDate) }}</span>
-                        </p>
+                        <div class="d-flex mt-2">
+                          <v-icon icon="mdi-clipboard-text-clock" />
+                          Ngày khởi hành/kết thúc:
+                          <h4 class="mx-2">
+                            {{ formatDate(bookItem.startDate) }}
+                            <v-icon icon="mdi-chevron-right" />
+                            {{ formatDate(bookItem.endDate) }}
+                          </h4>
+                        </div>
                         <p class="mt-2" v-if="bookItem.note">
                           <v-icon icon="mdi-note-text-outline" />
                           Ghi chú:
                           <span class="mx-3 font-weight-600">{{ bookItem.note }}</span>
                         </p>
-                        <p class="mt-2">
-                          <v-icon :icon="getIconStatus(bookItem.status)" />
-                          Trạng thái:
-                          <span class="mx-3 font-weight-600">{{ bookItem.status.toUpperCase() }}</span>
-                        </p>
                       </div>
                     </v-card-text>
                     <v-card-actions>
-                      <h4 class="animate-charcter">
-                        <v-icon icon="mdi-cash-fast" class="animate-charcter" />
-                        Tổng tiền: {{ formatCurrency(bookItem.totalPrice) }}
-                      </h4>
+                      <div>
+                        <h3 class="animate-charcter">
+                          <v-chip class="mr-5" :color="checkColorTag(bookItem.status)">
+                            <h5>
+                              <v-icon :icon="getIconStatus(bookItem.status)" />
+                              <span class="mx-1 font-weight-800">{{ bookItem.status }}</span>
+                            </h5>
+                          </v-chip>
+                          <v-icon icon="mdi-cash-fast" class="animate-charcter" />
+                          {{ formatCurrency(bookItem.totalPrice) }}
+                        </h3>
+                      </div>
                       <v-spacer />
                       <n-dialog-pay-again
                         v-model="bookItem.dialogPayment"
@@ -148,22 +159,7 @@
                   </v-col>
                   <v-col>
                     <v-card-text>
-                      <v-row>
-                        <v-col cols="9">
-                          <h2>{{ bookItem.hotel.name }}</h2>
-                        </v-col>
-                        <v-col>
-                          <v-chip
-                            size="large"
-                            :color="checkColorTag(bookItem.status)"
-                          >
-                            <h5>
-                              <v-icon :icon="getIconStatus(bookItem.status)" />
-                              <span class="mx-1 font-weight-800">{{ bookItem.status }}</span>
-                            </h5>
-                          </v-chip>
-                        </v-col>
-                      </v-row>
+                      <h2>{{ bookItem.hotel.name }}</h2>
                       <div class="my-2">
                         <v-row>
                           <v-col cols="3">
@@ -212,8 +208,14 @@
                       <v-row>
                         <v-col cols="9">
                           <h3 class="animate-charcter">
+                            <v-chip class="mr-5" :color="checkColorTag(bookItem.status)">
+                              <h5>
+                                <v-icon :icon="getIconStatus(bookItem.status)" />
+                                <span class="mx-1 font-weight-800">{{ bookItem.status }}</span>
+                              </h5>
+                            </v-chip>
                             <v-icon icon="mdi-cash-fast" class="animate-charcter" />
-                            Tổng tiền: {{ formatCurrency(bookItem.totalPrice) }}
+                            {{ formatCurrency(bookItem.totalPrice) }}
                           </h3>
                         </v-col>
                         <v-col>
@@ -279,6 +281,7 @@ import NDialog from '@/components/NDialog.vue'
 import NPanelLoading from '@/components/NPanelLoading.vue'
 import NDialogPayAgain from '@/components/NDialogPayAgain.vue'
 import NDialogReview from '@/components/NDialogReview.vue'
+import NPanelNotFound from '@/components/NPanelNotFound.vue'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useBooking } from '@/composables/useBooking'

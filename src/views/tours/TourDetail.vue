@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="pa-0 ma-0 tour-container">
+  <v-sheet class="tour-container">
     <v-row class="py-5" justify="center">
       <v-col cols="8" class="mx-5">
         <h1>
@@ -186,111 +186,106 @@
         </v-sheet>
       </v-col>
       <v-col class="mt-n2 pa-0">
-        <v-card
-          elevation="5"
-          class="mx-auto my-12 card-drawer"
-          width="374"
-        >
-          <template #loader="{ isActive }">
-            <v-progress-linear
-              :active="isActive"
-              color="deep-purple"
-              height="4"
-              indeterminate
-            />
-          </template>
-
-          <v-card-item>
-            <v-card-title class="font-weight-bold pa-3">
-              <h2>Booking Tour</h2>
-            </v-card-title>
-
-            <v-card-subtitle>
-              <span class="me-1">Local Favorite</span>
-
-              <v-icon
-                color="error"
-                icon="mdi-fire-circle"
-                size="small"
-              />
-            </v-card-subtitle>
-          </v-card-item>
-          <v-card-text>
-            <v-text-field
-              v-model="bookTour.startDate"
-              :min="minDate(new Date())"
-              @update:model-value="(event) => getQuantityByStartDate(event)"
-              label="Ngày khởi hành"
-              name="startDate"
-              type="Date"
-              color="primary"
-              hide-details="auto"
-              variant="outlined"
-              class="text-field"
-            />
-            <n-select-quantity
-              v-model="bookTour.bookingItems[0].quantity"
-              label="Số lượng"
-              :quantity="quantityByStartDate"
-              class="text-field"
-            />
-            <v-divider class="ma-5" />
-            <v-row v-if="tourInfo?.couponData" class="ml-3">
-              <v-col cols="6">
-                <h5>
-                  <v-icon icon="mdi-ticket-percent-outline" />
-                  Giảm giá:
-                </h5>
-              </v-col>
-              <v-col>
-                <h2 class="animate-charcter">
-                  {{ tourInfo?.couponData.discountPercent }}%
-                </h2>
-              </v-col>
-            </v-row>
-            <v-row v-if="tourInfo?.couponData" class="ml-3">
-              <v-col cols="6"><h4>Giá Tour:</h4></v-col>
-              <v-col>
-                <h3 class="remove-text">
-                  <p>{{ formatCurrency(tourInfo?.price) }}</p>
-                </h3>
-              </v-col>
-            </v-row>
-            <v-row class="ml-3">
-              <v-col cols="6"><h4>Tổng tiền:</h4></v-col>
-              <v-col>
-                <h2 class="animate-charcter">
-                  {{
-                    formatCurrency(
-                      getPriceDiscount(tourInfo?.price, tourInfo?.couponData.discountPercent)
-                        * bookTour?.bookingItems[0].quantity
-                    )
-                  }}
-                </h2>
-              </v-col>
-            </v-row>
-          </v-card-text>
-          <v-card-actions class="ma-5">
-            <v-spacer />
-            <n-dialog-book
-              v-model="dialogBooking"
-              titleDialog="BOOK TOUR"
-              :tourInfo="tourInfo"
-            >
-              <template #action>
-                <v-btn
-                  prepend-icon="mdi-checkbox-marked-circle-auto-outline"
-                  class="mr-2"
+        <div class="mx-auto my-12 card-design">
+          <v-card
+            class="card-drawer"
+          >
+            <div class="ma-5">
+              <v-card-item>
+                <v-card-title class="font-weight-bold pa-3">
+                  <h2>
+                    <v-icon icon="mdi-airballoon-outline" size="small" />
+                    Booking Tour
+                  </h2>
+                </v-card-title>
+                <v-card-subtitle>
+                  <span class="ml-10">Local Favorite</span>
+                  <v-icon
+                    color="error"
+                    icon="mdi-fire-circle"
+                    size="small"
+                  />
+                </v-card-subtitle>
+              </v-card-item>
+              <v-card-text>
+                <v-text-field
+                  v-model="bookTour.startDate"
+                  :min="minDate(new Date())"
+                  @update:model-value="(event) => getQuantityByStartDate(event)"
+                  label="Ngày khởi hành"
+                  name="startDate"
+                  type="Date"
+                  density="compact"
                   color="primary"
-                  variant="tonal"
-                  @click="dialogBooking = true"
+                  hide-details="auto"
+                  variant="outlined"
+                  class="my-5 text-field"
+                />
+                <n-select-quantity
+                  v-model="bookTour.bookingItems[0].quantity"
+                  label="Số lượng"
+                  :quantity="quantityByStartDate"
+                  class="text-field"
+                />
+                <v-divider class="ma-5" />
+                <v-row v-if="tourInfo?.couponData" class="ml-3">
+                  <v-col cols="6">
+                    <h5>
+                      <v-icon icon="mdi-ticket-percent-outline" />
+                      Giảm giá:
+                    </h5>
+                  </v-col>
+                  <v-col>
+                    <h2 class="animate-charcter">
+                      {{ tourInfo?.couponData.discountPercent }}%
+                    </h2>
+                  </v-col>
+                </v-row>
+                <v-row v-if="tourInfo?.couponData" class="ml-3">
+                  <v-col cols="6"><h4>Giá Tour:</h4></v-col>
+                  <v-col>
+                    <h3 class="remove-text">
+                      <p>{{ formatCurrency(tourInfo?.price) }}</p>
+                    </h3>
+                  </v-col>
+                </v-row>
+                <v-row class="ml-3">
+                  <v-col cols="6"><h4>Tổng tiền:</h4></v-col>
+                  <v-col>
+                    <h2 class="animate-charcter">
+                      {{
+                        formatCurrency(
+                          getPriceDiscount(tourInfo?.price, tourInfo?.couponData.discountPercent)
+                            * bookTour?.bookingItems[0].quantity
+                        )
+                      }}
+                    </h2>
+                  </v-col>
+                </v-row>
+              </v-card-text>
+              <v-card-actions class="my-5">
+                <v-spacer />
+                <n-dialog-book
+                  v-model="dialogBooking"
+                  titleDialog="BOOK TOUR"
+                  :tourInfo="tourInfo"
                 >
-                  Book now
-                </v-btn>
-              </template>
-            </n-dialog-book>
-          </v-card-actions>
-        </v-card>
+                  <template #action>
+                    <v-btn
+                      prepend-icon="mdi-checkbox-marked-circle-auto-outline"
+                      class="mr-2"
+                      color="primary"
+                      variant="tonal"
+                      @click="dialogBooking = true"
+                    >
+                      Book now
+                    </v-btn>
+                  </template>
+                </n-dialog-book>
+              </v-card-actions>
+            </div>
+          </v-card>
+        </div>
       </v-col>
     </v-row>
   </v-sheet>
@@ -342,7 +337,7 @@ watch(tourId, async(newId) => {
 <style lang="scss" scoped>
 .tour-container {
   background-image: url('@/assets/img/map-bg.png');
-  background-size:cover;
+  background-position: center center;
   width: 100%;
 
   .container-detail {
@@ -361,14 +356,28 @@ watch(tourId, async(newId) => {
     transform: translate(-50%, -50%);
     z-index: 1;
   }
+  .card-drawer {
+    -webkit-mask-image: url("@/assets/img/card-bg.png");
+    mask-image: url("@/assets/img/card-bg.png");
+    -webkit-mask-size: cover;
+    mask-size: cover;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+  }
   .carousel {
     border-bottom: 1px solid var(--loading-bgcolor);
   }
   .el-range-editor .is-active:hover {
       box-shadow: 0 0 0 1px #d32f2f inset;
   }
+  .card-design {
+    background-color: rgba(159, 159, 159, 0.2);
+    width: 374px;
+    border-radius: 15px;
+    padding: 5px;
+  }
   @media screen and (min-width: 1300px) {
-    .card-drawer {
+    .card-design {
       position: fixed !important;
       width: 380px
     }

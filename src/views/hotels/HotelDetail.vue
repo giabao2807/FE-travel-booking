@@ -141,33 +141,16 @@
                       {{ formatCurrency(getPriceDiscount(room?.price, hotelInfo?.couponData.discountPercent)) }}
                     </div>
                   </div>
-
                   <v-row align="center" justify="end" class="mt-5">
+                    <v-divider />
+                    <v-icon icon="mdi-bed-double-outline" />
+                    Đặt số lượng:
                     <n-select-quantity
                       :disabled="!room?.availableRoomAmount"
                       v-model="room.amount"
                       :quantity="room?.availableRoomAmount"
-                      class="text-field text-field-width"
+                      class="text-field text-field-width mx-3"
                     />
-                    <n-dialog-book
-                      v-model="room.dialog"
-                      titleDialog="BOOK HOTEL"
-                      typeBook="hotel"
-                      :hotelInfo="hotelInfo"
-                    >
-                      <template #action>
-                        <v-btn
-                          :disabled="!room?.availableRoomAmount"
-                          prepend-icon="mdi-checkbox-marked-circle-auto-outline"
-                          class="mx-2"
-                          color="primary"
-                          variant="tonal"
-                          @click="() => room.dialog = true"
-                        >
-                          Book now
-                        </v-btn>
-                      </template>
-                    </n-dialog-book>
                   </v-row>
                 </div>
               </v-col>
@@ -179,7 +162,10 @@
         <v-row class="border-black" align="center">
           <v-col cols="10">
             <v-card-title>
-              <h2>Yours Booking Rooms</h2>
+              <h2 class="text-primary">
+                <v-icon icon="mdi-package-variant-closed-check" />
+                Yours Booking Rooms
+              </h2>
             </v-card-title>
             <v-card-text>
               <h3 class="ma-5">
@@ -202,9 +188,9 @@
               <template #action>
                 <n-button-animated
                   :disabled="roomsBook.length === 0"
+                  :icon="'mdi-checkbox-marked-circle-auto-outline'"
                   label="Booking"
-                  width="10rem"
-                  fontSize="0.5rem"
+                  width="12rem"
                   @click="dialogBooking=true"
                 />
               </template>
@@ -216,8 +202,8 @@
     <v-container class="px-0 description">
       <v-row class="mx-0">
         <v-col class="px-0">
-          <div class="position-relative">
-            <n-image :src="hotelInfo?.listImages[1]" height="600" class="composition__photo" />
+          <div class="position-relative container-photo">
+            <n-image :src="hotelInfo?.listImages[1]" height="600" class="composition-photo" />
           </div>
         </v-col>
         <v-col class="px-0">
@@ -230,7 +216,7 @@
                   v-for="item in hotelInfo?.listImages.slice(2, 5)"
                   :key="item"
                   :src="item"
-                  class="mx-1 max-height-150"
+                  class="mx-1 max-height-150 composition-child-photo"
                 />
               </div>
             </v-card-text>
@@ -432,11 +418,14 @@ watchEffect(async() => {
 </script>
 <style lang="scss" scoped>
 .text-field-width {
-  width: 50px !important;
+  width: 40px !important;
 }
 ::v-deep {
   .htdt-policy, .htdt-description {
     background-color: transparent !important;
+    p {
+      margin-bottom: 10px;
+    }
   }
   .font-bold {
     font-weight: bold;

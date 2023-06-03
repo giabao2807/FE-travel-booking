@@ -1,2 +1,4 @@
 gộp room cùng tên
 viết panel notfound
+sửa avatar
+check css
