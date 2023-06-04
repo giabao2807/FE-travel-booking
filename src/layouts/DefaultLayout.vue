@@ -13,9 +13,12 @@
         <n-image :src="require(`@/assets/img/app_bar.jpg`)" />
       </template>
       <v-app-bar-title>
-        <p class="header-title" @click="() => { router.push({ name: 'homepage' }), slideValue = undefined }">
-          TraveNE
-        </p>
+        <v-row align="center">
+          <p class="header-title" @click="() => { router.push({ name: 'homepage' }), slideValue = undefined }">
+            TraveNE
+          </p>
+          <img :src="logo" alt="SVG Image" style="width:100px">
+        </v-row>
       </v-app-bar-title>
       <v-slide-group
         v-model="slideValue"
@@ -91,7 +94,7 @@
             <v-list>
               <v-list-item>
                 <div class="d-flex flex-column justify-center align-center py-5">
-                  <v-avatar
+                  <n-avatar
                     v-if="authUser?.accessToken"
                     :image="checkAvatar"
                     size="50"
@@ -139,26 +142,38 @@
       </template>
     </v-app-bar>
     <router-view />
-    <v-footer color="transparent" class="text-center d-flex flex-column">
-      <div class="px-4">
-        I know it might be crazy But did you hear the story? I think I heard it
-        vaguely A girl and a zombie Oh, tell me more, boy Sounds like a fantasy
-        Oh, what could go so wrong With a girl and a zombie You're from the
-        perfect paradise And I'm living on the darker side Ooh, I've got a
-        feeling If you get to know me Right from the start you caught my eye And
-        something inside me came to life Ooh, I've got a feeling If you get to
-        know me.
+    <v-footer class="text-center d-flex flex-column footer">
+      <div class="pa-4">
+        <v-btn
+          v-for="link in [
+            'Home',
+            'About Us',
+            'Team',
+            'Services',
+            'Blog',
+            'Contact Us',
+          ]"
+          :key="link"
+          color="white"
+          variant="text"
+          class="mx-2"
+          rounded="xl"
+        >
+          {{ link }}
+        </v-btn>
       </div>
       <v-divider />
       <div>
-        {{ new Date().getFullYear() }} - <strong>Boninguci</strong> - TestFooter
+        {{ new Date().getFullYear() }} - <strong>Boninguci</strong>
       </div>
     </v-footer>
   </div>
 </template>
 <script lang="ts" setup>
 import NImage from '@/components/NImage.vue'
+import NAvatar from '@/components/NAvatar.vue'
 import router from '@/router'
+import logo from '@/assets/img/logo.svg'
 import { handleRoute } from '@/helpers/loadingRoute'
 import { useDefaultLayout } from '@/composables/useDefalutLayout'
 import { HEADER_TAB } from '@/resources/mockData'
@@ -217,5 +232,9 @@ const {
 }
 .btn-shadown:hover {
   box-shadow: #ec488c 0px 0px 0px 6px;
+}
+.footer {
+  background-image: url('@/assets/img/main-footer-bg.jpg');
+  background-size: cover
 }
 </style>

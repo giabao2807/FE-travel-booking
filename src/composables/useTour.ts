@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { useTourStore } from '@/store/tours'
 import { IResponseTour, ITour } from '@/libs/types/tourType'
-import { IFilterPanel } from '@/libs/types/commonType'
+import { IFilterPanel, IForm } from '@/libs/types/commonType'
 
 const createTour = () => {
   const tourStore = useTourStore()
@@ -12,6 +12,7 @@ const createTour = () => {
   const pageTours = ref<number>(1)
   const loadingTours = ref<boolean>(false)
   const dialogBooking = ref<boolean>(false)
+  const formSearchRef = ref<any>()
   const titlePage = {
     cityId: initFilterTour.value.cityId,
     startDate: initFilterTour.value.startDate,
@@ -39,7 +40,10 @@ const createTour = () => {
     }
     return null
   })
-
+  const resetSearch = () => {
+    const ref = formSearchRef.value as IForm
+    ref?.reset()
+  }
   return {
     tours,
     popularTours,
@@ -49,6 +53,8 @@ const createTour = () => {
     countDate,
     dialogBooking,
     titlePage,
+    formSearchRef,
+    resetSearch,
     getPopularTours,
     getToursByFilterPanel
   }

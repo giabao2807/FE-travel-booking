@@ -16,18 +16,17 @@ export const useUserStore = defineStore('userStore', () => {
     phone: ''
   })
   const getUserInfo = async() => {
-    console.log('in here')
-    await connectionsAPI({
+    return await connectionsAPI({
       methods: 'GET',
       path: 'user/info'
-    }).then(data => userInfo.value = data)
+    })
   }
   const updateUserInfo = async(id: string, data: any) => {
-    await connectionsAPI({
+    return await connectionsAPI({
       methods: 'PUT',
       path: `user/${id}`,
       data: data
-    }).then(data => userInfo.value = data)
+    })
   }
   return {
     userInfo,

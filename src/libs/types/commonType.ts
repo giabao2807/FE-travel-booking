@@ -1,5 +1,6 @@
+import { Vue } from 'vue-class-component'
 import { Method, ResponseType } from 'axios'
-
+export type IForm = Vue & {validate: () => boolean, reset: () => void, resetValidation: () => void}
 export type IParamsAPI = {
   methods: Method,
   path?: string,

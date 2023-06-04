@@ -3,7 +3,7 @@
     <v-container fluid class="pa-0">
       <div class="container_tours">
         <v-row class="h-50 w-100" align="end" justify="center">
-          <h1 class="heading-primary">
+          <h1 class="heading-primary shadow-text">
             <span class="heading-primary--main">Travels Tours</span>
             <span class="heading-primary--sub">is where life happens is where life</span>
           </h1>
@@ -12,61 +12,63 @@
     </v-container>
     <v-row>
       <v-col>
-        <v-card class="card-search">
+        <v-card elevation="3" class="card-search ma-3 rounded-xl">
           <h3 class="text-center my-3">
             <v-icon icon="mdi-map-search-outline" />
             Search Tours
           </h3>
-          <v-card-text>
-            <h4 class="mb-2">Thông tin đặt</h4>
-            <n-cities-select v-model="initFilterTour.cityId" class="mx-2" />
-            <v-text-field
-              v-model="initFilterTour.startDate"
-              :min="minDate(new Date())"
-              label="Start Date"
-              name="startDate"
-              type="Date"
-              color="primary"
-              class="mt-2 mx-2"
-              variant="underlined"
-              hide-details="auto"
-            />
-            <v-text-field
-              v-model="initFilterTour.endDate"
-              :min="initFilterTour.startDate"
-              label="End Date"
-              name="endDate"
-              type="Date"
-              color="primary"
-              class="mt-2 mx-2"
-              variant="underlined"
-              hide-details="auto"
-            />
-            <h4 class="my-5">Khoảng giá tour</h4>
-            <v-row>
-              <v-range-slider
-                :max="10"
-                :min="0"
-                :step="1"
-                hide-details
-                class="mx-8 my-5"
-                thumb-label="always"
+          <v-form ref="formSearchRef">
+            <v-card-text>
+              <h4 class="mb-2">Thông tin đặt</h4>
+              <n-cities-select v-model="initFilterTour.cityId" class="mx-2" />
+              <v-text-field
+                v-model="initFilterTour.startDate"
+                :min="minDate(new Date())"
+                label="Start Date"
+                name="startDate"
+                type="Date"
+                color="primary"
+                class="mt-2 mx-2"
+                variant="underlined"
+                hide-details="auto"
               />
-            </v-row>
-            <h4 class="my-5">Sắp xếp theo giá</h4>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn class="mx-2">
-              Clear
-            </v-btn>
-            <v-spacer />
-            <v-btn
-              class="mx-2"
-              @click="() => getToursByFilterPanel()"
-            >
-              Search
-            </v-btn>
-          </v-card-actions>
+              <v-text-field
+                v-model="initFilterTour.endDate"
+                :min="initFilterTour.startDate"
+                label="End Date"
+                name="endDate"
+                type="Date"
+                color="primary"
+                class="mt-2 mx-2"
+                variant="underlined"
+                hide-details="auto"
+              />
+              <h4 class="my-5">Khoảng giá tour</h4>
+              <v-row>
+                <v-range-slider
+                  :max="10"
+                  :min="0"
+                  :step="1"
+                  hide-details
+                  class="mx-8 my-5"
+                  thumb-label="always"
+                />
+              </v-row>
+              <h4 class="my-5">Sắp xếp theo giá</h4>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn class="mx-2" @click="() => resetSearch()">
+                Clear
+              </v-btn>
+              <v-spacer />
+              <v-btn
+                class="mx-2"
+                @click="() => getToursByFilterPanel()"
+              >
+                Search
+              </v-btn>
+            </v-card-actions>
+          </v-form>
         </v-card>
       </v-col>
       <v-col cols="9" class="card-show">
@@ -207,7 +209,9 @@ const {
   loadingTours,
   initFilterTour,
   titlePage,
-  getToursByFilterPanel
+  getToursByFilterPanel,
+  formSearchRef,
+  resetSearch
 } = useTourUtil()
 const { formatCurrency, getPriceDiscount, minDate, getTraffic } = convertionType()
 const { getCityById } = useCities()
@@ -222,7 +226,7 @@ onMounted(() => {
   background-position: center center;
   .container_tours {
     background-image: linear-gradient(to bottom, rgba(248, 230, 248, 0.2),rgba(235, 178, 244, 0.2)),
-    url('@/assets/img/bg-test.jpeg');
+    url('@/assets/img/panel-hotel.jpg');
     background-size: cover;
     height: 500px;
   }

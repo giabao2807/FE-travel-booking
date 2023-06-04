@@ -7,7 +7,7 @@ const createFeedBack = () => {
     ElNotification({
       title: data.title || 'Error',
       message: data.message,
-      type: data.type,
+      type: data.type || 'error',
       position: 'bottom-right'
     })
   }

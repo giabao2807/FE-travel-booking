@@ -153,9 +153,8 @@
   padding: 6rem 0;
   height: 100%;
   background-image: linear-gradient(to right bottom, rgba(211, 156, 156, 0.2), rgba(70, 26, 45, 0.2)),
-  url('@/assets/img/bg-test.jpeg');
+  url('@/assets/img/panel-hotel.jpg');
   background-size: cover;
-  background-repeat: no-repeat;
   transform: skewY(-4deg);
 }
 .section-features > * {
@@ -179,6 +178,9 @@
   border: 1px solid #000;
   z-index: 1;
   transform: scale(1.1,1.1) translatex(0px) translatey(0px);
+}
+.element-card:hover .home-coupon{
+  color: #000;
 }
 .element-card .background-card-title {
   background-color:rgba(251, 246, 251, 0.9)
@@ -236,7 +238,7 @@
   transition-delay: 0.3s;
   transition-duration: 0.2s;
 } */
-.title-animation {
+/* .title-animation {
   font: 800 1.4rem "Oswald", sans-serif;
   letter-spacing: 0;
   background: url(https://img.freepik.com/premium-photo/abstract-wallpaper-beautiful-peonies-dark-background-generative-ai_464863-1656.jpg) repeat-y;
@@ -258,7 +260,7 @@
   animation: aitf 80s linear infinite;
   transform: translate3d(0,0,0);
   backface-visibility: hidden;
-}
+} */
 @keyframes aitf {
   0% { background-position: 0% 50%; }
   100% { background-position: 100% 50%; }
@@ -308,6 +310,9 @@
   opacity:0.2;
   z-index: 1
 }
+.bg-theme-status:hover .home-tour-coupon {
+  color: #000;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .animate-charcter {
@@ -351,6 +356,7 @@ animation: run-left 5s linear infinite;
   color: var(--color-border-white);
 }
 .home-toolbar {
+  background-size: cover;
   width: 60%;
   position: absolute;
   left: 50%;
@@ -368,6 +374,7 @@ animation: run-left 5s linear infinite;
   width: 40px;
   height: 80px
 }
+
 .home-tour-coupon {
   position: absolute; top: 0; right: 0;
   background-image: url('@/assets/img/coupon5.png');

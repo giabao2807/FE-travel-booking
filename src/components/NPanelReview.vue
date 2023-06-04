@@ -1,8 +1,13 @@
 <template>
   <v-sheet class="ma-5 pa-5 rounded-xl">
-    <h1 class="my-5 text-center">Reviews {{ propItems.titlePanel }}</h1>
+    <h2 class="my-5 text-center">Reviews {{ propItems.titlePanel }}</h2>
     <v-divider class="mx-15" />
     <n-panel-loading :loading="!firstPageReview" />
+    <n-panel-not-found
+      v-if="propItems.firstPageReview?.results.length === 0"
+      icon="mdi-timer-sand-empty"
+      title="Không có reviews đánh giá!"
+    />
     <v-slide-group
       class="pa-4"
       center-active
@@ -144,6 +149,7 @@
 </template>
 <script lang="ts" setup>
 import NPanelLoading from './NPanelLoading.vue'
+import NPanelNotFound from './NPanelNotFound.vue'
 import { ref, defineEmits, withDefaults, defineProps } from 'vue'
 import { IReview } from '@/libs/types/hotelType'
 

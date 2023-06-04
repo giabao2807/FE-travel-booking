@@ -41,7 +41,7 @@
           </v-btn>
         </v-card-actions>
       </v-card>
-      <v-card class="rounded-t-xl" v-if="isSignIn">
+      <v-card v-if="isSignIn">
         <v-card-title class="justify-space-between">
           <h2 class="text-center mt-5">{{ propItems.titleDialog }}</h2>
           <v-timeline direction="horizontal" truncate-line="both">

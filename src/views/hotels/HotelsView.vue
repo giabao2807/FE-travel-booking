@@ -12,7 +12,7 @@
     </v-container>
     <v-row>
       <v-col>
-        <v-card elevation="3" class="card-search">
+        <v-card elevation="3" class="card-search ma-3 rounded-xl">
           <h3 class="text-center my-3">
             <v-icon icon="mdi-map-search-outline" />
             Search Hotels

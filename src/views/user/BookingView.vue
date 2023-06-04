@@ -1,5 +1,5 @@
 <template>
-  <v-sheet min-height="600">
+  <v-sheet min-height="600" class="booking-page">
     <h2 class="text-center pt-10 pb-5">
       Yours Booking
     </h2>
@@ -30,9 +30,13 @@
         <p>{{ messageStatusPayment }}</p>
       </template>
     </n-dialog>
-    <n-panel-not-found />
     <v-window v-model="tabWindow">
       <v-window-item :value="1">
+        <n-panel-not-found
+          v-if="!historyBookingTours.results & !loadingTours"
+          icon="mdi-timer-sand-empty"
+          title="Bạn chưa booking tour du lịch nào!"
+        />
         <v-container>
           <n-panel-loading :loading="loadingTours" />
           <v-row v-if="!loadingTours" class="my-5">
@@ -143,6 +147,11 @@
         </v-container>
       </v-window-item>
       <v-window-item :value="2">
+        <n-panel-not-found
+          v-if="!historyBookingHotels.results & !loadingHotels"
+          icon="mdi-timer-sand-empty"
+          title="Bạn chưa booking hotel nào!"
+        />
         <v-container>
           <n-panel-loading :loading="loadingHotels" />
           <v-row v-if="!loadingHotels" class="my-5">
@@ -312,3 +321,10 @@ onMounted(async() => {
   getHistoryBookingHotels()
 })
 </script>
+<style lang="scss" scoped>
+.booking-page {
+  background-image: url('@/assets/img/map-bg.png');
+  background-size: contain;
+  background-position: center center;
+}
+</style>

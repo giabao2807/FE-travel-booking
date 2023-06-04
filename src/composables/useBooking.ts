@@ -20,6 +20,9 @@ const createBooking = () => {
       .then(data => {
         historyBookingTours.value = data
         loadingTours.value = false
+      }).catch(error => {
+        console.log(error)
+        loadingTours.value = false
       })
   }
   const getHistoryBookingHotels = async(page?: number) => {
@@ -27,6 +30,9 @@ const createBooking = () => {
     await bookStore.getHistoryBooking({ type: 1, page: page })
       .then(data => {
         historyBookingHotels.value = data
+        loadingHotels.value = false
+      }).catch(error => {
+        console.log(error)
         loadingHotels.value = false
       })
   }

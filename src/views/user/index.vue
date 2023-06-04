@@ -3,7 +3,7 @@
     <v-container fluid class="pa-0 profile_main">
       <v-row class="h-75 w-100" align="end">
         <v-col class="ma-10">
-          <h2>Hello {{ userInfo?.firstName }},</h2>
+          <h2>Hello {{ showName }},</h2>
           <p>
             This is your profile travel.
             <br>
@@ -15,7 +15,6 @@
         </v-col>
       </v-row>
       <v-row align="start" justify="center">
-        <!-- <v-avatar class="zindex-1 half-circle" :image="checkAvatar" size="290" /> -->
         <n-avatar :image="checkAvatar" size="290" />
       </v-row>
     </v-container>
@@ -24,7 +23,7 @@
         <v-container>
           <v-card-text class="margin-top-8rem">
             <div class="text-center">
-              <h1>{{ `${userInfo?.lastName} ${userInfo?.firstName}` }}</h1>
+              <h1>{{ showName }}</h1>
             </div>
             <v-divider class="ma-5" />
             <div class="mx-5">
@@ -150,13 +149,10 @@
 </template>
 <script lang="ts" setup>
 import NAvatar from '@/components/NAvatar.vue'
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useUserUtil } from '@/composables/useUser'
 import { GENDER_DATA } from '@/resources/mockData'
 
-onMounted(() => {
-  getUserInfo()
-})
 const {
   userInfo,
   isEditInfo,
@@ -165,6 +161,12 @@ const {
   updateUserInfo,
   getUserInfo
 } = useUserUtil()
+
+const showName = ref<string>()
+onMounted(async() => {
+  await getUserInfo()
+  showName.value = userInfo?.value.lastName + ' ' + userInfo?.value.firstName
+})
 </script>
 
 <style lang="scss" scoped>
@@ -176,7 +178,7 @@ const {
     background-image: linear-gradient(to bottom, rgba(248, 230, 248, 0.2),rgba(235, 178, 244, 0.2)),
       url('https://cdn.pixabay.com/photo/2016/01/09/18/27/camera-1130731_1280.jpg');
     background-size: cover;
-    height: 40em;
+    height: 35em;
   }
   .half-circle {
     position: absolute;

@@ -74,22 +74,26 @@
       <v-row
         v-show="!loadingRooms"
         class="mx-5"
-        v-for="room in rooms"
-        :key="room?.id"
+        justify="center"
       >
-        <v-col col="12">
+        <v-col
+          v-for="room in rooms"
+          :key="room?.id"
+          cols="12"
+          class="room-col"
+        >
           <v-card elevation="12" class="card-detail">
             <v-row>
               <v-col>
                 <n-carousel :data="room?.listImages" height="300" />
               </v-col>
-              <v-col cols="6">
+              <v-col cols="6" class="room-content">
                 <h2 class="mt-5 ml-2 font-rowdies">
                   {{ room?.name }}
                 </h2>
                 <v-card-text class="mt-5">
                   <v-row>
-                    <v-col class="mx-5">
+                    <v-col cols="5" class="ml-5">
                       <p class="my-2">
                         <v-icon icon="mdi-bed-queen-outline" />
                         Giường: {{ room?.beds }}
@@ -115,14 +119,15 @@
                         Phòng trống: {{ room?.availableRoomAmount }} phòng
                       </p>
                     </v-col>
-                    <v-col class="mx-5 border-left-black">
-                      <div v-html="room?.description" />
+                    <v-divider :thickness="2" vertical />
+                    <v-col class="mx-5">
+                      <div class="h-75 overflow-y-auto" v-html="room?.description" />
                     </v-col>
                   </v-row>
                 </v-card-text>
               </v-col>
               <v-col class="custom-voucher">
-                <div color="transparent" class="ml-14 mt-5 pa-4">
+                <div color="transparent" class="ml-14 mt-5 pa-4 room-price">
                   <div class="ma-2">
                     <p class="mt-3 text-caption">
                       <v-icon icon="mdi-ticket-percent-outline" />
@@ -162,10 +167,10 @@
         <v-row class="border-black" align="center">
           <v-col cols="10">
             <v-card-title>
-              <h2 class="text-primary">
+              <h3 class="text-primary">
                 <v-icon icon="mdi-package-variant-closed-check" />
                 Yours Booking Rooms
-              </h2>
+              </h3>
             </v-card-title>
             <v-card-text>
               <h3 class="ma-5">
@@ -262,7 +267,7 @@
     </v-sheet>
     <n-panel-review
       :id="hotelInfo?.id"
-      title="Hotel"
+      titlePanel="Hotel"
       :firstPageReview="firstPageReview"
       :loadingReview="loadingReview"
       :dataReview="dataReview"

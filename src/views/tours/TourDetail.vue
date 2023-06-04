@@ -90,7 +90,7 @@
         </v-container>
         <n-panel-review
           :id="tourInfo?.id"
-          title="Tour"
+          titlePanel="Tour"
           :firstPageReview="firstPageReview"
           :loadingReview="loadingReview"
           :dataReview="dataReview"
@@ -192,8 +192,8 @@
           >
             <div class="ma-5">
               <v-card-item>
-                <v-card-title class="font-weight-bold pa-3">
-                  <h2>
+                <v-card-title class="pa-3">
+                  <h2 class="font-rowdies">
                     <v-icon icon="mdi-airballoon-outline" size="small" />
                     Booking Tour
                   </h2>

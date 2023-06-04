@@ -64,6 +64,24 @@
   .card-detail {
     background-color: transparent;
     border-radius: 10px;
+    height: 300px;
+  }
+  @media screen and (max-width: 1170px) {
+    .room-col {
+      flex: 0 0 50%;
+      max-width: 50%;
+      margin: 0 10px;
+    }
+    .card-detail {
+      height: 100%;
+      .room-content {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+      .room-price {
+        margin-left: 5rem !important;
+      }
+    }
   }
   .carousel {
     border: 1px solid var(--loading-bgcolor);

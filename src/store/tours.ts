@@ -18,15 +18,6 @@ export const useTourStore = defineStore('tourStore', () => {
     startDate: '',
     endDate: ''
   })
-  const resetFilterTour = () => {
-    initFilterTour.value = {
-      pageSize: 12,
-      page: 1,
-      cityId: undefined,
-      startDate: '',
-      endDate: ''
-    }
-  }
   const getTours = async(params: IParamPage = initParamTour) =>{
     return await connectionsAPI({
       methods: 'GET',
@@ -90,7 +81,6 @@ export const useTourStore = defineStore('tourStore', () => {
   return {
     tours,
     initFilterTour,
-    resetFilterTour,
     getPopularTours,
     getTourById,
     getTours,

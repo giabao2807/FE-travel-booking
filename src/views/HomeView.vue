@@ -199,7 +199,7 @@
             <v-card-actions>
               <v-spacer />
               <v-btn
-                class="font-bungee"
+                class="font-rowdies"
                 color="primary"
                 variant="text"
               >
@@ -350,7 +350,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-container class="my-10">
+    <v-container class="mt-10">
       <div class="text-center mb-8">
         <h3 class="text-primary text-uppercase">Services</h3>
         <h1 class="heading-secondary font-bungee mt-n2">Tours & Travel Services</h1>
@@ -359,7 +359,7 @@
         <v-col>
           <v-card width="350" height="300">
             <v-card-text class="text-center">
-              <v-icon size="50" icon="mdi-map-marker-path" />
+              <v-icon size="50" icon="mdi-compass-rose" />
               <h2 class="ma-5">Travel Guide</h2>
               <p class="ma-5">
                 Travel information to inspire global travelers.
