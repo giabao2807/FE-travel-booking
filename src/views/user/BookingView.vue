@@ -33,7 +33,7 @@
     <v-window v-model="tabWindow">
       <v-window-item :value="1">
         <n-panel-not-found
-          v-if="!historyBookingTours.results & !loadingTours"
+          v-if="!historyBookingTours.results && !loadingTours"
           icon="mdi-timer-sand-empty"
           title="Bạn chưa booking tour du lịch nào!"
         />
@@ -48,7 +48,7 @@
               <v-card elevation="0" class="my-2">
                 <v-row>
                   <v-col cols="4">
-                    <n-image :src="bookItem.tour.coverPicture" />
+                    <n-image :src="bookItem.tour.coverPicture" class="custom-image" />
                   </v-col>
                   <v-col>
                     <v-card-text>
@@ -148,7 +148,7 @@
       </v-window-item>
       <v-window-item :value="2">
         <n-panel-not-found
-          v-if="!historyBookingHotels.results & !loadingHotels"
+          v-if="!historyBookingHotels.results && !loadingHotels"
           icon="mdi-timer-sand-empty"
           title="Bạn chưa booking hotel nào!"
         />
@@ -164,7 +164,7 @@
               <v-card elevation="0" class="my-2">
                 <v-row>
                   <v-col cols="4">
-                    <n-image :src="bookItem.hotel.coverPicture" />
+                    <n-image :src="bookItem.hotel.coverPicture" class="custom-image" />
                   </v-col>
                   <v-col>
                     <v-card-text>
@@ -190,7 +190,7 @@
                           </v-col>
                           <v-col>
                             <h4 v-for="room in bookItem.bookingItems" :key="room.id">
-                              <v-icon icon="mdi-bed-outline" class="mr-1 mt-n1" />
+                              <v-icon icon="mdi-bed-single-outline" class="mr-1 mt-n1" />
                               {{ room.roomName }} x {{ room.quantity }}
                             </h4>
                           </v-col>
@@ -326,5 +326,13 @@ onMounted(async() => {
   background-image: url('@/assets/img/map-bg.png');
   background-size: contain;
   background-position: center center;
+}
+.custom-image {
+  -webkit-mask-image: url("@/assets/img/card-bg.png");
+  mask-image: url("@/assets/img/card-bg.png");
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
 }
 </style>

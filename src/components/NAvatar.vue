@@ -15,10 +15,10 @@ const props = withDefaults(defineProps<Props>(), {
 <style lang="scss" scoped>
 .avatar-style {
   -webkit-mask-image: url("@/assets/img/avatar-bg.png");
-    mask-image: url("@/assets/img/avatar-bg.png");
-    -webkit-mask-size: cover;
-    mask-size: cover;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
+  mask-image: url("@/assets/img/avatar-bg.png");
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
 }
 </style>

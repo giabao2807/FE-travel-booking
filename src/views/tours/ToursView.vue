@@ -57,12 +57,21 @@
               <h4 class="my-5">Sắp xếp theo giá</h4>
             </v-card-text>
             <v-card-actions>
-              <v-btn class="mx-2" @click="() => resetSearch()">
+              <v-btn
+                size="small"
+                class="mx-2 rounded-xl"
+                variant="outlined"
+                @click="() => resetSearch()"
+              >
                 Clear
               </v-btn>
               <v-spacer />
               <v-btn
-                class="mx-2"
+                color="primary"
+                size="small"
+                class="mx-2 rounded-xl"
+                variant="outlined"
+                prepend-icon="mdi-airplane-search"
                 @click="() => getToursByFilterPanel()"
               >
                 Search
@@ -83,6 +92,11 @@
           </v-card-text>
         </v-card>
         <n-panel-loading :loading="loadingTours" />
+        <n-panel-not-found
+          v-if="tours?.results.length === 0 && !loadingTours"
+          icon="mdi-timer-sand-empty"
+          title="Không có tour du lịch nào phù hợp!"
+        />
         <v-row v-if="!loadingTours">
           <v-col v-for="item in tours?.results" :key="item?.id" cols="12">
             <v-card
@@ -90,10 +104,10 @@
               class="ml-5 my-5 tour-card rounded-xl"
             >
               <v-row>
-                <v-col cols="4">
-                  <n-image :src="item?.coverPicture" height="280" />
+                <v-col cols="5">
+                  <n-image :src="item?.coverPicture" height="220" class="custom-image-tour" />
                 </v-col>
-                <v-col>
+                <v-col class="pa-0">
                   <h2 class="mt-5 mx-2">
                     {{ item?.name }}
                   </h2>
@@ -101,7 +115,7 @@
                     <v-row align="start" class="my-3">
                       <v-icon icon="mdi-clock-start" />
                       Khởi hành:
-                      <v-col cols="5" class="pa-0 ml-2">
+                      <v-col cols="4" class="pa-0 ml-2">
                         <strong>{{ item?.departure }}</strong>
                       </v-col>
                     </v-row>
@@ -181,7 +195,7 @@
           </v-col>
         </v-row>
         <n-pagination
-          v-if="!loadingTours"
+          v-if="tours?.results.length !== 0 && !loadingTours"
           class="my-5"
           v-model="pageTours"
           :length="tours?.pageNumber"
@@ -197,6 +211,7 @@ import NPanelLoading from '@/components/NPanelLoading.vue'
 import NPagination from '@/components/NPagination.vue'
 import NCitiesSelect from '@/components/NCitiesSelect.vue'
 import NDialogBook from '@/components/NDialogBook.vue'
+import NPanelNotFound from '@/components/NPanelNotFound.vue'
 import { onMounted } from 'vue'
 import { useTourUtil } from '@/composables/useTour'
 import { convertionType } from '@/helpers/convertion'
@@ -230,6 +245,15 @@ onMounted(() => {
     background-size: cover;
     height: 500px;
   }
+  .custom-image-tour {
+    margin-top: 20px;
+    -webkit-mask-image: url("@/assets/img/image-card.png");
+    mask-image: url("@/assets/img/image-card.png");
+    -webkit-mask-size: cover;
+    mask-size: cover;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+  }
   .card-actions {
     position: absolute;
     right: 0;
@@ -238,12 +262,12 @@ onMounted(() => {
     margin-bottom: 25px;
   }
   .tour-card {
-    width: 85%;
+    width: 88%;
     cursor: pointer;
     transition: all 0.6s cubic-bezier(0.680, -0.550, 0.265, 1.550);
   }
   .tour-card:hover {
-    transform: translateY(-1.3rem) scale(1.05);
+    transform: translateY(-1.2rem) scale(1.03);
   }
   .card-title {
     background-color: transparent;

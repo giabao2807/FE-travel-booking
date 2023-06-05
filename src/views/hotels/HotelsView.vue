@@ -77,6 +77,11 @@
           </v-card-text>
         </v-card>
         <n-panel-loading :loading="loadingHotels" />
+        <n-panel-not-found
+          v-if="hotels?.results.length === 0 && !loadingHotels"
+          icon="mdi-timer-sand-empty"
+          title="Không có tour du lịch nào phù hợp!"
+        />
         <v-container class="my-5">
           <v-row v-if="!loadingHotels">
             <v-col v-for="item in hotels?.results" :key="item?.id" cols="12">
@@ -87,7 +92,7 @@
               >
                 <v-row>
                   <v-col cols="4">
-                    <n-image :src="item?.coverPicture" height="300" />
+                    <n-image :src="item?.coverPicture" height="300" class="custom-image-hotel" />
                   </v-col>
                   <v-col cols="7">
                     <h1 class="mt-5 ml-2">
@@ -157,7 +162,7 @@
             </v-col>
           </v-row>
           <n-pagination
-            v-if="!loadingHotels"
+            v-if="hotels?.results.length !== 0 && !loadingHotels"
             class="my-5"
             v-model="pageHotel"
             :length="hotels?.pageNumber"
@@ -173,6 +178,7 @@ import NImage from '@/components/NImage.vue'
 import NPanelLoading from '@/components/NPanelLoading.vue'
 import NPagination from '@/components/NPagination.vue'
 import NCitiesSelect from '@/components/NCitiesSelect.vue'
+import NPanelNotFound from '@/components/NPanelNotFound.vue'
 import { onMounted } from 'vue'
 import { convertionType } from '@/helpers/convertion'
 import { handleRoute } from '@/helpers/loadingRoute'
@@ -205,7 +211,14 @@ onMounted(() => {
     background-size: cover;
     height: 500px;
   }
-
+  .custom-image-hotel {
+    -webkit-mask-image: url("@/assets/img/card-bg.png");
+    mask-image: url("@/assets/img/card-bg.png");
+    -webkit-mask-size: cover;
+    mask-size: cover;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+  }
   .card-actions {
     position: absolute;
     right: 0;

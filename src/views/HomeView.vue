@@ -70,6 +70,7 @@
               class="text-none mx-7"
               color="primary"
               rounded
+              :prepend-icon="flagSearch === 'Tours' ? 'mdi-airplane-search' : 'mdi-bed-double-outline'"
               min-width="110"
               variant="outlined"
               @click="() => handleFilter()"
@@ -88,7 +89,15 @@
       </div>
       <v-row class="ma-5">
         <v-col v-for="item in getCitiesPanel" :key="item.id" :cols="item.col">
-          <n-image :src="item?.image" height="300" class="image-transform">
+          <n-image
+            :src="item?.image"
+            height="300"
+            class="image-transform"
+            @click="() => {
+              filterPanel.cityId = item.id
+              handleFilter()
+            }"
+          >
             <template #default>
               <div class="d-flex align-center justify-center fill-height image-container">
                 <p class="text shadow-text font-size-20">{{ item?.name }}</p>

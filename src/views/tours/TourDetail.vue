@@ -256,7 +256,7 @@
                       {{
                         formatCurrency(
                           getPriceDiscount(tourInfo?.price, tourInfo?.couponData.discountPercent)
-                            * bookTour?.bookingItems[0].quantity
+                            * (bookTour?.bookingItems[0].quantity || 1)
                         )
                       }}
                     </h2>

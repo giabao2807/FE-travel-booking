@@ -13,6 +13,13 @@ const createDefaultLayout = () => {
   const { authUser } = storeToRefs(authStore)
   const { checkAvatar, signOut } = useAuthentication()
   const slideValue = ref<number>()
+  const showBookingPage = (name: string) => {
+    if (name === 'Booking') {
+      return authUser.value.accessToken ? true : false
+    }
+    return true
+  }
+
   const route = useRoute()
   onMounted(async() => {
     const session = await sessionStorage.getItem('userData')
@@ -24,6 +31,7 @@ const createDefaultLayout = () => {
     authUser,
     checkAvatar,
     slideValue,
+    showBookingPage,
     signOut
   }
 }

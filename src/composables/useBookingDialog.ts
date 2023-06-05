@@ -18,7 +18,7 @@ const createBooking = () => {
     bookingItems: [
       {
         tourId: '',
-        quantity: 1
+        quantity: 0
       }
     ],
     note: '',

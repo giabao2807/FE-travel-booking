@@ -16,8 +16,10 @@
       </v-row>
       <v-row align="start" justify="center">
         <n-avatar :image="checkAvatar" size="290" />
+        <n-btn-file v-model="fileAvatar" />
       </v-row>
     </v-container>
+    {{ userInfo.avatar }}
     <v-container class="font-rowdies">
       <v-row justify="center">
         <v-container>
@@ -136,7 +138,7 @@
             <v-spacer />
             <v-btn
               v-if="isEditInfo || isEditContact"
-              @click="() => updateUserInfo({ ...userInfo })"
+              @click="() => updateUserInfo({ ...userInfo, avatar: fileAvatar })"
               class="mx-7"
             >
               Save
@@ -149,7 +151,8 @@
 </template>
 <script lang="ts" setup>
 import NAvatar from '@/components/NAvatar.vue'
-import { onMounted, ref } from 'vue'
+import NBtnFile from '@/components/NBtnFile.vue'
+import { onMounted, ref, watchEffect } from 'vue'
 import { useUserUtil } from '@/composables/useUser'
 import { GENDER_DATA } from '@/resources/mockData'
 
@@ -163,6 +166,10 @@ const {
 } = useUserUtil()
 
 const showName = ref<string>()
+const fileAvatar = ref<string>()
+watchEffect(() => {
+  console.log(fileAvatar.value)
+})
 onMounted(async() => {
   await getUserInfo()
   showName.value = userInfo?.value.lastName + ' ' + userInfo?.value.firstName
