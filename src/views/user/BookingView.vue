@@ -292,6 +292,7 @@ import NDialogPayAgain from '@/components/NDialogPayAgain.vue'
 import NDialogReview from '@/components/NDialogReview.vue'
 import NPanelNotFound from '@/components/NPanelNotFound.vue'
 import { ref, onMounted } from 'vue'
+import _ from 'lodash'
 import { useRoute } from 'vue-router'
 import { useBooking } from '@/composables/useBooking'
 import { convertionType } from '@/helpers/convertion'
@@ -314,7 +315,7 @@ const { formatCurrency, getIconStatus, formatDate, checkColorTag } = convertionT
 const route = useRoute()
 const tabWindow = ref<number>(1)
 onMounted(async() => {
-  if (Object.keys(route.query).length !== 0){
+  if (!_.isEmpty(route.query)){
     await callBackPayment(route.query)
   }
   getHistoryBookingTours()

@@ -23,14 +23,12 @@ const useHome = () => {
     selectedCity,
     loadingPanelHotel,
     getRecomendHotelByCity,
-    getRecomendCities,
-    getHotelsByFilterPanel
+    getRecomendCities
   } = useHotelUtil()
 
   const {
     popularTours,
-    getPopularTours,
-    getToursByFilterPanel
+    getPopularTours
   } = useTourUtil()
 
   const getCitiesPanel = computed(() => {
@@ -55,12 +53,10 @@ const useHome = () => {
   }
   const handleFilter = () => {
     if (flagSearch.value === 'Tours') {
-      getToursByFilterPanel(filterPanel.value)
-      handleRoute({ name: 'tours' })
+      handleRoute({ name: 'tours', query: filterPanel.value })
     }
     else {
-      getHotelsByFilterPanel(filterPanel.value)
-      handleRoute({ name: 'hotels' })
+      handleRoute({ name: 'hotels', query: filterPanel.value })
     }
   }
   onMounted(async() => {

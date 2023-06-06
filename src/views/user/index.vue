@@ -33,7 +33,7 @@
               <h1>{{ showName }}</h1>
             </div>
             <v-divider class="ma-5" />
-            <div class="mx-5">
+            <v-form ref="inForRef" class="mx-5">
               <h4 class="my-5">
                 USER INFORMATION
                 <v-icon
@@ -49,6 +49,7 @@
                     <v-text-field
                       v-model="userInfo.lastName"
                       :disabled="!isEditInfo"
+                      :rules="[ruleRequired('LastName')]"
                       clearable
                       class="ma-2"
                       variant="solo-filled"
@@ -59,6 +60,7 @@
                     <v-text-field
                       v-model="userInfo.firstName"
                       :disabled="!isEditInfo"
+                      :rules="[ruleRequired('FirstName')]"
                       clearable
                       class="ma-2"
                       variant="solo-filled"
@@ -71,6 +73,7 @@
                     <v-text-field
                       v-model="userInfo.birthday"
                       :disabled="!isEditInfo"
+                      :rules="ruleBirthDay"
                       type="Date"
                       clearable
                       class="ma-2"
@@ -83,6 +86,7 @@
                       v-model="userInfo.gender"
                       :disabled="!isEditInfo"
                       :items="GENDER_DATA"
+                      :rules="[ruleRequired('Giới tính')]"
                       clearable
                       class="ma-2"
                       variant="solo-filled"
@@ -118,6 +122,7 @@
                     <v-text-field
                       v-model="userInfo.phone"
                       :disabled="!isEditContact"
+                      :rules="rulePhone"
                       clearable
                       class="ma-2"
                       variant="solo-filled"
@@ -130,6 +135,7 @@
                     <v-text-field
                       v-model="userInfo.address"
                       :disabled="!isEditContact"
+                      :rules="[ruleLength('Địa chỉ', 5)]"
                       clearable
                       class="ma-2"
                       variant="solo-filled"
@@ -137,7 +143,7 @@
                   </v-col>
                 </v-row>
               </div>
-            </div>
+            </v-form>
           </v-card-text>
           <v-card-actions>
             <v-spacer />
@@ -157,21 +163,24 @@
 <script lang="ts" setup>
 import NAvatar from '@/components/NAvatar.vue'
 import NBtnFile from '@/components/NBtnFile.vue'
-import { onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
 import { useUserUtil } from '@/composables/useUser'
 import { GENDER_DATA } from '@/resources/mockData'
+import { validations } from '@/helpers/validate'
 
+const { ruleRequired, ruleBirthDay, rulePhone, ruleLength } = validations()
 const {
   userInfo,
   isEditInfo,
   isEditContact,
   checkAvatar,
+  showName,
+  fileAvatar,
+  inForRef,
   updateUserInfo,
   getUserInfo
 } = useUserUtil()
 
-const showName = ref<string>()
-const fileAvatar = ref<FormData>()
 onMounted(async() => {
   await getUserInfo()
   showName.value = userInfo?.value.lastName + ' ' + userInfo?.value.firstName

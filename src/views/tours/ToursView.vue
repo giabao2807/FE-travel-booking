@@ -20,9 +20,9 @@
           <v-form ref="formSearchRef">
             <v-card-text>
               <h4 class="mb-2">Thông tin đặt</h4>
-              <n-cities-select v-model="initFilterTour.cityId" class="mx-2" />
+              <n-cities-select v-model="filtersTours.cityId" class="mx-2" />
               <v-text-field
-                v-model="initFilterTour.startDate"
+                v-model="filtersTours.startDate"
                 :min="minDate(new Date())"
                 label="Start Date"
                 name="startDate"
@@ -33,8 +33,8 @@
                 hide-details="auto"
               />
               <v-text-field
-                v-model="initFilterTour.endDate"
-                :min="initFilterTour.startDate"
+                v-model="filtersTours.endDate"
+                :min="filtersTours.startDate"
                 label="End Date"
                 name="endDate"
                 type="Date"
@@ -72,7 +72,10 @@
                 class="mx-2 rounded-xl"
                 variant="outlined"
                 prepend-icon="mdi-airplane-search"
-                @click="() => getToursByFilterPanel()"
+                @click="() => {
+                  handleRoute({ name: 'tours' })
+                  getToursByFilterPanel(filtersTours)
+                }"
               >
                 Search
               </v-btn>
@@ -108,9 +111,9 @@
                   <n-image :src="item?.coverPicture" height="220" class="custom-image-tour" />
                 </v-col>
                 <v-col class="pa-0">
-                  <h2 class="mt-5 mx-2">
+                  <h3 class="mt-5 mx-2">
                     {{ item?.name }}
-                  </h2>
+                  </h3>
                   <v-card-text class="mx-3">
                     <v-row align="start" class="my-3">
                       <v-icon icon="mdi-clock-start" />
@@ -151,12 +154,17 @@
                   <div class="card-actions">
                     <v-row>
                       <v-col>
-                        <p v-if="item?.couponData" class="text-caption animate-charcter">
+                        <p v-if="!_.isEmpty(item?.couponData)" class="text-caption animate-charcter">
                           <v-icon icon="mdi-billboard" class="animate-charcter" />
                           Ưu đãi du lịch - {{ item?.couponData.discountPercent }}%
                         </p>
-                        <p v-if="item?.couponData" class="remove-text">{{ formatCurrency(item?.price) }}</p>
+                        <p v-if="!_.isEmpty(item?.couponData)" class="remove-text">{{ formatCurrency(item?.price) }}</p>
                         <h2 class="animate-charcter">
+                          <v-icon
+                            v-if="_.isEmpty(item?.couponData)"
+                            icon="mdi-cash-fast"
+                            class="animate-charcter"
+                          />
                           {{ formatCurrency(getPriceDiscount(item?.price, item?.couponData.discountPercent)) }}
                         </h2>
                       </v-col>
@@ -195,11 +203,11 @@
           </v-col>
         </v-row>
         <n-pagination
-          v-if="tours?.results.length !== 0 && !loadingTours"
+          v-if="tours?.results && !loadingTours"
           class="my-5"
           v-model="pageTours"
           :length="tours?.pageNumber"
-          @change="getToursByFilterPanel({ page: pageTours })"
+          @update:model-value="getToursByFilterPanel({ page: pageTours })"
         />
       </v-col>
     </v-row>
@@ -213,25 +221,27 @@ import NCitiesSelect from '@/components/NCitiesSelect.vue'
 import NDialogBook from '@/components/NDialogBook.vue'
 import NPanelNotFound from '@/components/NPanelNotFound.vue'
 import { onMounted } from 'vue'
+import _ from 'lodash'
 import { useTourUtil } from '@/composables/useTour'
 import { convertionType } from '@/helpers/convertion'
 import { handleRoute } from '@/helpers/loadingRoute'
 import { useCities } from '@/composables/useCities'
 
+const { getCityById } = useCities()
 const {
   tours,
   pageTours,
   loadingTours,
-  initFilterTour,
+  filtersTours,
   titlePage,
   getToursByFilterPanel,
   formSearchRef,
   resetSearch
 } = useTourUtil()
 const { formatCurrency, getPriceDiscount, minDate, getTraffic } = convertionType()
-const { getCityById } = useCities()
+
 onMounted(() => {
-  getToursByFilterPanel()
+  getToursByFilterPanel(filtersTours.value)
 })
 </script>
 <style lang="scss" scoped>

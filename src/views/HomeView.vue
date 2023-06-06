@@ -129,7 +129,11 @@
               height="200"
               :src="tour?.coverPicture"
             >
-              <div v-if="tour?.couponData" class="mx-2 mt-n1 home-tour-coupon" variant="outlined">
+              <div
+                v-if="Object.keys(tour?.couponData).length !== 0"
+                class="mx-2 mt-n1 home-tour-coupon"
+                variant="outlined"
+              >
                 <span class="font-weight-bold font-size-15 mx-auto">
                   {{ tour?.couponData.discountPercent }}%
                 </span>
@@ -171,10 +175,13 @@
                   {{ tour?.rate }} ({{ tour?.numReview }})
                 </div>
               </v-row>
-              <div v-if="tour?.couponData" class="mt-5 mb-2 remove-text text-grey-darken-2">
+              <div
+                v-if="Object.keys(tour?.couponData).length !== 0"
+                class="mt-5 remove-text text-grey-darken-2"
+              >
                 {{ formatCurrency(tour?.price) }}
               </div>
-              <div class="d-flex align-center justify-space-between mb-3">
+              <div class="d-flex align-center justify-space-between my-3">
                 <div class="text-subtitle-1 animate-charcter">
                   <v-icon icon="mdi-cash-multiple" class="mt-n2 animate-charcter" />
                   {{
@@ -285,9 +292,13 @@
             <n-image
               class="align-end text-white"
               height="40%"
-              :src="hotel.coverPicture"
+              :src="hotel?.coverPicture"
             >
-              <div v-if="hotel?.couponData" class="mx-2 mt-n1 home-coupon" variant="outlined">
+              <div
+                v-if="Object.keys(hotel?.couponData).length !== 0"
+                class="mx-2 mt-n1 home-coupon"
+                variant="outlined"
+              >
                 <span class="font-weight-bold font-size-15 mx-auto">
                   {{ hotel?.couponData.discountPercent }}%
                 </span>
@@ -339,7 +350,7 @@
               <v-divider color="#000" class="mx-5" />
               <div class="mx-3 my-1 height-40px">
                 <v-icon color="primary" icon="mdi-map-marker-outline" />
-                <span class="font-size-min-rem">{{ hotel.address }}</span>
+                <span class="font-size-min-rem">{{ hotel?.address }}</span>
               </div>
               <v-card-actions class="mx-2">
                 <v-icon icon="mdi-cash-multiple" size="18" class="mb-1 animate-charcter" />

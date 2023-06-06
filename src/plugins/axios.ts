@@ -18,7 +18,6 @@ const connectionsAPI = async(paramsAPI: IParamsAPI) => {
   const { methods, path, params, headers, data, responseType } = paramsAPI
   const baseURL = BASE_URL + path
   const header = authHeader()
-  console.log(header)
 
   const config: AxiosRequestConfig = {
     method: methods,

@@ -11,7 +11,7 @@ export const useTourStore = defineStore('tourStore', () => {
     pageSize: 6,
     page: 1
   })
-  const initFilterTour = ref<IFilterPanel>({
+  const initFilterTour: IFilterPanel = ({
     pageSize: 12,
     page: 1,
     cityId: undefined,
@@ -52,12 +52,11 @@ export const useTourStore = defineStore('tourStore', () => {
     })
   }
 
-  const getToursByFilter = async(params?: IFilterPanel) => {
-    initFilterTour.value = Object.assign(initFilterTour.value, params)
+  const getToursByFilter = async(params: IFilterPanel = initFilterTour) => {
     return await connectionsAPI({
       methods: 'GET',
       path: 'tour/filter_by_date_city',
-      params: initFilterTour.value,
+      params: params,
       headers: { 'Content-Type': 'application/json' }
     })
   }
@@ -70,7 +69,7 @@ export const useTourStore = defineStore('tourStore', () => {
       headers: { 'Content-Type': 'application/json' }
     })
   }
-  const getReviewsTour = async(param: Partial<IParamReview>) => {
+  const getReviewsTour = async(param: IParamReview) => {
     return await connectionsAPI({
       methods: 'GET',
       path: `tour/${param.id}/get_reviews`,

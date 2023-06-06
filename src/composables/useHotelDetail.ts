@@ -5,6 +5,7 @@ import { convertionType } from '@/helpers/convertion'
 import { useRoute } from 'vue-router'
 import { IDetailHotel, IHotel, IParamReview, IParamRoomType, IReview, IRoomType } from '@/libs/types/hotelType'
 import { useBookingDialog } from './useBookingDialog'
+import { useLoading } from './useLoading'
 
 const createHotelDetail = () => {
   const hotelStore = useHotelStore()
@@ -16,6 +17,8 @@ const createHotelDetail = () => {
     endDate: initFilterHotel.endDate || ''
   }
   const route = useRoute()
+  const { roomsBook } = useBookingDialog()
+  const { startLoading, finishLoading } = useLoading()
   const anotherHotels = ref<IHotel[]>([])
   const hotelInfo = ref<IDetailHotel>()
   const rooms = ref<IRoomType[]>([])
@@ -27,7 +30,6 @@ const createHotelDetail = () => {
   const loadingRooms = ref<boolean>(false)
   const hotelId = computed(() => route.params.id as string)
   const dialogBooking = ref<boolean>(false)
-  const { roomsBook } = useBookingDialog()
 
   const countDate = computed(() => {
     const ONE_DAY = 1000 * 60 * 60 * 24
@@ -73,9 +75,11 @@ const createHotelDetail = () => {
   }
 
   const getHotelById = async(id: string) => {
+    startLoading()
     await hotelStore.getHotelSumaryById(id)
       .then(data => hotelInfo.value = data)
     getRoomByDate({ id: id, startDate: bookHotel.value.startDate, endDate: bookHotel.value.endDate })
+    finishLoading()
     getAnotherHotelsByCity(id)
     getFirstPageReviews({ id : id })
   }

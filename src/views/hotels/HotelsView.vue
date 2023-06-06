@@ -19,8 +19,9 @@
           </h3>
           <v-card-text>
             <h4 class="mb-2">Thông tin đặt</h4>
-            <n-cities-select class="mx-2" />
+            <n-cities-select v-model="filtersHotels.cityId" class="mx-2" />
             <v-text-field
+              v-model="filtersHotels.startDate"
               :min="minDate(new Date())"
               label="Start Date"
               name="startDate"
@@ -31,6 +32,8 @@
               hide-details="auto"
             />
             <v-text-field
+              v-model="filtersHotels.startDate"
+              :min="filtersHotels.startDate"
               label="End Date"
               name="endDate"
               type="Date"
@@ -95,9 +98,9 @@
                     <n-image :src="item?.coverPicture" height="300" class="custom-image-hotel" />
                   </v-col>
                   <v-col cols="7">
-                    <h1 class="mt-5 ml-2">
+                    <h2 class="mt-5 ml-2">
                       {{ item?.name }}
-                    </h1>
+                    </h2>
                     <v-card-text class="mx-3 mt-n1">
                       <v-row align="center" class="my-3">
                         <v-icon :icon="voteText(item?.rateAverage).icon" color="primary" class="mr-1" />
@@ -135,12 +138,25 @@
                     <div class="card-actions">
                       <v-row>
                         <v-col>
-                          <p v-if="item?.couponData" class="text-caption animate-charcter">
+                          <p
+                            v-if="!_.isEmpty(item?.couponData)"
+                            class="text-caption animate-charcter"
+                          >
                             <v-icon icon="mdi-home-city-outline" class="animate-charcter" />
                             Ưu đãi khách sạn - {{ item?.couponData.discountPercent }}%
                           </p>
-                          <p v-if="item?.couponData" class="remove-text">{{ rangePrice(item?.minPrice, item?.maxPrice) }}</p>
+                          <p
+                            v-if="!_.isEmpty(item?.couponData)"
+                            class="remove-text"
+                          >
+                            {{ rangePrice(item?.minPrice, item?.maxPrice) }}
+                          </p>
                           <h3 class="animate-charcter">
+                            <v-icon
+                              v-if="_.isEmpty(item?.couponData)"
+                              icon="mdi-cash-fast"
+                              class="animate-charcter"
+                            />
                             {{ rangePrice(item?.minPrice, item?.maxPrice, item?.couponData.discountPercent) }}
                           </h3>
                         </v-col>
@@ -179,6 +195,7 @@ import NPanelLoading from '@/components/NPanelLoading.vue'
 import NPagination from '@/components/NPagination.vue'
 import NCitiesSelect from '@/components/NCitiesSelect.vue'
 import NPanelNotFound from '@/components/NPanelNotFound.vue'
+import _ from 'lodash'
 import { onMounted } from 'vue'
 import { convertionType } from '@/helpers/convertion'
 import { handleRoute } from '@/helpers/loadingRoute'
@@ -188,16 +205,15 @@ import { useCities } from '@/composables/useCities'
 const {
   hotels,
   pageHotel,
-  countDate,
+  filtersHotels,
   loadingHotels,
-  initFilterHotel,
   titlePage,
   getHotelsByFilterPanel
 } = useHotelUtil()
 const { rangePrice, voteText, minDate } = convertionType()
 const { getCityById } = useCities()
 onMounted(() => {
-  getHotelsByFilterPanel()
+  getHotelsByFilterPanel(filtersHotels.value)
 })
 </script>
 <style lang="scss" scoped>

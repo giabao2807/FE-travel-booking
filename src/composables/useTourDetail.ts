@@ -7,22 +7,25 @@ import { IDetailTour, ITour } from '@/libs/types/tourType'
 import { useRoute } from 'vue-router'
 import { useBookingDialog } from '@/composables/useBookingDialog'
 import { IParamReview, IReview } from '@/libs/types/hotelType'
+import { useLoading } from './useLoading'
 
 const createTourDetail = () => {
   const tourStore = useTourStore()
   const { initFilterTour } = storeToRefs(tourStore)
   const route = useRoute()
   const tourId = computed(() => route.params.id as string)
+  const { getCityByName } = useCities()
+  const { startLoading, finishLoading } = useLoading()
   const anotherTours = ref<ITour[]>([])
   const tourInfo = ref<IDetailTour>()
   const dialogBooking = ref<boolean>(false)
   const loadingAnotherTours = ref<boolean>(false)
-  const quantityByStartDate = ref<number>(1)
+  const quantityByStartDate = ref<number>(0)
   const firstPageReview = ref<IReview>()
   const dataReview = ref<IReview>()
   const loadingReview = ref<boolean>(false)
+  const bookingRef = ref()
   const { bookTour } = useBookingDialog()
-  const { getCityByName } = useCities()
 
   const getQuantityByStartDate = (event: any) => {
     const response = event ? tourStore.getQuantityByDate({ id: tourId.value, startDate: event }) : null
@@ -52,16 +55,23 @@ const createTourDetail = () => {
       })
   }
   const getTourById = async(id: string) => {
+    startLoading()
     await tourStore.getTourById(id)
       .then(data => {
         tourInfo.value = data
       })
+    finishLoading()
     getAnotherToursByCity(tourId.value, tourInfo.value?.city)
     getFirstPageReviews({ id: id })
+  }
+  const openDialogBooking = async() => {
+    const { valid } = await bookingRef.value.validate()
+    valid ? (dialogBooking.value = true) : null
   }
   return {
     tourInfo,
     bookTour,
+    bookingRef,
     anotherTours,
     dialogBooking,
     tourId,
@@ -71,6 +81,7 @@ const createTourDetail = () => {
     dataReview,
     quantityByStartDate,
     initFilterTour,
+    openDialogBooking,
     getReviews,
     getQuantityByStartDate,
     getTourById,

@@ -1,22 +1,33 @@
 import { storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
+import { ref, computed } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { useTourStore } from '@/store/tours'
 import { IResponseTour, ITour } from '@/libs/types/tourType'
 import { IFilterPanel, IForm } from '@/libs/types/commonType'
+import { useRoute } from 'vue-router'
 
 const createTour = () => {
   const tourStore = useTourStore()
-  const { tours, initFilterTour } = storeToRefs(tourStore)
+  const { tours } = storeToRefs(tourStore)
+  const route = useRoute()
   const popularTours = ref<ITour[]>([])
   const pageTours = ref<number>(1)
   const loadingTours = ref<boolean>(false)
   const dialogBooking = ref<boolean>(false)
   const formSearchRef = ref()
-  const titlePage = ref({
-    cityId: initFilterTour.value.cityId,
-    startDate: initFilterTour.value.startDate,
-    endDate: initFilterTour.value.endDate
+  const queryData = route.query as IFilterPanel
+  const filtersTours = ref<IFilterPanel>({
+    cityId: +(queryData?.cityId || '') || undefined,
+    startDate: queryData?.startDate,
+    endDate: queryData?.endDate
+  })
+
+  const titlePage = computed(() => {
+    return {
+      cityId: filtersTours.value.cityId,
+      startDate: filtersTours.value.startDate,
+      endDate: filtersTours.value.endDate
+    }
   })
   const getPopularTours = () => {
     tourStore.getPopularTours()
@@ -30,16 +41,6 @@ const createTour = () => {
         loadingTours.value = false
       })
   }
-  const countDate = computed(() => {
-    const ONE_DAY = 1000 * 60 * 60 * 24
-    if (initFilterTour.value.startDate && initFilterTour.value.endDate) {
-      const startDate = new Date(initFilterTour.value.startDate)
-      const endDate = new Date(initFilterTour.value.endDate)
-      const time = Math.abs(startDate.getTime() - endDate.getTime())
-      return Math.round(time / ONE_DAY)
-    }
-    return null
-  })
   const resetSearch = () => {
     const ref = formSearchRef.value as IForm
     ref?.reset()
@@ -49,8 +50,7 @@ const createTour = () => {
     popularTours,
     pageTours,
     loadingTours,
-    initFilterTour,
-    countDate,
+    filtersTours,
     dialogBooking,
     titlePage,
     formSearchRef,

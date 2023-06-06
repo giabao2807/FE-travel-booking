@@ -5,10 +5,12 @@ import { createSharedComposable } from '@vueuse/core'
 import { convertionType } from '@/helpers/convertion'
 import { IHotel, IParamHotel, IResponseHotel } from '@/libs/types/hotelType'
 import { ICity, IFilterPanel } from '@/libs/types/commonType'
+import { useRoute } from 'vue-router'
 
 const createHotel = () => {
   const hotelStore = useHotelStore()
-  const { hotels, initFilterHotel } = storeToRefs(hotelStore)
+  const { hotels } = storeToRefs(hotelStore)
+  const route = useRoute()
   const popularHotels = ref<IHotel[]>([])
   const recomendCities = ref<ICity[]>([])
   const { deCodeHtml } = convertionType()
@@ -16,12 +18,19 @@ const createHotel = () => {
   const loadingPanelHotel = ref<boolean>(false)
   const loadingHotels = ref<boolean>(false)
   const pageHotel = ref<number>(1)
-  const titlePage = {
-    cityId: initFilterHotel.value.cityId,
-    startDate: initFilterHotel.value.startDate,
-    endDate: initFilterHotel.value.endDate
-  }
-
+  const queryData = route.query as IFilterPanel
+  const filtersHotels = ref<IFilterPanel>({
+    cityId: +(queryData?.cityId || '') || undefined,
+    startDate: queryData?.startDate,
+    endDate: queryData?.endDate
+  })
+  const titlePage = computed(() => {
+    return {
+      cityId: filtersHotels.value.cityId,
+      startDate: filtersHotels.value.startDate,
+      endDate: filtersHotels.value.endDate
+    }
+  })
   const getRecomendCities = async() => {
     await hotelStore.getRecomendCities()
       .then((data: ICity[]) => {
@@ -29,7 +38,6 @@ const createHotel = () => {
       })
     recomendCities.value[0]?.id ? selectedCity.value = recomendCities.value[0].id : ''
   }
-
   const getRecomendHotelByCity = (id: Partial<number>) => {
     const param:IParamHotel = {
       cityId: id,
@@ -53,27 +61,16 @@ const createHotel = () => {
       })
   }
 
-  const countDate = computed(() => {
-    const ONE_DAY = 1000 * 60 * 60 * 24
-    if (initFilterHotel.value.startDate && initFilterHotel.value.endDate) {
-      const startDate = new Date(initFilterHotel.value.startDate)
-      const endDate = new Date(initFilterHotel.value.endDate)
-      const time = Math.abs(startDate.getTime() - endDate.getTime())
-      return Math.round(time / ONE_DAY)
-    }
-    return null
-  })
 
   return {
     hotels,
     popularHotels,
+    filtersHotels,
     recomendCities,
     selectedCity,
     loadingPanelHotel,
     loadingHotels,
     pageHotel,
-    countDate,
-    initFilterHotel,
     titlePage,
     deCodeHtml,
     getRecomendHotelByCity,

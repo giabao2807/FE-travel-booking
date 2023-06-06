@@ -7,7 +7,7 @@ import { ref } from 'vue'
 
 export const useHotelStore = defineStore('hotelStore', () => {
   const hotels = ref<IResponseHotel>()
-  const initFilterHotel = ref<IFilterPanel>({
+  const initFilterHotel: IFilterPanel = ({
     pageSize: 12,
     page: 1,
     cityId: undefined,
@@ -57,13 +57,12 @@ export const useHotelStore = defineStore('hotelStore', () => {
     })
   }
 
-  const getHotelsByFilter = async(params?: IFilterPanel) => {
-    const objParam = Object.assign(initFilterHotel.value, params)
+  const getHotelsByFilter = async(params = initFilterHotel) => {
     return await connectionsAPI({
       methods: 'GET',
       path: 'hotel',
       headers: { 'Content-Type': 'application/json' },
-      params: objParam
+      params: params
     })
   }
   return {

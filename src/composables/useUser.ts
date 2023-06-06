@@ -14,27 +14,33 @@ const createUser = () => {
   const { authUser } = storeToRefs(authStore)
   const isEditInfo = ref<boolean>(false)
   const isEditContact = ref<boolean>(false)
+  const showName = ref<string>()
+  const fileAvatar = ref<FormData>()
+  const inForRef = ref()
   const { startLoading, finishLoading } = useLoading()
   const { feedBack } = useFeedBack()
   const checkAvatar = computed(() => authUser.value?.avatar || require('@/assets/img/avatar.png'))
-  const updateUserInfo = (data: any) => {
-    startLoading()
-    userStore.updateUserInfo(userInfo.value.id, data)
-      .then(response => {
-        authUser.value = {
-          ...authUser.value,
-          fullName: response.lastName + ' ' + response.firstName,
-          avatar: response.avatar
-        }
-        sessionStorage.setItem('userData', JSON.stringify(authUser.value))
-        finishLoading()
-      })
-      .catch((error: IError) => {
-        feedBack(error.data)
-        finishLoading()
-      })
-    isEditInfo.value = false
-    isEditContact.value = false
+  const updateUserInfo = async(data: any) => {
+    const { valid } = await inForRef.value.validate()
+    if (valid) {
+      startLoading()
+      userStore.updateUserInfo(userInfo.value.id, data)
+        .then(response => {
+          authUser.value = {
+            ...authUser.value,
+            fullName: response.lastName + ' ' + response.firstName,
+            avatar: response.avatar
+          }
+          sessionStorage.setItem('userData', JSON.stringify(authUser.value))
+          finishLoading()
+        })
+        .catch((error: IError) => {
+          feedBack(error.data)
+          finishLoading()
+        })
+      isEditInfo.value = false
+      isEditContact.value = false
+    }
   }
   const getUserInfo = async() => {
     startLoading()
@@ -53,6 +59,9 @@ const createUser = () => {
     isEditInfo,
     isEditContact,
     checkAvatar,
+    showName,
+    fileAvatar,
+    inForRef,
     updateUserInfo,
     getUserInfo
   }

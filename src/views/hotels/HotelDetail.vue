@@ -126,23 +126,29 @@
                   </v-row>
                 </v-card-text>
               </v-col>
-              <v-col class="custom-voucher">
-                <div color="transparent" class="ml-14 mt-5 pa-4 room-price">
+              <v-col :class="_.isEmpty(hotelInfo?.couponData) ? 'custom-normal' : 'custom-voucher'">
+                <div class="ml-14 mt-5 pa-4 room-price">
                   <div class="ma-2">
                     <p class="mt-3 text-caption">
                       <v-icon icon="mdi-ticket-percent-outline" />
                       Giá đã bao gồm:
                       Sales & Services tax.
-                      <span v-if="hotelInfo?.couponData">
+                      <span v-if="!_.isEmpty(hotelInfo?.couponData)">
                         Khuyến mãi trong thời gian có hạn
                         {{ hotelInfo?.couponData.discountPercent }}%!
                       </span>
                     </p>
-                    <p v-if="hotelInfo?.couponData" class="mt-4 mb-1 remove-text">
+                    <p
+                      v-if="!_.isEmpty(hotelInfo?.couponData)"
+                      class="mt-4 mb-1 remove-text"
+                    >
                       {{ formatCurrency(room?.price) }}
                     </p>
                     <div class="text-h6 animate-charcter my-2">
-                      <v-icon icon="mdi-cash-multiple" class="mt-n1 animate-charcter" />
+                      <v-icon
+                        icon="mdi-cash-fast"
+                        class="animate-charcter"
+                      />
                       {{ formatCurrency(getPriceDiscount(room?.price, hotelInfo?.couponData.discountPercent)) }}
                     </div>
                   </div>
@@ -367,11 +373,11 @@ import NSelectQuantity from '@/components/NSelectQuantity.vue'
 import NButtonAnimated from '@/components/NButtonAnimated.vue'
 import NPanelReview from '@/components/NPanelReview.vue'
 import { onMounted, watch, watchEffect } from 'vue'
+import _ from 'lodash'
 import '@/assets/scss/detail.scss'
 import { useHotelDetailUtil } from '@/composables/useHotelDetail'
 import { convertionType } from '@/helpers/convertion'
 import { handleRoute } from '@/helpers/loadingRoute'
-import { useLoading } from '@/composables/useLoading'
 
 const {
   anotherHotels,
@@ -401,17 +407,13 @@ const {
   rangePrice,
   getIconHuman
 } = convertionType()
-const { startLoading, finishLoading } = useLoading()
+
 onMounted(async() => {
-  startLoading()
   await getHotelById(hotelId.value)
-  finishLoading()
 })
 watch(hotelId, async(newId) => {
   if (newId) {
-    startLoading()
     await getHotelById(newId)
-    finishLoading()
   }
 })
 watchEffect(async() => {

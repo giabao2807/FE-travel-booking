@@ -208,27 +208,31 @@
                 </v-card-subtitle>
               </v-card-item>
               <v-card-text>
-                <v-text-field
-                  v-model="bookTour.startDate"
-                  :min="minDate(new Date())"
-                  @update:model-value="(event) => getQuantityByStartDate(event)"
-                  label="Ngày khởi hành"
-                  name="startDate"
-                  type="Date"
-                  density="compact"
-                  color="primary"
-                  hide-details="auto"
-                  variant="outlined"
-                  class="my-5 text-field"
-                />
-                <n-select-quantity
-                  v-model="bookTour.bookingItems[0].quantity"
-                  label="Số lượng"
-                  :quantity="quantityByStartDate"
-                  class="text-field"
-                />
+                <v-form ref="bookingRef">
+                  <v-text-field
+                    v-model="bookTour.startDate"
+                    :min="minDate(new Date())"
+                    @update:model-value="(event) => getQuantityByStartDate(event)"
+                    :rules="[ruleRequired('Ngày khởi hành')]"
+                    label="Ngày khởi hành"
+                    name="startDate"
+                    type="Date"
+                    density="compact"
+                    color="primary"
+                    hide-details="auto"
+                    variant="outlined"
+                    class="my-5 text-field"
+                  />
+                  <n-select-quantity
+                    v-model="bookTour.bookingItems[0].quantity"
+                    label="Số lượng"
+                    :rules="ruleQuantity"
+                    :quantity="quantityByStartDate"
+                    class="text-field"
+                  />
+                </v-form>
                 <v-divider class="ma-5" />
-                <v-row v-if="tourInfo?.couponData" class="ml-3">
+                <v-row v-if="!_.isEmpty(tourInfo?.couponData)" class="ml-3">
                   <v-col cols="6">
                     <h5>
                       <v-icon icon="mdi-ticket-percent-outline" />
@@ -241,7 +245,7 @@
                     </h2>
                   </v-col>
                 </v-row>
-                <v-row v-if="tourInfo?.couponData" class="ml-3">
+                <v-row v-if="!_.isEmpty(tourInfo?.couponData)" class="ml-3">
                   <v-col cols="6"><h4>Giá Tour:</h4></v-col>
                   <v-col>
                     <h3 class="remove-text">
@@ -276,7 +280,7 @@
                       class="mr-2"
                       color="primary"
                       variant="tonal"
-                      @click="dialogBooking = true"
+                      @click="() => openDialogBooking()"
                     >
                       Book now
                     </v-btn>
@@ -298,14 +302,17 @@ import NImage from '@/components/NImage.vue'
 import NPanelLoading from '@/components/NPanelLoading.vue'
 import NPanelReview from '@/components/NPanelReview.vue'
 import { onMounted, watch } from 'vue'
+import _ from 'lodash'
 import { useTourDetail } from '@/composables/useTourDetail'
 import { convertionType } from '@/helpers/convertion'
 import { handleRoute } from '@/helpers/loadingRoute'
-import { useLoading } from '@/composables/useLoading'
+import { validations } from '@/helpers/validate'
 
+const { ruleRequired, ruleQuantity } = validations()
 const {
   tourInfo,
   bookTour,
+  bookingRef,
   anotherTours,
   tourId,
   dialogBooking,
@@ -314,22 +321,19 @@ const {
   loadingReview,
   dataReview,
   firstPageReview,
+  openDialogBooking,
   getReviews,
   getQuantityByStartDate,
   getTourById
 } = useTourDetail()
 const { formatCurrency, voteText, getPriceDiscount, minDate, getTraffic } = convertionType()
-const { startLoading, finishLoading } = useLoading()
+
 onMounted(async() => {
-  startLoading()
   await getTourById(tourId.value)
-  finishLoading()
 })
 watch(tourId, async(newId) => {
   if (newId){
-    startLoading()
     await getTourById(newId)
-    finishLoading()
   }
 })
 </script>
