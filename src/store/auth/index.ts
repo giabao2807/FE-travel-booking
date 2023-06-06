@@ -1,4 +1,4 @@
-import { IAuthResponse, IRefreshToken, ISignInInput, ISignUpInput } from '@/libs/types/authType'
+import { IAuthResponse, ISignInInput, ISignUpInput } from '@/libs/types/authType'
 import connectionsAPI from '@/plugins/axios'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'

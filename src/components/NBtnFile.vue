@@ -1,10 +1,15 @@
 <template>
   <div>
     {{ selectedFile }}
-    <v-btn color="primary" rounded dark :loading="isSelecting" @click="handleFileImport">
-      Upload File
-    </v-btn>
-    <v-file-input ref="uploader" class="d-none" @update:modelValue="onFileChanged"/>
+    <v-btn
+      rounded
+      color="transparent"
+      icon="mdi-camera-enhance-outline"
+      class="btn"
+      :loading="isSelecting"
+      @click="handleFileImport"
+    />
+    <v-file-input ref="uploader" class="d-none" @update:modelValue="onFileChanged" />
   </div>
 </template>
 
@@ -17,18 +22,22 @@ const handleFileImport = () => {
   isSelecting.value = true
   window.addEventListener(
     'focus',
-    () => {
-      isSelecting.value = false
-    },
+    () => { isSelecting.value = false },
     { once: true }
   )
   uploader.value.click()
 }
 const emit = defineEmits<{
-  (event: 'update:modelValue', value: string): void
+  (event: 'update:modelValue', value: any): void
 }>()
 const onFileChanged = (event: any) => {
-  console.log(event)
-  emit('update:modelValue', event[0])
+  const data = new FormData()
+  data.append('avatar', event[0])
+  emit('update:modelValue', data)
 }
 </script>
+<style scoped>
+.btn:hover {
+  color: var(--btn-animation-color);
+}
+</style>
