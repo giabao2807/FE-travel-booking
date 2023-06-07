@@ -7,6 +7,8 @@ import SignUpView from '@/views/auth/SignUpView.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import Dashboard from '@/layouts/Dashboard.vue'
 import PartnerView from '@/views/dashboard/partner/index.vue'
+import PartnerTour from '@/views/dashboard/partner/tours/index.vue'
+import CreateTour from '@/views/dashboard/partner/tours/CreateTour.vue'
 import AdminView from '@/views/dashboard/admin/index.vue'
 import HotelsView from '@/views/hotels/HotelsView.vue'
 import HotelDetail from '@/views/hotels/HotelDetail.vue'
@@ -37,7 +39,15 @@ const routes: Array<RouteRecordRaw> = [
     component: Dashboard,
     meta: { requiresAuth: true, allowedRoles: ['Admin', 'Partner'] },
     children: [
-      { path: 'partner', component: PartnerView, meta: { requiresAuth: true, roleChildren: ['Partner'] } },
+      {
+        path: 'partner',
+        meta: { requiresAuth: true, roleChildren: ['Partner'] },
+        children: [
+          { path: '', name:'partner', component: PartnerView },
+          { path: 'tours', name:'tours', component: PartnerTour },
+          { path: 'create-tour', name:'createTour', component: CreateTour }
+        ]
+      },
       { path: 'admin', component: AdminView, meta: { requiresAuth: true, roleChildren: ['Admin'] } }
     ]
   },
