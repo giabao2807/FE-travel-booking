@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { useAuthStore } from '@/store/auth'
 import router from '@/router'
@@ -14,6 +14,7 @@ const useAuth = () => {
   const { startLoading, finishLoading } = useLoading()
   const showPassword = ref<boolean>(false)
   const showConfirmPassword = ref<boolean>(false)
+  const emailForgot = ref<string>('')
   const rememberMe = ref<boolean>(false)
   const formRef = ref()
   const { feedBack } = useFeedBack()
@@ -60,6 +61,9 @@ const useAuth = () => {
     finishLoading()
     router.push({ name: 'signIn' })
   }
+  const forgotPassword = (email: string) => {
+    authStore.forgotPassword(email)
+  }
 
   const checkAvatar = computed(() => authUser.value?.avatar || require('@/assets/img/avatar.png'))
   const routeDirectional = (sessionUser: any) => {
@@ -78,7 +82,11 @@ const useAuth = () => {
   setInterval(() => {
     authStore.refreshToken()
   }, refreshTokenTimeout.value)
-
+  onMounted(() => {
+    const session = sessionStorage.getItem('userData')
+    authUser.value = session ? JSON.parse(session) : ''
+    routeDirectional(authUser.value)
+  })
   return {
     userSignIn,
     userSignUp,
@@ -90,13 +98,15 @@ const useAuth = () => {
     checkAvatar,
     authUser,
     refreshTokenTimeout,
+    emailForgot,
     routeDirectional,
     isRememberMe,
     signIn,
     signUp,
     signOut,
     signInWithGoogle,
-    signUpWithGoogle
+    signUpWithGoogle,
+    forgotPassword
   }
 }
 export const useAuthentication = createSharedComposable(useAuth)

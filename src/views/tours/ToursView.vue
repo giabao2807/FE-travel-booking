@@ -59,7 +59,7 @@
             <v-card-actions>
               <v-btn
                 size="small"
-                class="mx-2 rounded-xl"
+                class="mx-2 rounded-xl text-none"
                 variant="outlined"
                 @click="() => resetSearch()"
               >
@@ -69,11 +69,12 @@
               <v-btn
                 color="primary"
                 size="small"
-                class="mx-2 rounded-xl"
+                class="mx-2 rounded-xl text-none"
                 variant="outlined"
                 prepend-icon="mdi-airplane-search"
                 @click="() => {
                   handleRoute({ name: 'tours' })
+                  titlePage = filtersTours
                   getToursByFilterPanel(filtersTours)
                 }"
               >
@@ -89,8 +90,8 @@
             <h2 class="ma-2 title-card-show">
               <v-icon icon="mdi-compass-rose" />
               Tất cả những tour du lịch hấp dẫn
-              <span v-if="titlePage.cityId"> ở {{ getCityById(titlePage.cityId)?.name }}</span>
-              <span v-if="titlePage.endDate"> từ ngày {{ titlePage.startDate }} đến {{ titlePage.endDate }}</span>
+              <span v-if="titlePage?.cityId"> ở {{ getCityById(titlePage?.cityId)?.name }}</span>
+              <span v-if="titlePage?.endDate"> từ ngày {{ titlePage?.startDate }} đến {{ titlePage?.endDate }}</span>
             </h2>
           </v-card-text>
         </v-card>

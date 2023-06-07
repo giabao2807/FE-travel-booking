@@ -1,5 +1,5 @@
 import { storeToRefs } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { useTourStore } from '@/store/tours'
 import { IResponseTour, ITour } from '@/libs/types/tourType'
@@ -14,21 +14,17 @@ const createTour = () => {
   const pageTours = ref<number>(1)
   const loadingTours = ref<boolean>(false)
   const dialogBooking = ref<boolean>(false)
-  const formSearchRef = ref()
+  const formSearchRef = ref<IForm>()
   const queryData = route.query as IFilterPanel
+  const titlePage = ref<IFilterPanel>({
+    ...queryData,
+    cityId: +(queryData?.cityId || '')
+  })
   const filtersTours = ref<IFilterPanel>({
-    cityId: +(queryData?.cityId || '') || undefined,
-    startDate: queryData?.startDate,
-    endDate: queryData?.endDate
+    ...queryData,
+    cityId: +(queryData?.cityId || '') || undefined
   })
 
-  const titlePage = computed(() => {
-    return {
-      cityId: filtersTours.value.cityId,
-      startDate: filtersTours.value.startDate,
-      endDate: filtersTours.value.endDate
-    }
-  })
   const getPopularTours = () => {
     tourStore.getPopularTours()
       .then((data: IResponseTour) => popularTours.value = data.results)
@@ -42,8 +38,9 @@ const createTour = () => {
       })
   }
   const resetSearch = () => {
-    const ref = formSearchRef.value as IForm
+    const ref = formSearchRef.value
     ref?.reset()
+    getToursByFilterPanel()
   }
   return {
     tours,

@@ -112,7 +112,6 @@
 <script lang="ts" setup>
 import NButtonAnimated from '@/components/NButtonAnimated.vue'
 import NImage from '@/components/NImage.vue'
-import { onMounted } from 'vue'
 import { useAuthentication } from '@/composables/useAuth'
 import { validations } from '@/helpers/validate'
 
@@ -121,18 +120,12 @@ const {
   formRef,
   userSignUp,
   showPassword,
-  authUser,
-  routeDirectional,
   showConfirmPassword,
   GENDER_DATA,
   signUp,
   signUpWithGoogle
 } = useAuthentication()
-onMounted(() => {
-  const session = sessionStorage.getItem('userData')
-  authUser.value = session ? JSON.parse(session) : ''
-  routeDirectional(authUser.value)
-})
+
 </script>
 <style lang="css" scoped>
 @import '@/assets/css/signIn.css';

@@ -39,7 +39,7 @@ export const convertionType = () => {
 
   const getTraffic = (traffics?: string[]) => TRAFFICS.filter(item => traffics?.includes(item.value))
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString?: string) => {
     const date = moment(dateString).format('DD/MM/YYYY')
     return date
   }

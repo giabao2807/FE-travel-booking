@@ -132,17 +132,40 @@
             </template>
 
             <v-list>
+              <v-list-item v-if="authUser?.accessToken">
+                <div class="d-flex flex-column justify-center align-center py-5">
+                  <n-avatar
+                    :image="checkAvatar"
+                    size="50"
+                    class="mx-4"
+                  />
+                  <span>{{ authUser?.fullName }}</span>
+                  <span>{{ authUser?.email }}</span>
+                </div>
+                <v-divider />
+              </v-list-item>
+              <div>
+                <v-list-item
+                  title="Đăng xuất"
+                  @click="signOut"
+                />
+                <v-divider class="mx-2" />
+              </div>
               <v-list-item>
                 Thông báo
               </v-list-item>
-              <v-divider class="mx-2" />
-              <v-list-item @click="() => router.push('/sign_in')">
-                Đăng nhập
-              </v-list-item>
-              <v-divider class="mx-2" />
-              <v-list-item @click="() => router.push('/sign_up')">
-                Đăng ký
-              </v-list-item>
+              <div v-if="!authUser?.accessToken">
+                <v-divider class="mx-2" />
+                <v-list-item @click="() => router.push('/sign_in')">
+                  Đăng nhập
+                </v-list-item>
+              </div>
+              <div v-if="!authUser?.accessToken">
+                <v-divider class="mx-2" />
+                <v-list-item @click="() => router.push('/sign_up')">
+                  Đăng ký
+                </v-list-item>
+              </div>
             </v-list>
           </v-menu>
         </div>

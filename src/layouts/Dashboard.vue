@@ -1,10 +1,25 @@
 <template>
   <v-sheet>
+    <v-app-bar :order="order" theme="theme" flat>
+      <v-app-bar-title>Travel NE</v-app-bar-title>
+      <v-spacer />
+      <h4 class="blue--text text--lighten-2">Dashboard</h4>
+      <v-icon class="mx-5" color="primary" icon="mdi-lightbulb-night" @click="toggleTheme" />
+      <template #image>
+        <n-image :src="require(`@/assets/img/${imgAppBar}`)" />
+      </template>
+      <template #prepend>
+        <v-icon v-if="!drawer" class="my-5" icon="mdi-menu-open" @click.stop="drawer = !drawer" />
+      </template>
+    </v-app-bar>
+
     <v-navigation-drawer
       v-model="drawer"
+      @update:rail="check"
       expand-on-hover
       rail
       color="surface"
+      class="test"
     >
       <v-list>
         <v-list-item
@@ -14,10 +29,57 @@
         />
       </v-list>
       <v-divider />
-      <v-list density="compact" nav>
-        <v-list-item prepend-icon="mdi-folder" title="My Files" value="myfiles" />
-        <v-list-item prepend-icon="mdi-account-multiple" title="Shared with me" value="shared" />
-        <v-list-item prepend-icon="mdi-star" title="Starred" value="starred" />
+      <v-list
+        active-color="primary"
+        density="compact"
+        nav
+      >
+        <v-list-item
+          prepend-icon="mdi-view-dashboard-outline"
+          title="Dashboard"
+          value="dashboard"
+        />
+        <v-list-group
+          prepend-icon="mdi-compass-rose"
+          title="Quản Lý Tours"
+          value="tours"
+        >
+          <template #activator="{ props }">
+            <v-list-item
+              v-bind="props"
+            />
+          </template>
+          <v-list-item
+            v-for="([title, icon], i) in [
+              ['List Tours', 'mdi-format-list-checkbox'],
+              ['Settings', 'mdi-cog-outline'],
+            ]"
+            :key="i"
+            :title="title"
+            :prepend-icon="icon"
+            :value="title"
+          />
+        </v-list-group>
+        <v-list-group value="Users">
+          <template #activator="{ props }">
+            <v-list-item
+              v-bind="props"
+              prepend-icon="mdi-shield-home-outline"
+              title="Quản Lý Hotels"
+              value="hotels"
+            />
+          </template>
+          <v-list-item
+            v-for="([title, icon], i) in [
+              ['Management', 'mdi-account-multiple-outline'],
+              ['Settings', 'mdi-cog-outline'],
+            ]"
+            :key="i"
+            :title="title"
+            :prepend-icon="icon"
+            :value="title"
+          />
+        </v-list-group>
       </v-list>
       <template #append>
         <v-divider />
@@ -31,27 +93,7 @@
         </v-list>
       </template>
     </v-navigation-drawer>
-    <v-app-bar :order="order" theme="theme" flat>
-      <v-app-bar-title>Travel NE</v-app-bar-title>
-      <v-spacer />
-      <h4 class="blue--text text--lighten-2">Appointments history</h4>
-      <v-icon color="#2784FF" class="ml-2 mr-2">
-        fas fa-caret-down
-      </v-icon>
-      <v-icon color="primary" icon="mdi-lightbulb-night" @click="toggleTheme" />
-      <v-badge dot color="green" class="ml-3 mr-2">
-        <v-avatar color="#E5F1FF">
-          <v-icon color="#2784FF">fas fa-bell</v-icon>
-        </v-avatar>
-      </v-badge>
-      <template #image>
-        <n-image :src="require(`@/assets/img/${imgAppBar}`)" />
-      </template>
-      <template #prepend>
-        <v-icon v-if="!drawer" class="my-5" icon="mdi-menu-open" @click.stop="drawer = !drawer" />
-      </template>
-    </v-app-bar>
-    <v-container>
+    <v-container :class="!rail ? 'main-container': ''">
       <router-view />
     </v-container>
   </v-sheet>
@@ -72,7 +114,10 @@ const theme = useTheme()
 const toggleTheme = () => {
   return theme.global.name.value = theme.global.current.value.dark ? 'myCustomLightTheme' : 'dark'
 }
-
+const rail = ref<boolean>(true)
+const check = (e: any) => {
+  rail.value = e
+}
 const order = computed(() => {
   return !drawer.value ? '-1' : '0'
 })
@@ -84,7 +129,7 @@ const {
   signOut
 } = useAuthentication()
 </script>
-<style>
+<style lang="scss" scoped>
 .border {
   margin-left: 12px;
   margin-right: 12px;
@@ -92,8 +137,11 @@ const {
   border-radius: 50%;
   text-decoration: none;
 }
-.v-list-item-group .v-list-item--active {
-  color: white !important;
+
+.main-container {
+  width: 65% !important;
 }
+
+
 
 </style>

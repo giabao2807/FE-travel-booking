@@ -63,11 +63,18 @@ export const useAuthStore = defineStore('authStore', () => {
     sessionStorage.setItem('userData', JSON.stringify(authUser.value))
   }
 
-
   const resetAuthUser = () => {
     authUser.value = initUser
     stopRefreshTokenTimer()
     sessionStorage.clear()
+  }
+
+  const forgotPassword = async(email: string) => {
+    return await connectionsAPI({
+      methods: 'POST',
+      path: 'user/action/forgot_password',
+      data: { email: email }
+    })
   }
   return {
     userSignIn,
@@ -77,6 +84,7 @@ export const useAuthStore = defineStore('authStore', () => {
     refreshToken,
     signInUser,
     signUpUser,
-    resetAuthUser
+    resetAuthUser,
+    forgotPassword
   }
 })

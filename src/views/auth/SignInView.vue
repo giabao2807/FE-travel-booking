@@ -33,13 +33,19 @@
             />
             <div class="d-flex align-center flex-wrap ma-4">
               <v-checkbox v-model="rememberMe" hide-details label="Ghi nhớ tài khoản" color="primary" class="mb-1" />
-              <n-dialog title="Forgot the password" width="300">
+              <n-dialog
+                title="Forgot the password"
+                width="300"
+                @action-second="() => forgotPassword(emailForgot)"
+              >
                 <template #btnDialog>
                   <a>Quên mật khẩu ?</a>
                 </template>
                 <template #content>
                   <v-text-field
+                    v-model="emailForgot"
                     label="Email"
+                    :rules="[ruleEmail(emailForgot), ruleRequired('Email')]"
                     prepend-inner-icon="mdi-shield-account-outline"
                     type="text"
                     color="primary-darken-1"
@@ -81,18 +87,12 @@ const {
   showPassword,
   rememberMe,
   formRef,
-  authUser,
+  emailForgot,
   signIn,
   signInWithGoogle,
-  routeDirectional,
-  isRememberMe
+  isRememberMe,
+  forgotPassword
 } = useAuthentication()
-onMounted(() => {
-  const session = sessionStorage.getItem('userData')
-  authUser.value = session ? JSON.parse(session) : ''
-  routeDirectional(authUser.value)
-  isRememberMe()
-})
 </script>
 <style scoped>
 @import '@/assets/css/signIn.css';

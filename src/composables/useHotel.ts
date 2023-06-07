@@ -1,10 +1,10 @@
 import { storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { useHotelStore } from '@/store/hotels'
 import { createSharedComposable } from '@vueuse/core'
 import { convertionType } from '@/helpers/convertion'
 import { IHotel, IParamHotel, IResponseHotel } from '@/libs/types/hotelType'
-import { ICity, IFilterPanel } from '@/libs/types/commonType'
+import { ICity, IFilterPanel, IForm } from '@/libs/types/commonType'
 import { useRoute } from 'vue-router'
 
 const createHotel = () => {
@@ -18,18 +18,15 @@ const createHotel = () => {
   const loadingPanelHotel = ref<boolean>(false)
   const loadingHotels = ref<boolean>(false)
   const pageHotel = ref<number>(1)
+  const formSearchRef = ref<IForm>()
   const queryData = route.query as IFilterPanel
-  const filtersHotels = ref<IFilterPanel>({
-    cityId: +(queryData?.cityId || '') || undefined,
-    startDate: queryData?.startDate,
-    endDate: queryData?.endDate
+  const titlePage = ref<IFilterPanel>({
+    ...queryData,
+    cityId: +(queryData?.cityId || '') || undefined
   })
-  const titlePage = computed(() => {
-    return {
-      cityId: filtersHotels.value.cityId,
-      startDate: filtersHotels.value.startDate,
-      endDate: filtersHotels.value.endDate
-    }
+  const filtersHotels = ref<IFilterPanel>({
+    ...queryData,
+    cityId: +(queryData?.cityId || '') || undefined
   })
   const getRecomendCities = async() => {
     await hotelStore.getRecomendCities()
@@ -61,7 +58,11 @@ const createHotel = () => {
       })
   }
 
-
+  const resetSearch = () => {
+    const ref = formSearchRef.value
+    ref?.reset()
+    getHotelsByFilterPanel()
+  }
   return {
     hotels,
     popularHotels,
@@ -72,6 +73,7 @@ const createHotel = () => {
     loadingHotels,
     pageHotel,
     titlePage,
+    resetSearch,
     deCodeHtml,
     getRecomendHotelByCity,
     getRecomendCities,
