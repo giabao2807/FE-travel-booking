@@ -374,7 +374,7 @@ import NButtonAnimated from '@/components/NButtonAnimated.vue'
 import NPanelReview from '@/components/NPanelReview.vue'
 import { onMounted, watch, watchEffect } from 'vue'
 import _ from 'lodash'
-import '@/assets/scss/detail.scss'
+import '@/assets/scss/hotels/detail.scss'
 import { useHotelDetailUtil } from '@/composables/useHotelDetail'
 import { convertionType } from '@/helpers/convertion'
 import { handleRoute } from '@/helpers/loadingRoute'
@@ -424,76 +424,5 @@ watchEffect(async() => {
 })
 </script>
 <style lang="scss" scoped>
-.text-field-width {
-  width: 40px !important;
-}
-::v-deep {
-  .htdt-policy, .htdt-description {
-    background-color: transparent !important;
-    p {
-      margin-bottom: 10px;
-    }
-  }
-  .font-bold {
-    font-weight: bold;
-  }
-  article {
-    line-height: 1.5
-  }
-  .txt-justify {
-    margin-left: 10px;
-  }
-  .htdt-policy {
-    margin-left: 20px;
-    margin-right: 20px;
-    article {
-      padding: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-    }
-    .hotelDetailTitle {
-      font-size: 30px;
-      font-weight: 800;
-      padding: 5px;
-    }
-    .font-bold {
-      width: 25%;
-    }
-    .txt-justify {
-      width: 80%;
-    }
-    .clearfix {
-        margin: 20px;
-        border-bottom: 1px solid var(--color-border-black);
-    }
-  }
-  .htdt-description {
-    p::first-letter {
-      font-size: 24px;
-      font-weight: bold;
-      margin-left: 5px;
-    }
-    .hotelDetailTitle {
-      font-size: 30px;
-      font-weight: 800;
-      padding: 5px;
-    }
-  }
-  // room css
-  .ChildRoomsList-room-bucketspan {
-    font-weight: bold;
-  }
-  .ChildRoomsList-roomFeature-TitleWrapper {
-    display: flex;
-    span {
-      margin-left: 5px;
-      margin-right: 5px;
-    }
-  }
-  .RoomFeature__FreeMessage {
-    opacity: 0;
-  }
 
-}
 </style>

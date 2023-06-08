@@ -41,7 +41,7 @@
             :key="tour.value"
             :title="tour.name"
             :value="tour.value"
-            @click="() => handleRoute({ name: 'tours' })"
+            @click="() => handleRoute({ name: tour.value })"
             :class="rail ? 'custom-child-select' : ''"
           >
             <template #prepend>
@@ -49,7 +49,7 @@
             </template>
           </v-list-item>
         </v-list-group>
-        <!-- <v-list-group value="Users">
+        <v-list-group>
           <template #activator="{ props }">
             <v-list-item
               v-bind="props"
@@ -72,7 +72,7 @@
               <v-icon :icon="icon" :class="rail ? 'icon' : ''" />
             </template>
           </v-list-item>
-        </v-list-group> -->
+        </v-list-group>
       </v-list>
       <template #append>
         <v-divider />
@@ -133,7 +133,7 @@ const imgAppBar = computed(() => {
 })
 const TOURS_PANEL = [
   { name: 'List Tours', value: 'tours', icon: 'mdi-format-list-checkbox' },
-  { name: 'Create Tour', value: 'createTours', icon: 'mdi-note-edit-outline' }
+  { name: 'Create Tour', value: 'createTour', icon: 'mdi-note-edit-outline' }
 ]
 const {
   signOut

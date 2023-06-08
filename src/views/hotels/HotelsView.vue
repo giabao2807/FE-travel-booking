@@ -234,53 +234,5 @@ onMounted(() => {
 })
 </script>
 <style lang="scss" scoped>
-.hotels-page {
-  background-image: url('@/assets/img/map-bg.png');
-  background-size: contain;
-  background-position: center center;
-  .container_hotels {
-    background-image: linear-gradient(to bottom, rgba(248, 230, 248, 0.2), rgba(235, 178, 244, 0.2)),
-      url('@/assets/img/bg-hotel.jpeg');
-    background-size: cover;
-    height: 500px;
-  }
-  .custom-image-hotel {
-    -webkit-mask-image: url("@/assets/img/card-bg.png");
-    mask-image: url("@/assets/img/card-bg.png");
-    -webkit-mask-size: cover;
-    mask-size: cover;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-  }
-  .card-actions {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    margin-right: 25px;
-    margin-bottom: 25px;
-  }
-
-  .hotel-card {
-    width: 95%;
-    cursor: pointer;
-    transition: all 0.6s cubic-bezier(0.680, -0.550, 0.265, 1.550);
-  }
-
-  .hotel-card:hover {
-    transform: translateY(-1.3rem) scale(1.05);
-  }
-  .title-card-show {
-    font-weight: 600;
-  }
-  @media screen and (max-width: 1100px) {
-    .card-search {
-      margin: 0 auto;
-      width: 500px
-    }
-    .card-show {
-      flex: 0 0 100% !important;
-      max-width: 100% !important;
-    }
-  }
-}
+@import url('@/assets/scss/hotels/index.scss');
 </style>
