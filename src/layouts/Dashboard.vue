@@ -20,6 +20,8 @@
         active-color="primary"
         density="compact"
         nav
+        mandatory
+        v-model="selectMenu"
       >
         <v-list-item
           prepend-icon="mdi-view-dashboard-outline"
@@ -106,7 +108,7 @@
 
 <script lang="ts" setup>
 import NImage from '@/components/NImage.vue'
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useTheme } from 'vuetify/lib/framework.mjs'
 import { useAuthentication } from '@/composables/useAuth'
 import { useAuthStore } from '@/store/auth'
@@ -117,6 +119,7 @@ const authStore = useAuthStore()
 const { authUser } = storeToRefs(authStore)
 const drawer = ref<boolean>(true)
 const theme = useTheme()
+const selectMenu = ref<string>('dashboard')
 const toggleTheme = () => {
   return theme.global.name.value = theme.global.current.value.dark ? 'myCustomLightTheme' : 'dark'
 }
@@ -138,6 +141,12 @@ const TOURS_PANEL = [
 const {
   signOut
 } = useAuthentication()
+onMounted(async() => {
+  const session = await sessionStorage.getItem('userData')
+  authUser.value = session ? JSON.parse(session) : ''
+  console.log(selectMenu.value)
+})
+
 </script>
 <style lang="scss" scoped>
 .border {

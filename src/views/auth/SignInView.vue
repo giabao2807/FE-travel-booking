@@ -81,6 +81,7 @@ import NImage from '@/components/NImage.vue'
 import { onMounted } from 'vue'
 import { useAuthentication } from '@/composables/useAuth'
 import { validations } from '@/helpers/validate'
+
 const { ruleRequired, ruleEmail } = validations()
 const {
   userSignIn,

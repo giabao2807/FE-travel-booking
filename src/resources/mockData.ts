@@ -1,8 +1,8 @@
 export const GENDER_DATA = [{ value: 1, name: 'Male' }, { value: 2, name: 'FeMale' }, { value: 3, name: 'Other' }]
 export const TRAFFICS = [
-  { value: 'o_to', icon: 'mdi-car' },
-  { value: 'tau_thuy', icon: 'mdi-ferry' },
-  { value: 'may_bay', icon: 'mdi-airplane' }
+  { value: 'o_to', icon: 'mdi-car', name: 'Ô tô' },
+  { value: 'tau_thuy', icon: 'mdi-ferry', name: 'Tàu thuỷ' },
+  { value: 'may_bay', icon: 'mdi-airplane', name: 'Máy bay' }
 ]
 export const COMMENTRATE = [
   { icon: 'mdi-heart-multiple-outline', name: 'Tuyệt vời' },
