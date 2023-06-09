@@ -135,7 +135,7 @@ const imgAppBar = computed(() => {
   return theme.global.name.value === 'dark' ? 'app_bar_dark.jpg' : 'app_bar.jpg'
 })
 const TOURS_PANEL = [
-  { name: 'List Tours', value: 'tours', icon: 'mdi-format-list-checkbox' },
+  { name: 'List Tours', value: 'toursPartner', icon: 'mdi-format-list-checkbox' },
   { name: 'Create Tour', value: 'createTour', icon: 'mdi-note-edit-outline' }
 ]
 const {

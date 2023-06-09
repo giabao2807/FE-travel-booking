@@ -44,7 +44,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: { requiresAuth: true, roleChildren: ['Partner'] },
         children: [
           { path: '', name:'partner', component: PartnerView },
-          { path: 'tours', name:'tours', component: PartnerTour },
+          { path: 'tours', name:'toursPartner', component: PartnerTour },
           { path: 'create-tour', name:'createTour', component: CreateTour }
         ]
       },
