@@ -14,7 +14,7 @@
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-rename-box-outline" />
-                <span class="font-weight-600">Name tour</span>
+                <span class="font-weight-600">Tên tour</span>
               </div>
             </template>
             <el-input
@@ -24,35 +24,35 @@
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item>
+          <el-form-item prop="coverPicture">
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-image-outline" />
-                <span class="font-weight-600">Avatar tour</span>
+                <span class="font-weight-600">Ảnh tour</span>
               </div>
             </template>
             <el-input v-model="formTour.coverPicture" class="custom-upload" type="file" />
           </el-form-item>
         </el-col>
       </el-row>
-      <el-form-item>
+      <el-form-item prop="groupSize">
         <template #label>
           <div class="d-flex align-center">
             <v-icon class="mr-1" icon="mdi-code-braces" />
-            <span class="font-weight-600">Quantity</span>
+            <span class="font-weight-600">Số lượng</span>
           </div>
         </template>
         <el-col :span="5">
-          <el-input-number v-model="formTour.groupSize" style="width: 200px"/>
+          <el-input-number v-model="formTour.groupSize" style="width: 200px" />
         </el-col>
       </el-form-item>
       <el-row>
         <el-col :span="10">
-          <el-form-item>
+          <el-form-item prop="city">
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-apple-safari" />
-                <span class="font-weight-600">City</span>
+                <span class="font-weight-600">Điểm đến</span>
               </div>
             </template>
             <el-select v-model="formTour.city" clearable placeholder="Select">
@@ -66,11 +66,11 @@
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item>
+          <el-form-item prop="departure">
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-clock-start" />
-                <span class="font-weight-600">Start</span>
+                <span class="font-weight-600">Khởi hành</span>
               </div>
             </template>
             <el-row>
@@ -98,11 +98,11 @@
       </el-row>
       <el-row>
         <el-col :span="10">
-          <el-form-item>
+          <el-form-item prop="traffics">
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-caravan" />
-                <span class="font-weight-600">Traffics</span>
+                <span class="font-weight-600">Di chuyển</span>
               </div>
             </template>
             <el-select
@@ -124,11 +124,11 @@
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item>
+          <el-form-item prop="timeDays">
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-map-clock-outline" />
-                <span class="font-weight-600">Total Days</span>
+                <span class="font-weight-600">Thời gian</span>
               </div>
             </template>
             <el-row>
@@ -148,11 +148,11 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-form-item>
+      <el-form-item prop="price">
         <template #label>
           <div class="d-flex align-center">
             <v-icon class="mr-1" icon="mdi-cash-fast" />
-            <span class="font-weight-600">Prices</span>
+            <span class="font-weight-600">Giá cả</span>
           </div>
         </template>
         <el-col :span="20">
@@ -162,28 +162,29 @@
           />
         </el-col>
       </el-form-item>
-      <el-form-item>
+      <el-form-item prop="descriptions">
         <template #label>
           <div class="d-flex align-center">
             <v-icon class="mr-1" icon="mdi-alpha-d-box" />
-            <span class="font-weight-600">Descriptions</span>
+            <span class="font-weight-600">Mô tả</span>
           </div>
         </template>
         <el-col :span="20">
-          <el-input
+          <!-- <el-input
             v-model="formTour.descriptions"
             :autosize="{ minRows: 3, maxRows: 5 }"
             type="textarea"
-          />
+          /> -->
+          <!-- <ckeditor :editor="editor" v-model="formTour.descriptions" /> -->
         </el-col>
       </el-form-item>
       <v-divider class="my-2" />
       <h3 class="my-3">Thông tin bổ sung</h3>
-      <el-form-item>
+      <el-form-item prop="tourImages">
         <template #label>
           <div class="d-flex align-center">
             <v-icon class="mr-1" icon="mdi-image-multiple-outline" />
-            <span class="font-weight-600">More Images</span>
+            <span class="font-weight-600">Hình ảnh</span>
           </div>
         </template>
         <el-upload
@@ -197,22 +198,22 @@
           <el-icon><Plus /></el-icon>
         </el-upload>
       </el-form-item>
-      <el-form-item>
+      <el-form-item prop="scheduleContent">
         <template #label>
           <div class="d-flex align-center">
             <v-icon class="mr-1" icon="mdi-receipt-text-clock-outline" />
-            <span class="font-weight-600">Schedule</span>
+            <span class="font-weight-600">Lịch trình</span>
           </div>
         </template>
         <el-col :span="20">
           <el-input v-model="formTour.scheduleContent" type="textarea" />
         </el-col>
       </el-form-item>
-      <el-form-item>
+      <el-form-item prop="note">
         <template #label>
           <div class="d-flex align-center">
             <v-icon class="mr-1" icon="mdi-alert-outline" />
-            <span class="font-weight-600">Rules Tour</span>
+            <span class="font-weight-600">Quy định</span>
           </div>
         </template>
         <el-col :span="20">
@@ -237,25 +238,72 @@ import type { FormInstance, FormRules } from 'element-plus'
 
 
 const { allCities } = useCities()
+const checkQuantity = (rule: any, value: number, callback: any) => {
+  value < 1 ?
+    callback(new Error('Số lượng phải lớn hơn bằng 1.'))
+    :
+    callback()
+}
+const checkCash = (rule: any, value: number, callback: any) => {
+  value < 1000 ?
+    callback(new Error('Giá tiền không được thấp hơn 1.000.'))
+    :
+    callback()
+}
+const checkLength = (rule: any, value: number, callback: any) => {
+  value.length < 10 ?
+    callback(new Error('Nội dung phải lớn hơn 10 kí tự.'))
+    :
+    callback()
+}
+
 const rules = reactive<FormRules>({
   name: [
-    { required: true, message: 'Tên không được bỏ trống' },
+    { required: true, message: 'Tên không được bỏ trống.' },
     { min: 5, message: 'Độ dài tên lớn hơn 5 ký tự' }
   ],
-  coverImage: [
+  coverPicture: [
     {
       required: true,
-      message: 'Please select Activity zone',
-      trigger: 'change'
+      message: 'Ảnh đại hiện không được bỏ trống.'
     }
   ],
-  count: [
+  groupSize: [{ required: true, validator: checkQuantity }],
+  city: [
     {
       required: true,
-      message: 'Please select Activity count',
-      trigger: 'change'
+      message: 'Điểm đến không được bỏ trống.'
     }
-  ] })
+  ],
+  departure: [
+    {
+      required: true,
+      message: 'Điểm khởi hành không được bỏ trống.'
+    }
+  ],
+  price: [
+    {
+      required: true,
+      validator: checkCash
+    }
+  ],
+  descriptions: [
+    { validator: checkLength }
+  ],
+  scheduleContent: [
+    { validator: checkLength }
+  ],
+  note: [
+    { validator: checkLength }
+  ],
+  traffics: [
+    {
+      required: true,
+      message: 'Phương tiện di chuyển không được bỏ trống.'
+    }
+  ],
+  tourImages: undefined
+})
 const timeDays = ref({
   day: 0,
   night: 0
