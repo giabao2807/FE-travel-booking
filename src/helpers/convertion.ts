@@ -42,8 +42,8 @@ export const convertionType = () => {
 
   const getTraffic = (traffics?: string[]) => TRAFFICS.filter(item => traffics?.includes(item.value))
 
-  const formatDate = (dateString?: string) => {
-    const date = moment(dateString).format('DD/MM/YYYY')
+  const formatDate = (dateString?: string, type = 'DD/MM/YYYY') => {
+    const date = moment(dateString).format(type)
     return date
   }
   const getIconStatus = (status: string) => {

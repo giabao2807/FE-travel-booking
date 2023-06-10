@@ -58,17 +58,49 @@
                 Statistics by day
               </h4>
               <el-date-picker
+                v-model="dayRevenue"
                 class="ma-3"
                 type="daterange"
                 start-placeholder="Start date"
                 end-placeholder="End date"
-                :default-time="defaultTime"
+                @update:model-value="() => getRevenue(
+                  {
+                    startDate: formatDate(dayRevenue[0], 'YYYY-MM-DD'),
+                    endDate: formatDate(dayRevenue[1], 'YYYY-MM-DD')
+                  }
+                )"
               />
             </v-card-title>
             <v-card-text>
-              <n-chart :chart-data="chartData" y-append="M" />
+              <n-chart :chart-data="revenue?.details" :chart-options="options" y-append="M" />
             </v-card-text>
           </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-container fluid>
+      <v-row>
+        <v-col>
+          <n-linear-chart
+            :dataLinear="revenue?.totalTour"
+            :total="revenue?.totalTour+revenue?.totalHotel"
+            :dateFrom="formatDate(dayRevenue[0])"
+            :dateTo="formatDate(dayRevenue[1])"
+            color="rgb(255,163,158)"
+            title="Total Tours"
+            icon="mdi-compass-rose"
+          />
+        </v-col>
+        <v-col>
+          <n-linear-chart
+            :dataLinear="revenue?.totalHotel"
+            :total="revenue?.totalTour+revenue?.totalHotel"
+            :dateFrom="formatDate(dayRevenue[0])"
+            :dateTo="formatDate(dayRevenue[1])"
+            color="rgb(100,181,246)"
+            title="Total Hotels"
+            icon="mdi-shield-home-outline"
+          />
         </v-col>
       </v-row>
     </v-container>
@@ -78,6 +110,8 @@
 import { watchEffect, ref } from 'vue'
 import { usePartner } from '@/composables/partners/usePartner'
 import NChart from '@/components/NChart.vue'
+import NLinearChart from '@/components/NLinearChart.vue'
+import { convertionType } from '@/helpers/convertion'
 
 const {
   staticBox,
@@ -87,19 +121,35 @@ const {
   getPotentialCustomers,
   getRevenue
 } = usePartner()
+const { formatCurrency, formatDate } = convertionType()
+const dayRevenue = ref<[string, string]>([
+  '2023-05-27',
+  '2023-06-06'
+])
 watchEffect(() => {
   getStaticBox()
   getPotentialCustomers()
-  getRevenue({ startDate: '2023-05-30', endDate: '2023-06-06' })
+  getRevenue(
+    {
+      startDate: formatDate(dayRevenue.value[0], 'YYYY-MM-DD'),
+      endDate: formatDate(dayRevenue.value[1], 'YYYY-MM-DD')
+    }
+  )
 })
-const defaultTime = ref<[Date, Date]>([
-  new Date(2023, 5, 30, 0, 0, 0),
-  new Date(2023, 6, 6, 23, 59, 59)
-])
-const chartData = {
-  labels: revenue.value.labels,
-  datasets: [ { data: [40, 20, 12] } ]
+
+const options = {
+  scales: {
+    y: {
+      ticks: {
+        callback: (value: any) => {
+          return formatCurrency(value)
+        }
+      },
+      suggestedMin: 0
+    }
+  }
 }
+
 
 </script>
 <style lang="scss" scoped>
