@@ -61,20 +61,24 @@
             />
           </template>
           <v-list-item
-            v-for="([title, icon], i) in [
-              ['Management', 'mdi-account-multiple-outline'],
-              ['Change', 'mdi-cog-outline'],
-            ]"
-            :key="i"
-            :title="title"
-            :value="title"
+            v-for="tour in HOTELS_PANEL"
+            :key="tour.value"
+            :title="tour.name"
+            :value="tour.value"
+            @click="() => handleRoute({ name: tour.value })"
             :class="rail ? 'custom-child-select' : ''"
           >
             <template #prepend>
-              <v-icon :icon="icon" :class="rail ? 'icon' : ''" />
+              <v-icon :icon="tour.icon" :class="rail ? 'icon' : ''" />
             </template>
           </v-list-item>
         </v-list-group>
+        <v-list-item
+          prepend-icon="mdi-archive-check-outline"
+          title="Quản lí booking"
+          value="booking"
+          @click="() => handleRoute({ name: 'bookingPartner' })"
+        />
       </v-list>
       <template #append>
         <v-divider />
@@ -89,9 +93,15 @@
       </template>
     </v-navigation-drawer>
     <v-app-bar :order="order" theme="theme" flat>
-      <v-app-bar-title>Travel NE</v-app-bar-title>
+      <v-app-bar-title>
+        <v-row align="center">
+          <img src="@/assets/img/logo-dashboard.svg" alt="SVG Image">
+          <p class="header-title font-palanquin">
+            TravelNE
+          </p>
+        </v-row>
+      </v-app-bar-title>
       <v-spacer />
-      <h4 class="blue--text text--lighten-2">Dashboard</h4>
       <v-icon class="mx-5" color="primary" icon="mdi-lightbulb-night" @click="toggleTheme" />
       <template #image>
         <n-image :src="require(`@/assets/img/${imgAppBar}`)" />
@@ -138,6 +148,10 @@ const TOURS_PANEL = [
   { name: 'List Tours', value: 'toursPartner', icon: 'mdi-format-list-checkbox' },
   { name: 'Create Tour', value: 'createTour', icon: 'mdi-note-edit-outline' }
 ]
+const HOTELS_PANEL = [
+  { name: 'List Hotels', value: 'hotelsPartner', icon: 'mdi-format-list-checkbox' },
+  { name: 'Create Hotel', value: 'createHotel', icon: 'mdi-note-edit-outline' }
+]
 const {
   signOut
 } = useAuthentication()
@@ -149,6 +163,11 @@ onMounted(async() => {
 
 </script>
 <style lang="scss" scoped>
+.header-title {
+  margin-left: -10px;
+  font-size: 22px;
+  font-weight: bold;
+}
 .border {
   margin-left: 12px;
   margin-right: 12px;

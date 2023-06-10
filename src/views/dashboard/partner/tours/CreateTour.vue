@@ -335,6 +335,9 @@ const formTour = ref({
 const onSubmit = () => {
   formTour.value = {
     ...formTour.value,
+    descriptions : `<div class="single-box-excerpt">${formTour.value.departure}</div>`,
+    scheduleContent:  `<div class="panel-body content-tour-item content-tour-tab-program-tour-0">${formTour.value.scheduleContent}</div>`,
+    note: `<div class="panel-body content-tour-item content-tour-tab-tour-rule-2">${formTour.value.note}</div>`,
     totalDays: `${timeDays.value.day} ngày ${timeDays.value.night} đêm`
   }
   console.log('submit!', formTour.value)

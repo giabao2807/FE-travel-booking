@@ -72,7 +72,7 @@
               />
             </v-card-title>
             <v-card-text>
-              <n-chart :chart-data="revenue?.details" :chart-options="options" y-append="M" />
+              <n-chart class="mt-5" :chart-data="revenue?.details" :chart-options="options" y-append="M" />
             </v-card-text>
           </v-card>
         </v-col>
@@ -107,7 +107,7 @@
   </v-sheet>
 </template>
 <script lang="ts" setup>
-import { watchEffect, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { usePartner } from '@/composables/partners/usePartner'
 import NChart from '@/components/NChart.vue'
 import NLinearChart from '@/components/NLinearChart.vue'
@@ -126,7 +126,7 @@ const dayRevenue = ref<[string, string]>([
   '2023-05-27',
   '2023-06-06'
 ])
-watchEffect(() => {
+onMounted(() => {
   getStaticBox()
   getPotentialCustomers()
   getRevenue(

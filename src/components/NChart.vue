@@ -27,13 +27,13 @@ import moment from 'moment'
 ChartJS.register(Title, Tooltip, Legend, LineElement, LinearScale, CategoryScale, PointElement)
 
 type Props = {
-  datasetIdKey: string,
-  width: number,
-  height: number,
-  cssClasses: string,
-  plugins: any,
-  chartOptions: any,
-  chartData: any
+  datasetIdKey?: string,
+  width?: number,
+  height?: number,
+  cssClasses?: string,
+  plugins?: any,
+  chartOptions?: any,
+  chartData?: any
 }
 const props = withDefaults(defineProps<Props>(), {
   datasetIdKey: 'label',
@@ -46,7 +46,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 const defaultStyle = {
   pointStyle: 'circle',
-  tension: 0.2,
+  tension: 0.3,
   pointRadius: 10,
   pointHoverRadius: 15
 }
@@ -71,7 +71,7 @@ const revenue = computed(() => {
       },
       {
         label: 'Hotel',
-        backgroundColor: 'rgb(100,181,246, 05)',
+        backgroundColor: 'rgb(100,181,246, 0.5)',
         borderColor: 'rgb(100,181,246)',
         ...defaultStyle,
         data: dataChartHotel

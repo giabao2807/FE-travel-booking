@@ -12,16 +12,16 @@
         height="15"
         class="rounded-xl my-5"
         striped
-        :color="color"
+        :color="props.color"
       >
         <template #default="{ value }">
-          <strong>{{ Math.ceil(value) }}%</strong>
+          <strong>{{ Math.round(value) }}%</strong>
         </template>
       </v-progress-linear>
       <div class="ma-2">
-        <span class="my-1">From day {{ props.dateFrom }} to {{ props.dateTo }}</span>
+        <span class="my-2">From day {{ props.dateFrom }} to {{ props.dateTo }}</span>
         <br>
-        <h3>Total price: {{ formatCurrency(props.dataLinear) }}</h3>
+        <h3 class="my-2" :style="{ color: props.color }">Total price: {{ formatCurrency(props.dataLinear) }}</h3>
       </div>
     </v-card-text>
   </v-card>

@@ -1,7 +1,7 @@
 <template>
-  <v-sheet class="partner-tours-page">
+  <v-sheet class="partner-booking-page">
     <div class="text-center mb-5">
-      <h3>Danh Sách Tour Hiện Tại</h3>
+      <h3>Danh Sách Booking Hiện Tại</h3>
     </div>
     <div class="d-flex align-center mx-0">
       <n-table
@@ -131,7 +131,7 @@ const columns: Column<any>[] = [
 
 </script>
 <style lang="scss" scoped>
-.partner-tours-page {
+.partner-booking-page {
   background-image: url('@/assets/img/map-bg.png');
   background-size: contain;
   background-position: center center;

@@ -1,14 +1,14 @@
 <template>
-  <v-sheet class="partner-tours-page">
+  <v-sheet class="partner-hotel-page">
     <div class="text-center mb-5">
-      <h3>Danh Sách Tour Hiện Tại</h3>
+      <h3>Danh Sách Hotels Hiện Tại</h3>
     </div>
     <div class="d-flex align-center mx-0">
       <n-table
         :columns="columns"
-        :data="tours"
-        :loading="loadingTours"
-        @getNextPage="getTours"
+        :data="hotels"
+        :loading="loadingHotels"
+        @getNextPage="getHotels"
       />
     </div>
   </v-sheet>
@@ -16,15 +16,19 @@
 <script lang="tsx" setup>
 import { onMounted } from 'vue'
 import type { Column } from 'element-plus'
-import { usePartnerTours } from '@/composables/partners/usePartnerTours'
 import NTable from '@/components/NTable.vue'
 import { convertionType } from '@/helpers/convertion'
+import { usePartnerHotels } from '@/composables/partners/usePartnerHotels'
 
 
-const { tours, loadingTours, getTours, deactivateTour, activateTour } = usePartnerTours()
+const {
+  hotels,
+  loadingHotels,
+  getHotels
+} = usePartnerHotels()
 const { formatCurrency } = convertionType()
 onMounted(() => {
-  getTours()
+  getHotels()
 })
 
 const columns: Column<any>[] = [
@@ -34,6 +38,16 @@ const columns: Column<any>[] = [
     width: 50,
     cellRenderer: ({ rowIndex }) => (<>{rowIndex + 1}</>),
     align: 'center'
+  },
+  {
+    key: 'coverPicture',
+    title: 'Picture',
+    dataKey: 'coverPicture',
+    width: 150,
+    headerClass: 'justify-center',
+    cellRenderer: ({ cellData: coverPicture }) => (
+      <v-img width={150} src={coverPicture} cover/>
+    )
   },
   {
     key: 'name',
@@ -48,35 +62,33 @@ const columns: Column<any>[] = [
     )
   },
   {
-    key: 'totalDays',
-    title: 'Total Days',
-    dataKey: 'totalDays',
+    key: 'numReview',
+    title: 'Reviews',
+    dataKey: 'numReview',
     width: 150,
     align: 'center'
   },
   {
-    key: 'departure',
-    title: 'Departure',
-    dataKey: 'departure',
-    headerClass: 'justify-center',
-    width: 150
-  },
-  {
-    key: 'groupSize',
-    title: 'Quantity',
-    dataKey: 'groupSize',
-    width: 100,
-    align: 'center'
-  },
-  {
-    key: 'price',
-    title: 'Price',
-    dataKey: 'price',
+    key: 'minPrice',
+    title: 'Min Price',
+    dataKey: 'minPrice',
     align: 'center',
     width: 150,
-    cellRenderer: ({ cellData: price }) => (
+    cellRenderer: ({ cellData: minPrice }) => (
       <>
-        { formatCurrency(price) }
+        { formatCurrency(minPrice) }
+      </>
+    )
+  },
+  {
+    key: 'maxPrice',
+    title: 'Max Price',
+    dataKey: 'maxPrice',
+    align: 'center',
+    width: 150,
+    cellRenderer: ({ cellData: maxPrice }) => (
+      <>
+        { formatCurrency(maxPrice) }
       </>
     )
   },
@@ -109,19 +121,16 @@ const columns: Column<any>[] = [
           onClick={() => console.log('run run', rowData.id) }
         />
         <v-btn
-          v-show={rowData.isActive}
           variant="plain"
           color="error"
           icon="mdi-delete-empty-outline"
-          onClick={() => deactivateTour(rowData.id)}
         />
-        <v-btn
+        {/* <v-btn
           v-show={!rowData.isActive}
           variant="plain"
           color="success"
           icon="mdi-map-check"
-          onClick={() => activateTour(rowData.id)}
-        />
+        /> */}
       </>
     ),
     width: 150,
@@ -131,7 +140,7 @@ const columns: Column<any>[] = [
 
 </script>
 <style lang="scss" scoped>
-.partner-tours-page {
+.partner-hotel-page {
   background-image: url('@/assets/img/map-bg.png');
   background-size: contain;
   background-position: center center;
