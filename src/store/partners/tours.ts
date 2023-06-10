@@ -18,8 +18,15 @@ export const usePartnerToursStore = defineStore('partnerToursStore', () => {
       path: `tour/${id}/deactivate`
     })
   }
+  const activateTour = async(id: string) => {
+    return await connectionsAPI({
+      methods: 'PUT',
+      path: `tour/${id}/activate`
+    })
+  }
   return {
     deactivateTour,
+    activateTour,
     getTours
   }
 })

@@ -20,11 +20,16 @@ const createPartnerTours = () => {
     partnerTourStore.deactivateTour(id)
     getTours()
   }
+  const activateTour = (id: string) => {
+    partnerTourStore.activateTour(id)
+    getTours()
+  }
   return {
     tours,
     loadingTours,
     getTours,
-    deactivateTour
+    deactivateTour,
+    activateTour
   }
 }
 export const usePartnerTours = createSharedComposable(createPartnerTours)

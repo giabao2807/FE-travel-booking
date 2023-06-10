@@ -8,6 +8,7 @@ export const COMMENTRATE = [
   { icon: 'mdi-heart-multiple-outline', name: 'Tuyệt vời' },
   { icon: 'mdi-heart-plus-outline', name:  'Ấn Tượng' },
   { icon: 'mdi-like-outline', name:  'Bình Thường' },
+  { icon: 'mdi-star-outline', name:  'Chưa được vote' },
   { icon: 'mdi-emoticon-sad-outline', name:  'Tệ' }
 ]
 export const PANEL_IMAGE = [

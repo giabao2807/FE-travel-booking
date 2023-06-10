@@ -25,7 +25,10 @@ export const convertionType = () => {
     else if (rate >= 3) {
       return COMMENTRATE[2]
     }
-    return COMMENTRATE[3]
+    else if (rate === null) {
+      return COMMENTRATE[3]
+    }
+    return COMMENTRATE[4]
   }
   const getPriceDiscount = (price = 0, coupon = 0) => {
     return price - (price * (coupon / 100))

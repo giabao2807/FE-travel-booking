@@ -23,7 +23,7 @@ const useAuth = () => {
     const { valid } = await formRef.value.validate()
     if (valid) {
       startLoading()
-      await authStore.signInUser().then(() => router.push('/dashboard'))
+      await authStore.signInUser().then(() => router.push('/dashboard/admin'))
         .catch((error: IError) => {
           feedBack(error.data)
         })

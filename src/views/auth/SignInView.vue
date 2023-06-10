@@ -78,7 +78,6 @@
 import NButtonAnimated from '@/components/NButtonAnimated.vue'
 import NDialog from '@/components/NDialog.vue'
 import NImage from '@/components/NImage.vue'
-import { onMounted } from 'vue'
 import { useAuthentication } from '@/composables/useAuth'
 import { validations } from '@/helpers/validate'
 

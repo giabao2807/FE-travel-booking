@@ -88,7 +88,9 @@
                   />
                 </el-select>
               </el-col>
-              <span class="ml-3 mr-2">Time</span>
+              <span class="ml-3 mr-2">
+                <v-icon icon="mdi-timeline-clock-outline" />
+              </span>
               <el-col :span="10">
                 <el-input model-value="Hằng ngày" disabled />
               </el-col>
@@ -124,7 +126,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item prop="timeDays">
+          <el-form-item>
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-map-clock-outline" />
@@ -132,18 +134,17 @@
               </div>
             </template>
             <el-row>
-              <el-col :span="8">
-                <el-input v-model="timeDays.day" />
+              <el-col :span="10">
+                <el-form-item prop="totalDay">
+                  <el-input v-model="formTour.totalDay" />
+                </el-form-item>
               </el-col>
-              <span class="mx-2">
-                <v-icon color="gray" icon="mdi-sun-clock-outline" />
-              </span>
-              <el-col :span="8">
-                <el-input v-model="timeDays.night" />
+              <v-icon class="mx-2 mt-1" color="gray" icon="mdi-theme-light-dark" style="transform: rotate(180deg);" />
+              <el-col :span="10">
+                <el-form-item prop="totalNight">
+                  <el-input v-model="formTour.totalNight" />
+                </el-form-item>
               </el-col>
-              <span class="mx-2">
-                <v-icon color="gray" icon="mdi-weather-night" />
-              </span>
             </el-row>
           </el-form-item>
         </el-col>
@@ -158,7 +159,7 @@
         <el-col :span="20">
           <el-input
             v-model="formTour.price"
-            :autosize="{ minRows: 3, maxRows: 5 }"
+            type="number"
           />
         </el-col>
       </el-form-item>
@@ -170,12 +171,7 @@
           </div>
         </template>
         <el-col :span="20">
-          <!-- <el-input
-            v-model="formTour.descriptions"
-            :autosize="{ minRows: 3, maxRows: 5 }"
-            type="textarea"
-          /> -->
-          <!-- <ckeditor :editor="editor" v-model="formTour.descriptions" /> -->
+          <n-editor v-model="formTour.descriptions" />
         </el-col>
       </el-form-item>
       <v-divider class="my-2" />
@@ -206,7 +202,7 @@
           </div>
         </template>
         <el-col :span="20">
-          <el-input v-model="formTour.scheduleContent" type="textarea" />
+          <n-editor v-model="formTour.scheduleContent" />
         </el-col>
       </el-form-item>
       <el-form-item prop="note">
@@ -217,7 +213,7 @@
           </div>
         </template>
         <el-col :span="20">
-          <el-input v-model="formTour.note" type="textarea" />
+          <n-editor v-model="formTour.scheduleContent" />
         </el-col>
       </el-form-item>
       <el-form-item>
@@ -234,8 +230,8 @@ import type { UploadProps } from 'element-plus/es/components'
 import { Plus } from '@element-plus/icons-vue'
 import { useCities } from '@/composables/useCities'
 import { TRAFFICS } from '@/resources/mockData'
-import type { FormInstance, FormRules } from 'element-plus'
-
+import type { FormRules } from 'element-plus'
+import NEditor from '@/components/NEditor.vue'
 
 const { allCities } = useCities()
 const checkQuantity = (rule: any, value: number, callback: any) => {
@@ -250,59 +246,70 @@ const checkCash = (rule: any, value: number, callback: any) => {
     :
     callback()
 }
-const checkLength = (rule: any, value: number, callback: any) => {
+const checkLength = (rule: any, value: string, callback: any) => {
   value.length < 10 ?
     callback(new Error('Nội dung phải lớn hơn 10 kí tự.'))
     :
     callback()
 }
+const checkName = (rule: any, value: string, callback: any) => {
+  if (!value) {
+    return callback(new Error('Tên không được bỏ trống.'))
+  }
+  else {
+    if (value.length <= 5) {
+      callback(new Error('Độ dài tên lớn hơn 5 ký tự'))
+    } else {
+      callback()
+    }
+  }
+}
+const checkCoverImage = (rule: any, value: string, callback: any) => {
+  !value ? callback(new Error('Tên không được bỏ trống.')) : callback()
+}
+const checkCity = (rule: any, value: string, callback: any) => {
+  !value ? callback(new Error('Điểm đến không được bỏ trống.')) : callback()
+}
+const checkDeparture = (rule: any, value: string, callback: any) => {
+  !value ? callback(new Error('Điểm khởi hành không được bỏ trống.')) : callback()
+}
+const checkTraffics = (rule: any, value: string, callback: any) => {
+  !value ? callback(new Error('Phương tiện di chuyển không được bỏ trống.')) : callback()
+}
+const checkDay = (rule: any, value: number, callback: any) => {
+  if (!value) {
+    return callback(new Error('Ngày không được bỏ trống.'))
+  }
+  else {
+    if (value < 1) {
+      return callback(new Error('Ngày chọn không phù hợp.'))
+    } else {
+      return callback()
+    }
+  }
+}
+const checkNight = (rule: any, value: number, callback: any) => {
+  formTour.value.totalDay - value !== 1 || formTour.value.totalDay - value !== 0 ?
+    callback(new Error('Đêm chọn không phù hợp.')) : callback()
+}
 
 const rules = reactive<FormRules>({
-  name: [
-    { required: true, message: 'Tên không được bỏ trống.' },
-    { min: 5, message: 'Độ dài tên lớn hơn 5 ký tự' }
-  ],
-  coverPicture: [
-    {
-      required: true,
-      message: 'Ảnh đại hiện không được bỏ trống.'
-    }
-  ],
-  groupSize: [{ required: true, validator: checkQuantity }],
-  city: [
-    {
-      required: true,
-      message: 'Điểm đến không được bỏ trống.'
-    }
-  ],
-  departure: [
-    {
-      required: true,
-      message: 'Điểm khởi hành không được bỏ trống.'
-    }
-  ],
-  price: [
-    {
-      required: true,
-      validator: checkCash
-    }
-  ],
-  descriptions: [
-    { validator: checkLength }
-  ],
+  name: [{ validator: checkName }],
+  coverPicture: [{ validator: checkCoverImage }],
+  groupSize: [{ validator: checkQuantity }],
+  city: [{ validator: checkCity }],
+  departure: [{ validator: checkDeparture }],
+  price: [{ validator: checkCash }],
+  descriptions: [{ validator: checkLength }],
   scheduleContent: [
     { validator: checkLength }
   ],
   note: [
     { validator: checkLength }
   ],
-  traffics: [
-    {
-      required: true,
-      message: 'Phương tiện di chuyển không được bỏ trống.'
-    }
-  ],
-  tourImages: undefined
+  traffics: [{ validator: checkTraffics }],
+  totalDay: [{ validator: checkDay }],
+  totalNight: [{ validator: checkNight }]
 })
 const timeDays = ref({
   day: 0,
@@ -311,6 +318,8 @@ const timeDays = ref({
 const formTour = ref({
   name: '',
   coverPicture: undefined,
+  totalDay: 0,
+  totalNight: 0,
   totalDays: '',
   descriptions: '',
   groupSize: 0,

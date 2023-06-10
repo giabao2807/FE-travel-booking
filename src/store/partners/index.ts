@@ -16,8 +16,16 @@ export const usePartnerStore = defineStore('partnerStore', () => {
       path: 'statistic/box_dashboard'
     })
   }
+  const getPotentialCustomers = async() => {
+    return await connectionsAPI({
+      methods: 'GET',
+      path: 'statistic/get_potential_customers'
+    })
+  }
+
   return {
     getRevenue,
-    getStaticBox
+    getStaticBox,
+    getPotentialCustomers
   }
 })

@@ -25,10 +25,10 @@
         </template>
         <template #footer>
           <div class="d-flex justify-center" style="background-color: #ffffff;">
-            <el-pagination
-              class="ma-2"
-              layout="prev, pager, next"
-              :total="tours?.count"
+            <n-pagination
+              v-if="tours?.results.length < 1 && !loadingTours"
+              class="mx-5"
+              :length="tours?.pageNumber"
             />
           </div>
         </template>
@@ -41,11 +41,11 @@ import { onMounted } from 'vue'
 import type { Column } from 'element-plus'
 import { usePartnerTours } from '@/composables/partners/usePartnerTours'
 import { Loading as LoadingIcon } from '@element-plus/icons-vue'
-import { EditPen, DeleteFilled } from '@element-plus/icons-vue'
+import NPagination from '@/components/NPagination.vue'
 import { convertionType } from '@/helpers/convertion'
 
 
-const { tours, loadingTours, getTours, deactivateTour } = usePartnerTours()
+const { tours, loadingTours, getTours, deactivateTour, activateTour } = usePartnerTours()
 const { formatCurrency } = convertionType()
 onMounted(() => {
   getTours()
@@ -63,8 +63,13 @@ const columns: Column<any>[] = [
     key: 'name',
     title: 'Name',
     dataKey: 'name',
-    width: 250,
-    align: 'center'
+    width: 300,
+    headerClass: 'justify-center',
+    cellRenderer: ({ cellData: name }) => (
+      <el-tooltip content={name}>
+        <span class='text-start'>{name}</span>
+      </el-tooltip>
+    )
   },
   {
     key: 'totalDays',
@@ -77,6 +82,7 @@ const columns: Column<any>[] = [
     key: 'departure',
     title: 'Departure',
     dataKey: 'departure',
+    headerClass: 'justify-center',
     width: 150
   },
   {
@@ -90,6 +96,7 @@ const columns: Column<any>[] = [
     key: 'price',
     title: 'Price',
     dataKey: 'price',
+    align: 'center',
     width: 150,
     cellRenderer: ({ cellData: price }) => (
       <>
@@ -126,10 +133,18 @@ const columns: Column<any>[] = [
           onClick={() => console.log('run run', rowData.id) }
         />
         <v-btn
+          v-show={rowData.isActive}
           variant="plain"
           color="error"
           icon="mdi-delete-empty-outline"
           onClick={() => deactivateTour(rowData.id)}
+        />
+        <v-btn
+          v-show={!rowData.isActive}
+          variant="plain"
+          color="success"
+          icon="mdi-map-check"
+          onClick={() => activateTour(rowData.id)}
         />
       </>
     ),
@@ -150,5 +165,6 @@ const columns: Column<any>[] = [
 <style>
 .el-table-v2__footer {
   width: 1200px;
+  height: 100px !important;
 }
 </style>

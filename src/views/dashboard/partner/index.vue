@@ -1,165 +1,141 @@
 <template>
-  <div class="py-4 container-fluid">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="row">
-          <div class="col-lg-3 col-md-6 col-12">
-            hehe
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-7 mb-lg">
-            <!-- line chart -->
-            <div class="card z-index-2">
-              <gradient-line-chart />
+  <v-sheet class="partner-page">
+    <v-container fluid>
+      <v-row>
+        <v-col
+          v-for="item in staticBox"
+          :key="item?.key"
+        >
+          <v-card elevation="3" class="card" :style="{ boxShadow: item.color }">
+            <div class="content d-flex align-center justify-center">
+              <h1 class="font-palanquin" :style="{ color: item.color }">{{ item?.value }}</h1>
             </div>
-          </div>
-          <div class="col-lg-5">
-            <carousel />
-          </div>
-        </div>
-        <div class="row mt-4">
-          <div class="col-lg-7 mb-lg-0 mb-4">
-            <div class="card">
-              <div class="p-3 pb-0 card-header">
-                <div class="d-flex justify-content-between">
-                  <h6 class="mb-2">Sales by Country</h6>
-                </div>
-              </div>
-              <div class="table-responsive">
-                <table class="table align-items-center">
-                  <tbody>
-                    <tr v-for="(sale, index) in sales" :key="index">
-                      <td class="w-30">
-                        <div class="px-2 py-1 d-flex align-items-center">
-                          <div>
-                            sss
-                          </div>
-                          <div class="ms-4">
-                            <p class="mb-0 text-xs font-weight-bold">Country:</p>
-                            <h6 class="mb-0 text-sm">{{ sale.country }}</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="text-center">
-                          <p class="mb-0 text-xs font-weight-bold">Sales:</p>
-                          <h6 class="mb-0 text-sm">{{ sale.sales }}</h6>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="text-center">
-                          <p class="mb-0 text-xs font-weight-bold">Value:</p>
-                          <h6 class="mb-0 text-sm">{{ sale.value }}</h6>
-                        </div>
-                      </td>
-                      <td class="text-sm align-middle">
-                        <div class="text-center col">
-                          <p class="mb-0 text-xs font-weight-bold">Bounce:</p>
-                          <h6 class="mb-0 text-sm">{{ sale.bounce }}</h6>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+            <div class="info">
+              <span :style="{ color: item.color }">{{ item.title.toUpperCase() }}</span>
+              <br>
+              <v-chip
+                class="ma-2"
+                :color="item.color"
+                variant="outlined"
+                size="x-small"
+              >
+                <p style="font-size: 0.5em;">{{ item?.rateString }}</p>
+              </v-chip>
             </div>
-          </div>
-          <div class="col-lg-5">
-            <categories-card />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-container fluid>
+      <v-row>
+        <v-col cols="5">
+          <v-card min-height="450" elevation="1" class="rounded-xl">
+            <v-card-title>
+              <h4 class="mx-3 mt-3"><v-icon icon="mdi-star-check-outline" />The Potential Customers</h4>
+            </v-card-title>
+            <v-card-text>
+              <v-list
+                lines="three"
+              >
+                <v-list-item
+                  v-for="item in potentailCustomers"
+                  :key="item.id"
+                  :prepend-avatar="item.avatar"
+                  :title="item.lastName + ' ' + item.firstName"
+                  :subtitle="item.email"
+                >
+                  <v-divider class="my-2" />
+                </v-list-item>
+              </v-list>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col>
+          <v-card min-height="450" elevation="1" class="rounded-xl">
+            <v-card-title class="d-flex align-center">
+              <h4 class="ma-3">
+                <v-icon icon="mdi-archive-cog-outline" />
+                Statistics by day
+              </h4>
+              <el-date-picker
+                class="ma-3"
+                type="daterange"
+                start-placeholder="Start date"
+                end-placeholder="End date"
+                :default-time="defaultTime"
+              />
+            </v-card-title>
+            <v-card-text>
+              <n-chart :chart-data="chartData" y-append="M" />
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-sheet>
 </template>
-<script>
-// import Card from '@/examples/Cards/Card.vue'
-// import GradientLineChart from '@/examples/Charts/GradientLineChart.vue'
-// import Carousel from './components/Carousel.vue'
-// import CategoriesCard from './components/CategoriesCard.vue'
+<script lang="ts" setup>
+import { watchEffect, ref } from 'vue'
+import { usePartner } from '@/composables/partners/usePartner'
+import NChart from '@/components/NChart.vue'
 
-import US from '@/assets/img/icons/flags/US.png'
-import DE from '@/assets/img/icons/flags/DE.png'
-import GB from '@/assets/img/icons/flags/GB.png'
-import BR from '@/assets/img/icons/flags/BR.png'
-
-export default {
-  name: 'DashboardDefault',
-  data() {
-    return {
-      stats: {
-        money: {
-          title: 'Today\'s Money',
-          value: '$53,000',
-          percentage: '+55%',
-          iconClass: 'ni ni-money-coins',
-          detail: 'since yesterday',
-          iconBackground: 'bg-gradient-primary'
-        },
-        users: {
-          title: 'Today\'s Users',
-          value: '2,300',
-          percentage: '+3%',
-          iconClass: 'ni ni-world',
-          iconBackground: 'bg-gradient-danger',
-          detail: 'since last week'
-        },
-        clients: {
-          title: 'New Clients',
-          value: '+3,462',
-          percentage: '-2%',
-          iconClass: 'ni ni-paper-diploma',
-          percentageColor: 'text-danger',
-          iconBackground: 'bg-gradient-success',
-          detail: 'since last quarter'
-        },
-        sales: {
-          title: 'Sales',
-          value: '$103,430',
-          percentage: '+5%',
-          iconClass: 'ni ni-cart',
-          iconBackground: 'bg-gradient-warning',
-          detail: 'than last month'
-        }
-      },
-      sales: {
-        us: {
-          country: 'United States',
-          sales: 2500,
-          value: '$230,900',
-          bounce: '29.9%',
-          flag: US
-        },
-        germany: {
-          country: 'Germany',
-          sales: '3.900',
-          value: '$440,000',
-          bounce: '40.22%',
-          flag: DE
-        },
-        britain: {
-          country: 'Great Britain',
-          sales: '1.400',
-          value: '$190,700',
-          bounce: '23.44%',
-          flag: GB
-        },
-        brasil: {
-          country: 'Brasil',
-          sales: '562',
-          value: '$143,960',
-          bounce: '32.14%',
-          flag: BR
-        }
-      }
-    }
-  }
-  // components: {
-  //   Card,
-  //   GradientLineChart,
-  //   Carousel,
-  //   CategoriesCard
-  // }
+const {
+  staticBox,
+  potentailCustomers,
+  revenue,
+  getStaticBox,
+  getPotentialCustomers,
+  getRevenue
+} = usePartner()
+watchEffect(() => {
+  getStaticBox()
+  getPotentialCustomers()
+  getRevenue({ startDate: '2023-05-30', endDate: '2023-06-06' })
+})
+const defaultTime = ref<[Date, Date]>([
+  new Date(2023, 5, 30, 0, 0, 0),
+  new Date(2023, 6, 6, 23, 59, 59)
+])
+const chartData = {
+  labels: revenue.value.labels,
+  datasets: [ { data: [40, 20, 12] } ]
 }
+
 </script>
+<style lang="scss" scoped>
+.partner-page {
+  background-image: url('@/assets/img/map-bg.png');
+  background-size: contain;
+  background-position: center center;
+  min-height: 45rem;
+}
+
+.card {
+ width: 200px;
+ height: 230px;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ background: #f2f2f3;
+ border-radius: 12px;
+ .content {
+    height: 80px;
+    margin-top: 1.6em;
+    aspect-ratio: 1;
+    border-radius: 30%;
+    background: #f2f2f3;
+    margin-bottom: 1em;
+    box-shadow: -5px -5px 8px #ffffff7a,
+                  5px 5px 8px #a9a9aa7a;
+  }
+  .info {
+    text-align: center;
+    margin-top: 1.5em;
+  }
+  .info > span {
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+
+}
+</style>

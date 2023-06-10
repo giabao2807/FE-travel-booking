@@ -240,7 +240,11 @@
       </v-row>
     </v-container>
     <v-container class="px-0">
-      <v-card elevation="12" class="detail-second">
+      <v-card
+        v-if="deCodeHtml('section.htdt-description', hotelInfo?.descriptions)[1] !== '<div></div>'"
+        elevation="12"
+        class="detail-second"
+      >
         <v-card-text class="ma-5">
           <v-row>
             <v-col>
