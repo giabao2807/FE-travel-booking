@@ -61,15 +61,37 @@
             />
           </template>
           <v-list-item
-            v-for="tour in HOTELS_PANEL"
-            :key="tour.value"
-            :title="tour.name"
-            :value="tour.value"
-            @click="() => handleRoute({ name: tour.value })"
+            v-for="hotel in HOTELS_PANEL"
+            :key="hotel.value"
+            :title="hotel.name"
+            :value="hotel.value"
+            @click="() => handleRoute({ name: hotel.value })"
             :class="rail ? 'custom-child-select' : ''"
           >
             <template #prepend>
-              <v-icon :icon="tour.icon" :class="rail ? 'icon' : ''" />
+              <v-icon :icon="hotel.icon" :class="rail ? 'icon' : ''" />
+            </template>
+          </v-list-item>
+        </v-list-group>
+        <v-list-group>
+          <template #activator="{ props }">
+            <v-list-item
+              v-bind="props"
+              prepend-icon="mdi-ticket-percent-outline"
+              title="Quản lí Coupons"
+              value="coupon"
+            />
+          </template>
+          <v-list-item
+            v-for="coupon in COUPON_PANEL"
+            :key="coupon.value"
+            :title="coupon.name"
+            :value="coupon.value"
+            @click="() => handleRoute({ name: coupon.value })"
+            :class="rail ? 'custom-child-select' : ''"
+          >
+            <template #prepend>
+              <v-icon :icon="coupon.icon" :class="rail ? 'icon' : ''" />
             </template>
           </v-list-item>
         </v-list-group>
@@ -110,7 +132,7 @@
         <v-icon v-if="!drawer" class="my-5" icon="mdi-menu-open" @click.stop="drawer = !drawer" />
       </template>
     </v-app-bar>
-    <v-container>
+    <v-container class="partner-page">
       <router-view />
     </v-container>
   </v-sheet>
@@ -152,6 +174,10 @@ const HOTELS_PANEL = [
   { name: 'List Hotels', value: 'hotelsPartner', icon: 'mdi-format-list-checkbox' },
   { name: 'Create Hotel', value: 'createHotel', icon: 'mdi-note-edit-outline' }
 ]
+const COUPON_PANEL = [
+  { name: 'List Coupons', value: 'couponsPartner', icon: 'mdi-format-list-checkbox' },
+  { name: 'Create Coupon', value: 'createCoupon', icon: 'mdi-note-edit-outline' }
+]
 const {
   signOut
 } = useAuthentication()
@@ -167,6 +193,12 @@ onMounted(async() => {
   margin-left: -10px;
   font-size: 22px;
   font-weight: bold;
+}
+.partner-page {
+  background-image: url('@/assets/img/map-bg.png');
+  background-size: contain;
+  background-position: center center;
+  min-height: 45rem;
 }
 .border {
   margin-left: 12px;

@@ -19,6 +19,7 @@ import type { Column } from 'element-plus'
 import { usePartnerTours } from '@/composables/partners/usePartnerTours'
 import NTable from '@/components/NTable.vue'
 import { convertionType } from '@/helpers/convertion'
+import { handleRoute } from '@/helpers/loadingRoute'
 
 
 const { tours, loadingTours, getTours, deactivateTour, activateTour } = usePartnerTours()
@@ -26,7 +27,9 @@ const { formatCurrency } = convertionType()
 onMounted(() => {
   getTours()
 })
-
+const test = (value: any) => {
+  console.log(value)
+}
 const columns: Column<any>[] = [
   {
     key: 'column-n-1',
@@ -106,7 +109,7 @@ const columns: Column<any>[] = [
           variant="plain"
           color="primary"
           icon="mdi-circle-edit-outline"
-          onClick={() => console.log('run run', rowData.id) }
+          onClick={() => handleRoute({ name: 'createTour', query: { id: rowData.id } }) }
         />
         <v-btn
           v-show={rowData.isActive}
@@ -131,10 +134,5 @@ const columns: Column<any>[] = [
 
 </script>
 <style lang="scss" scoped>
-.partner-tours-page {
-  background-image: url('@/assets/img/map-bg.png');
-  background-size: contain;
-  background-position: center center;
-  min-height: 45rem;
-}
+
 </style>

@@ -28,7 +28,7 @@
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-image-outline" />
-                <span class="font-weight-600">Ảnh tour</span>
+                <span class="font-weight-600">Ảnh đại diện</span>
               </div>
             </template>
             <el-input v-model="formTour.coverPicture" class="custom-upload" type="file" />
@@ -160,7 +160,9 @@
           <el-input
             v-model="formTour.price"
             type="number"
-          />
+          >
+            <template #append>VNĐ</template>
+          </el-input>
         </el-col>
       </el-form-item>
       <el-form-item prop="descriptions">
@@ -216,143 +218,53 @@
           <n-editor v-model="formTour.scheduleContent" />
         </el-col>
       </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit">Create</el-button>
-        <el-button>Cancel</el-button>
-      </el-form-item>
     </el-form>
+    <div class="d-flex">
+      <v-btn
+        class="text-none rounded-xl"
+        prepend-icon="mdi-broom"
+        @click="createrTour"
+      >
+        Clear
+      </v-btn>
+      <v-spacer />
+      <v-btn
+        color="primary"
+        class="text-none rounded-xl"
+        prepend-icon="mdi-send-variant-outline"
+        @click="createrTour"
+      >
+        Create
+      </v-btn>
+    </div>
   </v-container>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
-import type { UploadProps } from 'element-plus/es/components'
+import { onMounted } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
 import { useCities } from '@/composables/useCities'
 import { TRAFFICS } from '@/resources/mockData'
-import type { FormRules } from 'element-plus'
 import NEditor from '@/components/NEditor.vue'
+import { useRoute } from 'vue-router'
+import { usePartnerTours } from '@/composables/partners/usePartnerTours'
 
 const { allCities } = useCities()
-const checkQuantity = (rule: any, value: number, callback: any) => {
-  value < 1 ?
-    callback(new Error('Số lượng phải lớn hơn bằng 1.'))
-    :
-    callback()
-}
-const checkCash = (rule: any, value: number, callback: any) => {
-  value < 1000 ?
-    callback(new Error('Giá tiền không được thấp hơn 1.000.'))
-    :
-    callback()
-}
-const checkLength = (rule: any, value: string, callback: any) => {
-  value.length < 10 ?
-    callback(new Error('Nội dung phải lớn hơn 10 kí tự.'))
-    :
-    callback()
-}
-const checkName = (rule: any, value: string, callback: any) => {
-  if (!value) {
-    return callback(new Error('Tên không được bỏ trống.'))
+const route = useRoute()
+const {
+  rules,
+  formTour,
+  getTourById,
+  handleRemove,
+  createrTour
+} = usePartnerTours()
+onMounted(() => {
+  if (route.query.id) {
+    getTourById(route.query.id as string)
   }
-  else {
-    if (value.length <= 5) {
-      callback(new Error('Độ dài tên lớn hơn 5 ký tự'))
-    } else {
-      callback()
-    }
-  }
-}
-const checkCoverImage = (rule: any, value: string, callback: any) => {
-  !value ? callback(new Error('Tên không được bỏ trống.')) : callback()
-}
-const checkCity = (rule: any, value: string, callback: any) => {
-  !value ? callback(new Error('Điểm đến không được bỏ trống.')) : callback()
-}
-const checkDeparture = (rule: any, value: string, callback: any) => {
-  !value ? callback(new Error('Điểm khởi hành không được bỏ trống.')) : callback()
-}
-const checkTraffics = (rule: any, value: string, callback: any) => {
-  !value ? callback(new Error('Phương tiện di chuyển không được bỏ trống.')) : callback()
-}
-const checkDay = (rule: any, value: number, callback: any) => {
-  if (!value) {
-    return callback(new Error('Ngày không được bỏ trống.'))
-  }
-  else {
-    if (value < 1) {
-      return callback(new Error('Ngày chọn không phù hợp.'))
-    } else {
-      return callback()
-    }
-  }
-}
-const checkNight = (rule: any, value: number, callback: any) => {
-  formTour.value.totalDay - value !== 1 || formTour.value.totalDay - value !== 0 ?
-    callback(new Error('Đêm chọn không phù hợp.')) : callback()
-}
-
-const rules = reactive<FormRules>({
-  name: [{ validator: checkName }],
-  coverPicture: [{ validator: checkCoverImage }],
-  groupSize: [{ validator: checkQuantity }],
-  city: [{ validator: checkCity }],
-  departure: [{ validator: checkDeparture }],
-  price: [{ validator: checkCash }],
-  descriptions: [{ validator: checkLength }],
-  scheduleContent: [
-    { validator: checkLength }
-  ],
-  note: [
-    { validator: checkLength }
-  ],
-  traffics: [{ validator: checkTraffics }],
-  totalDay: [{ validator: checkDay }],
-  totalNight: [{ validator: checkNight }]
 })
-const timeDays = ref({
-  day: 0,
-  night: 0
-})
-const formTour = ref({
-  name: '',
-  coverPicture: undefined,
-  totalDay: 0,
-  totalNight: 0,
-  totalDays: '',
-  descriptions: '',
-  groupSize: 0,
-  price: 0,
-  scheduleContent: '',
-  note: '',
-  city: undefined,
-  departure: '',
-  traffics: [],
-  tourImages: undefined
-})
-
-const onSubmit = () => {
-  formTour.value = {
-    ...formTour.value,
-    descriptions : `<div class="single-box-excerpt">${formTour.value.departure}</div>`,
-    scheduleContent:  `<div class="panel-body content-tour-item content-tour-tab-program-tour-0">${formTour.value.scheduleContent}</div>`,
-    note: `<div class="panel-body content-tour-item content-tour-tab-tour-rule-2">${formTour.value.note}</div>`,
-    totalDays: `${timeDays.value.day} ngày ${timeDays.value.night} đêm`
-  }
-  console.log('submit!', formTour.value)
-}
-const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
-  console.log(uploadFile, uploadFiles)
-}
 </script>
 <style lang="scss" scoped>
-.create-tours-page {
-  background-image: url('@/assets/img/map-bg.png');
-  background-size: contain;
-  background-position: center center;
-  min-height: 45rem;
-}
 </style>
 <style>
 .custom-upload .el-input__wrapper .el-input__inner {

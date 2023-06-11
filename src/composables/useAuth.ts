@@ -18,12 +18,27 @@ const useAuth = () => {
   const rememberMe = ref<boolean>(false)
   const formRef = ref()
   const { feedBack } = useFeedBack()
-
+  const checkAvatar = computed(() => authUser.value?.avatar || require('@/assets/img/avatar.png'))
+  const routeDirectional = () => {
+    const session = sessionStorage.getItem('userData')
+    authUser.value = session ? JSON.parse(session) : ''
+    if (authUser.value){
+      if (authUser.value?.role === 'Admin'){
+        router.push('/dashboard/admin')
+      }
+      else if (authUser.value?.role === 'Partner') {
+        router.push('/dashboard/partner')
+      }
+      else {
+        router.push('/')
+      }
+    }
+  }
   const signIn = async() => {
     const { valid } = await formRef.value.validate()
     if (valid) {
       startLoading()
-      await authStore.signInUser().then(() => router.push('/dashboard/admin'))
+      await authStore.signInUser().then(() => routeDirectional())
         .catch((error: IError) => {
           feedBack(error.data)
         })
@@ -65,27 +80,12 @@ const useAuth = () => {
     authStore.forgotPassword(email)
   }
 
-  const checkAvatar = computed(() => authUser.value?.avatar || require('@/assets/img/avatar.png'))
-  const routeDirectional = (sessionUser: any) => {
-    if (sessionUser){
-      if (sessionUser?.role === 'Admin'){
-        router.push('/dashboard/admin')
-      }
-      else if (sessionUser?.role === 'Partner') {
-        router.push('/dashboard/partner')
-      }
-      else {
-        router.push('/')
-      }
-    }
-  }
+
   setInterval(() => {
     authStore.refreshToken()
   }, refreshTokenTimeout.value)
   onMounted(() => {
-    const session = sessionStorage.getItem('userData')
-    authUser.value = session ? JSON.parse(session) : ''
-    routeDirectional(authUser.value)
+    routeDirectional()
   })
   return {
     userSignIn,

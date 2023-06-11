@@ -131,10 +131,4 @@ const columns: Column<any>[] = [
 
 </script>
 <style lang="scss" scoped>
-.partner-booking-page {
-  background-image: url('@/assets/img/map-bg.png');
-  background-size: contain;
-  background-position: center center;
-  min-height: 45rem;
-}
 </style>

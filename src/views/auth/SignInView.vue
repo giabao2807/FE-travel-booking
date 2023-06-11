@@ -19,7 +19,7 @@
             />
             <v-text-field
               v-model="userSignIn.password"
-              :rules="[ruleRequired('Password')]"
+              :rules="[ruleRequired('Password'), ruleLength('Password', 8)]"
               label="Password"
               name="password"
               prepend-inner-icon="mdi-lock-outline"
@@ -81,7 +81,7 @@ import NImage from '@/components/NImage.vue'
 import { useAuthentication } from '@/composables/useAuth'
 import { validations } from '@/helpers/validate'
 
-const { ruleRequired, ruleEmail } = validations()
+const { ruleRequired, ruleEmail, ruleLength } = validations()
 const {
   userSignIn,
   showPassword,

@@ -61,7 +61,7 @@
             />
             <v-text-field
               v-model="userSignUp.password"
-              :rules="[ruleRequired('Password')]"
+              :rules="[ruleRequired('Password'), ruleLength('Password', 8)]"
               label="Password"
               name="password"
               prepend-inner-icon="mdi-lock-outline"
@@ -76,7 +76,7 @@
             />
             <v-text-field
               v-mode="userSignUp.passwordConfirm"
-              :rules="[ruleRequired('ConfirmPassword')]"
+              :rules="[ruleRequired('ConfirmPassword'), ruleConfirmPassword(userSignUp.password, userSignUp.passwordConfirm)]"
               label="ConfirmPassword"
               name="confirmPassword"
               prepend-inner-icon="mdi-lock-outline"
@@ -115,7 +115,7 @@ import NImage from '@/components/NImage.vue'
 import { useAuthentication } from '@/composables/useAuth'
 import { validations } from '@/helpers/validate'
 
-const { ruleRequired, ruleEmail, nameRules } = validations()
+const { ruleRequired, ruleEmail, nameRules, ruleConfirmPassword, ruleLength } = validations()
 const {
   formRef,
   userSignUp,

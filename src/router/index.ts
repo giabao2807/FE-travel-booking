@@ -10,6 +10,9 @@ import PartnerView from '@/views/dashboard/partner/index.vue'
 import PartnerTour from '@/views/dashboard/partner/tours/index.vue'
 import CreateTour from '@/views/dashboard/partner/tours/CreateTour.vue'
 import PartnerHotel from '@/views/dashboard/partner/hotels/index.vue'
+import CreateHotel from '@/views/dashboard/partner/hotels/CreateHotel.vue'
+import PartnerCoupons from '@/views/dashboard/partner/coupons/index.vue'
+import CreateCoupon from '@/views/dashboard/partner/coupons/CreateCoupon.vue'
 import BookingPartner from '@/views/dashboard/partner/booking/index.vue'
 import AdminView from '@/views/dashboard/admin/index.vue'
 import HotelsView from '@/views/hotels/HotelsView.vue'
@@ -49,6 +52,9 @@ const routes: Array<RouteRecordRaw> = [
           { path: 'tours', name:'toursPartner', component: PartnerTour },
           { path: 'create-tour', name:'createTour', component: CreateTour },
           { path: 'hotels', name:'hotelsPartner', component: PartnerHotel },
+          { path: 'create-hotel', name:'createHotel', component: CreateHotel },
+          { path: 'coupons', name:'couponsPartner', component: PartnerCoupons },
+          { path: 'create-coupon', name:'createCoupon', component: CreateCoupon },
           { path: 'booking', name:'bookingPartner', component: BookingPartner }
         ]
       },

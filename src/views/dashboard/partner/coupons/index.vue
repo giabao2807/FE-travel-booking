@@ -1,14 +1,14 @@
 <template>
   <v-sheet class="partner-hotel-page">
     <div class="text-center mb-5">
-      <h3>Danh Sách Hotels Hiện Tại</h3>
+      <h3>Danh Sách Coupons Hiện Tại</h3>
     </div>
     <div class="d-flex align-center mx-0">
       <n-table
         :columns="columns"
-        :data="hotels"
-        :loading="loadingHotels"
-        @getNextPage="getHotels"
+        :data="coupons"
+        :loading="loadingCoupons"
+        @getNextPage="getCoupons"
       />
     </div>
   </v-sheet>
@@ -18,17 +18,16 @@ import { onMounted } from 'vue'
 import type { Column } from 'element-plus'
 import NTable from '@/components/NTable.vue'
 import { convertionType } from '@/helpers/convertion'
-import { usePartnerHotels } from '@/composables/partners/usePartnerHotels'
-
+import { usePartnerCoupons } from '@/composables/partners/usePartnerCoupons'
 
 const {
-  hotels,
-  loadingHotels,
-  getHotels
-} = usePartnerHotels()
-const { formatCurrency } = convertionType()
+  coupons,
+  loadingCoupons,
+  getCoupons
+} = usePartnerCoupons()
+const { formatDate } = convertionType()
 onMounted(() => {
-  getHotels()
+  getCoupons()
 })
 
 const columns: Column<any>[] = [
@@ -40,55 +39,57 @@ const columns: Column<any>[] = [
     align: 'center'
   },
   {
-    key: 'coverPicture',
-    title: 'Picture',
-    dataKey: 'coverPicture',
-    width: 150,
-    headerClass: 'justify-center',
-    cellRenderer: ({ cellData: coverPicture }) => (
-      <v-img width={150} src={coverPicture} cover/>
-    )
-  },
-  {
     key: 'name',
     title: 'Name',
     dataKey: 'name',
-    width: 300,
+    width: 200,
+    headerClass: 'justify-center'
+  },
+  {
+    key: 'description',
+    title: 'Description',
+    dataKey: 'description',
+    width: 250,
     headerClass: 'justify-center',
-    cellRenderer: ({ cellData: name }) => (
-      <el-tooltip content={name}>
-        <span class='text-start'>{name}</span>
+    cellRenderer: ({ cellData: description }) => (
+      <el-tooltip content={description}>
+        <span class='text-start'>{description}</span>
       </el-tooltip>
     )
   },
   {
-    key: 'numReview',
-    title: 'Reviews',
-    dataKey: 'numReview',
+    key: 'startDate',
+    title: 'Start Date',
+    dataKey: 'startDate',
     width: 150,
-    align: 'center'
-  },
-  {
-    key: 'minPrice',
-    title: 'Min Price',
-    dataKey: 'minPrice',
     align: 'center',
-    width: 150,
-    cellRenderer: ({ cellData: minPrice }) => (
+    cellRenderer: ({ cellData: startDate }) => (
       <>
-        { formatCurrency(minPrice) }
+        { formatDate(startDate) }
       </>
     )
   },
   {
-    key: 'maxPrice',
-    title: 'Max Price',
-    dataKey: 'maxPrice',
+    key: 'endDate',
+    title: 'End Date',
+    dataKey: 'endDate',
+    width: 150,
+    align: 'center',
+    cellRenderer: ({ cellData: endDate }) => (
+      <>
+        { formatDate(endDate) }
+      </>
+    )
+  },
+  {
+    key: 'discountPercent',
+    title: 'Discount',
+    dataKey: 'discountPercent',
     align: 'center',
     width: 150,
-    cellRenderer: ({ cellData: maxPrice }) => (
+    cellRenderer: ({ cellData: discountPercent }) => (
       <>
-        { formatCurrency(maxPrice) }
+        { discountPercent }%
       </>
     )
   },
@@ -126,11 +127,11 @@ const columns: Column<any>[] = [
           icon="mdi-delete-empty-outline"
         />
         {/* <v-btn
-          v-show={!rowData.isActive}
-          variant="plain"
-          color="success"
-          icon="mdi-map-check"
-        /> */}
+                  v-show={!rowData.isActive}
+                  variant="plain"
+                  color="success"
+                  icon="mdi-map-check"
+                /> */}
       </>
     ),
     width: 150,
@@ -139,5 +140,5 @@ const columns: Column<any>[] = [
 ]
 
 </script>
-<style lang="scss" scoped>
-</style>
+        <style lang="scss" scoped>
+        </style>

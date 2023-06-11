@@ -154,38 +154,33 @@ const options = {
 </script>
 <style lang="scss" scoped>
 .partner-page {
-  background-image: url('@/assets/img/map-bg.png');
-  background-size: contain;
-  background-position: center center;
-  min-height: 45rem;
-}
-
-.card {
- width: 200px;
- height: 230px;
- display: flex;
- flex-direction: column;
- align-items: center;
- background: #f2f2f3;
- border-radius: 12px;
- .content {
-    height: 80px;
-    margin-top: 1.6em;
-    aspect-ratio: 1;
-    border-radius: 30%;
+  .card {
+    width: 200px;
+    height: 230px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background: #f2f2f3;
-    margin-bottom: 1em;
-    box-shadow: -5px -5px 8px #ffffff7a,
-                  5px 5px 8px #a9a9aa7a;
-  }
-  .info {
-    text-align: center;
-    margin-top: 1.5em;
-  }
-  .info > span {
-    font-weight: bold;
-    font-size: 1.2em;
-  }
+    border-radius: 12px;
+    .content {
+      height: 80px;
+      margin-top: 1.6em;
+      aspect-ratio: 1;
+      border-radius: 30%;
+      background: #f2f2f3;
+      margin-bottom: 1em;
+      box-shadow: -5px -5px 8px #ffffff7a,
+                    5px 5px 8px #a9a9aa7a;
+    }
+    .info {
+      text-align: center;
+      margin-top: 1.5em;
+    }
+    .info > span {
+      font-weight: bold;
+      font-size: 1.2em;
+    }
 
+  }
 }
 </style>
