@@ -1,3 +1,4 @@
+import { IParamPage } from '@/libs/types/commonType'
 import connectionsAPI from '@/plugins/axios'
 import { defineStore } from 'pinia'
 
@@ -22,10 +23,18 @@ export const usePartnerStore = defineStore('partnerStore', () => {
       path: 'statistic/get_potential_customers'
     })
   }
+  const getBooking = async(type: number, params?: IParamPage) => {
+    return await connectionsAPI({
+      methods: 'GET',
+      path: 'booking/for_partner',
+      params: { ...params, type: type }
+    })
+  }
 
   return {
     getRevenue,
     getStaticBox,
-    getPotentialCustomers
+    getPotentialCustomers,
+    getBooking
   }
 })

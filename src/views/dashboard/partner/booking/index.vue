@@ -1,33 +1,55 @@
 <template>
   <v-sheet class="partner-booking-page">
     <div class="text-center mb-5">
-      <h3>Danh Sách Booking Hiện Tại</h3>
+      <h3>Danh Sách Booking Tours Hiện Tại</h3>
     </div>
     <div class="d-flex align-center mx-0">
       <n-table
-        :columns="columns"
-        :data="tours"
+        :columns="columnsTour"
+        :data="bookingTours"
         :loading="loadingTours"
-        @getNextPage="getTours"
+        @getNextPage="getBookingTours"
+      />
+    </div>
+    <div class="text-center my-5">
+      <h3>Danh Sách Booking Hotels Hiện Tại</h3>
+    </div>
+    <div class="d-flex align-center mx-0">
+      <n-table
+        :columns="columnsHotel"
+        :data="bookingHotels"
+        :loading="loadingHotels"
+        :estimated-row-height="50"
+        :expand="true"
+        :expand-column-key="columnsHotel[0].key"
+        @getNextPage="getBookingTours"
       />
     </div>
   </v-sheet>
 </template>
 <script lang="tsx" setup>
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import type { Column } from 'element-plus'
-import { usePartnerTours } from '@/composables/partners/usePartnerTours'
+import { usePartnerBooking } from '@/composables/partners/usePartnerBooking'
 import NTable from '@/components/NTable.vue'
 import { convertionType } from '@/helpers/convertion'
 
 
-const { tours, loadingTours, getTours, deactivateTour, activateTour } = usePartnerTours()
-const { formatCurrency } = convertionType()
+const {
+  bookingTours,
+  loadingTours,
+  bookingHotels,
+  loadingHotels,
+  getBookingTours,
+  getBookingHotels
+} = usePartnerBooking()
+const { formatCurrency, formatDate, getIconStatus, checkColorTag } = convertionType()
 onMounted(() => {
-  getTours()
+  getBookingTours()
+  getBookingHotels()
 })
 
-const columns: Column<any>[] = [
+const columnsTour: Column<any>[] = [
   {
     key: 'column-n-1',
     title: 'No.',
@@ -36,99 +58,176 @@ const columns: Column<any>[] = [
     align: 'center'
   },
   {
-    key: 'name',
-    title: 'Name',
-    dataKey: 'name',
-    width: 300,
+    key: 'avatar',
+    title: 'Avatar User',
+    width: 100,
+    align: 'center',
+    cellRenderer: ({ rowData }) => (
+      <v-avatar image={rowData.customer.avatar}/>
+    )
+  },
+  {
+    key: 'nameUser',
+    title: 'Name User',
+    width: 150,
     headerClass: 'justify-center',
-    cellRenderer: ({ cellData: name }) => (
-      <el-tooltip content={name}>
-        <span class='text-start'>{name}</span>
+    cellRenderer: ({ rowData }) => (
+      <el-tooltip content={rowData.customer.firstName}>
+        <span class='text-start'>{rowData.customer.firstName}</span>
       </el-tooltip>
     )
   },
   {
-    key: 'totalDays',
-    title: 'Total Days',
-    dataKey: 'totalDays',
-    width: 150,
-    align: 'center'
-  },
-  {
-    key: 'departure',
-    title: 'Departure',
-    dataKey: 'departure',
+    key: 'name',
+    title: 'Name Tour',
+    width: 300,
     headerClass: 'justify-center',
-    width: 150
-  },
-  {
-    key: 'groupSize',
-    title: 'Quantity',
-    dataKey: 'groupSize',
-    width: 100,
-    align: 'center'
-  },
-  {
-    key: 'price',
-    title: 'Price',
-    dataKey: 'price',
-    align: 'center',
-    width: 150,
-    cellRenderer: ({ cellData: price }) => (
-      <>
-        { formatCurrency(price) }
-      </>
-    )
-  },
-  {
-    key: 'isActive',
-    title: 'Status',
-    dataKey: 'isActive',
-    width: 100,
-    align: 'center',
-    cellRenderer: ({ cellData: isActive }) =>(
-      <el-tag
-        class="mx-1"
-        effect="light"
-        type={!isActive ? 'info' : ''}
-        round
-      >
-        { isActive ? 'Active' : 'Inactive' }
-      </el-tag>
-    )
-  },
-  {
-    key: 'operations',
-    title: 'Operations',
     cellRenderer: ({ rowData }) => (
-      <>
-        <v-btn
-          variant="plain"
-          color="primary"
-          icon="mdi-circle-edit-outline"
-          onClick={() => console.log('run run', rowData.id) }
-        />
-        <v-btn
-          v-show={rowData.isActive}
-          variant="plain"
-          color="error"
-          icon="mdi-delete-empty-outline"
-          onClick={() => deactivateTour(rowData.id)}
-        />
-        <v-btn
-          v-show={!rowData.isActive}
-          variant="plain"
-          color="success"
-          icon="mdi-map-check"
-          onClick={() => activateTour(rowData.id)}
-        />
-      </>
-    ),
+      <el-tooltip content={rowData.tour.name}>
+        <span class='text-start'>{rowData.tour.name}</span>
+      </el-tooltip>
+    )
+  },
+  {
+    key: 'quantity',
+    title: 'Quantity',
+    width: 100,
+    align: 'center',
+    cellRenderer: ({ rowData }) => (
+      <span class='text-start'>{rowData.bookingItems.quantity}</span>
+    )
+  },
+  {
+    key: 'createdAt',
+    title: 'Created At',
+    dataKey: 'createdAt',
+    align: 'center',
     width: 150,
-    align: 'center'
+    cellRenderer: ({ cellData: createdAt }) => (
+      <span class='text-start'>{formatDate(createdAt)}</span>
+    )
+  },
+  {
+    key: 'note',
+    title: 'Note',
+    dataKey: 'note',
+    width: 200,
+    headerClass: 'justify-center',
+    cellRenderer: ({ cellData: note }) => (
+      <el-tooltip content={note}>
+        <span class='text-start'>{note}</span>
+      </el-tooltip>
+    )
+  },
+  {
+    key: 'totalPrice',
+    title: 'Price',
+    dataKey: 'totalPrice',
+    align: 'center',
+    width: 150,
+    cellRenderer: ({ cellData: totalPrice }) => (
+      <>
+        { formatCurrency(totalPrice) }
+      </>
+    )
+  },
+  {
+    key: 'status',
+    title: 'Status',
+    dataKey: 'status',
+    width: 150,
+    align: 'center',
+    cellRenderer: ({ cellData: status }) =>(
+      <v-chip color={checkColorTag(status)} size="small">
+        <h5>
+          <v-icon icon={getIconStatus(status)} />
+          <span class="mx-1 font-weight-800">{ status }</span>
+        </h5>
+      </v-chip>
+    )
+  }
+]
+const columnsHotel: Column<any>[] = [
+  {
+    key: 'avatar',
+    title: 'Avatar User',
+    width: 100,
+    align: 'center',
+    cellRenderer: ({ rowData }) => (
+      <v-avatar image={rowData.customer.avatar}/>
+    )
+  },
+  {
+    key: 'nameUser',
+    title: 'Name User',
+    width: 150,
+    headerClass: 'justify-center',
+    cellRenderer: ({ rowData }) => (
+      <el-tooltip content={rowData.customer.firstName}>
+        <span class='text-start'>{rowData.customer.firstName}</span>
+      </el-tooltip>
+    )
+  },
+  {
+    key: 'name',
+    title: 'Name Hotel',
+    width: 250,
+    headerClass: 'justify-center',
+    cellRenderer: ({ rowData }) => (
+      <el-tooltip content={rowData.hotel.name}>
+        <span class='text-start'>{rowData.hotel.name}</span>
+      </el-tooltip>
+    )
+  },
+  {
+    key: 'createdAt',
+    title: 'Created At',
+    dataKey: 'createdAt',
+    align: 'center',
+    width: 150,
+    cellRenderer: ({ cellData: createdAt }) => (
+      <span class='text-start'>{formatDate(createdAt)}</span>
+    )
+  },
+  {
+    key: 'note',
+    title: 'Note',
+    dataKey: 'note',
+    width: 200,
+    headerClass: 'justify-center',
+    cellRenderer: ({ cellData: note }) => (
+      <el-tooltip content={note}>
+        <span class='text-start'>{note}</span>
+      </el-tooltip>
+    )
+  },
+  {
+    key: 'totalPrice',
+    title: 'Price',
+    dataKey: 'totalPrice',
+    align: 'center',
+    width: 150,
+    cellRenderer: ({ cellData: totalPrice }) => (
+      <>
+        { formatCurrency(totalPrice) }
+      </>
+    )
+  },
+  {
+    key: 'status',
+    title: 'Status',
+    dataKey: 'status',
+    width: 150,
+    align: 'center',
+    cellRenderer: ({ cellData: status }) =>(
+      <v-chip color={checkColorTag(status)} size="small">
+        <h5>
+          <v-icon icon={getIconStatus(status)} />
+          <span class="mx-1 font-weight-800">{ status }</span>
+        </h5>
+      </v-chip>
+    )
   }
 ]
 
 </script>
-<style lang="scss" scoped>
-</style>

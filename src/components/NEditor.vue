@@ -1,36 +1,22 @@
 <template>
-  <div class="container">
-    <v-card class="p-6">
-      <ckeditor
-        :editor="editor"
-        @update:modelValue="(event: any) => hanldeChange(event)"
-        :config="editorConfig"
-      />
-    </v-card>
-  </div>
+  <ckeditor
+    :editor="editor"
+    @update:modelValue="(event) => hanldeChange(event)"
+    :config="editorConfig"
+  />
 </template>
 <script lang="ts" setup>
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { defineEmits } from 'vue'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 const emit = defineEmits<{
-  (event: 'update:modelValue', data: string): void
+  (event: 'update:modelValue', value: any): void
 }>()
-const hanldeChange = (event: string) => {
+const hanldeChange = (event: any) => {
   emit('update:modelValue', event)
 }
 const editor = ClassicEditor
 const editorConfig = {
-  // The configuration of the editor.
-  fillEmptyBlocks: false,
-  basicEntities: false,
-  entities: false,
-  entities_greek: false,
-  entities_latin: false,
-  language: 'fr',
-  wordCount: {
-    container: document.getElementById('wordcount')
-  },
   ckfinder: {
     uploadUrl: 'https://example.com/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json',
     options: {

@@ -88,11 +88,14 @@ const createPartnerTours = () => {
         formTour.value = {
           ...data,
           coverPicture: undefined,
+          totalDay: parseInt(getNumber[0]),
+          totalNight: parseInt(getNumber[1]),
           traffics: JSON.parse(data.traffics.replace(/'/g, '"')),
           descriptions: `${deCode(data.descriptions)}`,
-          scheduleContent: deCode(data.descriptions)
+          scheduleContent: `${deCode(data.scheduleContent)}`,
+          note: `${deCode(data.note)}`
         }
-        console.log(typeof(formTour.value.descriptions))
+        console.log(formTour.value.scheduleContent)
       })
   }
   const getTours = (params?: IParamPage) => {

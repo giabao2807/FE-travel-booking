@@ -1,13 +1,16 @@
 <template>
   <el-table-v2
     :columns="columns"
-    :data="props.data.results || []"
+    :data="(props.expand ? data : props.data.results) || []"
+    :expand-column-key="expandData"
     :width="1200"
     :height="500"
-    :footer-height="50"
     class="mx-0"
     fixed
   >
+    <template v-if="props.expand" #row="props">
+      <Row v-bind="props" />
+    </template>
     <template #empty>
       <div v-if="!props.loading" class="flex items-center justify-center h-100%">
         <el-empty />
@@ -34,20 +37,25 @@
     </template>
   </el-table-v2>
 </template>
-<script lang="ts" setup>
+<script lang="tsx" setup>
 import NPagination from '@/components/NPagination.vue'
 import { defineProps, withDefaults, ref, defineEmits } from 'vue'
 import { Loading as LoadingIcon } from '@element-plus/icons-vue'
+import { watchEffect } from 'vue'
 
 type Props = {
   columns: any,
   loading?: boolean,
-  data: any
+  data: any,
+  expandData?: any,
+  expand?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
   columns: undefined,
   loading: false,
-  data: []
+  data: [],
+  expandData: undefined,
+  expand: false
 })
 const pageNumber = ref<number>(1)
 const emit = defineEmits(['getNextPage'])
@@ -55,10 +63,51 @@ const getNextPage = (params: any) => {
   emit('getNextPage', params)
 
 }
+const data = ref()
+console.log(props.data?.results, data)
+
+const Row = ({ cells, rowData }) => {
+  console.log(rowData.detail)
+
+  if (rowData.detail)
+    return (<div class="ma-5">
+      {rowData.detail.map((item: any) => (
+        <div class="d-flex px-6">
+          <v-icon icon="mdi-bed-single-outline" class="mr-1" />
+          <strong>{ item.roomName } x { item.quantity }</strong>
+        </div>
+      ))}
+    </div>)
+  return cells
+}
+Row.inheritAttrs = false
+watchEffect(() => {
+  if (props.expand) {
+    data.value = props.data.results?.map((data: any) => {
+      data.children = [
+        {
+          id: `${data.id}-detail-content`,
+          detail: data.bookingItems
+        }
+      ]
+      return data
+    })
+  }
+}
+)
 </script>
 <style>
 .el-table-v2__footer {
   width: 1200px;
   height: 100px !important;
+}
+.el-table-v2__row-depth-0 {
+  height: 50px;
+}
+
+.el-table-v2__cell-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>
