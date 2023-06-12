@@ -29,9 +29,11 @@
             </template>
             <el-col :span="15">
               <el-date-picker
+                v-model="testDay"
                 type="daterange"
                 start-placeholder="Start date"
                 end-placeholder="End date"
+                :disabled-date="disabledDate"
               />
             </el-col>
           </el-form-item>
@@ -104,3 +106,11 @@
     </v-card>
   </v-sheet>
 </template>
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const testDay = ref()
+const disabledDate = (date: any) => {
+  date ? new Date(date) > new Date() : false
+}
+</script>

@@ -28,7 +28,7 @@
     </v-container>
     <v-container fluid>
       <v-row>
-        <v-col cols="5">
+        <v-col cols="4">
           <v-card min-height="450" elevation="1" class="rounded-xl">
             <v-card-title>
               <h4 class="mx-3 mt-3"><v-icon icon="mdi-star-check-outline" />The Potential Customers</h4>
@@ -63,16 +63,23 @@
                 type="daterange"
                 start-placeholder="Start date"
                 end-placeholder="End date"
+                value-format="YYYY-MM-DD"
                 @update:model-value="() => getRevenue(
                   {
-                    startDate: formatDate(dayRevenue[0], 'YYYY-MM-DD'),
-                    endDate: formatDate(dayRevenue[1], 'YYYY-MM-DD')
+                    startDate: dayRevenue[0],
+                    endDate: dayRevenue[1]
                   }
                 )"
               />
             </v-card-title>
             <v-card-text>
-              <n-chart class="mt-5" :chart-data="revenue?.details" :chart-options="options" y-append="M" />
+              <n-chart
+                :width="300"
+                class="mt-5"
+                :chart-data="revenue?.details"
+                :chart-options="options"
+                y-append="M"
+              />
             </v-card-text>
           </v-card>
         </v-col>
@@ -131,8 +138,8 @@ onMounted(() => {
   getPotentialCustomers()
   getRevenue(
     {
-      startDate: formatDate(dayRevenue.value[0], 'YYYY-MM-DD'),
-      endDate: formatDate(dayRevenue.value[1], 'YYYY-MM-DD')
+      startDate: dayRevenue.value[0],
+      endDate: dayRevenue.value[1]
     }
   )
 })

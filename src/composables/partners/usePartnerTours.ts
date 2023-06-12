@@ -2,16 +2,17 @@ import { reactive, ref } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { usePartnerToursStore } from '@/store/partners/tours'
 import { IParamPage } from '@/libs/types/commonType'
-import type { UploadProps } from 'element-plus/es/components'
+import { dateEquals, UploadProps } from 'element-plus/es/components'
 import type { FormRules } from 'element-plus'
 import { validations } from '@/helpers/validate'
 import { useTourStore } from '@/store/tours'
 import { useFeedBack } from '../useFeedBack'
-
+import { convertionType } from '@/helpers/convertion'
 
 const createPartnerTours = () => {
   const partnerTourStore = usePartnerToursStore()
   const tourStore = useTourStore()
+  const { deCode } = convertionType()
   const {
     checkQuantity,
     checkCash,
@@ -43,7 +44,7 @@ const createPartnerTours = () => {
     tourImages: undefined
   })
   const checkNight = (rule: any, value: number, callback: any) => {
-    formTour.value.totalDay - value !== 1 || formTour.value.totalDay - value !== 0 ?
+    formTour.value.totalDay - value !== 1 && formTour.value.totalDay - value !== 0 ?
       callback(new Error('Đêm chọn không phù hợp.')) : callback()
   }
 
@@ -70,12 +71,12 @@ const createPartnerTours = () => {
   const createrTour = () => {
     formTour.value = {
       ...formTour.value,
-      descriptions : `<div class="single-box-excerpt">${formTour.value.departure}</div>`,
+      descriptions : `<div class="single-box-excerpt">${formTour.value.descriptions}</div>`,
       scheduleContent:  `<div class="panel-body content-tour-item content-tour-tab-program-tour-0">${formTour.value.scheduleContent}</div>`,
       note: `<div class="panel-body content-tour-item content-tour-tab-tour-rule-2">${formTour.value.note}</div>`,
       totalDays: `${formTour.value.totalDay} ngày ${formTour.value.totalNight} đêm`
     }
-    console.log('submit!', formTour.value)
+    console.log('submit!', formTour.value.descriptions)
   }
   const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
     console.log(uploadFile, uploadFiles)
@@ -83,12 +84,15 @@ const createPartnerTours = () => {
   const getTourById = (id: string) => {
     tourStore.getTourById(id)
       .then(data => {
-        const getNumber = data?.totalDays.match(/\d+/g)
+        const getNumber = data?.totalDays.match(/d+/g)
         formTour.value = {
           ...data,
-          totalDay: parseInt(getNumber[0]),
-          totalNight: parseInt(getNumber[1])
+          coverPicture: undefined,
+          traffics: JSON.parse(data.traffics.replace(/'/g, '"')),
+          descriptions: `${deCode(data.descriptions)}`,
+          scheduleContent: deCode(data.descriptions)
         }
+        console.log(typeof(formTour.value.descriptions))
       })
   }
   const getTours = (params?: IParamPage) => {

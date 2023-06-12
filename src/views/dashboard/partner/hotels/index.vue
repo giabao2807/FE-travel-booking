@@ -53,7 +53,7 @@ const columns: Column<any>[] = [
     key: 'name',
     title: 'Name',
     dataKey: 'name',
-    width: 300,
+    width: 250,
     headerClass: 'justify-center',
     cellRenderer: ({ cellData: name }) => (
       <el-tooltip content={name}>
@@ -62,10 +62,10 @@ const columns: Column<any>[] = [
     )
   },
   {
-    key: 'numReview',
-    title: 'Reviews',
-    dataKey: 'numReview',
-    width: 150,
+    key: 'address',
+    title: 'Address',
+    dataKey: 'address',
+    width: 200,
     align: 'center'
   },
   {

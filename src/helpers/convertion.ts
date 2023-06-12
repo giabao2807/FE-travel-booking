@@ -15,6 +15,10 @@ export const convertionType = () => {
     arrHtml.push(sectionHeader, container.outerHTML)
     return arrHtml
   }
+  const deCode = (text: string) => {
+    const container = document.createElement('div')
+    return container.innerHTML = text ? text : ''
+  }
   const voteText = (rate = 0) => {
     if (rate > 4.5) {
       return COMMENTRATE[0]
@@ -60,6 +64,7 @@ export const convertionType = () => {
   }
   return {
     formatCurrency,
+    deCode,
     deCodeHtml,
     voteText,
     getPriceDiscount,

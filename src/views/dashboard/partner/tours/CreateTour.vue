@@ -110,10 +110,6 @@
             <el-select
               v-model="formTour.traffics"
               multiple
-              filterable
-              allow-create
-              default-first-option
-              clearable
               placeholder="Select"
             >
               <el-option
@@ -173,7 +169,7 @@
           </div>
         </template>
         <el-col :span="20">
-          <n-editor v-model="formTour.descriptions" />
+          <quill-editor theme="snow" v-model:content="formTour.descriptions" content-type="html" toolbar="full" />
         </el-col>
       </el-form-item>
       <v-divider class="my-2" />
@@ -215,7 +211,7 @@
           </div>
         </template>
         <el-col :span="20">
-          <n-editor v-model="formTour.scheduleContent" />
+          <n-editor v-model:content="formTour.scheduleContent" />
         </el-col>
       </el-form-item>
     </el-form>
@@ -248,6 +244,8 @@ import { TRAFFICS } from '@/resources/mockData'
 import NEditor from '@/components/NEditor.vue'
 import { useRoute } from 'vue-router'
 import { usePartnerTours } from '@/composables/partners/usePartnerTours'
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
 const { allCities } = useCities()
 const route = useRoute()

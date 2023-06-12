@@ -3,7 +3,7 @@
     <v-card class="p-6">
       <ckeditor
         :editor="editor"
-        @update:modelValue="(event) => hanldeChange(event)"
+        @update:modelValue="(event: any) => hanldeChange(event)"
         :config="editorConfig"
       />
     </v-card>
@@ -14,9 +14,9 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { defineEmits } from 'vue'
 
 const emit = defineEmits<{
-  (event: 'update:modelValue', booking: boolean): void
+  (event: 'update:modelValue', data: string): void
 }>()
-const hanldeChange = (event: boolean) => {
+const hanldeChange = (event: string) => {
   emit('update:modelValue', event)
 }
 const editor = ClassicEditor
