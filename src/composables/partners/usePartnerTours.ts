@@ -14,7 +14,7 @@ import { handleRoute } from '@/helpers/loadingRoute'
 const createPartnerTours = () => {
   const partnerTourStore = usePartnerToursStore()
   const tourStore = useTourStore()
-  const { deCode } = convertionType()
+  const { deCode, convertObjectToFormData } = convertionType()
   const { startLoading, finishLoading } = useLoading()
   const {
     checkQuantity,
@@ -70,10 +70,8 @@ const createPartnerTours = () => {
     totalNight: [{ validator: checkNight }]
   })
 
-
   const createTour = () => {
     startLoading()
-    const testForm = new FormData()
     formTour.value = {
       ...formTour.value,
       descriptions : `<div class="single-box-excerpt">${formTour.value.descriptions}</div>`,
@@ -81,7 +79,7 @@ const createPartnerTours = () => {
       note: `<div class="panel-body content-tour-item content-tour-tab-tour-rule-2">${formTour.value.note}</div>`,
       totalDays: `${formTour.value.totalDay} ngày ${formTour.value.totalNight} đêm`
     }
-    partnerTourStore.createTour(formTour.value)
+    partnerTourStore.createTour(convertObjectToFormData(formTour.value))
       .then(() => {
         handleRoute({ name: 'toursPartner' })
         finishLoading()

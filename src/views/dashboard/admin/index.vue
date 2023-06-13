@@ -1,58 +1,204 @@
 <template>
-  <v-container fluid>
-    <section class="section-about">
-      <div class="u-center-text u-margin-bottom-big">
-        <h2 class="heading-secondary">
-          Exciting tours for adventurous people
-        </h2>
-      </div>
-
-      <div class="row">
-        <div class="col-1-of-2">
-          <h3 class="heading-tertiary u-margin-bottom-small">You're going to fall in love with nature</h3>
-          <p class="paragraph">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, ipsum sapiente aspernatur libero repellat quis consequatur
-            ducimus quam nisi exercitationem omnis earum qui.
-          </p>
-
-          <h3 class="heading-tertiary u-margin-bottom-small">Live adventures like you never have before</h3>
-          <p class="paragraph">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores nulla deserunt voluptatum nam.
-          </p>
-
-          <a href="#" class="btn-text">Learn more &rarr;</a>
-        </div>
-        <div class="col-1-of-2">
-          <div class="composition">
-            <img
-              srcset="img/nat-1.jpg 300w, https://i.pinimg.com/564x/e4/78/05/e478051c99e8a68843add167811b1494.jpg 1000w"
-              sizes="(max-width: 56.25em) 20vw, (max-width: 37.5em) 30vw, 300px"
-              alt="Photo 1"
-              class="composition__photo composition__photo--p1"
-              src="https://i.pinimg.com/564x/e4/78/05/e478051c99e8a68843add167811b1494.jpg"
-            >
-
-            <img
-              srcset="img/nat-2.jpg 300w, https://i.pinimg.com/564x/b4/9a/de/b49ade0c9859ec26eb7e9192ef4fdea8.jpg 1000w"
-              sizes="(max-width: 56.25em) 20vw, (max-width: 37.5em) 30vw, 300px"
-              alt="Photo 2"
-              class="composition__photo composition__photo--p2"
-              src="https://i.pinimg.com/564x/b4/9a/de/b49ade0c9859ec26eb7e9192ef4fdea8.jpg"
-            >
-
-            <img
-              srcset="img/nat-3.jpg 300w, https://i.pinimg.com/564x/ae/5b/fd/ae5bfd38ccad70f3a008071128984d76.jpg 1000w"
-              sizes="(max-width: 56.25em) 20vw, (max-width: 37.5em) 30vw, 300px"
-              alt="Photo 3"
-              class="composition__photo composition__photo--p3"
-              src="https://i.pinimg.com/564x/ae/5b/fd/ae5bfd38ccad70f3a008071128984d76.jpg"
-            >
-            <img src="https://i.pinimg.com/564x/e4/78/05/e478051c99e8a68843add167811b1494.jpg" alt="Photo 1" class="composition__photo composition__photo--p1">
-            <img src="https://i.pinimg.com/564x/b4/9a/de/b49ade0c9859ec26eb7e9192ef4fdea8.jpg" alt="Photo 2" class="composition__photo composition__photo--p2">
-            <img src="https://i.pinimg.com/564x/ae/5b/fd/ae5bfd38ccad70f3a008071128984d76.jpg" alt="Photo 3" class="composition__photo composition__photo--p3">
-          </div>
-        </div>
-      </div>
-    </section>
+  <v-container fluid class="admin-page">
+    <v-container fluid>
+      <v-row>
+        <v-col
+          v-for="item in staticBox"
+          :key="item?.key"
+          md="2"
+        >
+          <v-card elevation="3" class="card" :style="{ boxShadow: item.color }">
+            <div class="content d-flex align-center justify-center">
+              <h1 class="font-palanquin" :style="{ color: item.color }">{{ item?.value }}</h1>
+            </div>
+            <div class="info">
+              <span :style="{ color: item.color }">{{ item.title.toUpperCase() }}</span>
+              <br>
+              <v-chip
+                class="ma-2"
+                :color="item.color"
+                variant="outlined"
+                size="x-small"
+              >
+                <p style="font-size: 0.5em;">{{ item?.rateString }}</p>
+              </v-chip>
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-container fluid>
+      <v-row>
+        <v-col cols="4">
+          <v-card min-height="450" elevation="1" class="rounded-xl">
+            <v-card-title>
+              <h4 class="mx-3 mt-3"><v-icon icon="mdi-star-check-outline" />The Potential Customers</h4>
+            </v-card-title>
+            <v-card-text class="overflow-y-auto" style="height: 420px;">
+              <v-list
+                lines="three"
+              >
+                <v-list-item
+                  v-for="item in potentailCustomers"
+                  :key="item.id"
+                  :prepend-avatar="item.avatar"
+                  :title="item.lastName + ' ' + item.firstName"
+                  :subtitle="item.email"
+                >
+                  <v-divider class="my-2" />
+                </v-list-item>
+              </v-list>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col cols="8">
+          <v-card min-height="450" elevation="1" class="rounded-xl">
+            <v-card-title class="d-flex align-center">
+              <h4 class="ma-3">
+                <v-icon icon="mdi-archive-cog-outline" />
+                Statistics by day
+              </h4>
+              <el-date-picker
+                v-model="dayRevenue"
+                class="ma-3"
+                type="daterange"
+                start-placeholder="Start date"
+                end-placeholder="End date"
+                value-format="YYYY-MM-DD"
+                @update:model-value="() => getRevenue(
+                  {
+                    startDate: dayRevenue[0],
+                    endDate: dayRevenue[1]
+                  }
+                )"
+              />
+            </v-card-title>
+            <v-card-text>
+              <n-chart
+                :width="300"
+                class="mt-5"
+                :chart-data="revenue?.details"
+                :chart-options="options"
+                y-append="M"
+              />
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-container>
+      <v-row>
+        <v-col>
+          <v-card min-height="370" class="rounded-xl">
+            <v-card-text>
+              <n-doughnut-chart :chart-data="revenue" :chart-options="optionsDoughnut" />
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col>
+          <n-linear-chart
+            :dataLinear="revenue?.totalTour"
+            :total="revenue?.totalTour+revenue?.totalHotel"
+            :dateFrom="formatDate(dayRevenue[0])"
+            :dateTo="formatDate(dayRevenue[1])"
+            color="rgb(255,163,158)"
+            title="Total Tours"
+            icon="mdi-compass-rose"
+            class="mb-5"
+          />
+          <n-linear-chart
+            :dataLinear="revenue?.totalHotel"
+            :total="revenue?.totalTour+revenue?.totalHotel"
+            :dateFrom="formatDate(dayRevenue[0])"
+            :dateTo="formatDate(dayRevenue[1])"
+            color="rgb(100,181,246)"
+            title="Total Hotels"
+            icon="mdi-shield-home-outline"
+          />
+        </v-col>
+      </v-row>
+    </v-container>
   </v-container>
 </template>
+<script lang="ts" setup>
+import { onMounted, ref } from 'vue'
+import { usePartner } from '@/composables/partners/usePartner'
+import NChart from '@/components/NChart.vue'
+import NDoughnutChart from '@/components/NDoughnutChart.vue'
+import NLinearChart from '@/components/NLinearChart.vue'
+import { convertionType } from '@/helpers/convertion'
+
+const {
+  staticBox,
+  potentailCustomers,
+  revenue,
+  getStaticBox,
+  getPotentialCustomers,
+  getRevenue
+} = usePartner()
+const { formatCurrency, formatDate } = convertionType()
+const dayRevenue = ref<[string, string]>([
+  '2023-05-27',
+  '2023-06-06'
+])
+onMounted(() => {
+  getStaticBox()
+  getPotentialCustomers()
+  getRevenue(
+    {
+      startDate: dayRevenue.value[0],
+      endDate: dayRevenue.value[1]
+    }
+  )
+})
+
+const options = {
+  scales: {
+    y: {
+      ticks: {
+        callback: (value: any) => {
+          return formatCurrency(value)
+        }
+      },
+      suggestedMin: 0
+    }
+  }
+}
+const optionsDoughnut = {
+  responsive: true,
+  maintainAspectRatio: false
+}
+
+</script>
+<style lang="scss" scoped>
+.partner-page {
+  .card {
+    width: 200px;
+    height: 230px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f2f2f3;
+    border-radius: 12px;
+    .content {
+      height: 80px;
+      margin-top: 1.6em;
+      aspect-ratio: 1;
+      border-radius: 30%;
+      background: #f2f2f3;
+      margin-bottom: 1em;
+      box-shadow: -5px -5px 8px #ffffff7a,
+                    5px 5px 8px #a9a9aa7a;
+    }
+    .info {
+      text-align: center;
+      margin-top: 1.5em;
+    }
+    .info > span {
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+
+  }
+}
+</style>

@@ -62,6 +62,15 @@ export const convertionType = () => {
     const item = STATUS_ICON.find(item => item.value === status.toLowerCase())
     return item?.color
   }
+  const convertObjectToFormData = (object: Record<string, any>): FormData => {
+    const formData = new FormData()
+    for (const key in object) {
+      if (Object.prototype.hasOwnProperty.call(object, key)) {
+        formData.append(key, object[key])
+      }
+    }
+    return formData
+  }
   return {
     formatCurrency,
     deCode,
@@ -74,6 +83,7 @@ export const convertionType = () => {
     formatDate,
     getIconStatus,
     getIconHuman,
-    checkColorTag
+    checkColorTag,
+    convertObjectToFormData
   }
 }

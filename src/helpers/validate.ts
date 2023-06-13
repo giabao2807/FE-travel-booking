@@ -19,21 +19,21 @@ export const validations = () => {
   const ruleQuantity = [
     (v: number) => (v && v >= 1) || 'Số lượng không được bé hơn 1.'
   ]
-  const ruleMaxQuantity = (quantity: number) => (v: number | boolean) => (!!v && v <= quantity) || `Số lượng không được lớn hơn ${quantity}.`
+  const ruleMaxQuantity = (quantity: number) => (v: number) => (!!v && v <= quantity) || `Số lượng không được lớn hơn ${quantity}.`
   const checkQuantity = (rule: any, value: number, callback: any) => {
-    value < 1 ?
+    return value < 1 ?
       callback(new Error('Số lượng phải lớn hơn bằng 1.'))
       :
       callback()
   }
   const checkCash = (rule: any, value: number, callback: any) => {
-    value < 1000 ?
+    return value < 1000 ?
       callback(new Error('Giá tiền không được thấp hơn 1.000.'))
       :
       callback()
   }
   const checkLength = (rule: any, value: string, callback: any) => {
-    value.length < 10 ?
+    return value.length < 10 ?
       callback(new Error('Nội dung phải lớn hơn 10 kí tự.'))
       :
       callback()
@@ -42,12 +42,10 @@ export const validations = () => {
     if (!value) {
       return callback(new Error('Tên không được bỏ trống.'))
     }
-    else {
-      if (value.length <= 5) {
-        callback(new Error('Độ dài tên lớn hơn 5 ký tự'))
-      } else {
-        callback()
-      }
+    if (value.length <= 5) {
+      return callback(new Error('Độ dài tên lớn hơn 5 ký tự'))
+    } else {
+      return callback()
     }
   }
   const checkCoverImage = (rule: any, value: string, callback: any) => {
