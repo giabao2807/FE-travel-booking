@@ -17,8 +17,9 @@ export const validations = () => {
   ]
   const ruleLength = (name: string, length: number) => (v: string) => (!!v && v.length >= length) || `${name} không được bé hơn ${length} kí tự.`
   const ruleQuantity = [
-    (v: number) => (v && v >= 1) || 'Số lượng không được bằng 0.'
+    (v: number) => (v && v >= 1) || 'Số lượng không được bé hơn 1.'
   ]
+  const ruleMaxQuantity = (quantity: number) => (v: number | boolean) => (!!v && v <= quantity) || `Số lượng không được lớn hơn ${quantity}.`
   const checkQuantity = (rule: any, value: number, callback: any) => {
     value < 1 ?
       callback(new Error('Số lượng phải lớn hơn bằng 1.'))
@@ -82,6 +83,7 @@ export const validations = () => {
     ruleLength,
     ruleQuantity,
     ruleConfirmPassword,
+    ruleMaxQuantity,
     checkQuantity,
     checkCash,
     checkLength,

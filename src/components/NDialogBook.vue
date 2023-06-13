@@ -90,51 +90,61 @@
                   <div>
                     <h2>{{ propItems.tourInfo?.name }}</h2>
                   </div>
-                  <v-row align="start" class="w-75 mt-5">
-                    <v-col cols="5">
-                      <v-icon icon="mdi-map-clock-outline" />
-                      <strong class="mx-1">Ngày Khởi Hành</strong>
-                    </v-col>
-                    <v-text-field
-                      v-model="bookTour.startDate"
-                      :min="minDate(new Date())"
-                      @update:model-value="(event) => getQuantityTour({ id: propItems.tourInfo?.id, startDate: event })"
-                      name="startDate"
-                      type="Date"
-                      color="primary"
-                      density="compact"
-                      variant="outlined"
-                      hide-details="auto"
-                      class="text-field"
-                    />
-                  </v-row>
-                  <v-row align="start" class="w-75 my-1">
-                    <v-col cols="5">
-                      <v-icon icon="mdi-account-card-outline" />
-                      <strong class="mx-1">Số Lượng</strong>
-                    </v-col>
-                    <n-select-quantity
-                      v-model="bookTour.bookingItems[0].quantity"
-                      :quantity="quantityTour"
-                      class="text-field"
-                    />
-                  </v-row>
-                  <v-row align="start" class="w-75 my-1">
-                    <v-col cols="5">
-                      <v-icon icon="mdi-note-edit-outline" />
-                      <strong class="mx-1">Ghi Chú (nếu có)</strong>
-                    </v-col>
-                    <v-textarea
-                      v-model="bookTour.note"
-                      variant="outlined"
-                      auto-grow
-                      rows="2"
-                      row-height="20"
-                      color="primary"
-                      hide-details="auto"
-                      class="text-field"
-                    />
-                  </v-row>
+                  <v-form ref="formRef">
+                    <v-row align="start" class="w-75 mt-5">
+                      <v-col cols="5">
+                        <v-icon icon="mdi-map-clock-outline" />
+                        <strong class="mx-1">Ngày Khởi Hành</strong>
+                      </v-col>
+                      <v-text-field
+                        v-model="bookTour.startDate"
+                        :min="minDate(new Date())"
+                        :rules="[ruleRequired('Ngày khởi hành')]"
+                        @update:model-value="(event) => getQuantityTour({ id: propItems.tourInfo?.id, startDate: event })"
+                        name="startDate"
+                        type="Date"
+                        color="primary"
+                        density="compact"
+                        variant="outlined"
+                        hide-details="auto"
+                        class="text-field"
+                      />
+                    </v-row>
+                    <v-row align="start" class="w-75 my-1">
+                      <v-col cols="5">
+                        <v-icon icon="mdi-account-card-outline" />
+                        <strong class="mx-1">Số Lượng</strong>
+                      </v-col>
+                      <v-text-field
+                        v-model="bookTour.bookingItems[0].quantity"
+                        :min="0"
+                        :max="quantityTour"
+                        density="compact"
+                        type="number"
+                        :rules="[ ...ruleQuantity, ruleMaxQuantity(quantityTour)]"
+                        color="primary"
+                        hide-details="auto"
+                        variant="outlined"
+                        class="text-field"
+                      />
+                    </v-row>
+                    <v-row align="start" class="w-75 my-1">
+                      <v-col cols="5">
+                        <v-icon icon="mdi-note-edit-outline" />
+                        <strong class="mx-1">Ghi Chú (nếu có)</strong>
+                      </v-col>
+                      <v-textarea
+                        v-model="bookTour.note"
+                        variant="outlined"
+                        auto-grow
+                        rows="2"
+                        row-height="20"
+                        color="primary"
+                        hide-details="auto"
+                        class="text-field"
+                      />
+                    </v-row>
+                  </v-form>
                 </v-col>
               </v-row>
               <v-row justify="end">
@@ -311,8 +321,7 @@
             color="primary"
             variant="flat"
             @click="() => {
-              step++
-              bookTour.bookingItems[0].tourId = propItems.tourInfo?.id || ''
+              nextBookingTour()
             }"
           >
             Next
@@ -397,9 +406,8 @@
 </template>
 <script lang="ts" setup>
 import NImage from '@/components/NImage.vue'
-import NSelectQuantity from './NSelectQuantity.vue'
 import NSelectBank from './NSelectBank.vue'
-import { computed, defineProps, withDefaults } from 'vue'
+import { computed, defineProps, withDefaults, onMounted } from 'vue'
 import { STEP_BOOK } from '@/resources/mockData'
 import { convertionType } from '@/helpers/convertion'
 import { useBookingDialog } from '@/composables/useBookingDialog'
@@ -408,6 +416,7 @@ import { IHotel } from '@/libs/types/hotelType'
 import { IItemHotel } from '@/libs/types/bookType'
 import { checkInfo } from '@/helpers/checkSignIn'
 import { handleRoute } from '@/helpers/loadingRoute'
+import { validations } from '@/helpers/validate'
 
 type Props = {
   titleDialog: string,
@@ -421,7 +430,7 @@ const propItems = withDefaults(defineProps<Props>(), {
   tourInfo: undefined,
   hotelInfo: undefined
 })
-
+const { ruleRequired, ruleQuantity, ruleMaxQuantity } = validations()
 const { formatCurrency, getPriceDiscount, minDate, getTraffic } = convertionType()
 const { isSignIn } = checkInfo()
 const totalPrice = computed(() => {
@@ -441,8 +450,15 @@ const setBookingHotelInfo = () => {
     bookingItems: roomList
   }
 }
-
+const nextBookingTour = async() => {
+  const { valid } = await formRef.value.validate()
+  if (valid) {
+    step.value++
+    bookTour.value.bookingItems[0].tourId = propItems.tourInfo?.id || ''
+  }
+}
 const {
+  formRef,
   step,
   errorFeedBack,
   bookTour,
@@ -454,4 +470,7 @@ const {
   resetBookHotel,
   bookingService
 } = useBookingDialog()
+onMounted(() => {
+  quantityTour.value
+})
 </script>

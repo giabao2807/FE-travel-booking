@@ -127,9 +127,16 @@
                 </v-card-text>
               </v-col>
               <v-col :class="_.isEmpty(hotelInfo?.couponData) ? 'custom-normal' : 'custom-voucher'">
-                <div class="ml-14 mt-5 pa-4 room-price">
+                <div class="ml-14 mt-7 pa-4 room-price">
                   <div class="ma-2">
-                    <p class="mt-3 text-caption">
+                    <div class="text-h6 animate-charcter my-2">
+                      <v-icon
+                        icon="mdi-cash-fast"
+                        class="animate-charcter"
+                      />
+                      {{ formatCurrency(getPriceDiscount(room?.price, hotelInfo?.couponData.discountPercent)) }}
+                    </div>
+                    <p class="mt-3" style="font-size: 11px">
                       <v-icon icon="mdi-ticket-percent-outline" />
                       Giá đã bao gồm:
                       Sales & Services tax.
@@ -144,24 +151,28 @@
                     >
                       {{ formatCurrency(room?.price) }}
                     </p>
-                    <div class="text-h6 animate-charcter my-2">
-                      <v-icon
-                        icon="mdi-cash-fast"
-                        class="animate-charcter"
-                      />
-                      {{ formatCurrency(getPriceDiscount(room?.price, hotelInfo?.couponData.discountPercent)) }}
-                    </div>
                   </div>
                   <v-row align="center" justify="end" class="mt-5">
                     <v-divider />
-                    <v-icon icon="mdi-bed-double-outline" />
-                    Đặt số lượng:
-                    <n-select-quantity
-                      :disabled="!room?.availableRoomAmount"
+                    <v-text-field
                       v-model="room.amount"
-                      :quantity="room?.availableRoomAmount"
+                      :disabled="!room?.availableRoomAmount"
+                      :rules="[...ruleQuantity, ruleMaxQuantity(room?.availableRoomAmount)]"
+                      density="compact"
+                      :min="0"
+                      :max="room?.availableRoomAmount"
+                      type="number"
+                      color="primary"
+                      variant="outlined"
                       class="text-field text-field-width mx-3"
-                    />
+                    >
+                      <template #prepend>
+                        <span>
+                          <v-icon icon="mdi-bed-double-outline" />
+                          Số lượng:
+                        </span>
+                      </template>
+                    </v-text-field>
                   </v-row>
                 </div>
               </v-col>
@@ -373,7 +384,6 @@ import NImage from '@/components/NImage.vue'
 import NCarousel from '@/components/NCarousel.vue'
 import NPanelLoading from '@/components/NPanelLoading.vue'
 import NDialogBook from '@/components/NDialogBook.vue'
-import NSelectQuantity from '@/components/NSelectQuantity.vue'
 import NButtonAnimated from '@/components/NButtonAnimated.vue'
 import NPanelReview from '@/components/NPanelReview.vue'
 import { onMounted, watch, watchEffect } from 'vue'
@@ -382,6 +392,7 @@ import '@/assets/scss/hotels/detail.scss'
 import { useHotelDetailUtil } from '@/composables/useHotelDetail'
 import { convertionType } from '@/helpers/convertion'
 import { handleRoute } from '@/helpers/loadingRoute'
+import { validations } from '@/helpers/validate'
 
 const {
   anotherHotels,
@@ -411,6 +422,7 @@ const {
   rangePrice,
   getIconHuman
 } = convertionType()
+const { ruleQuantity, ruleMaxQuantity } = validations()
 
 onMounted(async() => {
   await getHotelById(hotelId.value)

@@ -19,6 +19,7 @@ const createHotel = () => {
   const loadingHotels = ref<boolean>(false)
   const pageHotel = ref<number>(1)
   const formSearchRef = ref<IForm>()
+  const priceRangeFilter = ref<number[]>([])
   const queryData = route.query as IFilterPanel
   const titlePage = ref<IFilterPanel>({
     ...queryData,
@@ -51,7 +52,11 @@ const createHotel = () => {
 
   const getHotelsByFilterPanel = (params?: IFilterPanel) => {
     loadingHotels.value = true
-    hotelStore.getHotelsByFilter(params)
+    filtersHotels.value = {
+      ...params,
+      priceRange: priceRangeFilter.value.length !== 0 ? `${priceRangeFilter.value[0]}-${priceRangeFilter.value[1]}  ` : ''
+    }
+    hotelStore.getHotelsByFilter(filtersHotels.value)
       .then(data => {
         hotels.value = data
         loadingHotels.value = false
@@ -73,6 +78,7 @@ const createHotel = () => {
     loadingHotels,
     pageHotel,
     titlePage,
+    priceRangeFilter,
     resetSearch,
     deCodeHtml,
     getRecomendHotelByCity,

@@ -12,76 +12,121 @@
     </v-container>
     <v-row>
       <v-col>
-        <v-card elevation="3" class="card-search ma-3 rounded-xl">
+        <v-card elevation="3" class="card-search my-3 rounded-xl">
           <h3 class="text-center my-3">
             <v-icon icon="mdi-map-search-outline" />
             Search Hotels
           </h3>
           <v-form ref="formSearchRef">
             <v-card-text>
-              <h4 class="mb-2">Thông tin đặt</h4>
-              <n-cities-select v-model="filtersHotels.cityId" class="mx-2" />
+              <h4 class="mb-2">Thông Tin Hotel</h4>
+              <v-text-field
+                v-model="filtersHotels.name"
+                label="Name Hotel"
+                color="primary"
+                density="compact"
+                prepend-inner-icon="mdi-home-variant-outline"
+                class="ma-2"
+                variant="outlined"
+                hide-details="auto"
+              />
+              <n-cities-select
+                v-model="filtersHotels.cityId"
+                prependInnerIcon="mdi-map-marker-radius-outline"
+                class="ma-2"
+                :compact="true"
+                variant="outlined"
+              />
               <v-text-field
                 v-model="filtersHotels.startDate"
                 :min="minDate(new Date())"
                 label="Start Date"
                 name="startDate"
                 type="Date"
+                prepend-inner-icon="mdi-calendar-export-outline"
                 color="primary"
-                class="mt-2 mx-2"
-                variant="underlined"
+                density="compact"
+                class="ma-2"
+                variant="outlined"
                 hide-details="auto"
               />
               <v-text-field
-                v-model="filtersHotels.startDate"
+                v-model="filtersHotels.endDate"
                 :min="filtersHotels.startDate"
                 label="End Date"
                 name="endDate"
                 type="Date"
+                prepend-inner-icon="mdi-calendar-import-outline"
+                density="compact"
                 color="primary"
-                class="mt-2 mx-2"
-                variant="underlined"
+                class="ma-2"
+                variant="outlined"
                 hide-details="auto"
               />
-              <h4 class="my-5">Khoảng giá tour</h4>
+              <h4 class="mt-5 mb-8">Khoảng Giá Hotel</h4>
               <v-row>
                 <v-range-slider
-                  :max="10"
+                  v-model="priceRangeFilter"
+                  :max="2000000000"
                   :min="0"
                   :step="1"
                   hide-details
-                  class="mx-8 my-5"
+                  density="compact"
+                  color="primary"
+                  class="mx-8 mt-5"
                   thumb-label="always"
-                />
+                >
+                  <template #thumb-label="{ modelValue }">
+                    <span>{{ formatCurrency(modelValue) }}</span>
+                  </template>
+                </v-range-slider>
               </v-row>
-              <h4 class="my-5">Sắp xếp theo giá</h4>
+              <h4 class="mt-5 mb-2">Sắp Xếp Theo Giá</h4>
+              <v-select
+                v-model="filtersHotels.sortBy"
+                prepend-inner-icon="mdi-sort-alphabetical-variant"
+                label="Order By"
+                density="compact"
+                color="primary"
+                :items="[{
+                  name: 'Tăng dần',
+                  value: 'asc'
+                }, {
+                  name: 'Giảm dần',
+                  value: 'desc'
+                }]"
+                item-title="name"
+                item-value="value"
+                variant="outlined"
+                hide-details="auto"
+              />
             </v-card-text>
+            <v-card-actions>
+              <v-btn
+                size="small"
+                class="mx-2 rounded-xl text-none"
+                variant="outlined"
+                @click="() => resetSearch()"
+              >
+                Clear
+              </v-btn>
+              <v-spacer />
+              <v-btn
+                color="primary"
+                size="small"
+                class="mx-2 rounded-xl text-none"
+                variant="outlined"
+                prepend-icon="mdi-bed-double-outline"
+                @click="() => {
+                  handleRoute({ name: 'hotels' })
+                  titlePage = filtersHotels
+                  getHotelsByFilterPanel(filtersHotels)
+                }"
+              >
+                Search
+              </v-btn>
+            </v-card-actions>
           </v-form>
-          <v-card-actions>
-            <v-btn
-              size="small"
-              class="mx-2 rounded-xl text-none"
-              variant="outlined"
-              @click="() => resetSearch()"
-            >
-              Clear
-            </v-btn>
-            <v-spacer />
-            <v-btn
-              color="primary"
-              size="small"
-              class="mx-2 rounded-xl text-none"
-              variant="outlined"
-              prepend-icon="mdi-bed-double-outline"
-              @click="() => {
-                handleRoute({ name: 'tours' })
-                titlePage = filtersHotels
-                getHotelsByFilterPanel(filtersHotels)
-              }"
-            >
-              Search
-            </v-btn>
-          </v-card-actions>
         </v-card>
       </v-col>
       <v-col cols="9" class="card-show">
@@ -99,7 +144,7 @@
         <n-panel-not-found
           v-if="hotels?.results.length === 0 && !loadingHotels"
           icon="mdi-timer-sand-empty"
-          title="Không có tour du lịch nào phù hợp!"
+          title="Không có Hotel du lịch nào phù hợp!"
         />
         <v-container class="my-5">
           <v-row v-if="!loadingHotels">
@@ -224,10 +269,11 @@ const {
   filtersHotels,
   loadingHotels,
   titlePage,
+  priceRangeFilter,
   getHotelsByFilterPanel,
   resetSearch
 } = useHotelUtil()
-const { rangePrice, voteText, minDate, formatDate } = convertionType()
+const { rangePrice, voteText, minDate, formatDate, formatCurrency } = convertionType()
 const { getCityById } = useCities()
 onMounted(() => {
   getHotelsByFilterPanel(filtersHotels.value)

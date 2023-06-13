@@ -11,8 +11,21 @@ export const usePartnerHotelsStore = defineStore('partnerHotelsStore', () => {
       params: params
     })
   }
-
+  const deactivateHotel = async(id: string) => {
+    return await connectionsAPI({
+      methods: 'PUT',
+      path: `hotel/${id}/deactivate`
+    })
+  }
+  const activateHotel = async(id: string) => {
+    return await connectionsAPI({
+      methods: 'PUT',
+      path: `hotel/${id}/activate`
+    })
+  }
   return {
-    getHotels
+    getHotels,
+    deactivateHotel,
+    activateHotel
   }
 })

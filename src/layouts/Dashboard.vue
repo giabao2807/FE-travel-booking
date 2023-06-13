@@ -132,7 +132,7 @@
         <v-icon v-if="!drawer" class="my-5" icon="mdi-menu-open" @click.stop="drawer = !drawer" />
       </template>
     </v-app-bar>
-    <v-container class="partner-page">
+    <v-container fluid class="partner-page">
       <router-view />
     </v-container>
   </v-sheet>
@@ -184,7 +184,6 @@ const {
 onMounted(async() => {
   const session = await sessionStorage.getItem('userData')
   authUser.value = session ? JSON.parse(session) : ''
-  console.log(selectMenu.value)
 })
 
 </script>

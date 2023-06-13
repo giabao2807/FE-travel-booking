@@ -2,17 +2,20 @@ import { reactive, ref } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { usePartnerToursStore } from '@/store/partners/tours'
 import { IParamPage } from '@/libs/types/commonType'
-import { dateEquals, UploadProps } from 'element-plus/es/components'
-import type { FormRules } from 'element-plus'
+import { UploadProps } from 'element-plus/es/components'
+import type { FormRules, FormInstance } from 'element-plus'
 import { validations } from '@/helpers/validate'
 import { useTourStore } from '@/store/tours'
 import { useFeedBack } from '../useFeedBack'
 import { convertionType } from '@/helpers/convertion'
+import { useLoading } from '@/composables/useLoading'
+import { handleRoute } from '@/helpers/loadingRoute'
 
 const createPartnerTours = () => {
   const partnerTourStore = usePartnerToursStore()
   const tourStore = useTourStore()
   const { deCode } = convertionType()
+  const { startLoading, finishLoading } = useLoading()
   const {
     checkQuantity,
     checkCash,
@@ -68,7 +71,9 @@ const createPartnerTours = () => {
   })
 
 
-  const createrTour = () => {
+  const createTour = () => {
+    startLoading()
+    const testForm = new FormData()
     formTour.value = {
       ...formTour.value,
       descriptions : `<div class="single-box-excerpt">${formTour.value.descriptions}</div>`,
@@ -76,7 +81,28 @@ const createPartnerTours = () => {
       note: `<div class="panel-body content-tour-item content-tour-tab-tour-rule-2">${formTour.value.note}</div>`,
       totalDays: `${formTour.value.totalDay} ngày ${formTour.value.totalNight} đêm`
     }
-    console.log('submit!', formTour.value.descriptions)
+    partnerTourStore.createTour(formTour.value)
+      .then(() => {
+        handleRoute({ name: 'toursPartner' })
+        finishLoading()
+        feedBack({
+          title: 'Create Coupon',
+          message: 'Create success coupon',
+          type:'success'
+        })
+      }).catch(error => {
+        finishLoading()
+        feedBack({
+          title: 'Create Coupon',
+          message: error,
+          type:'error'
+        })
+      })
+  }
+  const formRef = ref<FormInstance>()
+  const resetForm = (formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    formEl.resetFields()
   }
   const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
     console.log(uploadFile, uploadFiles)
@@ -84,7 +110,7 @@ const createPartnerTours = () => {
   const getTourById = (id: string) => {
     tourStore.getTourById(id)
       .then(data => {
-        const getNumber = data?.totalDays.match(/d+/g)
+        const getNumber = data?.totalDays.match(/\d+/g) || [0, 0]
         formTour.value = {
           ...data,
           coverPicture: undefined,
@@ -95,7 +121,6 @@ const createPartnerTours = () => {
           scheduleContent: `${deCode(data.scheduleContent)}`,
           note: `${deCode(data.note)}`
         }
-        console.log(formTour.value.scheduleContent)
       })
   }
   const getTours = (params?: IParamPage) => {
@@ -137,12 +162,14 @@ const createPartnerTours = () => {
     formTour,
     loadingTours,
     rules,
+    formRef,
+    resetForm,
     getTours,
     getTourById,
     deactivateTour,
     activateTour,
     handleRemove,
-    createrTour
+    createTour
   }
 }
 export const usePartnerTours = createSharedComposable(createPartnerTours)

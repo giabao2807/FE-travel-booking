@@ -1,7 +1,7 @@
 <template>
-  <v-sheet class="partner-tours-page">
+  <v-container class="partner-tours-page">
     <div class="text-center mb-5">
-      <h3>Danh Sách Tour Hiện Tại</h3>
+      <h3>Danh Sách Tours Hiện Tại</h3>
     </div>
     <div class="d-flex align-center mx-0">
       <n-table
@@ -11,7 +11,7 @@
         @getNextPage="getTours"
       />
     </div>
-  </v-sheet>
+  </v-container>
 </template>
 <script lang="tsx" setup>
 import { onMounted } from 'vue'
@@ -27,9 +27,6 @@ const { formatCurrency } = convertionType()
 onMounted(() => {
   getTours()
 })
-const test = (value: any) => {
-  console.log(value)
-}
 const columns: Column<any>[] = [
   {
     key: 'column-n-1',

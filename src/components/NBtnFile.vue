@@ -28,8 +28,10 @@ const handleFileImport = () => {
   uploader.value.click()
 }
 const emit = defineEmits<{
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (event: 'update:modelValue', value: any): void
 }>()
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const onFileChanged = (event: any) => {
   const data = new FormData()
   data.append('avatar', event[0])

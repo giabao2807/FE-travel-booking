@@ -51,7 +51,10 @@ export type ICoupon = {
   discountPercent: number
 }
 export type IFilterPanel = IFilterDate & IParamPage & {
-  cityId?: number
+  cityId?: number,
+  sortBy?: 'asc' | 'desc',
+  priceRange?: string,
+  name?: string,
 }
 
 export type IHistoryBooking = IParamPage & {

@@ -12,24 +12,42 @@
     </v-container>
     <v-row>
       <v-col>
-        <v-card elevation="3" class="card-search ma-3 rounded-xl">
+        <v-card elevation="3" class="card-search my-3 rounded-xl">
           <h3 class="text-center my-3">
             <v-icon icon="mdi-map-search-outline" />
             Search Tours
           </h3>
           <v-form ref="formSearchRef">
             <v-card-text>
-              <h4 class="mb-2">Thông tin đặt</h4>
-              <n-cities-select v-model="filtersTours.cityId" class="mx-2" />
+              <h4 class="mb-2">Thông Tin Tour</h4>
+              <v-text-field
+                v-model="filtersTours.name"
+                label="Name Tour"
+                color="primary"
+                density="compact"
+                prepend-inner-icon="mdi-compass-rose"
+                class="ma-2"
+                variant="outlined"
+                hide-details="auto"
+              />
+              <n-cities-select
+                v-model="filtersTours.cityId"
+                prependInnerIcon="mdi-map-marker-radius-outline"
+                class="ma-2"
+                :compact="true"
+                variant="outlined"
+              />
               <v-text-field
                 v-model="filtersTours.startDate"
                 :min="minDate(new Date())"
                 label="Start Date"
                 name="startDate"
                 type="Date"
+                prepend-inner-icon="mdi-calendar-export-outline"
                 color="primary"
-                class="mt-2 mx-2"
-                variant="underlined"
+                density="compact"
+                class="ma-2"
+                variant="outlined"
                 hide-details="auto"
               />
               <v-text-field
@@ -38,23 +56,50 @@
                 label="End Date"
                 name="endDate"
                 type="Date"
+                prepend-inner-icon="mdi-calendar-import-outline"
+                density="compact"
                 color="primary"
-                class="mt-2 mx-2"
-                variant="underlined"
+                class="ma-2"
+                variant="outlined"
                 hide-details="auto"
               />
-              <h4 class="my-5">Khoảng giá tour</h4>
+              <h4 class="mt-5 mb-8">Khoảng Giá Tour</h4>
               <v-row>
                 <v-range-slider
-                  :max="10"
+                  v-model="priceRangeFilter"
+                  :max="2000000000"
                   :min="0"
                   :step="1"
                   hide-details
-                  class="mx-8 my-5"
+                  density="compact"
+                  color="primary"
+                  class="mx-8 mt-5"
                   thumb-label="always"
-                />
+                >
+                  <template #thumb-label="{ modelValue }">
+                    <span>{{ formatCurrency(modelValue) }}</span>
+                  </template>
+                </v-range-slider>
               </v-row>
-              <h4 class="my-5">Sắp xếp theo giá</h4>
+              <h4 class="mt-5 mb-2">Sắp Xếp Theo Giá</h4>
+              <v-select
+                v-model="filtersTours.sortBy"
+                prepend-inner-icon="mdi-sort-alphabetical-variant"
+                label="Order By"
+                density="compact"
+                color="primary"
+                :items="[{
+                  name: 'Tăng dần',
+                  value: 'asc'
+                }, {
+                  name: 'Giảm dần',
+                  value: 'desc'
+                }]"
+                item-title="name"
+                item-value="value"
+                variant="outlined"
+                hide-details="auto"
+              />
             </v-card-text>
             <v-card-actions>
               <v-btn
@@ -208,7 +253,7 @@
           class="my-5"
           v-model="pageTours"
           :length="tours?.pageNumber"
-          @update:model-value="getToursByFilterPanel({ page: pageTours })"
+          @update:model-value="getToursByFilterPanel({ ...filtersTours, page: pageTours })"
         />
       </v-col>
     </v-row>
@@ -235,8 +280,9 @@ const {
   loadingTours,
   filtersTours,
   titlePage,
-  getToursByFilterPanel,
+  priceRangeFilter,
   formSearchRef,
+  getToursByFilterPanel,
   resetSearch
 } = useTourUtil()
 const { formatCurrency, getPriceDiscount, minDate, getTraffic } = convertionType()

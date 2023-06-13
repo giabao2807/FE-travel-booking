@@ -21,7 +21,6 @@ const createBooking = () => {
         historyBookingTours.value = data
         loadingTours.value = false
       }).catch(error => {
-        console.log(error)
         loadingTours.value = false
       })
   }
@@ -32,7 +31,6 @@ const createBooking = () => {
         historyBookingHotels.value = data
         loadingHotels.value = false
       }).catch(error => {
-        console.log(error)
         loadingHotels.value = false
       })
   }

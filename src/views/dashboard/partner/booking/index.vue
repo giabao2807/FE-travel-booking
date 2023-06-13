@@ -1,6 +1,6 @@
 <template>
-  <v-sheet class="partner-booking-page">
-    <div class="text-center mb-5">
+  <v-container class="partner-booking-page">
+    <div class="text-center my-5">
       <h3>Danh Sách Booking Tours Hiện Tại</h3>
     </div>
     <div class="d-flex align-center mx-0">
@@ -11,7 +11,7 @@
         @getNextPage="getBookingTours"
       />
     </div>
-    <div class="text-center my-5">
+    <div class="text-center mt-8 mb-5">
       <h3>Danh Sách Booking Hotels Hiện Tại</h3>
     </div>
     <div class="d-flex align-center mx-0">
@@ -25,7 +25,7 @@
         @getNextPage="getBookingTours"
       />
     </div>
-  </v-sheet>
+  </v-container>
 </template>
 <script lang="tsx" setup>
 import { onMounted, ref } from 'vue'

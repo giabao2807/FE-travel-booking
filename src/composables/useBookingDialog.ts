@@ -13,6 +13,7 @@ const createBooking = () => {
   const step = ref<number>(1)
   const errorFeedBack = ref<IError>()
   const roomsBook = ref<IRoomType[]>([])
+  const formRef = ref()
   const quantityTour = ref<number>(1)
   const initBookingTour: IBookingTour = {
     bookingItems: [
@@ -66,6 +67,7 @@ const createBooking = () => {
       .then(data => quantityTour.value = data.availableGroupSize)
   }
   return {
+    formRef,
     step,
     errorFeedBack,
     bookTour,

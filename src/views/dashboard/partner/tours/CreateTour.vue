@@ -3,6 +3,7 @@
   <v-container class="create-tours-page">
     <h3 class="my-5">Create Tour Du Lịch</h3>
     <el-form
+      ref="formRef"
       :rules="rules"
       :model="formTour"
       label-width="120px"
@@ -73,28 +74,7 @@
                 <span class="font-weight-600">Khởi hành</span>
               </div>
             </template>
-            <el-row>
-              <el-col :span="10">
-                <el-select
-                  v-model="formTour.departure"
-                  clearable
-                  placeholder="Select"
-                >
-                  <el-option
-                    v-for="item in allCities"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
-                  />
-                </el-select>
-              </el-col>
-              <span class="ml-3 mr-2">
-                <v-icon icon="mdi-timeline-clock-outline" />
-              </span>
-              <el-col :span="10">
-                <el-input model-value="Hằng ngày" disabled />
-              </el-col>
-            </el-row>
+            <el-input v-model="formTour.departure" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -104,13 +84,13 @@
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-caravan" />
-                <span class="font-weight-600">Di chuyển</span>
+                <span class="font-weight-600">Phương Tiện</span>
               </div>
             </template>
             <el-select
               v-model="formTour.traffics"
               multiple
-              placeholder="Select"
+              placeholder="Select traffics"
             >
               <el-option
                 v-for="item in TRAFFICS"
@@ -219,7 +199,7 @@
       <v-btn
         class="text-none rounded-xl"
         prepend-icon="mdi-broom"
-        @click="createrTour"
+        @click="() => resetForm(formRef)"
       >
         Clear
       </v-btn>
@@ -228,7 +208,7 @@
         color="primary"
         class="text-none rounded-xl"
         prepend-icon="mdi-send-variant-outline"
-        @click="createrTour"
+        @click="createTour"
       >
         Create
       </v-btn>
@@ -250,9 +230,11 @@ const route = useRoute()
 const {
   rules,
   formTour,
+  formRef,
   getTourById,
   handleRemove,
-  createrTour
+  createTour,
+  resetForm
 } = usePartnerTours()
 onMounted(() => {
   if (route.query.id) {

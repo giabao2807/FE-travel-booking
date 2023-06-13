@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="partner-hotel-page">
+  <v-container class="partner-hotel-page">
     <div class="text-center mb-5">
       <h3>Danh Sách Coupons Hiện Tại</h3>
     </div>
@@ -11,7 +11,7 @@
         @getNextPage="getCoupons"
       />
     </div>
-  </v-sheet>
+  </v-container>
 </template>
 <script lang="tsx" setup>
 import { onMounted } from 'vue'
@@ -23,7 +23,8 @@ import { usePartnerCoupons } from '@/composables/partners/usePartnerCoupons'
 const {
   coupons,
   loadingCoupons,
-  getCoupons
+  getCoupons,
+  deleteCoupon
 } = usePartnerCoupons()
 const { formatDate } = convertionType()
 onMounted(() => {
@@ -117,21 +118,10 @@ const columns: Column<any>[] = [
       <>
         <v-btn
           variant="plain"
-          color="primary"
-          icon="mdi-circle-edit-outline"
-          onClick={() => console.log('run run', rowData.id) }
-        />
-        <v-btn
-          variant="plain"
           color="error"
           icon="mdi-delete-empty-outline"
+          onClick={() => deleteCoupon(rowData.id)}
         />
-        {/* <v-btn
-                  v-show={!rowData.isActive}
-                  variant="plain"
-                  color="success"
-                  icon="mdi-map-check"
-                /> */}
       </>
     ),
     width: 150,
@@ -140,5 +130,5 @@ const columns: Column<any>[] = [
 ]
 
 </script>
-        <style lang="scss" scoped>
-        </style>
+<style lang="scss" scoped>
+</style>

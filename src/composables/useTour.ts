@@ -15,6 +15,7 @@ const createTour = () => {
   const loadingTours = ref<boolean>(false)
   const dialogBooking = ref<boolean>(false)
   const formSearchRef = ref<IForm>()
+  const priceRangeFilter = ref<number[]>([])
   const queryData = route.query as IFilterPanel
   const titlePage = ref<IFilterPanel>({
     ...queryData,
@@ -31,7 +32,11 @@ const createTour = () => {
   }
   const getToursByFilterPanel = (params?: IFilterPanel) => {
     loadingTours.value = true
-    tourStore.getToursByFilter(params)
+    filtersTours.value = {
+      ...params,
+      priceRange: priceRangeFilter.value.length !== 0 ? `${priceRangeFilter.value[0]}-${priceRangeFilter.value[1]}  ` : ''
+    }
+    tourStore.getToursByFilter(filtersTours.value)
       .then((data: IResponseTour) => {
         tours.value = data
         loadingTours.value = false
@@ -51,6 +56,7 @@ const createTour = () => {
     dialogBooking,
     titlePage,
     formSearchRef,
+    priceRangeFilter,
     resetSearch,
     getPopularTours,
     getToursByFilterPanel

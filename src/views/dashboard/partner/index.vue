@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="partner-page">
+  <v-container class="partner-page">
     <v-container fluid>
       <v-row>
         <v-col
@@ -111,7 +111,7 @@
         </v-col>
       </v-row>
     </v-container>
-  </v-sheet>
+  </v-container>
 </template>
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'

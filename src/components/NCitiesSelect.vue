@@ -5,6 +5,7 @@
     label="City"
     name="city"
     color="primary"
+    :density="propItems.compact ? 'compact' : undefined"
     :prepend-icon="propItems.prependIcon"
     :prepend-inner-icon="propItems.prependInnerIcon"
     item-title="name"
@@ -23,7 +24,8 @@ const { allCities } = useCities()
 type Props = {
   prependIcon?: string,
   prependInnerIcon?: string,
-  variant?: 'underlined' | 'filled' | 'outlined' | 'plain' | 'solo' | 'solo-inverted' | 'solo-filled'
+  variant?: 'underlined' | 'filled' | 'outlined' | 'plain' | 'solo' | 'solo-inverted' | 'solo-filled',
+  compact?: boolean
 }
 const emit = defineEmits<{
   (event: 'update:modelValue', id: number): void
@@ -35,6 +37,7 @@ const cityId = ref<number>()
 const propItems = withDefaults(defineProps<Props>(), {
   prependIcon: '',
   prependInnerIcon: '',
-  variant: 'underlined'
+  variant: 'underlined',
+  compact: false
 })
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <v-sheet color="transparent">
+  <v-container color="transparent">
     <v-card elevation="0" color="transparent">
       <v-card-title>
         <h3 class="my-5">Create New Coupon</h3>
@@ -17,7 +17,7 @@
               </div>
             </template>
             <el-col :span="15">
-              <el-input />
+              <el-input v-model="formCoupon.name" />
             </el-col>
           </el-form-item>
           <el-form-item prop="groupSize">
@@ -29,11 +29,12 @@
             </template>
             <el-col :span="15">
               <el-date-picker
-                v-model="testDay"
+                v-model="formCoupon.rangeDate"
                 type="daterange"
+                value-format="YYYY-MM-DD"
                 start-placeholder="Start date"
                 end-placeholder="End date"
-                :disabled-date="disabledDate"
+                :disabled-date="pickerEndDisable"
               />
             </el-col>
           </el-form-item>
@@ -41,11 +42,11 @@
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-file-percent-outline" />
-                <span class="font-weight-600">Giảm giá</span>
+                <span class="font-weight-600">Giảm Giá</span>
               </div>
             </template>
             <el-col :span="15">
-              <el-input>
+              <el-input v-model="formCoupon.discountPercent">
                 <template #append>%</template>
               </el-input>
             </el-col>
@@ -59,6 +60,7 @@
             </template>
             <el-col :span="15">
               <el-input
+                v-model="formCoupon.description"
                 :autosize="{ minRows: 4, maxRows: 5 }"
                 type="textarea"
                 placeholder="Please input"
@@ -71,19 +73,42 @@
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-compass-rose" />
-                <span class="font-weight-600" style="width: 150px;">Danh sách tours</span>
+                <span class="font-weight-600" style="width: 150px;">Danh Sách Tours</span>
               </div>
             </template>
-            <el-cascader clearable style="margin-left: 50px; width: 52%;" />
+            <el-select
+              v-model="formCoupon.tourIds"
+              multiple style="margin-left: 50px; width: 52%;"
+              placeholder="Select tours"
+            >
+              <el-option
+                v-for="item in tours"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              />
+            </el-select>
           </el-form-item>
           <el-form-item prop="groupSize" class="ml-2">
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-home-city-outline" />
-                <span class="font-weight-600" style="width: 150px;">Danh sách hotels</span>
+                <span class="font-weight-600" style="width: 150px;">Danh Sách Hotels</span>
               </div>
             </template>
-            <el-cascader clearable style="margin-left: 50px; width: 52%;" />
+            <el-select
+              v-model="formCoupon.hotelIds"
+              multiple
+              style="margin-left: 50px; width: 52%;"
+              placeholder="Select hotels"
+            >
+              <el-option
+                v-for="item in hotels"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              />
+            </el-select>
           </el-form-item>
         </el-form>
         <div class="d-flex mt-10">
@@ -97,20 +122,35 @@
           <v-btn
             color="primary"
             class="text-none rounded-xl"
-            prepend-icon="mdi-send-variant-outline"
+            prepend-icon="mdi-ticket-percent-outline"
+            @click="() => createCoupon()"
           >
             Create
           </v-btn>
         </div>
       </v-card-text>
     </v-card>
-  </v-sheet>
+  </v-container>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { onMounted } from 'vue'
+import { usePartnerCoupons } from '@/composables/partners/usePartnerCoupons'
 
-const testDay = ref()
-const disabledDate = (date: any) => {
-  date ? new Date(date) > new Date() : false
+const {
+  formCoupon,
+  tours,
+  hotels,
+  getTours,
+  getHotels,
+  createCoupon
+} = usePartnerCoupons()
+const pickerEndDisable = (time: any) => {
+  var yesterday = new Date()
+  yesterday.setDate(yesterday.getDate() - 1)
+  return time < yesterday
 }
+onMounted(() => {
+  getTours()
+  getHotels()
+})
 </script>

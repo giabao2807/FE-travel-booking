@@ -19,8 +19,29 @@ export const useCouponsStore = defineStore('couponsStore', () => {
       data: data
     })
   }
+  const deleteCoupon = async(id: string) => {
+    return await connectionsAPI({
+      methods: 'DELETE',
+      path: `general/coupon/${id}`
+    })
+  }
+  const getToursForCoupon = async() => {
+    return await connectionsAPI({
+      methods: 'GET',
+      path: 'tour/tours_for_coupon'
+    })
+  }
+  const getHotelsForCoupon = async() => {
+    return await connectionsAPI({
+      methods: 'GET',
+      path: 'hotel/hotels_for_coupon'
+    })
+  }
   return {
     getCoupons,
-    createPartnerCoupons
+    createPartnerCoupons,
+    deleteCoupon,
+    getToursForCoupon,
+    getHotelsForCoupon
   }
 })

@@ -15,10 +15,7 @@
       <div v-if="!props.loading" class="flex items-center justify-center h-100%">
         <el-empty />
       </div>
-      <div
-        v-if="props.loading"
-        class="text-center mt-10"
-      >
+      <div v-if="props.loading" class="text-center mt-10">
         <el-icon class="is-loading" color="var(--el-color-primary)" :size="26">
           <loading-icon />
         </el-icon>
@@ -28,8 +25,7 @@
       <div class="d-flex justify-center" style="background-color: #ffffff;">
         <n-pagination
           v-if="props.data.results?.length < 1 && !props.loading"
-          v-model="pageNumber"
-          class="mx-5"
+          v-model="pageNumber" class="mx-5"
           :length="props.data.pageNumber"
           @update:modelValue="() => getNextPage({ page: pageNumber })"
         />
@@ -42,6 +38,7 @@ import NPagination from '@/components/NPagination.vue'
 import { defineProps, withDefaults, ref, defineEmits } from 'vue'
 import { Loading as LoadingIcon } from '@element-plus/icons-vue'
 import { watchEffect } from 'vue'
+import { convertionType } from '@/helpers/convertion'
 
 type Props = {
   columns: any,
@@ -57,6 +54,7 @@ const props = withDefaults(defineProps<Props>(), {
   expandData: undefined,
   expand: false
 })
+const { formatCurrency } = convertionType()
 const pageNumber = ref<number>(1)
 const emit = defineEmits(['getNextPage'])
 const getNextPage = (params: any) => {
@@ -67,13 +65,24 @@ const data = ref()
 
 const Row = ({ cells, rowData }) => {
   if (rowData.detail)
-    return (<div class="ma-5">
-      {rowData.detail.map((item: any) => (
-        <div class="d-flex px-6">
-          <v-icon icon="mdi-bed-single-outline" class="mr-1" />
-          <strong>{ item.roomName } x { item.quantity }</strong>
-        </div>
-      ))}
+    return (<div class="ma-5 w-100">
+      <h3>List rooms</h3>
+      <div class="overflow-y-auto" style="max-height: 200px">
+        {rowData.detail.map((item: any) => (
+          <v-row class="pl-6">
+            <v-col cols="5">
+              <v-icon icon="mdi-bed-single-outline" class="mr-1" />
+              <strong>{item.name}</strong>
+            </v-col>
+            <v-col cols="2">
+              <span>Quantity: <strong>{item.quantity}</strong></span>
+            </v-col>
+            <v-col cols="3">
+              <span>Price Room: <strong>{formatCurrency(item.price)}</strong></span>
+            </v-col>
+          </v-row>
+        ))}
+      </div>
     </div>)
   return cells
 }
@@ -84,7 +93,7 @@ watchEffect(() => {
       data.children = [
         {
           id: `${data.id}-detail-content`,
-          detail: data.bookingItems
+          detail: data.rooms
         }
       ]
       return data
@@ -98,6 +107,7 @@ watchEffect(() => {
   width: 1200px;
   height: 100px !important;
 }
+
 .el-table-v2__row-depth-0 {
   height: 50px;
 }

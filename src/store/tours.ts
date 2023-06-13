@@ -55,7 +55,7 @@ export const useTourStore = defineStore('tourStore', () => {
   const getToursByFilter = async(params: IFilterPanel = initFilterTour) => {
     return await connectionsAPI({
       methods: 'GET',
-      path: 'tour/filter_by_date_city',
+      path: 'tour',
       params: params,
       headers: { 'Content-Type': 'application/json' }
     })

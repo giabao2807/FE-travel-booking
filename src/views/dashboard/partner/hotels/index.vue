@@ -1,22 +1,25 @@
 <template>
-  <v-sheet class="partner-hotel-page">
+  <v-container class="partner-hotel-page">
     <div class="text-center mb-5">
       <h3>Danh Sách Hotels Hiện Tại</h3>
     </div>
     <div class="d-flex align-center mx-0">
-      <n-table
+      <n-table-hotel
         :columns="columns"
         :data="hotels"
         :loading="loadingHotels"
+        :estimated-row-height="50"
+        :expand="true"
+        :expand-column-key="columns[0].key"
         @getNextPage="getHotels"
       />
     </div>
-  </v-sheet>
+  </v-container>
 </template>
 <script lang="tsx" setup>
 import { onMounted } from 'vue'
 import type { Column } from 'element-plus'
-import NTable from '@/components/NTable.vue'
+import NTableHotel from '@/components/NTableHotel.vue'
 import { convertionType } from '@/helpers/convertion'
 import { usePartnerHotels } from '@/composables/partners/usePartnerHotels'
 
@@ -24,7 +27,9 @@ import { usePartnerHotels } from '@/composables/partners/usePartnerHotels'
 const {
   hotels,
   loadingHotels,
-  getHotels
+  getHotels,
+  activateHotel,
+  deactivateHotel
 } = usePartnerHotels()
 const { formatCurrency } = convertionType()
 onMounted(() => {
@@ -32,13 +37,6 @@ onMounted(() => {
 })
 
 const columns: Column<any>[] = [
-  {
-    key: 'column-n-1',
-    title: 'No.',
-    width: 50,
-    cellRenderer: ({ rowIndex }) => (<>{rowIndex + 1}</>),
-    align: 'center'
-  },
   {
     key: 'coverPicture',
     title: 'Picture',
@@ -121,16 +119,19 @@ const columns: Column<any>[] = [
           onClick={() => console.log('run run', rowData.id) }
         />
         <v-btn
+          v-show={rowData.isActive}
           variant="plain"
           color="error"
           icon="mdi-delete-empty-outline"
+          onClick={() => deactivateHotel(rowData.id)}
         />
-        {/* <v-btn
+        <v-btn
           v-show={!rowData.isActive}
           variant="plain"
           color="success"
-          icon="mdi-map-check"
-        /> */}
+          icon="mdi-home-plus-outline"
+          onClick={() => activateHotel(rowData.id)}
+        />
       </>
     ),
     width: 150,

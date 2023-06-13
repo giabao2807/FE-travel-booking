@@ -192,8 +192,8 @@
           >
             <div class="ma-5">
               <v-card-item>
-                <v-card-title class="pa-3">
-                  <h2 class="font-rowdies">
+                <v-card-title class="py-3">
+                  <h2 class="">
                     <v-icon icon="mdi-airballoon-outline" size="small" />
                     Booking Tour
                   </h2>
@@ -217,21 +217,36 @@
                     label="Ngày khởi hành"
                     name="startDate"
                     type="Date"
+                    prepend-inner-icon="mdi-clock-start"
                     density="compact"
                     color="primary"
                     hide-details="auto"
                     variant="outlined"
                     class="my-5 text-field"
                   />
-                  <n-select-quantity
+                  <div v-if="quantityByStartDate">
+                    <v-divider class="mx-5 mb-3" />
+                    <span>
+                      <v-icon icon="mdi-ticket-outline" />
+                      Số lượng vé còn lại: {{ quantityByStartDate }}
+                    </span>
+                  </div>
+                  <v-text-field
                     v-model="bookTour.bookingItems[0].quantity"
                     label="Số lượng"
-                    :rules="ruleQuantity"
-                    :quantity="quantityByStartDate"
+                    density="compact"
+                    :min="0"
+                    :max="quantityByStartDate"
+                    type="number"
+                    :rules="[...ruleQuantity, ruleMaxQuantity(quantityByStartDate)]"
+                    color="primary"
+                    prepend-inner-icon="mdi-account-multiple-outline"
+                    hide-details="auto"
+                    variant="outlined"
                     class="text-field"
                   />
                 </v-form>
-                <v-divider class="ma-5" />
+                <v-divider class="my-5" />
                 <v-row v-if="!_.isEmpty(tourInfo?.couponData)" class="ml-3">
                   <v-col cols="6">
                     <h5>
@@ -295,7 +310,6 @@
   </v-sheet>
 </template>
 <script lang="ts" setup>
-import NSelectQuantity from '@/components/NSelectQuantity.vue'
 import NCarousel from '@/components/NCarousel.vue'
 import NDialogBook from '@/components/NDialogBook.vue'
 import NImage from '@/components/NImage.vue'
@@ -308,7 +322,7 @@ import { convertionType } from '@/helpers/convertion'
 import { handleRoute } from '@/helpers/loadingRoute'
 import { validations } from '@/helpers/validate'
 
-const { ruleRequired, ruleQuantity } = validations()
+const { ruleRequired, ruleQuantity, ruleMaxQuantity } = validations()
 const {
   tourInfo,
   bookTour,
