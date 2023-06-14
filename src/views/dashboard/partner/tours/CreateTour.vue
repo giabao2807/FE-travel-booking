@@ -32,7 +32,11 @@
                 <span class="font-weight-600">Ảnh đại diện</span>
               </div>
             </template>
-            <el-input v-model="formTour.coverPicture" class="custom-upload" type="file" />
+            <n-upload-pic
+              v-model="formTour.coverPicture"
+              :dataImg="formTour.coverPicture"
+              class="mt-n15"
+            />
           </el-form-item>
         </el-col>
       </el-row>
@@ -161,16 +165,7 @@
             <span class="font-weight-600">Hình ảnh</span>
           </div>
         </template>
-        <el-upload
-          v-model:file-list="formTour.tourImages"
-          action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-          multiple
-          list-type="picture-card"
-          :on-remove="handleRemove"
-          :auto-upload="false"
-        >
-          <el-icon><Plus /></el-icon>
-        </el-upload>
+        <n-upload-multi v-model="formTour.tourImages"/>
       </el-form-item>
       <el-form-item prop="scheduleContent">
         <template #label>
@@ -222,6 +217,8 @@ import { Plus } from '@element-plus/icons-vue'
 import { useCities } from '@/composables/useCities'
 import { TRAFFICS } from '@/resources/mockData'
 import NEditor from '@/components/NEditor.vue'
+import NUploadPic from '@/components/NUploadPic.vue'
+import NUploadMulti from '@/components/NUploadMulti.vue'
 import { useRoute } from 'vue-router'
 import { usePartnerTours } from '@/composables/partners/usePartnerTours'
 

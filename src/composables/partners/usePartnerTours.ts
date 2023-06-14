@@ -3,7 +3,7 @@ import { createSharedComposable } from '@vueuse/core'
 import { usePartnerToursStore } from '@/store/partners/tours'
 import { IParamPage } from '@/libs/types/commonType'
 import { UploadProps } from 'element-plus/es/components'
-import type { FormRules, FormInstance } from 'element-plus'
+import type { FormRules, FormInstance, UploadUserFile, UploadInstance } from 'element-plus'
 import { validations } from '@/helpers/validate'
 import { useTourStore } from '@/store/tours'
 import { useFeedBack } from '../useFeedBack'
@@ -30,9 +30,25 @@ const createPartnerTours = () => {
   const { feedBack } = useFeedBack()
   const tours = ref()
   const loadingTours = ref<boolean>(false)
-  const formTour = ref({
+  const fileList = ref<FormData>()
+  const formTour = ref<{
+    name: string,
+    coverPicture?: any,
+    totalDay: number,
+    totalNight: number,
+    totalDays: string,
+    descriptions: string,
+    groupSize: number,
+    price: number,
+    scheduleContent: string,
+    note: string,
+    city: string,
+    departure: string,
+    traffics: string[],
+    tourImages?: UploadInstance[]
+
+  }>({
     name: '',
-    coverPicture: undefined,
     totalDay: 0,
     totalNight: 0,
     totalDays: '',
@@ -41,10 +57,10 @@ const createPartnerTours = () => {
     price: 0,
     scheduleContent: '',
     note: '',
-    city: undefined,
+    city: '',
     departure: '',
     traffics: [],
-    tourImages: undefined
+    tourImages: []
   })
   const checkNight = (rule: any, value: number, callback: any) => {
     formTour.value.totalDay - value !== 1 && formTour.value.totalDay - value !== 0 ?
@@ -71,7 +87,7 @@ const createPartnerTours = () => {
   })
 
   const createTour = () => {
-    startLoading()
+    // startLoading()
     formTour.value = {
       ...formTour.value,
       descriptions : `<div class="single-box-excerpt">${formTour.value.descriptions}</div>`,
@@ -79,23 +95,24 @@ const createPartnerTours = () => {
       note: `<div class="panel-body content-tour-item content-tour-tab-tour-rule-2">${formTour.value.note}</div>`,
       totalDays: `${formTour.value.totalDay} ngày ${formTour.value.totalNight} đêm`
     }
+    console.log(formTour.value, fileList.value)
     partnerTourStore.createTour(convertObjectToFormData(formTour.value))
-      .then(() => {
-        handleRoute({ name: 'toursPartner' })
-        finishLoading()
-        feedBack({
-          title: 'Create Coupon',
-          message: 'Create success coupon',
-          type:'success'
-        })
-      }).catch(error => {
-        finishLoading()
-        feedBack({
-          title: 'Create Coupon',
-          message: error,
-          type:'error'
-        })
-      })
+    // .then(() => {
+    //   handleRoute({ name: 'toursPartner' })
+    //   finishLoading()
+    //   feedBack({
+    //     title: 'Create Coupon',
+    //     message: 'Create success coupon',
+    //     type:'success'
+    //   })
+    // }).catch(error => {
+    //   finishLoading()
+    //   feedBack({
+    //     title: 'Create Coupon',
+    //     message: error,
+    //     type:'error'
+    //   })
+    // })
   }
   const formRef = ref<FormInstance>()
   const resetForm = (formEl: FormInstance | undefined) => {
@@ -111,7 +128,6 @@ const createPartnerTours = () => {
         const getNumber = data?.totalDays.match(/\d+/g) || [0, 0]
         formTour.value = {
           ...data,
-          coverPicture: undefined,
           totalDay: parseInt(getNumber[0]),
           totalNight: parseInt(getNumber[1]),
           traffics: JSON.parse(data.traffics.replace(/'/g, '"')),
@@ -161,6 +177,7 @@ const createPartnerTours = () => {
     loadingTours,
     rules,
     formRef,
+    fileList,
     resetForm,
     getTours,
     getTourById,

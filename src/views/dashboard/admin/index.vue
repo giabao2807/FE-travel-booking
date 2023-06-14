@@ -34,7 +34,7 @@
             <v-card-title>
               <h4 class="mx-3 mt-3"><v-icon icon="mdi-star-check-outline" />The Potential Customers</h4>
             </v-card-title>
-            <v-card-text class="overflow-y-auto" style="height: 420px;">
+            <v-card-text class="overflow-y-auto" style="height: 450px;">
               <v-list
                 lines="three"
               >
@@ -86,13 +86,30 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-container>
+    <v-container fluid>
       <v-row>
-        <v-col>
+        <v-col cols="5">
           <v-card min-height="370" class="rounded-xl">
+            <v-card-title>
+              <h4 class="ma-3">
+                <v-icon icon="mdi-archive-star-outline" />
+                Total Price
+              </h4>
+            </v-card-title>
             <v-card-text>
               <n-doughnut-chart :chart-data="revenue" :chart-options="optionsDoughnut" />
             </v-card-text>
+            <v-card-actions>
+              <v-row align="center" justify="center">
+                <h4
+                  class="mx-5"
+                  :style="revenue?.totalTour > revenue?.totalHotel ? 'color: rgb(255, 163, 158)' : 'color: rgb(100, 181, 246)'"
+                >
+                  <v-icon icon="mdi-cash-fast" />
+                  Revenue:  {{ formatCurrency(revenue?.totalTour + revenue?.totalHotel) }}
+                </h4>
+              </v-row>
+            </v-card-actions>
           </v-card>
         </v-col>
         <v-col>
@@ -104,7 +121,7 @@
             color="rgb(255,163,158)"
             title="Total Tours"
             icon="mdi-compass-rose"
-            class="mb-5"
+            class="mb-10"
           />
           <n-linear-chart
             :dataLinear="revenue?.totalHotel"
