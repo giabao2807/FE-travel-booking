@@ -1,37 +1,37 @@
 <template>
-  <el-table-v2
-    :columns="columns"
-    :data="(props.expand ? data : props.data.results) || []"
-    :expand-column-key="expandData"
-    :width="1200"
-    :height="500"
-    class="mx-0"
-    fixed
-  >
-    <template v-if="props.expand" #row="props">
-      <Row v-bind="props" />
-    </template>
-    <template #empty>
-      <div v-if="!props.loading" class="flex items-center justify-center h-100%">
-        <el-empty />
-      </div>
-      <div v-if="props.loading" class="text-center mt-10">
-        <el-icon class="is-loading" color="var(--el-color-primary)" :size="26">
-          <loading-icon />
-        </el-icon>
-      </div>
-    </template>
-    <template #footer>
-      <div class="d-flex justify-center" style="background-color: #ffffff;">
-        <n-pagination
-          v-if="props.data.results?.length < 1 && !props.loading"
-          v-model="pageNumber" class="mx-5"
-          :length="props.data.pageNumber"
-          @update:modelValue="() => getNextPage({ page: pageNumber })"
-        />
-      </div>
-    </template>
-  </el-table-v2>
+  <div>
+    <el-table-v2
+      :columns="columns"
+      :data="(props.expand ? data : props.data.results) || []"
+      :expand-column-key="expandData"
+      :width="1200"
+      :height="500"
+      class="mx-0"
+      fixed
+    >
+      <template v-if="props.expand" #row="props">
+        <Row v-bind="props" />
+      </template>
+      <template #empty>
+        <div v-if="!props.loading" class="flex items-center justify-center h-100%">
+          <el-empty />
+        </div>
+        <div v-if="props.loading" class="text-center mt-10">
+          <el-icon class="is-loading" color="var(--el-color-primary)" :size="26">
+            <loading-icon />
+          </el-icon>
+        </div>
+      </template>
+    </el-table-v2>
+    <div class="d-flex justify-center" style="background-color: #ffffff;">
+      <n-pagination
+        v-if="props.data.pageNumber > 1"
+        v-model="pageNumber" class="mx-5"
+        :length="props.data.pageNumber"
+        @update:modelValue="() => getNextPage({ page: pageNumber })"
+      />
+    </div>
+  </div>
 </template>
 <script lang="tsx" setup>
 import NPagination from '@/components/NPagination.vue'

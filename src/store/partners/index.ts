@@ -26,7 +26,7 @@ export const usePartnerStore = defineStore('partnerStore', () => {
   const getBooking = async(type: number, params?: IParamPage) => {
     return await connectionsAPI({
       methods: 'GET',
-      path: 'booking/for_partner',
+      path: 'booking/for_management',
       params: { ...params, type: type }
     })
   }

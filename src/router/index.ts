@@ -58,7 +58,7 @@ const routes: Array<RouteRecordRaw> = [
           { path: 'booking', name:'bookingPartner', component: BookingPartner }
         ]
       },
-      { path: 'admin', component: AdminView, meta: { requiresAuth: true, roleChildren: ['Admin'] } }
+      { path: 'admin', name: 'admin', component: AdminView, meta: { requiresAuth: true, roleChildren: ['Admin'] } }
     ]
   },
   {

@@ -1,18 +1,17 @@
 <template>
   <v-row>
     <v-col cols="2">
-      <v-img height="150" width="150" cover style="border: 1px solid #000">
-        <div class="d-flex align-center justify-center fill-height">
-          <v-btn
-            rounded
-            variant="plain"
-            icon="mdi-camera-enhance-outline"
-            :loading="isSelecting"
-            @click="handleFileImport"
-          />
-        </div>
-      </v-img>
-      <v-file-input v-model="test" ref="uploader" class="d-none" multiple @update:modelValue="onFileChanged" />
+      <div class="d-flex align-center justify-center" style="width: 150px; height: 150px;border: 1px solid #000">
+        <v-btn
+          rounded
+          variant="plain"
+          icon="mdi-camera-enhance-outline"
+          size="small"
+          :loading="isSelecting"
+          @click="handleFileImport"
+        />
+      </div>
+      <v-file-input ref="uploader" class="d-none" multiple @update:modelValue="onFileChanged" />
     </v-col>
     <v-col cols="8">
       <v-sheet
@@ -36,18 +35,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, defineEmits, withDefaults, defineProps } from 'vue'
+import { ref, defineEmits } from 'vue'
 
-type Props = {
-  dataImg: string,
-}
-const props = withDefaults(defineProps<Props>(), {
-  dataImg: ''
-})
-const dataImg = ref(props.dataImg)
 const isSelecting = ref<boolean>(false)
 const uploader = ref()
-const test = ref()
 const srcImg = ref<any[]>([])
 const handleFileImport = () => {
   isSelecting.value = true
@@ -58,7 +49,6 @@ const handleFileImport = () => {
   )
   uploader.value.click()
 }
-console.log(test)
 const emit = defineEmits<{
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (event: 'update:modelValue', value: any): void

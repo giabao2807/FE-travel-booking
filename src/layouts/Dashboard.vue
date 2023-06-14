@@ -17,6 +17,22 @@
       </v-list>
       <v-divider />
       <v-list
+        v-if="authUser.role === 'Admin'"
+        active-color="primary"
+        density="compact"
+        nav
+        mandatory
+        v-model="selectMenu"
+      >
+        <v-list-item
+          prepend-icon="mdi-view-dashboard-outline"
+          title="Dashboard"
+          value="dashboard"
+          @click="() => handleRoute({ name: 'admin' })"
+        />
+      </v-list>
+      <v-list
+        v-else
         active-color="primary"
         density="compact"
         nav

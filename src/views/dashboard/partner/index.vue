@@ -29,11 +29,11 @@
     <v-container fluid>
       <v-row>
         <v-col cols="4">
-          <v-card min-height="450" elevation="1" class="rounded-xl">
+          <v-card height="450" elevation="1" class="rounded-xl">
             <v-card-title>
               <h4 class="mx-3 mt-3"><v-icon icon="mdi-star-check-outline" />The Potential Customers</h4>
             </v-card-title>
-            <v-card-text>
+            <v-card-text class="overflow-y-auto" style="height: 450px;">
               <v-list
                 lines="three"
               >
@@ -51,7 +51,7 @@
           </v-card>
         </v-col>
         <v-col>
-          <v-card min-height="450" elevation="1" class="rounded-xl">
+          <v-card height="450" elevation="1" class="rounded-xl">
             <v-card-title class="d-flex align-center">
               <h4 class="ma-3">
                 <v-icon icon="mdi-archive-cog-outline" />

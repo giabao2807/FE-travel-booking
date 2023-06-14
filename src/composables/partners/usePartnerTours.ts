@@ -1,19 +1,37 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { reactive, ref } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { usePartnerToursStore } from '@/store/partners/tours'
 import { IParamPage } from '@/libs/types/commonType'
-import { UploadProps } from 'element-plus/es/components'
-import type { FormRules, FormInstance, UploadUserFile, UploadInstance } from 'element-plus'
+import type { FormRules, FormInstance } from 'element-plus'
 import { validations } from '@/helpers/validate'
 import { useTourStore } from '@/store/tours'
 import { useFeedBack } from '../useFeedBack'
 import { convertionType } from '@/helpers/convertion'
 import { useLoading } from '@/composables/useLoading'
 import { handleRoute } from '@/helpers/loadingRoute'
+import { useCities } from '../useCities'
 
+type IFormCreateTour = {
+  name: string,
+  coverPicture?: any,
+  totalDay: number,
+  totalNight: number,
+  totalDays: string,
+  descriptions: string,
+  groupSize: number,
+  price: number,
+  scheduleContent: string,
+  note: string,
+  city: string,
+  departure: string,
+  traffics: string[],
+  tourImages?: any[]
+}
 const createPartnerTours = () => {
   const partnerTourStore = usePartnerToursStore()
   const tourStore = useTourStore()
+  const { getCityByName } = useCities()
   const { deCode, convertObjectToFormData } = convertionType()
   const { startLoading, finishLoading } = useLoading()
   const {
@@ -30,24 +48,8 @@ const createPartnerTours = () => {
   const { feedBack } = useFeedBack()
   const tours = ref()
   const loadingTours = ref<boolean>(false)
-  const fileList = ref<FormData>()
-  const formTour = ref<{
-    name: string,
-    coverPicture?: any,
-    totalDay: number,
-    totalNight: number,
-    totalDays: string,
-    descriptions: string,
-    groupSize: number,
-    price: number,
-    scheduleContent: string,
-    note: string,
-    city: string,
-    departure: string,
-    traffics: string[],
-    tourImages?: UploadInstance[]
-
-  }>({
+  const imgListUpdate = ref<any[]>([])
+  const formTour = ref<IFormCreateTour>({
     name: '',
     totalDay: 0,
     totalNight: 0,
@@ -87,7 +89,36 @@ const createPartnerTours = () => {
   })
 
   const createTour = () => {
-    // startLoading()
+    startLoading()
+    formTour.value = {
+      ...formTour.value,
+      traffics: [...formTour.value.traffics],
+      descriptions : `<div class="single-box-excerpt">${formTour.value.descriptions}</div>`,
+      scheduleContent:  `<div class="panel-body content-tour-item content-tour-tab-program-tour-0">${formTour.value.scheduleContent}</div>`,
+      note: `<div class="panel-body content-tour-item content-tour-tab-tour-rule-2">${formTour.value.note}</div>`,
+      totalDays: `${formTour.value.totalDay} ngày ${formTour.value.totalNight} đêm`
+    }
+    partnerTourStore.createTour(convertObjectToFormData(formTour.value))
+      .then(() => {
+        handleRoute({ name: 'toursPartner' })
+        finishLoading()
+        feedBack({
+          title: 'Create Tour',
+          message: 'Create success tour',
+          type:'success'
+        })
+      }).catch(error => {
+        finishLoading()
+        feedBack({
+          title: 'Create Tour',
+          message: error,
+          type:'error'
+        })
+      })
+  }
+  const updateTour = (id: string) => {
+    startLoading()
+    formTour.value.tourImages?.push(...imgListUpdate.value),
     formTour.value = {
       ...formTour.value,
       descriptions : `<div class="single-box-excerpt">${formTour.value.descriptions}</div>`,
@@ -95,46 +126,55 @@ const createPartnerTours = () => {
       note: `<div class="panel-body content-tour-item content-tour-tab-tour-rule-2">${formTour.value.note}</div>`,
       totalDays: `${formTour.value.totalDay} ngày ${formTour.value.totalNight} đêm`
     }
-    console.log(formTour.value, fileList.value)
-    partnerTourStore.createTour(convertObjectToFormData(formTour.value))
-    // .then(() => {
-    //   handleRoute({ name: 'toursPartner' })
-    //   finishLoading()
-    //   feedBack({
-    //     title: 'Create Coupon',
-    //     message: 'Create success coupon',
-    //     type:'success'
-    //   })
-    // }).catch(error => {
-    //   finishLoading()
-    //   feedBack({
-    //     title: 'Create Coupon',
-    //     message: error,
-    //     type:'error'
-    //   })
-    // })
+    partnerTourStore.updateTour(id, convertObjectToFormData(formTour.value))
+      .then(() => {
+        handleRoute({ name: 'toursPartner' })
+        finishLoading()
+        feedBack({
+          title: 'Update Tour',
+          message: 'Update success tour',
+          type:'success'
+        })
+      }).catch(error => {
+        finishLoading()
+        feedBack({
+          title: 'Update Tour',
+          message: error,
+          type:'error'
+        })
+      })
   }
   const formRef = ref<FormInstance>()
   const resetForm = (formEl: FormInstance | undefined) => {
     if (!formEl) return
     formEl.resetFields()
   }
-  const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
-    console.log(uploadFile, uploadFiles)
+  const handleRemove = (image: string) => {
+    formTour.value.tourImages = formTour.value.tourImages?.filter(item => item !== image)
   }
   const getTourById = (id: string) => {
+    startLoading()
     tourStore.getTourById(id)
       .then(data => {
         const getNumber = data?.totalDays.match(/\d+/g) || [0, 0]
         formTour.value = {
           ...data,
+          tourImages: data.listImages,
+          city: getCityByName(data.city)?.id,
           totalDay: parseInt(getNumber[0]),
           totalNight: parseInt(getNumber[1]),
-          traffics: JSON.parse(data.traffics.replace(/'/g, '"')),
           descriptions: `${deCode(data.descriptions)}`,
           scheduleContent: `${deCode(data.scheduleContent)}`,
           note: `${deCode(data.note)}`
         }
+        finishLoading()
+      }).catch(error => {
+        feedBack({
+          title: 'Get Tour Detail',
+          message: error,
+          type:'error'
+        })
+        finishLoading()
       })
   }
   const getTours = (params?: IParamPage) => {
@@ -177,14 +217,15 @@ const createPartnerTours = () => {
     loadingTours,
     rules,
     formRef,
-    fileList,
+    imgListUpdate,
     resetForm,
     getTours,
     getTourById,
     deactivateTour,
     activateTour,
     handleRemove,
-    createTour
+    createTour,
+    updateTour
   }
 }
 export const usePartnerTours = createSharedComposable(createPartnerTours)

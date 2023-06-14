@@ -5,6 +5,7 @@
         <v-btn
           rounded
           variant="plain"
+          size="small"
           icon="mdi-camera-enhance-outline"
           :loading="isSelecting"
           @click="handleFileImport"

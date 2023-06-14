@@ -7,7 +7,7 @@ export const usePartnerHotelsStore = defineStore('partnerHotelsStore', () => {
   const getHotels = async(params?: IParamPage) => {
     return await connectionsAPI({
       methods: 'GET',
-      path: 'hotel/belongs_to_partner',
+      path: 'hotel/for_management',
       params: params
     })
   }

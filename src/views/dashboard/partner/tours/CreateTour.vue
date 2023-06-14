@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/no-v-model-argument -->
 <template>
   <v-container class="create-tours-page">
-    <h3 class="my-5">Create Tour Du Lịch</h3>
+    <h3 class="my-5">{{ route.query.id ? 'Update' : 'Create' }} Tour Du Lịch</h3>
     <el-form
       ref="formRef"
       :rules="rules"
@@ -158,15 +158,61 @@
       </el-form-item>
       <v-divider class="my-2" />
       <h3 class="my-3">Thông tin bổ sung</h3>
-      <el-form-item prop="tourImages">
-        <template #label>
-          <div class="d-flex align-center">
-            <v-icon class="mr-1" icon="mdi-image-multiple-outline" />
-            <span class="font-weight-600">Hình ảnh</span>
-          </div>
-        </template>
-        <n-upload-multi v-model="formTour.tourImages"/>
-      </el-form-item>
+      <div v-if="route.query.id">
+        <el-form-item prop="tourImages">
+          <template #label>
+            <div class="d-flex align-center">
+              <v-icon class="mr-1" icon="mdi-image-multiple-outline" />
+              <span class="font-weight-600">Hình ảnh</span>
+            </div>
+          </template>
+          <v-sheet
+            max-width="750"
+          >
+            <v-slide-group
+              center-active
+              show-arrows
+            >
+              <v-slide-group-item
+                v-for="(item, index) in formTour.tourImages"
+                :key="index"
+              >
+                <v-img :src="item" height="150" width="150" cover class="mx-2">
+                  <div class="d-flex align-start justify-end fill-height">
+                    <v-btn
+                      rounded
+                      variant="plain"
+                      size="small"
+                      icon="mdi-close"
+                      @click="() => handleRemove(item)"
+                    />
+                  </div>
+                </v-img>
+              </v-slide-group-item>
+            </v-slide-group>
+          </v-sheet>
+        </el-form-item>
+        <el-form-item prop="tourImages">
+          <template #label>
+            <div class="d-flex align-center">
+              <v-icon class="mr-1" icon="mdi-image-plus-outline" />
+              <span class="font-weight-600">Thêm Ảnh</span>
+            </div>
+          </template>
+          <n-upload-multi v-model="imgListUpdate" />
+        </el-form-item>
+      </div>
+      <div v-else>
+        <el-form-item prop="tourImages">
+          <template #label>
+            <div class="d-flex align-center">
+              <v-icon class="mr-1" icon="mdi-image-multiple-outline" />
+              <span class="font-weight-600">Hình ảnh</span>
+            </div>
+          </template>
+          <n-upload-multi v-model="formTour.tourImages" />
+        </el-form-item>
+      </div>
       <el-form-item prop="scheduleContent">
         <template #label>
           <div class="d-flex align-center">
@@ -190,7 +236,25 @@
         </el-col>
       </el-form-item>
     </el-form>
-    <div class="d-flex">
+    <div v-if="route.query.id" class="d-flex">
+      <v-btn
+        class="text-none rounded-xl"
+        prepend-icon="mdi-arrow-left"
+        @click="() => handleRoute({ name: 'toursPartner' })"
+      >
+        Back
+      </v-btn>
+      <v-spacer />
+      <v-btn
+        color="primary"
+        class="text-none rounded-xl"
+        prepend-icon="mdi-archive-edit-outline"
+        @click="() => updateTour(route.query.id as string)"
+      >
+        Update
+      </v-btn>
+    </div>
+    <div v-else class="d-flex">
       <v-btn
         class="text-none rounded-xl"
         prepend-icon="mdi-broom"
@@ -213,7 +277,6 @@
 
 <script lang="ts" setup>
 import { onMounted } from 'vue'
-import { Plus } from '@element-plus/icons-vue'
 import { useCities } from '@/composables/useCities'
 import { TRAFFICS } from '@/resources/mockData'
 import NEditor from '@/components/NEditor.vue'
@@ -221,6 +284,7 @@ import NUploadPic from '@/components/NUploadPic.vue'
 import NUploadMulti from '@/components/NUploadMulti.vue'
 import { useRoute } from 'vue-router'
 import { usePartnerTours } from '@/composables/partners/usePartnerTours'
+import { handleRoute } from '@/helpers/loadingRoute'
 
 const { allCities } = useCities()
 const route = useRoute()
@@ -228,10 +292,12 @@ const {
   rules,
   formTour,
   formRef,
+  imgListUpdate,
   getTourById,
   handleRemove,
   createTour,
-  resetForm
+  resetForm,
+  updateTour
 } = usePartnerTours()
 onMounted(() => {
   if (route.query.id) {

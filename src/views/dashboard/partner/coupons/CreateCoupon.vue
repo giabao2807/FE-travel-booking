@@ -78,7 +78,8 @@
             </template>
             <el-select
               v-model="formCoupon.tourIds"
-              multiple style="margin-left: 50px; width: 52%;"
+              multiple
+              style="margin-left: 50px; width: 52%;"
               placeholder="Select tours"
             >
               <el-option
