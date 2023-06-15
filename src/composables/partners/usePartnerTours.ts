@@ -92,7 +92,6 @@ const createPartnerTours = () => {
     startLoading()
     formTour.value = {
       ...formTour.value,
-      traffics: [...formTour.value.traffics],
       descriptions : `<div class="single-box-excerpt">${formTour.value.descriptions}</div>`,
       scheduleContent:  `<div class="panel-body content-tour-item content-tour-tab-program-tour-0">${formTour.value.scheduleContent}</div>`,
       note: `<div class="panel-body content-tour-item content-tour-tab-tour-rule-2">${formTour.value.note}</div>`,
@@ -160,6 +159,7 @@ const createPartnerTours = () => {
         formTour.value = {
           ...data,
           tourImages: data.listImages,
+          traffics: data.traffics?.split(','),
           city: getCityByName(data.city)?.id,
           totalDay: parseInt(getNumber[0]),
           totalNight: parseInt(getNumber[1]),

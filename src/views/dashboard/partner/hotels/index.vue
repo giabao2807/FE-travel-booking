@@ -14,22 +14,25 @@
         @getNextPage="getHotels"
       />
     </div>
+    <n-dialog-update-hotel v-model="dialogUpdate" />
   </v-container>
 </template>
 <script lang="tsx" setup>
 import { onMounted } from 'vue'
 import type { Column } from 'element-plus'
 import NTableHotel from '@/components/NTableHotel.vue'
+import NDialogUpdateHotel from '@/components/NDialogUpdateHotel.vue'
 import { convertionType } from '@/helpers/convertion'
 import { usePartnerHotels } from '@/composables/partners/usePartnerHotels'
-
 
 const {
   hotels,
   loadingHotels,
+  dialogUpdate,
   getHotels,
   activateHotel,
-  deactivateHotel
+  deactivateHotel,
+  getHotelById
 } = usePartnerHotels()
 const { formatCurrency } = convertionType()
 onMounted(() => {
@@ -116,7 +119,10 @@ const columns: Column<any>[] = [
           variant="plain"
           color="primary"
           icon="mdi-circle-edit-outline"
-          onClick={() => console.log('run run', rowData.id) }
+          onClick={() => {
+            dialogUpdate.value = true
+            getHotelById(rowData.id)
+          }}
         />
         <v-btn
           v-show={rowData.isActive}

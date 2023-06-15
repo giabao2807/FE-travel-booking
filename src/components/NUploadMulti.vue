@@ -1,7 +1,7 @@
 <template>
-  <v-row>
-    <v-col cols="2">
-      <div class="d-flex align-center justify-center" style="width: 150px; height: 150px;border: 1px solid #000">
+  <div class="d-flex align-center">
+    <div>
+      <div class="d-flex align-center justify-center border-dashed" style="width: 150px; height: 150px;">
         <v-btn
           rounded
           variant="plain"
@@ -12,26 +12,24 @@
         />
       </div>
       <v-file-input ref="uploader" class="d-none" multiple @update:modelValue="onFileChanged" />
-    </v-col>
-    <v-col cols="8">
-      <v-sheet
-        class="mx-auto"
-        max-width="750"
+    </div>
+    <v-sheet
+      class="my-2"
+      max-width="750"
+    >
+      <v-slide-group
+        center-active
+        show-arrows
       >
-        <v-slide-group
-          center-active
-          show-arrows
+        <v-slide-group-item
+          v-for="(item, index) in srcImg"
+          :key="index"
         >
-          <v-slide-group-item
-            v-for="(item, index) in srcImg"
-            :key="index"
-          >
-            <v-img :src="item" height="150" width="150" cover class="mx-2" />
-          </v-slide-group-item>
-        </v-slide-group>
-      </v-sheet>
-    </v-col>
-  </v-row>
+          <v-img :src="item" height="150" width="150" cover class="mx-2" />
+        </v-slide-group-item>
+      </v-slide-group>
+    </v-sheet>
+  </div>
 </template>
 
 <script lang="ts" setup>

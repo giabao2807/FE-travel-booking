@@ -10,6 +10,7 @@
   --color-boni-like: rgb(255, 189, 234);
   --color-bg-card-second: rgba(59, 54, 57, 0.5);
   --color-border-black: rgba(57, 54, 54, 0.5);
+  --color-border-gray: rgba(103, 98, 98, 0.5);
   --color-coupon: rgb(249, 192, 225);
   --color-coupon-2: rgb(254, 252, 253);
   --color-border-white: #fff;
@@ -106,4 +107,7 @@
 }
 .margin-top-8rem {
   margin-top: 8rem;
+}
+.border-dashed {
+  border: 1px dashed var(--color-border-gray);
 }

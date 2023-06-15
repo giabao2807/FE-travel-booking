@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-img :src="srcImg || props.dataImg" height="150" width="150" cover style="border: 1px solid #000">
+    <v-img :src="srcImg || props.dataImg" height="150" width="150" cover class="border-dashed">
       <div class="d-flex align-center justify-center fill-height">
         <v-btn
           rounded

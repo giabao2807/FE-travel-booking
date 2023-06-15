@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-static-inline-styles -->
 <!-- eslint-disable vue/no-v-model-argument -->
 <template>
   <v-container class="create-tours-page">
@@ -15,7 +16,7 @@
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-rename-box-outline" />
-                <span class="font-weight-600">Tên tour</span>
+                <span class="font-weight-600">Tên Tour</span>
               </div>
             </template>
             <el-input
@@ -29,7 +30,7 @@
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-image-outline" />
-                <span class="font-weight-600">Ảnh đại diện</span>
+                <span class="font-weight-600" style="width: 150px;">Ảnh Đại Diện</span>
               </div>
             </template>
             <n-upload-pic
@@ -44,7 +45,7 @@
         <template #label>
           <div class="d-flex align-center">
             <v-icon class="mr-1" icon="mdi-code-braces" />
-            <span class="font-weight-600">Số lượng</span>
+            <span class="font-weight-600">Số Lượng</span>
           </div>
         </template>
         <el-col :span="5">

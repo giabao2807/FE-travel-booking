@@ -4,6 +4,8 @@
     class="my-5"
     :total-visible="5"
     :length="propItems.length"
+    :density="propItems.compact ? 'compact' : undefined"
+    color="primary"
     @update:modelValue="(event) => handleAction(event)"
   />
 </template>
@@ -11,7 +13,8 @@
 import { defineEmits, withDefaults, defineProps } from 'vue'
 
 type Props = {
-  length: number
+  length: number,
+  compact?: boolean
 }
 const emit = defineEmits<{
   (event: 'change'): void
@@ -23,6 +26,7 @@ const handleAction = (event: number) => {
   window.scrollTo(0, 0)
 }
 const propItems = withDefaults(defineProps<Props>(), {
-  length: 0
+  length: 0,
+  compact: false
 })
 </script>
