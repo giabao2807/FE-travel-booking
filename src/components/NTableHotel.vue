@@ -44,6 +44,7 @@ import { defineProps, withDefaults, ref, defineEmits } from 'vue'
 import { Loading as LoadingIcon } from '@element-plus/icons-vue'
 import { watchEffect } from 'vue'
 import { convertionType } from '@/helpers/convertion'
+import { usePartnerHotels } from '@/composables/partners/usePartnerHotels'
 
 type Props = {
   columns: any,
@@ -60,6 +61,7 @@ const props = withDefaults(defineProps<Props>(), {
   expand: false
 })
 const { formatCurrency } = convertionType()
+const { dialogEditRoom } = usePartnerHotels()
 const pageNumber = ref<number>(1)
 const emit = defineEmits(['getNextPage'])
 const getNextPage = (params: any) => {
@@ -74,7 +76,7 @@ const Row = ({ cells, rowData }) => {
       <h3>List rooms</h3>
       <div class="overflow-y-auto" style="max-height: 200px">
         {rowData.detail.map((item: any) => (
-          <v-row class="pl-6">
+          <v-row class="pl-6" align="center" justify="center">
             <v-col cols="5">
               <v-icon icon="mdi-bed-single-outline" class="mr-1" />
               <strong>{item.name}</strong>
@@ -82,8 +84,16 @@ const Row = ({ cells, rowData }) => {
             <v-col cols="2">
               <span>Quantity: <strong>{item.quantity}</strong></span>
             </v-col>
-            <v-col cols="3">
+            <v-col cols="2">
               <span>Price Room: <strong>{formatCurrency(item.price)}</strong></span>
+            </v-col>
+            <v-col cols="2">
+              <v-btn
+                variant="plain"
+                color="success"
+                icon="mdi-circle-edit-outline"
+                onClick={() => dialogEditRoom.value = true}
+              />
             </v-col>
           </v-row>
         ))}

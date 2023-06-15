@@ -15,7 +15,7 @@
     </div>
     <v-sheet
       class="my-2"
-      max-width="750"
+      :max-width="props.maxWidth"
     >
       <v-slide-group
         center-active
@@ -33,11 +33,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, defineEmits } from 'vue'
+import { ref, defineEmits, withDefaults, defineProps } from 'vue'
 
 const isSelecting = ref<boolean>(false)
 const uploader = ref()
 const srcImg = ref<any[]>([])
+type Props = {
+  maxWidth?: string,
+}
+const props = withDefaults(defineProps<Props>(), {
+  maxWidth: '750'
+})
 const handleFileImport = () => {
   isSelecting.value = true
   window.addEventListener(

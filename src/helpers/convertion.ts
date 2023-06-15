@@ -62,16 +62,15 @@ export const convertionType = () => {
     const item = STATUS_ICON.find(item => item.value === status.toLowerCase())
     return item?.color
   }
-  const convertObjectToFormData = (object: Record<string, any>): FormData => {
+  const convertObjectToFormData = (object: Record<string, any>, packImage: string): FormData => {
     const formData = new FormData()
+    console.log(object['tourImages'])
+    object['tourImages'].map((element: any) => {
+      formData.append('tourImages', element)
+    })
     for (const key in object) {
       if (Object.prototype.hasOwnProperty.call(object, key)) {
-        if (key === 'tourImages') {
-          object[key].forEach((element: any) => {
-            formData.append('tourImages', element)
-          })
-        }
-        else {
+        if (key !== 'tourImages') {
           formData.append(key, object[key])
         }
       }

@@ -30,6 +30,6 @@ const editorConfig = {
 </script>
 <style>
 .ck-editor__editable {
-  min-height: 200px;
+  height: 200px;
 }
 </style>

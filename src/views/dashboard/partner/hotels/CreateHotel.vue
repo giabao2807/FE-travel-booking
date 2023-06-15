@@ -122,11 +122,22 @@
             icon="mdi-plus"
             @click="() => {
               quantityRoom++
+              dataFormRoom.push({
+                name: '',
+                beds: 0,
+                adults: 0,
+                children: 0,
+                description: '',
+                price: 0,
+                square: 0,
+                quantity: 0,
+                roomImages: []
+              })
             }"
           />
           {{ quantityRoom }}
         </h3>
-        <v-card class="my-2" v-for="(num, idx) in quantityRoom" :key="idx">
+        <v-card class="my-2" v-for="(dataForm, idx) in dataFormRoom" :key="idx">
           <v-card-text>
             <el-form
               class="mx-5"
@@ -152,7 +163,7 @@
                 </template>
                 <el-col :span="20">
                   <el-input
-                    v-model="dataFormRoom[idx].name"
+                    v-model="dataForm.name"
                     clearable
                   />
                 </el-col>
@@ -166,7 +177,7 @@
                 </template>
                 <el-col :span="5">
                   <el-input-number
-                    v-model="dataFormRoom[idx].quantity"
+                    v-model="dataForm.quantity"
                     style="width: 200px"
                   />
                 </el-col>
@@ -182,7 +193,7 @@
                     </template>
                     <el-col :span="5">
                       <el-input-number
-                        v-model="dataFormRoom[idx].square"
+                        v-model="dataForm.square"
                         style="width: 200px"
                       />
                     </el-col>
@@ -198,7 +209,7 @@
                     </template>
                     <el-col :span="5">
                       <el-input-number
-                        v-model="dataFormRoom[idx].beds"
+                        v-model="dataForm.beds"
                         style="width: 200px"
                       />
                     </el-col>
@@ -216,7 +227,7 @@
                     </template>
                     <el-col :span="5">
                       <el-input-number
-                        v-model="dataFormRoom[idx].adults"
+                        v-model="dataForm.adults"
                         style="width: 200px"
                       />
                     </el-col>
@@ -233,7 +244,7 @@
                     <el-col :span="5">
                       <el-col :span="5">
                         <el-input-number
-                          v-model="dataFormRoom[idx].children"
+                          v-model="dataForm.children"
                           style="width: 200px"
                         />
                       </el-col>
@@ -250,7 +261,7 @@
                 </template>
                 <el-col :span="20">
                   <el-input
-                    v-model="dataFormRoom[idx].price"
+                    v-model="dataForm.price"
                     type="number"
                   >
                     <template #append>VNĐ</template>
@@ -265,7 +276,7 @@
                   </div>
                 </template>
                 <el-col :span="20">
-                  <n-editor v-model="dataFormRoom[idx].description" />
+                  <n-editor v-model="dataForm.description" />
                 </el-col>
               </el-form-item>
             </el-form>
@@ -333,5 +344,5 @@ const initDataRoom: ICreateRoom = {
   quantity: 0,
   roomImages: []
 }
-const dataFormRoom = ref<ICreateRoom[]>([initDataRoom, initDataRoom])
+const dataFormRoom = ref<ICreateRoom[]>([initDataRoom])
 </script>

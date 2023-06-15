@@ -20,7 +20,7 @@
 import { ref, defineEmits, withDefaults, defineProps } from 'vue'
 
 type Props = {
-  dataImg: string,
+  dataImg?: string,
 }
 const props = withDefaults(defineProps<Props>(), {
   dataImg: ''

@@ -97,7 +97,7 @@ const createPartnerTours = () => {
       note: `<div class="panel-body content-tour-item content-tour-tab-tour-rule-2">${formTour.value.note}</div>`,
       totalDays: `${formTour.value.totalDay} ngày ${formTour.value.totalNight} đêm`
     }
-    partnerTourStore.createTour(convertObjectToFormData(formTour.value))
+    partnerTourStore.createTour(convertObjectToFormData(formTour.value, 'tourImages'))
       .then(() => {
         handleRoute({ name: 'toursPartner' })
         finishLoading()
@@ -115,8 +115,20 @@ const createPartnerTours = () => {
         })
       })
   }
+  const urlToFile = async(url: string, filename: string, mimeType: string) => {
+    const response = await fetch(url)
+    const buffer = await response.arrayBuffer()
+    return new File([buffer], filename, { type: mimeType })
+  }
+
   const updateTour = (id: string) => {
     startLoading()
+    const test = undefined
+    urlToFile(formTour.value.coverPicture, 'image.jpg', 'image/jpeg')
+      .then(file => {
+        formTour.value.coverPicture = file
+      })
+    console.log(test)
     formTour.value.tourImages?.push(...imgListUpdate.value),
     formTour.value = {
       ...formTour.value,
@@ -125,7 +137,7 @@ const createPartnerTours = () => {
       note: `<div class="panel-body content-tour-item content-tour-tab-tour-rule-2">${formTour.value.note}</div>`,
       totalDays: `${formTour.value.totalDay} ngày ${formTour.value.totalNight} đêm`
     }
-    partnerTourStore.updateTour(id, convertObjectToFormData(formTour.value))
+    partnerTourStore.updateTour(id, convertObjectToFormData(formTour.value, 'tourImages'))
       .then(() => {
         handleRoute({ name: 'toursPartner' })
         finishLoading()

@@ -9,7 +9,7 @@
     @update:modelValue="(event) => hanldeChange(event)"
   >
     <template #header>
-      <h3>Cập Nhật Khách Sạn</h3>
+      <h3>Cập Nhật Thông Tin Phòng</h3>
     </template>
     <template #default>
       <v-card elevation="0" color="transparent">
@@ -29,7 +29,6 @@
               </template>
               <el-col :span="20">
                 <el-input
-                  v-model="formHotel.name"
                   clearable
                 />
               </el-col>
@@ -41,7 +40,7 @@
                   <span class="font-weight-600">Thành Phố</span>
                 </div>
               </template>
-              <el-select v-model="formHotel.city" clearable placeholder="Select">
+              <el-select clearable placeholder="Select">
                 <el-option
                   v-for="item in allCities"
                   :key="item.id"
@@ -59,7 +58,6 @@
               </template>
               <el-col :span="20">
                 <el-input
-                  v-model="formHotel.address"
                   clearable
                 />
               </el-col>
@@ -72,7 +70,7 @@
                 </div>
               </template>
               <el-col :span="20">
-                <n-editor v-model="formHotel.descriptions" />
+                <n-editor />
               </el-col>
             </el-form-item>
             <el-form-item prop="descriptions">
@@ -83,7 +81,7 @@
                 </div>
               </template>
               <el-col :span="20">
-                <n-editor v-model="formHotel.rules" />
+                <n-editor />
               </el-col>
             </el-form-item>
             <v-divider class="ma-3" />
@@ -94,10 +92,7 @@
                   <span class="font-weight-600" style="width: 150px;">Ảnh Đại Diện</span>
                 </div>
               </template>
-              <n-upload-pic
-                v-model="formHotel.coverPicture"
-                :dataImg="formHotel.coverPicture"
-              />
+              <n-upload-pic />
             </el-form-item>
             <el-form-item prop="tourImages">
               <template #label>
@@ -109,7 +104,7 @@
               <v-sheet
                 max-width="90%"
               >
-                <v-slide-group
+                <!-- <v-slide-group
                   center-active
                   show-arrows
                 >
@@ -128,7 +123,7 @@
                       </div>
                     </v-img>
                   </v-slide-group-item>
-                </v-slide-group>
+                </v-slide-group> -->
               </v-sheet>
             </el-form-item>
             <el-form-item prop="tourImages">
@@ -138,7 +133,7 @@
                   <span class="font-weight-600">Thêm Ảnh</span>
                 </div>
               </template>
-              <n-upload-multi v-model="imgListUpdate" max-width="500" />
+              <n-upload-multi max-width="500" />
             </el-form-item>
           </el-form>
         </v-card-text>
@@ -149,7 +144,7 @@
             min-width="110"
             variant="outlined"
             class="text-none"
-            @click="() => dialogUpdate = false"
+            @click="() => dialogEditRoom = false"
           >
             Đóng
           </v-btn>
@@ -161,8 +156,7 @@
             color="primary"
             class="text-none"
             @click="() => {
-              dialogUpdate = false
-              updateHotel()
+              dialogEditRoom = false
             }"
           >
             Cập Nhật
@@ -187,7 +181,7 @@ const propItems = withDefaults(defineProps<Props>(), {
   id: ''
 })
 const { allCities } = useCities()
-const { formHotel, dialogUpdate, updateHotel, imgListUpdate } = usePartnerHotels()
+const { dialogEditRoom } = usePartnerHotels()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', booking: boolean): void
