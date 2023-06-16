@@ -14,7 +14,7 @@
     </template>
     <template v-if="props.loading" #overlay>
       <div
-        class="h-100 d-flex align-center justify-center" style="background-color: #ffffffc8;"
+        class="h-100 d-flex align-center justify-center"
       >
         <el-icon class="is-loading" color="var(--el-color-primary)" :size="26">
           <loading-icon />
@@ -90,8 +90,8 @@ const Row = ({ cells, rowData }) => {
             <v-col cols="2">
               <v-btn
                 variant="plain"
-                color="success"
-                icon="mdi-circle-edit-outline"
+                color="primary"
+                icon="mdi-comment-edit-outline"
                 onClick={() => dialogEditRoom.value = true}
               />
             </v-col>

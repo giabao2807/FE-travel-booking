@@ -178,7 +178,7 @@
                 v-for="(item, index) in formTour.tourImages"
                 :key="index"
               >
-                <v-img :src="item" height="150" width="150" cover class="mx-2">
+                <n-image :src="item" height="150" width="150" cover class="mx-2">
                   <div class="d-flex align-start justify-end fill-height">
                     <v-btn
                       rounded
@@ -188,7 +188,7 @@
                       @click="() => handleRemove(item)"
                     />
                   </div>
-                </v-img>
+                </n-image>
               </v-slide-group-item>
             </v-slide-group>
           </v-sheet>
@@ -277,12 +277,13 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue'
-import { useCities } from '@/composables/useCities'
-import { TRAFFICS } from '@/resources/mockData'
+import NImage from '@/components/NImage.vue'
 import NEditor from '@/components/NEditor.vue'
 import NUploadPic from '@/components/NUploadPic.vue'
 import NUploadMulti from '@/components/NUploadMulti.vue'
+import { onMounted } from 'vue'
+import { useCities } from '@/composables/useCities'
+import { TRAFFICS } from '@/resources/mockData'
 import { useRoute } from 'vue-router'
 import { usePartnerTours } from '@/composables/partners/usePartnerTours'
 import { handleRoute } from '@/helpers/loadingRoute'

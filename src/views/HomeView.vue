@@ -121,12 +121,13 @@
           <v-card
             class="mx-auto my-12 rounded-xl bg-theme-status"
             elevation="8"
-            width="340"
+            width="310"
+            height="420"
             @click="() => handleRoute({ name: 'tourDetail', params: { id: tour?.id } })"
           >
             <n-image
               class="align-end text-white"
-              height="200"
+              height="180"
               :src="tour?.coverPicture"
             >
               <div
@@ -212,16 +213,13 @@
                 Khởi hành: {{ tour?.departure }}
               </div>
             </v-card-text>
-            <v-card-actions>
-              <v-spacer />
-              <v-btn
-                class="font-rowdies"
-                color="primary"
-                variant="text"
-              >
-                See More...
-              </v-btn>
-            </v-card-actions>
+            <v-btn
+              class="font-rowdies button-card-tour"
+              color="primary"
+              variant="text"
+            >
+              See More...
+            </v-btn>
             <div class="group-hover:-rotate-[4deg] animation-card-tour transition-transform" />
             <div class="group-hover:-rotate-[8deg] animation-card-tour transition-transform" />
           </v-card>
@@ -449,5 +447,9 @@ const {
 </script>
 <style scoped>
 @import '@/assets/css/home.css';
-
+.button-card-tour {
+  position: absolute !important;
+  bottom: 0;
+  right: 0;
+}
 </style>

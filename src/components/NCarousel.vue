@@ -44,7 +44,7 @@ type Props = {
   hideDelimiterBackground?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
-  data: () => ['https://wallpaperaccess.com/full/459026.jpg'],
+  data: () => [''],
   colorProgress: 'primary',
   showArrows: 'hover',
   hideDelimiters: true,

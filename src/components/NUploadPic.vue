@@ -1,6 +1,12 @@
 <template>
   <div>
-    <v-img :src="srcImg || props.dataImg" height="150" width="150" cover class="border-dashed">
+    <v-img
+      :src="srcImg || props.dataImg"
+      height="150"
+      width="150"
+      cover
+      class="border-dashed"
+    >
       <div class="d-flex align-center justify-center fill-height">
         <v-btn
           rounded
@@ -20,7 +26,8 @@
 import { ref, defineEmits, withDefaults, defineProps } from 'vue'
 
 type Props = {
-  dataImg?: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dataImg?: any,
 }
 const props = withDefaults(defineProps<Props>(), {
   dataImg: ''

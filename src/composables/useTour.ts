@@ -27,7 +27,7 @@ const createTour = () => {
   })
 
   const getPopularTours = () => {
-    tourStore.getPopularTours()
+    tourStore.getPopularTours({ pageSize: 8 })
       .then((data: IResponseTour) => popularTours.value = data.results)
   }
   const getToursByFilterPanel = (params?: IFilterPanel) => {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { COMMENTRATE, TRAFFICS, STATUS_ICON } from '@/resources/mockData'
 import moment from 'moment'
 
@@ -62,15 +63,52 @@ export const convertionType = () => {
     const item = STATUS_ICON.find(item => item.value === status.toLowerCase())
     return item?.color
   }
-  const convertObjectToFormData = (object: Record<string, any>, packImage: string): FormData => {
+  const urlToFile = async(url: string, filename: string, mimeType: string) => {
+    const response = await fetch(url)
+    const buffer = await response.arrayBuffer()
+    return new File([buffer], filename, { type: mimeType })
+  }
+  const convertToFiles = async(imageURLs: string[]) => {
+    const filePromises = imageURLs.map(async(url) => {
+      const response = await fetch(url)
+      const blob = await response.blob()
+      const file = new File([blob], 'image.jpg', { type: blob.type })
+      return file
+    })
+
+    const files = await Promise.all(filePromises)
+    return files
+  }
+  const convertObjectToFormData = async(object: Record<string, any>, packImage: string): Promise<FormData> => {
     const formData = new FormData()
-    console.log(object['tourImages'])
-    object['tourImages'].map((element: any) => {
-      formData.append('tourImages', element)
+    const dataImgString: any[] = []
+    if (typeof(object['coverPicture']) === 'string') {
+      await urlToFile(object['coverPicture'], 'image.jpg', 'image/jpeg')
+        .then(file => {
+          formData.append('coverPicture', file)
+        })
+    }
+    else {
+      formData.append('coverPicture', object['coverPicture'])
+    }
+    object[packImage].forEach((item: any) => {
+      if (typeof(item) === 'string') {
+        dataImgString.push(item)
+      }
+      else {
+        formData.append(packImage, item)
+      }
+    })
+    await convertToFiles(dataImgString).then(data => {
+      data.map(item => {
+        formData.append(packImage, item)
+      })
+    }).catch(error => {
+      console.error(error)
     })
     for (const key in object) {
       if (Object.prototype.hasOwnProperty.call(object, key)) {
-        if (key !== 'tourImages') {
+        if (key !== packImage && key !== 'coverPicture') {
           formData.append(key, object[key])
         }
       }

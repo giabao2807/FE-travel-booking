@@ -1,2 +1,4 @@
 gộp room cùng tên
 check css
+check infor user khi booking
+hide another khi khong co

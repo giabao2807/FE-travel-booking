@@ -88,16 +88,17 @@ const createPartnerTours = () => {
     totalNight: [{ validator: checkNight }]
   })
 
-  const createTour = () => {
+  const createTour = async() => {
     startLoading()
-    formTour.value = {
+    const dataUpdate = await({
       ...formTour.value,
       descriptions : `<div class="single-box-excerpt">${formTour.value.descriptions}</div>`,
       scheduleContent:  `<div class="panel-body content-tour-item content-tour-tab-program-tour-0">${formTour.value.scheduleContent}</div>`,
       note: `<div class="panel-body content-tour-item content-tour-tab-tour-rule-2">${formTour.value.note}</div>`,
       totalDays: `${formTour.value.totalDay} ngày ${formTour.value.totalNight} đêm`
-    }
-    partnerTourStore.createTour(convertObjectToFormData(formTour.value, 'tourImages'))
+    })
+    const formData = await convertObjectToFormData(dataUpdate, 'tourImages')
+    partnerTourStore.createTour(formData)
       .then(() => {
         handleRoute({ name: 'toursPartner' })
         finishLoading()
@@ -115,29 +116,18 @@ const createPartnerTours = () => {
         })
       })
   }
-  const urlToFile = async(url: string, filename: string, mimeType: string) => {
-    const response = await fetch(url)
-    const buffer = await response.arrayBuffer()
-    return new File([buffer], filename, { type: mimeType })
-  }
-
-  const updateTour = (id: string) => {
+  const updateTour = async(id: string) => {
     startLoading()
-    const test = undefined
-    urlToFile(formTour.value.coverPicture, 'image.jpg', 'image/jpeg')
-      .then(file => {
-        formTour.value.coverPicture = file
-      })
-    console.log(test)
-    formTour.value.tourImages?.push(...imgListUpdate.value),
-    formTour.value = {
+    formTour.value.tourImages?.push(...imgListUpdate.value)
+    const dataUpdate = await ({
       ...formTour.value,
-      descriptions : `<div class="single-box-excerpt">${formTour.value.descriptions}</div>`,
+      descriptions: `<div class="single-box-excerpt">${formTour.value.descriptions}</div>`,
       scheduleContent:  `<div class="panel-body content-tour-item content-tour-tab-program-tour-0">${formTour.value.scheduleContent}</div>`,
-      note: `<div class="panel-body content-tour-item content-tour-tab-tour-rule-2">${formTour.value.note}</div>`,
+      note: '<div class="panel-body content-tour-item content-tour-tab-tour-rule-2">' + formTour.value.note + '</div>',
       totalDays: `${formTour.value.totalDay} ngày ${formTour.value.totalNight} đêm`
-    }
-    partnerTourStore.updateTour(id, convertObjectToFormData(formTour.value, 'tourImages'))
+    })
+    const formData = await convertObjectToFormData(dataUpdate, 'tourImages')
+    partnerTourStore.updateTour(id, formData)
       .then(() => {
         handleRoute({ name: 'toursPartner' })
         finishLoading()

@@ -14,7 +14,7 @@
     </template>
     <template v-if="props.loading" #overlay>
       <div
-        class="h-100 d-flex align-center justify-center" style="background-color: #ffffffc8;"
+        class="h-100 d-flex align-center justify-center"
       >
         <el-icon class="is-loading" color="var(--el-color-primary)" :size="26">
           <loading-icon />

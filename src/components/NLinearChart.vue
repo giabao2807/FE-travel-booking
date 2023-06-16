@@ -15,7 +15,7 @@
         :color="props.color"
       >
         <template #default="{ value }">
-          <strong>{{ Math.round(value) }}%</strong>
+          <strong>{{ Math.round(value) || 0 }}%</strong>
         </template>
       </v-progress-linear>
       <div class="ma-2">

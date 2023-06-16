@@ -117,7 +117,7 @@
                     v-for="(item, index) in formHotel.hotelImages"
                     :key="index"
                   >
-                    <v-img :src="item" height="150" width="150" cover class="mx-2">
+                    <n-image :src="item" height="150" width="150" cover class="mx-2">
                       <div class="d-flex align-start justify-end fill-height">
                         <v-btn
                           rounded
@@ -126,7 +126,7 @@
                           icon="mdi-close"
                         />
                       </div>
-                    </v-img>
+                    </n-image>
                   </v-slide-group-item>
                 </v-slide-group>
               </v-sheet>
@@ -173,19 +173,14 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
+import NImage from './NImage.vue'
 import NUploadPic from './NUploadPic.vue'
 import NUploadMulti from './NUploadMulti.vue'
 import NEditor from './NEditor.vue'
-import { ref, defineEmits, defineProps, withDefaults } from 'vue'
+import { defineEmits } from 'vue'
 import { useCities } from '@/composables/useCities'
 import { usePartnerHotels } from '@/composables/partners/usePartnerHotels'
 
-type Props = {
-  id: string,
-}
-const propItems = withDefaults(defineProps<Props>(), {
-  id: ''
-})
 const { allCities } = useCities()
 const { formHotel, dialogUpdate, updateHotel, imgListUpdate } = usePartnerHotels()
 

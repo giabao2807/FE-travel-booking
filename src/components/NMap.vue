@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div id="map" />
 </template>
 <script lang="ts" setup>
@@ -17,4 +17,4 @@ const initMap = async() => {
 onMounted(() =>{
   initMap()
 })
-</script>
+</script> -->
