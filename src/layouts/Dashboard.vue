@@ -183,16 +183,16 @@ const imgAppBar = computed(() => {
   return theme.global.name.value === 'dark' ? 'app_bar_dark.jpg' : 'app_bar.jpg'
 })
 const TOURS_PANEL = [
-  { name: 'List Tours', value: 'toursPartner', icon: 'mdi-format-list-checkbox' },
-  { name: 'Create Tour', value: 'createTour', icon: 'mdi-note-edit-outline' }
+  { name: 'Danh Sách Tours', value: 'toursPartner', icon: 'mdi-format-list-checkbox' },
+  { name: 'Tạo Mới Tour', value: 'createTour', icon: 'mdi-note-edit-outline' }
 ]
 const HOTELS_PANEL = [
-  { name: 'List Hotels', value: 'hotelsPartner', icon: 'mdi-format-list-checkbox' },
-  { name: 'Create Hotel', value: 'createHotel', icon: 'mdi-note-edit-outline' }
+  { name: 'Danh Sách Hotels', value: 'hotelsPartner', icon: 'mdi-format-list-checkbox' },
+  { name: 'Tạo Mới Hotels', value: 'createHotel', icon: 'mdi-note-edit-outline' }
 ]
 const COUPON_PANEL = [
-  { name: 'List Coupons', value: 'couponsPartner', icon: 'mdi-format-list-checkbox' },
-  { name: 'Create Coupon', value: 'createCoupon', icon: 'mdi-note-edit-outline' }
+  { name: 'Danh Sách Coupons', value: 'couponsPartner', icon: 'mdi-format-list-checkbox' },
+  { name: 'Tạo Mới Coupon', value: 'createCoupon', icon: 'mdi-note-edit-outline' }
 ]
 const {
   signOut

@@ -14,7 +14,13 @@ export const useHotelStore = defineStore('hotelStore', () => {
     startDate: '',
     endDate: ''
   })
-
+  const getHotelsForUser = async(limit: number) =>{
+    return await connectionsAPI({
+      methods: 'GET',
+      path: 'hotel/recommend_for_user',
+      params: { limit: limit }
+    })
+  }
   const getRecomendCities = async(amount = 10) =>{
     return await connectionsAPI({
       methods: 'GET',
@@ -73,6 +79,7 @@ export const useHotelStore = defineStore('hotelStore', () => {
     getHotelByCity,
     getHotelSumaryById,
     getRoomTypeById,
-    getReviewsHotel
+    getReviewsHotel,
+    getHotelsForUser
   }
 })

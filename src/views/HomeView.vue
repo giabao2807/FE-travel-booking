@@ -107,137 +107,321 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-container fluid class="home-panel-tour">
-      <div class="text-align-center">
-        <h2 class="heading-secondary font-bungee">
-          Những Tour Du Lịch Hấp Dẫn
-        </h2>
-      </div>
-      <v-row>
-        <v-col
-          v-for="tour in popularTours"
-          :key="tour?.id"
+    <v-container fluid class="my-2 home-panel-tour">
+      <v-container v-if="authUser.accessToken && toursForUser.length !== 0" fluid>
+        <div class="text-align-center mb-10">
+          <h3 class="heading-secondary font-bungee">
+            Đề Xuất Các Tours Dành Cho Bạn
+          </h3>
+        </div>
+        <el-carousel
+          :interval="4000"
+          type="card"
+          height="300px"
+          class="mx-5"
+          @change="(event) => chooseCard=event"
         >
-          <v-card
-            class="mx-auto my-12 rounded-xl bg-theme-status"
-            elevation="8"
-            width="310"
-            height="420"
-            @click="() => handleRoute({ name: 'tourDetail', params: { id: tour?.id } })"
+          <el-carousel-item
+            v-for="(item, idx) in toursForUser"
+            :key="item.id"
+            :class="chooseCard===idx ? 'card-for-user rounded' : null"
           >
-            <n-image
-              class="align-end text-white"
-              height="180"
-              :src="tour?.coverPicture"
+            <v-card height="300px">
+              <n-image :src="item.coverPicture" class="image-card-user" />
+              <v-card-text class="pa-3 content-card-user">
+                <h3 class="font-rowdies font-weight-bold">{{ item.name }}</h3>
+                <v-divider class="mt-2 mb-5 mx-5" />
+                <div class="text-card-user">
+                  <v-row
+                    align="center"
+                    class="mx-0 my-2"
+                  >
+                    <v-rating
+                      :model-value="item.rate"
+                      color="amber"
+                      density="compact"
+                      half-increments
+                      readonly
+                      size="small"
+                    />
+                    <div class="text-grey ms-4">
+                      {{ item?.rate }} ({{ item?.numReview }})
+                    </div>
+                  </v-row>
+                  <span class="my-2">
+                    <v-icon color="primary" icon="mdi-map-marker-radius-outline" />
+                    <strong>Thành phố:</strong>
+                    <span class="mx-2"> {{ item?.city }}</span>
+                    <v-icon
+                      color="error"
+                      icon="mdi-fire-circle"
+                      size="small"
+                    />
+                  </span>
+                  <div class="d-flex align-center justify-between my-3">
+                    <v-icon icon="mdi-calendar-text-outline" color="primary" />
+                    <strong>Thời gian:</strong>
+                    <v-chip class="mx-2" label color="primary">{{ item?.totalDays }}</v-chip>
+                  </div>
+                  <div>
+                    <v-icon icon="mdi-calendar-start-outline" color="primary" />
+                    <strong>Khởi hành:</strong>
+                    <span class="mx-2">{{ item?.departure }}</span>
+                  </div>
+                  <div class="my-2">
+                    <p v-if="!_.isEmpty(item?.couponData)" class="text-caption animate-charcter">
+                      <v-icon icon="mdi-billboard" class="animate-charcter" />
+                      Ưu đãi du lịch - {{ item?.couponData.discountPercent }}%
+                    </p>
+                    <p v-if="!_.isEmpty(item?.couponData)" class="remove-text">{{ formatCurrency(item?.price) }}</p>
+                    <h2 class="animate-charcter">
+                      <v-icon
+                        v-if="_.isEmpty(item?.couponData)"
+                        icon="mdi-cash-fast"
+                        class="animate-charcter"
+                      />
+                      {{ formatCurrency(getPriceDiscount(item?.price, item?.couponData.discountPercent)) }}
+                    </h2>
+                  </div>
+                </div>
+                <v-btn
+                  color="primary"
+                  variant="tonal"
+                  class="text-none rounded-xl ma-5 button-card-user"
+                  @click="() => handleRoute({ name: 'tourDetail', params: { id: item?.id } })"
+                >
+                  More...
+                </v-btn>
+              </v-card-text>
+            </v-card>
+          </el-carousel-item>
+        </el-carousel>
+      </v-container>
+      <v-container fluid class="home-panel-tour-chill">
+        <div class="text-align-center">
+          <h2 class="heading-secondary font-bungee">
+            Những Tour Du Lịch Hấp Dẫn
+          </h2>
+        </div>
+        <v-row>
+          <v-col
+            v-for="tour in popularTours"
+            :key="tour?.id"
+          >
+            <v-card
+              class="mx-auto my-12 rounded-xl bg-theme-status"
+              elevation="8"
+              width="310"
+              height="420"
+              @click="() => handleRoute({ name: 'tourDetail', params: { id: tour?.id } })"
             >
-              <div
-                v-if="Object.keys(tour?.couponData).length !== 0"
-                class="mx-2 mt-n1 home-tour-coupon"
-                variant="outlined"
+              <n-image
+                class="align-end text-white"
+                height="180"
+                :src="tour?.coverPicture"
               >
-                <span class="font-weight-bold font-size-15 mx-auto">
-                  {{ tour?.couponData.discountPercent }}%
-                </span>
-              </div>
-              <v-card-title
-                class="font-rowdies font-weight-bold shadow-text"
-              >
-                {{ tour?.name }}
-                <v-tooltip
-                  width="300"
-                  activator="parent"
-                  :text="tour?.name"
-                  location="top"
-                />
-              </v-card-title>
-            </n-image>
-            <v-card-subtitle class="mt-4">
-              <span class="me-1">{{ tour?.city }} Favorite</span>
-              <v-icon
-                color="error"
-                icon="mdi-fire-circle"
-                size="small"
-              />
-            </v-card-subtitle>
-            <v-card-text>
-              <v-row
-                align="center"
-                class="mx-0"
-              >
-                <v-rating
-                  :model-value="tour.rate"
-                  color="amber"
-                  density="compact"
-                  half-increments
-                  readonly
+                <div
+                  v-if="Object.keys(tour?.couponData).length !== 0"
+                  class="mx-2 mt-n1 home-tour-coupon"
+                  variant="outlined"
+                >
+                  <span class="font-weight-bold font-size-15 mx-auto">
+                    {{ tour?.couponData.discountPercent }}%
+                  </span>
+                </div>
+                <v-card-title
+                  class="font-rowdies font-weight-bold shadow-text"
+                >
+                  {{ tour?.name }}
+                  <v-tooltip
+                    width="300"
+                    activator="parent"
+                    :text="tour?.name"
+                    location="top"
+                  />
+                </v-card-title>
+              </n-image>
+              <v-card-subtitle class="mt-4">
+                <span class="me-1">{{ tour?.city }} Favorite</span>
+                <v-icon
+                  color="error"
+                  icon="mdi-fire-circle"
                   size="small"
                 />
-                <div class="text-grey ms-4">
-                  {{ tour?.rate }} ({{ tour?.numReview }})
-                </div>
-              </v-row>
-              <div
-                v-if="Object.keys(tour?.couponData).length !== 0"
-                class="mt-5 remove-text text-grey-darken-2"
-              >
-                {{ formatCurrency(tour?.price) }}
-              </div>
-              <div class="d-flex align-center justify-space-between my-3">
-                <div class="text-subtitle-1 animate-charcter">
-                  <v-icon icon="mdi-cash-multiple" class="mt-n2 animate-charcter" />
-                  {{
-                    formatCurrency(
-                      getPriceDiscount(tour?.price, tour?.couponData.discountPercent)
-                    )
-                  }}
-                </div>
-                <div>
-                  <v-icon
-                    v-for="item in getTraffic(tour?.traffics)"
-                    :key="item.value"
-                    :icon="item?.icon"
-                    color="primary"
+              </v-card-subtitle>
+              <v-card-text>
+                <v-row
+                  align="center"
+                  class="mx-0"
+                >
+                  <v-rating
+                    :model-value="tour.rate"
+                    color="amber"
+                    density="compact"
+                    half-increments
+                    readonly
+                    size="small"
                   />
+                  <div class="text-grey ms-4">
+                    {{ tour?.rate }} ({{ tour?.numReview }})
+                  </div>
+                </v-row>
+                <div
+                  v-if="Object.keys(tour?.couponData).length !== 0"
+                  class="mt-5 remove-text text-grey-darken-2"
+                >
+                  {{ formatCurrency(tour?.price) }}
                 </div>
-              </div>
-              <v-divider class="mx-n2 mb-1" />
-              <div class="d-flex align-center justify-space-between my-3">
+                <div class="d-flex align-center justify-space-between my-3">
+                  <div class="text-subtitle-1 animate-charcter">
+                    <v-icon icon="mdi-cash-multiple" class="mt-n2 animate-charcter" />
+                    {{
+                      formatCurrency(
+                        getPriceDiscount(tour?.price, tour?.couponData.discountPercent)
+                      )
+                    }}
+                  </div>
+                  <div>
+                    <v-icon
+                      v-for="item in getTraffic(tour?.traffics)"
+                      :key="item.value"
+                      :icon="item?.icon"
+                      color="primary"
+                    />
+                  </div>
+                </div>
+                <v-divider class="mx-n2 mb-1" />
+                <div class="d-flex align-center justify-space-between my-3">
+                  <div>
+                    <v-icon icon="mdi-calendar-text-outline" color="primary" />
+                    Thời gian:
+                  </div>
+                  <v-chip label color="primary">{{ tour?.totalDays }}</v-chip>
+                </div>
                 <div>
-                  <v-icon icon="mdi-calendar-text-outline" color="primary" />
-                  Thời gian:
+                  <v-icon icon="mdi-calendar-start-outline" color="primary" />
+                  Khởi hành: {{ tour?.departure }}
                 </div>
-                <v-chip label color="primary">{{ tour?.totalDays }}</v-chip>
-              </div>
-              <div>
-                <v-icon icon="mdi-calendar-start-outline" color="primary" />
-                Khởi hành: {{ tour?.departure }}
-              </div>
-            </v-card-text>
-            <v-btn
-              class="font-rowdies button-card-tour"
-              color="primary"
-              variant="text"
-            >
-              See More...
-            </v-btn>
-            <div class="group-hover:-rotate-[4deg] animation-card-tour transition-transform" />
-            <div class="group-hover:-rotate-[8deg] animation-card-tour transition-transform" />
-          </v-card>
-        </v-col>
-      </v-row>
-      <div class="text-center">
-        <n-panel-loading :loading="popularTours.length === 0" />
-        <n-button-animated
-          label="Discover our tours"
-          width="20rem"
-          @click="() => handleRoute({ name: 'tours' })"
-        />
+              </v-card-text>
+              <v-btn
+                class="font-rowdies button-card-tour"
+                color="primary"
+                variant="text"
+              >
+                See More...
+              </v-btn>
+              <div class="group-hover:-rotate-[4deg] animation-card-tour transition-transform" />
+              <div class="group-hover:-rotate-[8deg] animation-card-tour transition-transform" />
+            </v-card>
+          </v-col>
+        </v-row>
+        <div class="text-center">
+          <n-panel-loading :loading="popularTours.length === 0" />
+          <n-button-animated
+            label="Discover our tours"
+            width="20rem"
+            @click="() => handleRoute({ name: 'tours' })"
+          />
+        </div>
+      </v-container>
+    </v-container>
+    <v-container v-if="authUser.accessToken && hotelsForUser.length !== 0" fluid>
+      <div class="text-align-center mb-10">
+        <h3 class="heading-secondary font-bungee">
+          Đề Xuất Các Hotels Dành Cho Bạn
+        </h3>
       </div>
+      <el-carousel
+        :interval="4000"
+        type="card"
+        height="300px"
+        class="mx-5"
+        @change="(event) => chooseCardHotel=event"
+      >
+        <el-carousel-item
+          v-for="(item, idx) in hotelsForUser"
+          :key="item.id"
+          :class="chooseCardHotel===idx ? 'card-for-user rounded' : null"
+        >
+          <v-card height="300px">
+            <n-image :src="item.coverPicture" class="image-card-user" />
+            <v-card-text class="pa-3 content-card-user">
+              <h3 class="font-rowdies font-weight-bold">{{ item.name }}</h3>
+              <v-divider class="mt-2 mb-5 mx-5" />
+              <div class="mx-2">
+                <v-row align="center" class="my-3">
+                  <v-icon :icon="voteText(item?.rateAverage).icon" color="primary" class="mr-1" />
+                  <strong class="font-size-min-rem">{{ voteText(item?.rateAverage).name }}</strong>
+                  <v-rating
+                    :model-value="item?.rateAverage"
+                    class="mx-5"
+                    color="amber"
+                    density="compact"
+                    half-increments
+                    readonly
+                    size="small"
+                  />
+                </v-row>
+                <v-row align="center" class="my-3">
+                  <v-icon color="primary" icon="mdi-vote-outline" />
+                  <strong class="font-size-min-rem mr-5">Đánh giá:</strong>
+                  <v-chip
+                    color="primary"
+                    size="small"
+                    label
+                    text-color="white"
+                  >
+                    {{ item?.numReview }}
+                  </v-chip>
+                </v-row>
+                <v-row class="my-3">
+                  <v-icon color="primary" icon="mdi-map-marker-radius-outline" />
+                  <strong class="font-size-min-rem">Địa chỉ:</strong>
+                  <v-col class="pa-0 ml-5">
+                    {{ item?.address }}
+                  </v-col>
+                </v-row>
+                <div class="my-2">
+                  <p
+                    v-if="!_.isEmpty(item?.couponData)"
+                    class="text-caption animate-charcter"
+                  >
+                    <v-icon icon="mdi-home-city-outline" class="animate-charcter" />
+                    Ưu đãi khách sạn - {{ item?.couponData.discountPercent }}%
+                  </p>
+                  <p
+                    v-if="!_.isEmpty(item?.couponData)"
+                    class="remove-text"
+                  >
+                    {{ rangePrice(item?.minPrice, item?.maxPrice) }}
+                  </p>
+                  <h3 class="animate-charcter">
+                    <v-icon
+                      v-if="_.isEmpty(item?.couponData)"
+                      icon="mdi-cash-fast"
+                      class="animate-charcter"
+                    />
+                    {{ rangePrice(item?.minPrice, item?.maxPrice, item?.couponData.discountPercent) }}
+                  </h3>
+                </div>
+              </div>
+              <v-btn
+                color="primary"
+                variant="tonal"
+                class="text-none rounded-xl ma-5 button-card-user"
+                @click="() => handleRoute({ name: 'hotelDetail', params: { id: item?.id } })"
+              >
+                More...
+              </v-btn>
+            </v-card-text>
+          </v-card>
+        </el-carousel-item>
+      </el-carousel>
     </v-container>
     <v-container fluid class="section-features my-15">
       <div class="text-align-center">
         <h2 class="heading-panel-2 font-bungee mt-n2">
-          Những khách sạn nổi bật
+          Những Hotels nổi bật
         </h2>
       </div>
       <v-row class="ma-5 mb-10" align="center" justify="center">
@@ -416,22 +600,29 @@ import NButtonAnimated from '@/components/NButtonAnimated.vue'
 import NPanelLoading from '@/components/NPanelLoading.vue'
 import NSkeletonLoader from '@/components/NSkeletonLoader.vue'
 import NCitiesSelect from '@/components/NCitiesSelect.vue'
+import _ from 'lodash'
 import NImage from '@/components/NImage.vue'
 import { SEARCH_FOR } from '@/resources/mockData'
 import { handleRoute } from '@/helpers/loadingRoute'
 import { useHomeUtil } from '@/composables/useHomeUtil'
 import { convertionType } from '@/helpers/convertion'
+import { useAuthentication } from '@/composables/useAuth'
 
+const { authUser } = useAuthentication()
 const {
   recomendCities,
   selectedCity,
   popularHotels,
+  hotelsForUser,
   popularTours,
   getCitiesPanel,
   loadingPanelHotel,
   countDate,
   filterPanel,
   flagSearch,
+  toursForUser,
+  chooseCard,
+  chooseCardHotel,
   changeEndDate,
   getRecomendHotelByCity,
   handleFilter
@@ -451,5 +642,30 @@ const {
   position: absolute !important;
   bottom: 0;
   right: 0;
+}
+.card-for-user {
+  transform: scale(1.02);
+  border: 2px solid var(--color-boni-like);
+}
+.button-card-user {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.card-for-user .content-card-user {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60%;
+  height: 100%;
+  transition: all 0.8s ease;
+}
+.card-for-user .image-card-user {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 100%;
+  transition: all 0.8s ease;
 }
 </style>

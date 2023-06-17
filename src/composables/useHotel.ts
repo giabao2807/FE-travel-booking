@@ -12,6 +12,7 @@ const createHotel = () => {
   const { hotels } = storeToRefs(hotelStore)
   const route = useRoute()
   const popularHotels = ref<IHotel[]>([])
+  const hotelsForUser = ref<IHotel[]>([])
   const recomendCities = ref<ICity[]>([])
   const { deCodeHtml } = convertionType()
   const selectedCity = ref<number>(0)
@@ -62,7 +63,10 @@ const createHotel = () => {
         loadingHotels.value = false
       })
   }
-
+  const getHotelsForUser = () => {
+    hotelStore.getHotelsForUser(6)
+      .then(data=> hotelsForUser.value = data.results)
+  }
   const resetSearch = () => {
     const ref = formSearchRef.value
     ref?.reset()
@@ -71,6 +75,7 @@ const createHotel = () => {
   return {
     hotels,
     popularHotels,
+    hotelsForUser,
     filtersHotels,
     recomendCities,
     selectedCity,
@@ -83,7 +88,8 @@ const createHotel = () => {
     deCodeHtml,
     getRecomendHotelByCity,
     getRecomendCities,
-    getHotelsByFilterPanel
+    getHotelsByFilterPanel,
+    getHotelsForUser
   }
 }
 export const useHotelUtil = createSharedComposable(createHotel)

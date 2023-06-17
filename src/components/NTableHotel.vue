@@ -29,8 +29,10 @@
     <template #footer>
       <div class="d-flex justify-center" style="background-color: #ffffff;">
         <n-pagination
-          v-if="props.data.results?.length < 1 && !props.loading"
-          v-model="pageNumber" class="mx-5"
+          v-if="props.data.pageNumber > 1"
+          v-model="pageNumber"
+          class="mx-5"
+          :compact="true"
           :length="props.data.pageNumber"
           @update:modelValue="() => getNextPage({ page: pageNumber })"
         />
@@ -61,7 +63,7 @@ const props = withDefaults(defineProps<Props>(), {
   expand: false
 })
 const { formatCurrency } = convertionType()
-const { dialogEditRoom } = usePartnerHotels()
+const { dialogEditRoom, getRoomById } = usePartnerHotels()
 const pageNumber = ref<number>(1)
 const emit = defineEmits(['getNextPage'])
 const getNextPage = (params: any) => {
@@ -92,7 +94,10 @@ const Row = ({ cells, rowData }) => {
                 variant="plain"
                 color="primary"
                 icon="mdi-comment-edit-outline"
-                onClick={() => dialogEditRoom.value = true}
+                onClick={() => {
+                  dialogEditRoom.value = true
+                  getRoomById(item.id)
+                }}
               />
             </v-col>
           </v-row>

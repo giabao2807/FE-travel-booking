@@ -2,7 +2,14 @@
 <!-- eslint-disable vue/no-v-model-argument -->
 <template>
   <v-container class="create-tours-page">
-    <h3 class="my-5">{{ route.query.id ? 'Update' : 'Create' }} Tour Du Lịch</h3>
+    <h2 v-if="route.query.id" class="mt-5 mb-10">
+      <v-icon icon="mdi-cloud-cog-outline" />
+      Cập nhật Tour Du Lịch
+    </h2>
+    <h2 v-else class="mt-5 mb-10">
+      <v-icon icon="mdi-cloud-plus-outline" />
+      Tạo Mới Tour Du Lịch
+    </h2>
     <el-form
       ref="formRef"
       :rules="rules"

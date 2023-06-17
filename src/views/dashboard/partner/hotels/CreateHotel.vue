@@ -2,7 +2,10 @@
 <template>
   <v-container>
     <v-card-title class="justify-space-between">
-      <h2 class="text-center mt-5">Create Hotel</h2>
+      <h3 class="text-center mt-5">
+        <v-icon icon="mdi-folder-home-outline" />
+        Tạo Mới Khách Sạn
+      </h3>
       <v-timeline direction="horizontal" truncate-line="both">
         <v-timeline-item
           v-for="(n, idx) in 2"
@@ -17,6 +20,7 @@
     <v-window v-model="step">
       <v-window-item :value="1">
         <h3 class="mb-5">
+          <v-icon icon="mdi-home-plus-outline" />
           Thông Tin Khách Sạn
         </h3>
         <el-form
@@ -120,6 +124,7 @@
       <v-window-item :value="2">
         <div class="d-flex">
           <h3 class="mb-5">
+            <v-icon icon="mdi-bed-double-outline" />
             Thông Tin Phòng
           </h3>
           <v-spacer />
@@ -130,176 +135,174 @@
             variant="tonal"
             @click="addNewRoom"
           >
-            {{ dataFormRoom.length }}
+            {{ dataFormRooms.length }}
           </v-btn>
         </div>
-        <div class="my-2" v-for="(dataForm, idx) in dataFormRoom" :key="idx">
-          <v-expansion-panels>
-            <v-expansion-panel>
-              <v-expansion-panel-title>
-                <h3>
-                  Phòng Số {{ idx + 1 }} - {{ dataForm.name }}
-                </h3>
-                <v-spacer />
-                <v-btn
-                  v-if="idx !== 0"
-                  class="rounded-xl"
-                  color="primary"
-                  prepend-icon="mdi-sticker-remove-outline"
-                  variant="plain"
-                  @click="removeRoom(idx)"
-                />
-              </v-expansion-panel-title>
-              <v-expansion-panel-text>
-                <v-card>
-                  <v-card-text>
-                    <el-form
-                      class="mx-5"
-                      ref="formRef"
-                      label-width="120px"
-                      label-position="left"
-                    >
-                      <el-form-item prop="tourImages">
-                        <template #label>
-                          <div class="d-flex align-center">
-                            <v-icon class="mr-1" icon="mdi-image-multiple-outline" />
-                            <span class="font-weight-600">Hình ảnh</span>
-                          </div>
-                        </template>
-                        <n-upload-multi v-model="dataForm.roomImages" />
-                      </el-form-item>
-                      <el-form-item prop="name">
-                        <template #label>
-                          <div class="d-flex align-center">
-                            <v-icon class="mr-1" icon="mdi-rename-box-outline" />
-                            <span class="font-weight-600">Tên Phòng</span>
-                          </div>
-                        </template>
-                        <el-col :span="20">
-                          <el-input
-                            v-model="dataForm.name"
-                            clearable
-                          />
-                        </el-col>
-                      </el-form-item>
-                      <el-form-item prop="quantity">
-                        <template #label>
-                          <div class="d-flex align-center">
-                            <v-icon class="mr-1" icon="mdi-rename-box-outline" />
-                            <span class="font-weight-600">Số Lượng</span>
-                          </div>
-                        </template>
-                        <el-col :span="5">
-                          <el-input-number
-                            v-model="dataForm.quantity"
-                            style="width: 200px"
-                          />
-                        </el-col>
-                      </el-form-item>
-                      <el-row>
-                        <el-col :span="10">
-                          <el-form-item prop="adults">
-                            <template #label>
-                              <div class="d-flex align-center">
-                                <v-icon class="mr-1" icon="mdi-rename-box-outline" />
-                                <span class="font-weight-600">Diện tích</span>
-                              </div>
-                            </template>
+        <v-expansion-panels v-model="openFistRoom">
+          <v-expansion-panel class="my-2" v-for="(dataForm, idx) in dataFormRooms" :key="idx">
+            <v-expansion-panel-title>
+              <h3>
+                Phòng Số {{ idx + 1 }} - {{ dataForm.name }}
+              </h3>
+              <v-spacer />
+              <v-btn
+                v-if="idx !== 0"
+                class="rounded-xl"
+                color="primary"
+                prepend-icon="mdi-sticker-remove-outline"
+                variant="plain"
+                @click="removeRoom(idx)"
+              />
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
+              <v-card>
+                <v-card-text>
+                  <el-form
+                    class="mx-5"
+                    ref="formRef"
+                    label-width="120px"
+                    label-position="left"
+                  >
+                    <el-form-item prop="tourImages">
+                      <template #label>
+                        <div class="d-flex align-center">
+                          <v-icon class="mr-1" icon="mdi-image-multiple-outline" />
+                          <span class="font-weight-600">Hình ảnh</span>
+                        </div>
+                      </template>
+                      <n-upload-multi v-model="dataForm.roomImages" />
+                    </el-form-item>
+                    <el-form-item prop="name">
+                      <template #label>
+                        <div class="d-flex align-center">
+                          <v-icon class="mr-1" icon="mdi-rename-box-outline" />
+                          <span class="font-weight-600">Tên Phòng</span>
+                        </div>
+                      </template>
+                      <el-col :span="20">
+                        <el-input
+                          v-model="dataForm.name"
+                          clearable
+                        />
+                      </el-col>
+                    </el-form-item>
+                    <el-form-item prop="quantity">
+                      <template #label>
+                        <div class="d-flex align-center">
+                          <v-icon class="mr-1" icon="mdi-rename-box-outline" />
+                          <span class="font-weight-600">Số Lượng</span>
+                        </div>
+                      </template>
+                      <el-col :span="5">
+                        <el-input-number
+                          v-model="dataForm.quantity"
+                          style="width: 200px"
+                        />
+                      </el-col>
+                    </el-form-item>
+                    <el-row>
+                      <el-col :span="10">
+                        <el-form-item prop="adults">
+                          <template #label>
+                            <div class="d-flex align-center">
+                              <v-icon class="mr-1" icon="mdi-rename-box-outline" />
+                              <span class="font-weight-600">Diện tích</span>
+                            </div>
+                          </template>
+                          <el-col :span="5">
+                            <el-input-number
+                              v-model="dataForm.square"
+                              style="width: 200px"
+                            />
+                          </el-col>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="10">
+                        <el-form-item prop="adults">
+                          <template #label>
+                            <div class="d-flex align-center">
+                              <v-icon class="mr-1" icon="mdi-rename-box-outline" />
+                              <span class="font-weight-600">Số Giường</span>
+                            </div>
+                          </template>
+                          <el-col :span="5">
+                            <el-input-number
+                              v-model="dataForm.beds"
+                              style="width: 200px"
+                            />
+                          </el-col>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row>
+                      <el-col :span="10">
+                        <el-form-item prop="adults">
+                          <template #label>
+                            <div class="d-flex align-center">
+                              <v-icon class="mr-1" icon="mdi-rename-box-outline" />
+                              <span class="font-weight-600">Người Lớn</span>
+                            </div>
+                          </template>
+                          <el-col :span="5">
+                            <el-input-number
+                              v-model="dataForm.adults"
+                              style="width: 200px"
+                            />
+                          </el-col>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="10">
+                        <el-form-item prop="adults">
+                          <template #label>
+                            <div class="d-flex align-center">
+                              <v-icon class="mr-1" icon="mdi-rename-box-outline" />
+                              <span class="font-weight-600">Trẻ Em</span>
+                            </div>
+                          </template>
+                          <el-col :span="5">
                             <el-col :span="5">
                               <el-input-number
-                                v-model="dataForm.square"
+                                v-model="dataForm.children"
                                 style="width: 200px"
                               />
                             </el-col>
-                          </el-form-item>
-                        </el-col>
-                        <el-col :span="10">
-                          <el-form-item prop="adults">
-                            <template #label>
-                              <div class="d-flex align-center">
-                                <v-icon class="mr-1" icon="mdi-rename-box-outline" />
-                                <span class="font-weight-600">Số Giường</span>
-                              </div>
-                            </template>
-                            <el-col :span="5">
-                              <el-input-number
-                                v-model="dataForm.beds"
-                                style="width: 200px"
-                              />
-                            </el-col>
-                          </el-form-item>
-                        </el-col>
-                      </el-row>
-                      <el-row>
-                        <el-col :span="10">
-                          <el-form-item prop="adults">
-                            <template #label>
-                              <div class="d-flex align-center">
-                                <v-icon class="mr-1" icon="mdi-rename-box-outline" />
-                                <span class="font-weight-600">Người Lớn</span>
-                              </div>
-                            </template>
-                            <el-col :span="5">
-                              <el-input-number
-                                v-model="dataForm.adults"
-                                style="width: 200px"
-                              />
-                            </el-col>
-                          </el-form-item>
-                        </el-col>
-                        <el-col :span="10">
-                          <el-form-item prop="adults">
-                            <template #label>
-                              <div class="d-flex align-center">
-                                <v-icon class="mr-1" icon="mdi-rename-box-outline" />
-                                <span class="font-weight-600">Trẻ Em</span>
-                              </div>
-                            </template>
-                            <el-col :span="5">
-                              <el-col :span="5">
-                                <el-input-number
-                                  v-model="dataForm.children"
-                                  style="width: 200px"
-                                />
-                              </el-col>
-                            </el-col>
-                          </el-form-item>
-                        </el-col>
-                      </el-row>
-                      <el-form-item prop="price">
-                        <template #label>
-                          <div class="d-flex align-center">
-                            <v-icon class="mr-1" icon="mdi-cash-fast" />
-                            <span class="font-weight-600">Giá Phòng</span>
-                          </div>
-                        </template>
-                        <el-col :span="20">
-                          <el-input
-                            v-model="dataForm.price"
-                            type="number"
-                          >
-                            <template #append>VNĐ</template>
-                          </el-input>
-                        </el-col>
-                      </el-form-item>
-                      <el-form-item prop="descriptions">
-                        <template #label>
-                          <div class="d-flex align-center">
-                            <v-icon class="mr-1" icon="mdi-alpha-d-box" />
-                            <span class="font-weight-600">Mô Tả</span>
-                          </div>
-                        </template>
-                        <el-col :span="20">
-                          <n-editor v-model="dataForm.description" />
-                        </el-col>
-                      </el-form-item>
-                    </el-form>
-                  </v-card-text>
-                </v-card>
-              </v-expansion-panel-text>
-            </v-expansion-panel>
-          </v-expansion-panels>
-        </div>
+                          </el-col>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-form-item prop="price">
+                      <template #label>
+                        <div class="d-flex align-center">
+                          <v-icon class="mr-1" icon="mdi-cash-fast" />
+                          <span class="font-weight-600">Giá Phòng</span>
+                        </div>
+                      </template>
+                      <el-col :span="20">
+                        <el-input
+                          v-model="dataForm.price"
+                          type="number"
+                        >
+                          <template #append>VNĐ</template>
+                        </el-input>
+                      </el-col>
+                    </el-form-item>
+                    <el-form-item prop="descriptions">
+                      <template #label>
+                        <div class="d-flex align-center">
+                          <v-icon class="mr-1" icon="mdi-alpha-d-box" />
+                          <span class="font-weight-600">Mô Tả</span>
+                        </div>
+                      </template>
+                      <el-col :span="20">
+                        <n-editor v-model="dataForm.description" />
+                      </el-col>
+                    </el-form-item>
+                  </el-form>
+                </v-card-text>
+              </v-card>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+        </v-expansion-panels>
       </v-window-item>
     </v-window>
     <v-divider />
@@ -316,8 +319,7 @@
         v-if="step === 1"
         color="primary"
         variant="flat"
-        prepend-icon="mdi-archive-plus-outline"
-        class="text-none"
+        class="text-none rounded-xl"
         @click="() => {
           createHotel()
         }"
@@ -349,7 +351,8 @@ const { allCities } = useCities()
 const {
   step,
   formHotel,
-  dataFormRoom,
+  dataFormRooms,
+  openFistRoom,
   createHotel,
   createRooms,
   addNewRoom,

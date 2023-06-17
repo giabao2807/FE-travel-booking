@@ -30,6 +30,10 @@ const createPartnerHotels = () => {
   const dialogUpdate = ref<boolean>(false)
   const dialogEditRoom = ref<boolean>(false)
   const imgListUpdate = ref<any[]>([])
+  const idHotel = ref<string>('')
+  const idRoomUpdate = ref<string>('')
+  const step = ref<number>(1)
+  const openFistRoom = ref<number>(0)
   const formHotel = ref<any>({
     id: '',
     coverPicture: '',
@@ -37,11 +41,9 @@ const createPartnerHotels = () => {
     address: '',
     descriptions: '',
     rules: '',
-    city: 0,
+    city: undefined,
     hotelImages: []
   })
-  const idHotel = ref<string>('')
-  const step = ref<number>(1)
   const initDataRoom: ICreateRoom = {
     name: '',
     beds: 0,
@@ -53,9 +55,20 @@ const createPartnerHotels = () => {
     quantity: 0,
     roomImages: []
   }
-  const dataFormRoom = ref<ICreateRoom[]>([initDataRoom])
+  const dataFormRooms = ref<ICreateRoom[]>([initDataRoom])
+  const formUpdateRoom = ref<ICreateRoom>({
+    name: '',
+    beds: 0,
+    adults: 0,
+    children: 0,
+    description: '',
+    price: 0,
+    square: 0,
+    quantity: 0,
+    roomImages: []
+  })
   const addNewRoom = () => {
-    dataFormRoom.value.push({
+    dataFormRooms.value.push({
       name: '',
       beds: 0,
       adults: 0,
@@ -68,7 +81,7 @@ const createPartnerHotels = () => {
     })
   }
   const removeRoom = (id: number) => {
-    dataFormRoom.value = dataFormRoom.value.filter((item, idx) => idx !== id)
+    dataFormRooms.value = dataFormRooms.value.filter((item, idx) => idx !== id)
   }
   const getHotels = (params?: IParamPage) => {
     loadingHotels.value = true
@@ -197,14 +210,57 @@ const createPartnerHotels = () => {
       })
   }
   const createRooms = async() => {
-    await dataFormRoom.value.forEach(async(room) => {
-      const roomCreate = ({
-        ...room,
-        description: `<div class="ChildRoomsList-room-featurebucket ChildRoomsList-room-featurebucket-Benefits">${room.description}</div>`
+    await Promise.all(
+      dataFormRooms.value.map((room) => {
+        const roomCreate = ({
+          ...room,
+          description: `<div class="ChildRoomsList-room-featurebucket ChildRoomsList-room-featurebucket-Benefits">${room.description}</div>`
+        })
+        createRoom(roomCreate)
       })
-      await createRoom(roomCreate)
-    })
+    )
     handleRoute({ name: 'hotelsPartner' })
+  }
+  const updateRoom = async() => {
+    startLoading()
+    const roomCreate = await({
+      ...formUpdateRoom,
+      description: `<div class="ChildRoomsList-room-featurebucket ChildRoomsList-room-featurebucket-Benefits">${formUpdateRoom.value.description}</div>`
+    })
+    const formData = await convertObjectToFormData(roomCreate, 'roomImages')
+    partnerHotelStore.updateRoom(idRoomUpdate.value, formData)
+      .then(() => {
+        finishLoading()
+        dialogEditRoom.value = false
+        feedBack({
+          title: 'Update Room',
+          message: 'Update success Room',
+          type:'success'
+        })
+      }).catch(error => {
+        finishLoading()
+        feedBack({
+          title: 'Update Room',
+          message: error,
+          type:'error'
+        })
+      })
+  }
+  const getRoomById = async(id: string) => {
+    startLoading()
+    partnerHotelStore.getRoomById(id)
+      .then(data => {
+        idRoomUpdate.value = id
+        formUpdateRoom.value = data
+        finishLoading()
+      }).catch(error => {
+        finishLoading()
+        feedBack({
+          title: 'Get Room',
+          message: error,
+          type:'error'
+        })
+      })
   }
   return {
     hotels,
@@ -215,7 +271,10 @@ const createPartnerHotels = () => {
     dialogUpdate,
     imgListUpdate,
     dialogEditRoom,
-    dataFormRoom,
+    dataFormRooms,
+    formUpdateRoom,
+    openFistRoom,
+    updateRoom,
     getHotels,
     deactivateHotel,
     activateHotel,
@@ -224,7 +283,8 @@ const createPartnerHotels = () => {
     createRooms,
     getHotelById,
     addNewRoom,
-    removeRoom
+    removeRoom,
+    getRoomById
   }
 }
 export const usePartnerHotels = createSharedComposable(createPartnerHotels)

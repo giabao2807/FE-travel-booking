@@ -11,6 +11,12 @@ export const usePartnerHotelsStore = defineStore('partnerHotelsStore', () => {
       params: params
     })
   }
+  const getRoomById = async(id: string) => {
+    return await connectionsAPI({
+      methods: 'GET',
+      path: `hotel/room/${id}`
+    })
+  }
   const createHotel = async(data: any) => {
     return await connectionsAPI({
       methods: 'POST',
@@ -32,10 +38,10 @@ export const usePartnerHotelsStore = defineStore('partnerHotelsStore', () => {
       data: data
     })
   }
-  const updateRoom = async(data: any) => {
+  const updateRoom = async(id: string, data: any) => {
     return await connectionsAPI({
-      methods: 'PUT',
-      path: 'hotel/room',
+      methods: 'POST',
+      path: `hotel/room/${id}`,
       data: data
     })
   }
@@ -58,6 +64,7 @@ export const usePartnerHotelsStore = defineStore('partnerHotelsStore', () => {
     createHotel,
     updateHotel,
     createRoom,
-    updateRoom
+    updateRoom,
+    getRoomById
   }
 })

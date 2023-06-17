@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-static-inline-styles -->
 <template>
   <v-container color="transparent">
     <v-card elevation="0" color="transparent">

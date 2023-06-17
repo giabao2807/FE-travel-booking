@@ -27,6 +27,14 @@ export const useTourStore = defineStore('tourStore', () => {
     })
   }
 
+  const getToursForUser = async(limit: number) =>{
+    return await connectionsAPI({
+      methods: 'GET',
+      path: 'tour/recommend_for_user',
+      params: { limit: limit }
+    })
+  }
+
   const getPopularTours = async(params: IParamPage = initParamTour) =>{
     return await connectionsAPI({
       methods: 'GET',
@@ -86,6 +94,7 @@ export const useTourStore = defineStore('tourStore', () => {
     getAllCity,
     getToursByFilter,
     getQuantityByDate,
-    getReviewsTour
+    getReviewsTour,
+    getToursForUser
   }
 })

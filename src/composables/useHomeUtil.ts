@@ -5,6 +5,7 @@ import { createSharedComposable } from '@vueuse/core'
 import { useHotelUtil } from './useHotel'
 import { useTourUtil } from './useTour'
 import { PANEL_IMAGE } from '@/resources/mockData'
+import { useAuthentication } from './useAuth'
 
 export type IImageCol = ICity & {
   col?: number
@@ -17,18 +18,25 @@ const useHome = () => {
     endDate: ''
   })
   const flagSearch = ref<string>('Tours')
+  const chooseCard = ref<number>(0)
+  const chooseCardHotel = ref<number>(0)
+  const { authUser } = useAuthentication()
   const {
     popularHotels,
     recomendCities,
     selectedCity,
     loadingPanelHotel,
+    hotelsForUser,
+    getHotelsForUser,
     getRecomendHotelByCity,
     getRecomendCities
   } = useHotelUtil()
 
   const {
     popularTours,
-    getPopularTours
+    toursForUser,
+    getPopularTours,
+    getToursForUser
   } = useTourUtil()
 
   const getCitiesPanel = computed(() => {
@@ -61,13 +69,18 @@ const useHome = () => {
   }
   onMounted(async() => {
     await getRecomendCities()
-    await getPopularTours()
+    getPopularTours()
+    if (authUser.value.accessToken) {
+      getToursForUser()
+      getHotelsForUser()
+    }
     getRecomendHotelByCity(selectedCity.value)
   })
 
   return {
     recomendCities,
     popularHotels,
+    hotelsForUser,
     selectedCity,
     popularTours,
     getCitiesPanel,
@@ -75,6 +88,9 @@ const useHome = () => {
     filterPanel,
     flagSearch,
     countDate,
+    toursForUser,
+    chooseCard,
+    chooseCardHotel,
     getRecomendHotelByCity,
     changeEndDate,
     handleFilter

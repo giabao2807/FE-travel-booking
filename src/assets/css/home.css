@@ -13,7 +13,7 @@
   background-image: linear-gradient(to bottom, rgba(248, 230, 248, 0.2),rgba(235, 178, 244, 0.2)),
     url('@/assets/img/bg_home.jpeg');
   background-size: cover;
-  height: 60%;
+  height: 50%;
 }
 @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
   .container_main {
@@ -78,6 +78,11 @@
   margin-bottom: 3rem;
 }
 .home-panel-tour {
+  background-image: url('@/assets/img/map-bg.png');
+  background-size: contain;
+  background-position: center center;
+}
+.home-panel-tour-chill {
   background-image: url('@/assets/img/flight-bg-1.png');
   background-position: top end;
 }

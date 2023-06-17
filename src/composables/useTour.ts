@@ -16,6 +16,7 @@ const createTour = () => {
   const dialogBooking = ref<boolean>(false)
   const formSearchRef = ref<IForm>()
   const priceRangeFilter = ref<number[]>([])
+  const toursForUser = ref<ITour[]>([])
   const queryData = route.query as IFilterPanel
   const titlePage = ref<IFilterPanel>({
     ...queryData,
@@ -29,6 +30,10 @@ const createTour = () => {
   const getPopularTours = () => {
     tourStore.getPopularTours({ pageSize: 8 })
       .then((data: IResponseTour) => popularTours.value = data.results)
+  }
+  const getToursForUser = () => {
+    tourStore.getToursForUser(6)
+      .then(data=> toursForUser.value = data.results)
   }
   const getToursByFilterPanel = (params?: IFilterPanel) => {
     loadingTours.value = true
@@ -57,9 +62,11 @@ const createTour = () => {
     titlePage,
     formSearchRef,
     priceRangeFilter,
+    toursForUser,
     resetSearch,
     getPopularTours,
-    getToursByFilterPanel
+    getToursByFilterPanel,
+    getToursForUser
   }
 }
 export const useTourUtil = createSharedComposable(createTour)

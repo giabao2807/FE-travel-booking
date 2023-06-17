@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-static-inline-styles -->
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
   <el-dialog
@@ -20,80 +21,6 @@
             label-width="120px"
             label-position="left"
           >
-            <el-form-item prop="name">
-              <template #label>
-                <div class="d-flex align-center">
-                  <v-icon class="mr-1" icon="mdi-rename-box-outline" />
-                  <span class="font-weight-600">Khách Sạn</span>
-                </div>
-              </template>
-              <el-col :span="20">
-                <el-input
-                  clearable
-                />
-              </el-col>
-            </el-form-item>
-            <el-form-item prop="city">
-              <template #label>
-                <div class="d-flex align-center">
-                  <v-icon class="mr-1" icon="mdi-apple-safari" />
-                  <span class="font-weight-600">Thành Phố</span>
-                </div>
-              </template>
-              <el-select clearable placeholder="Select">
-                <el-option
-                  v-for="item in allCities"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item prop="name">
-              <template #label>
-                <div class="d-flex align-center">
-                  <v-icon class="mr-1" icon="mdi-rename-box-outline" />
-                  <span class="font-weight-600">Địa Chỉ</span>
-                </div>
-              </template>
-              <el-col :span="20">
-                <el-input
-                  clearable
-                />
-              </el-col>
-            </el-form-item>
-            <el-form-item prop="descriptions">
-              <template #label>
-                <div class="d-flex align-center">
-                  <v-icon class="mr-1" icon="mdi-alpha-d-box" />
-                  <span class="font-weight-600">Mô Tả</span>
-                </div>
-              </template>
-              <el-col :span="20">
-                <n-editor />
-              </el-col>
-            </el-form-item>
-            <el-form-item prop="descriptions">
-              <template #label>
-                <div class="d-flex align-center">
-                  <v-icon class="mr-1" icon="mdi-alert-outline" />
-                  <span class="font-weight-600">Quy Định</span>
-                </div>
-              </template>
-              <el-col :span="20">
-                <n-editor />
-              </el-col>
-            </el-form-item>
-            <v-divider class="ma-3" />
-            <el-form-item prop="coverPicture">
-              <template #label>
-                <div class="d-flex align-center">
-                  <v-icon class="mr-1" icon="mdi-image-outline" />
-                  <span class="font-weight-600" style="width: 150px;">Ảnh Đại Diện</span>
-                </div>
-              </template>
-              <n-upload-pic />
-            </el-form-item>
             <el-form-item prop="tourImages">
               <template #label>
                 <div class="d-flex align-center">
@@ -104,15 +31,15 @@
               <v-sheet
                 max-width="90%"
               >
-                <!-- <v-slide-group
+                <v-slide-group
                   center-active
                   show-arrows
                 >
                   <v-slide-group-item
-                    v-for="(item, index) in formHotel.hotelImages"
+                    v-for="(item, index) in formUpdateRoom.roomImages"
                     :key="index"
                   >
-                    <v-img :src="item" height="150" width="150" cover class="mx-2">
+                    <n-image :src="item" height="150" width="150" cover class="mx-2">
                       <div class="d-flex align-start justify-end fill-height">
                         <v-btn
                           rounded
@@ -121,19 +48,144 @@
                           icon="mdi-close"
                         />
                       </div>
-                    </v-img>
+                    </n-image>
                   </v-slide-group-item>
-                </v-slide-group> -->
+                </v-slide-group>
               </v-sheet>
             </el-form-item>
             <el-form-item prop="tourImages">
               <template #label>
                 <div class="d-flex align-center">
-                  <v-icon class="mr-1" icon="mdi-image-plus-outline" />
-                  <span class="font-weight-600">Thêm Ảnh</span>
+                  <v-icon class="mr-1" icon="mdi-image-multiple-outline" />
+                  <span class="font-weight-600">Hình ảnh</span>
                 </div>
               </template>
-              <n-upload-multi max-width="500" />
+              <n-upload-multi v-model="formUpdateRoom.roomImages" />
+            </el-form-item>
+            <el-form-item prop="name">
+              <template #label>
+                <div class="d-flex align-center">
+                  <v-icon class="mr-1" icon="mdi-rename-box-outline" />
+                  <span class="font-weight-600">Tên Phòng</span>
+                </div>
+              </template>
+              <el-col :span="20">
+                <el-input
+                  v-model="formUpdateRoom.name"
+                  clearable
+                />
+              </el-col>
+            </el-form-item>
+            <el-form-item prop="quantity">
+              <template #label>
+                <div class="d-flex align-center">
+                  <v-icon class="mr-1" icon="mdi-rename-box-outline" />
+                  <span class="font-weight-600">Số Lượng</span>
+                </div>
+              </template>
+              <el-col :span="5">
+                <el-input-number
+                  v-model="formUpdateRoom.quantity"
+                  style="width: 200px"
+                />
+              </el-col>
+            </el-form-item>
+            <el-row>
+              <el-col :span="10">
+                <el-form-item prop="adults">
+                  <template #label>
+                    <div class="d-flex align-center">
+                      <v-icon class="mr-1" icon="mdi-rename-box-outline" />
+                      <span class="font-weight-600">Diện tích</span>
+                    </div>
+                  </template>
+                  <el-col :span="5">
+                    <el-input-number
+                      v-model="formUpdateRoom.square"
+                      style="width: 200px"
+                    />
+                  </el-col>
+                </el-form-item>
+              </el-col>
+              <el-col :span="10">
+                <el-form-item prop="adults">
+                  <template #label>
+                    <div class="d-flex align-center">
+                      <v-icon class="mr-1" icon="mdi-rename-box-outline" />
+                      <span class="font-weight-600">Số Giường</span>
+                    </div>
+                  </template>
+                  <el-col :span="5">
+                    <el-input-number
+                      v-model="formUpdateRoom.beds"
+                      style="width: 200px"
+                    />
+                  </el-col>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="10">
+                <el-form-item prop="adults">
+                  <template #label>
+                    <div class="d-flex align-center">
+                      <v-icon class="mr-1" icon="mdi-rename-box-outline" />
+                      <span class="font-weight-600">Người Lớn</span>
+                    </div>
+                  </template>
+                  <el-col :span="5">
+                    <el-input-number
+                      v-model="formUpdateRoom.adults"
+                      style="width: 200px"
+                    />
+                  </el-col>
+                </el-form-item>
+              </el-col>
+              <el-col :span="10">
+                <el-form-item prop="adults">
+                  <template #label>
+                    <div class="d-flex align-center">
+                      <v-icon class="mr-1" icon="mdi-rename-box-outline" />
+                      <span class="font-weight-600">Trẻ Em</span>
+                    </div>
+                  </template>
+                  <el-col :span="5">
+                    <el-col :span="5">
+                      <el-input-number
+                        v-model="formUpdateRoom.children"
+                        style="width: 200px"
+                      />
+                    </el-col>
+                  </el-col>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-form-item prop="price">
+              <template #label>
+                <div class="d-flex align-center">
+                  <v-icon class="mr-1" icon="mdi-cash-fast" />
+                  <span class="font-weight-600">Giá Phòng</span>
+                </div>
+              </template>
+              <el-col :span="20">
+                <el-input
+                  v-model="formUpdateRoom.price"
+                  type="number"
+                >
+                  <template #append>VNĐ</template>
+                </el-input>
+              </el-col>
+            </el-form-item>
+            <el-form-item prop="descriptions">
+              <template #label>
+                <div class="d-flex align-center">
+                  <v-icon class="mr-1" icon="mdi-alpha-d-box" />
+                  <span class="font-weight-600">Mô Tả</span>
+                </div>
+              </template>
+              <el-col :span="20">
+                <n-editor v-model="formUpdateRoom.description" />
+              </el-col>
             </el-form-item>
           </el-form>
         </v-card-text>
@@ -156,7 +208,7 @@
             color="primary"
             class="text-none"
             @click="() => {
-              dialogEditRoom = false
+              updateRoom()
             }"
           >
             Cập Nhật
@@ -167,21 +219,14 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import NUploadPic from './NUploadPic.vue'
 import NUploadMulti from './NUploadMulti.vue'
 import NEditor from './NEditor.vue'
-import { ref, defineEmits, defineProps, withDefaults } from 'vue'
+import { defineEmits } from 'vue'
 import { useCities } from '@/composables/useCities'
 import { usePartnerHotels } from '@/composables/partners/usePartnerHotels'
 
-type Props = {
-  id: string,
-}
-const propItems = withDefaults(defineProps<Props>(), {
-  id: ''
-})
 const { allCities } = useCities()
-const { dialogEditRoom } = usePartnerHotels()
+const { dialogEditRoom, formUpdateRoom, updateRoom } = usePartnerHotels()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', booking: boolean): void
