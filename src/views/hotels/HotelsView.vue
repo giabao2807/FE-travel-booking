@@ -101,7 +101,8 @@
                 hide-details="auto"
               />
             </v-card-text>
-            <v-card-actions>
+            <v-divider class="mx-10" />
+            <v-card-actions class="ma-2">
               <v-btn
                 size="small"
                 class="mx-2 rounded-xl text-none"

@@ -6,20 +6,16 @@
   rgb(253, 235, 255) 100%
   );
 }
-.home-container {
-  background-image: url('@/assets/img/bg-home.png');
-}
 .container_main {
   background-image: linear-gradient(to bottom, rgba(248, 230, 248, 0.2),rgba(235, 178, 244, 0.2)),
-    url('@/assets/img/bg_home.jpeg');
+    url('https://images8.alphacoders.com/667/667873.png');
   background-size: cover;
-  height: 50%;
 }
 @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
   .container_main {
     -webkit-clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
     clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
-    height: 95vh; }
+    height: 90vh; }
 }
 @keyframes moveInLeft {
   0% {
@@ -145,9 +141,9 @@
 .section-features {
   padding: 6rem 0;
   height: 100%;
-  background-image: linear-gradient(to right bottom, rgba(211, 156, 156, 0.2), rgba(70, 26, 45, 0.2)),
-  url('@/assets/img/panel-hotel.jpg');
-  background-size: cover;
+  background-image: linear-gradient(to bottom, rgba(255, 219, 237, 0.2),rgba(235, 178, 244, 0.2)),
+    url('@/assets/img/bg-detail.png');
+  background-size: contain;
   transform: skewY(-4deg);
 }
 .section-features > * {
