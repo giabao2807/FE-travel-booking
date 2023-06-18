@@ -8,11 +8,13 @@
       <v-card class="rounded-xl">
         <v-toolbar class="px-5">
           <v-toolbar-title>
-            <v-icon icon="mdi-message-draw" />
-            Review {{ propItems.title }}
+            <h4 class="font-rowdies">
+              <v-icon icon="mdi-message-draw" />
+              Review {{ propItems.title }}
+            </h4>
           </v-toolbar-title>
         </v-toolbar>
-        <v-card-text>
+        <v-card-text class="ma-5">
           <v-form>
             <v-row class="mx-2" align="center">
               <p class="text-disabled">Rate {{ propItems.title }}</p>
@@ -54,6 +56,8 @@
             rounded
             min-width="110"
             variant="outlined"
+            class="text-none"
+            prepend-icon="mdi-close-outline"
             @click="() => isActive.value = false"
           >
             Close
@@ -64,6 +68,8 @@
             min-width="110"
             variant="outlined"
             color="primary"
+            class="text-none"
+            prepend-icon="mdi-cloud-arrow-up-outline"
             @click="() => {
               isActive.value = false
               postReview({ ...paramsReview, booking: propItems.idBooking })
@@ -79,6 +85,7 @@
 <script lang="ts" setup>
 import { ref, defineEmits, defineProps, withDefaults } from 'vue'
 import { useBookStore } from '@/store/booking'
+import { IAddReview } from '@/libs/types/commonType'
 
 type Props = {
   idBooking: string,
@@ -96,7 +103,7 @@ const hanldeChange = (event: boolean) => {
   emit('update:modelValue', event)
 }
 const bookStore = useBookStore()
-const paramsReview = ref<any>({
+const paramsReview = ref<IAddReview>({
   rate: 0,
   title: '',
   content: ''

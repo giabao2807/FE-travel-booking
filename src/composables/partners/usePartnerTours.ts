@@ -49,6 +49,7 @@ const createPartnerTours = () => {
   const tours = ref()
   const loadingTours = ref<boolean>(false)
   const imgListUpdate = ref<any[]>([])
+  const formRef = ref()
   const formTour = ref<IFormCreateTour>({
     name: '',
     totalDay: 0,
@@ -88,64 +89,74 @@ const createPartnerTours = () => {
     totalNight: [{ validator: checkNight }]
   })
 
-  const createTour = async() => {
-    startLoading()
-    const dataUpdate = await({
-      ...formTour.value,
-      descriptions : `<div class="single-box-excerpt">${formTour.value.descriptions}</div>`,
-      scheduleContent:  `<div class="panel-body content-tour-item content-tour-tab-program-tour-0">${formTour.value.scheduleContent}</div>`,
-      note: `<div class="panel-body content-tour-item content-tour-tab-tour-rule-2">${formTour.value.note}</div>`,
-      totalDays: `${formTour.value.totalDay} ngày ${formTour.value.totalNight} đêm`
+  const createTour = async(formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    await formEl.validate(async(valid) => {
+      if (valid) {
+        startLoading()
+        const dataUpdate = await({
+          ...formTour.value,
+          descriptions : `<div class="single-box-excerpt">${formTour.value.descriptions}</div>`,
+          scheduleContent:  `<div class="panel-body content-tour-item content-tour-tab-program-tour-0">${formTour.value.scheduleContent}</div>`,
+          note: `<div class="panel-body content-tour-item content-tour-tab-tour-rule-2">${formTour.value.note}</div>`,
+          totalDays: `${formTour.value.totalDay} ngày ${formTour.value.totalNight} đêm`
+        })
+        const formData = await convertObjectToFormData(dataUpdate, 'tourImages')
+        partnerTourStore.createTour(formData)
+          .then(() => {
+            handleRoute({ name: 'toursPartner' })
+            finishLoading()
+            feedBack({
+              title: 'Create Tour',
+              message: 'Create success tour',
+              type:'success'
+            })
+          }).catch(error => {
+            finishLoading()
+            feedBack({
+              title: 'Create Tour',
+              message: error,
+              type:'error'
+            })
+          })
+      }
     })
-    const formData = await convertObjectToFormData(dataUpdate, 'tourImages')
-    partnerTourStore.createTour(formData)
-      .then(() => {
-        handleRoute({ name: 'toursPartner' })
-        finishLoading()
-        feedBack({
-          title: 'Create Tour',
-          message: 'Create success tour',
-          type:'success'
-        })
-      }).catch(error => {
-        finishLoading()
-        feedBack({
-          title: 'Create Tour',
-          message: error,
-          type:'error'
-        })
-      })
   }
-  const updateTour = async(id: string) => {
-    startLoading()
-    formTour.value.tourImages?.push(...imgListUpdate.value)
-    const dataUpdate = await ({
-      ...formTour.value,
-      descriptions: `<div class="single-box-excerpt">${formTour.value.descriptions}</div>`,
-      scheduleContent:  `<div class="panel-body content-tour-item content-tour-tab-program-tour-0">${formTour.value.scheduleContent}</div>`,
-      note: '<div class="panel-body content-tour-item content-tour-tab-tour-rule-2">' + formTour.value.note + '</div>',
-      totalDays: `${formTour.value.totalDay} ngày ${formTour.value.totalNight} đêm`
+  const updateTour = async(id: string, formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    await formEl.validate(async(valid) => {
+      if (valid) {
+        startLoading()
+        formTour.value.tourImages?.push(...imgListUpdate.value)
+        const dataUpdate = await ({
+          ...formTour.value,
+          descriptions: `<div class="single-box-excerpt">${formTour.value.descriptions}</div>`,
+          scheduleContent:  `<div class="panel-body content-tour-item content-tour-tab-program-tour-0">${formTour.value.scheduleContent}</div>`,
+          note: '<div class="panel-body content-tour-item content-tour-tab-tour-rule-2">' + formTour.value.note + '</div>',
+          totalDays: `${formTour.value.totalDay} ngày ${formTour.value.totalNight} đêm`
+        })
+        const formData = await convertObjectToFormData(dataUpdate, 'tourImages')
+        partnerTourStore.updateTour(id, formData)
+          .then(() => {
+            handleRoute({ name: 'toursPartner' })
+            finishLoading()
+            feedBack({
+              title: 'Update Tour',
+              message: 'Update success tour',
+              type:'success'
+            })
+          }).catch(error => {
+            finishLoading()
+            feedBack({
+              title: 'Update Tour',
+              message: error,
+              type:'error'
+            })
+          })
+      }
     })
-    const formData = await convertObjectToFormData(dataUpdate, 'tourImages')
-    partnerTourStore.updateTour(id, formData)
-      .then(() => {
-        handleRoute({ name: 'toursPartner' })
-        finishLoading()
-        feedBack({
-          title: 'Update Tour',
-          message: 'Update success tour',
-          type:'success'
-        })
-      }).catch(error => {
-        finishLoading()
-        feedBack({
-          title: 'Update Tour',
-          message: error,
-          type:'error'
-        })
-      })
   }
-  const formRef = ref<FormInstance>()
+
   const resetForm = (formEl: FormInstance | undefined) => {
     if (!formEl) return
     formEl.resetFields()

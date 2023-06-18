@@ -9,7 +9,10 @@
     @update:modelValue="(event) => hanldeChange(event)"
   >
     <template #header>
-      <h3>Cập Nhật Khách Sạn</h3>
+      <h3>
+        <v-icon icon="mdi-home-edit-outline" />
+        Cập Nhật Khách Sạn
+      </h3>
     </template>
     <template #default>
       <v-card elevation="0" color="transparent">
@@ -124,6 +127,7 @@
                           variant="plain"
                           size="small"
                           icon="mdi-close"
+                          @click="() => handleRemoveImgHotel(item)"
                         />
                       </div>
                     </n-image>
@@ -143,12 +147,13 @@
           </el-form>
         </v-card-text>
         <v-divider />
-        <v-card-actions class="mx-5 mt-2">
+        <v-card-actions class="mx-5 mt-2 mb-n2">
           <v-btn
             rounded
             min-width="110"
             variant="outlined"
             class="text-none"
+            prepend-icon="mdi-close-outline"
             @click="() => dialogUpdate = false"
           >
             Đóng
@@ -160,6 +165,7 @@
             variant="outlined"
             color="primary"
             class="text-none"
+            prepend-icon="mdi-cloud-arrow-up-outline"
             @click="() => {
               dialogUpdate = false
               updateHotel()
@@ -182,7 +188,7 @@ import { useCities } from '@/composables/useCities'
 import { usePartnerHotels } from '@/composables/partners/usePartnerHotels'
 
 const { allCities } = useCities()
-const { formHotel, dialogUpdate, updateHotel, imgListUpdate } = usePartnerHotels()
+const { formHotel, dialogUpdate, updateHotel, imgListUpdate, handleRemoveImgHotel } = usePartnerHotels()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', booking: boolean): void

@@ -4,14 +4,23 @@
       <v-row class="h-75 w-100" align="end">
         <v-col class="ma-10">
           <h2>Hello {{ showName }},</h2>
-          <p>
-            This is your profile travel.
-            <br>
-            You can see the information you've and manage your profile.
-          </p>
-          <v-btn class="my-2">
-            Edit Profile
-          </v-btn>
+          <div class="mx-2">
+            <p>
+              This is your profile travel.
+              <br>
+              You can see the information you've and manage your profile.
+            </p>
+            <v-btn
+              prepend-icon="mdi-layers-edit"
+              class="my-2 rounded-xl text-none"
+              @click="() => {
+                isEditInfo = true
+                isEditContact = true
+              }"
+            >
+              Edit Profile
+            </v-btn>
+          </div>
         </v-col>
       </v-row>
       <v-row align="start" justify="center">
@@ -150,6 +159,8 @@
             <v-btn
               v-if="isEditInfo || isEditContact"
               @click="() => updateUserInfo({ ...userInfo })"
+              prepend-icon="mdi-layers-edit"
+              color="primary"
               class="mx-7"
             >
               Save
@@ -196,7 +207,7 @@ onMounted(async() => {
     background-image: linear-gradient(to bottom, rgba(248, 230, 248, 0.2),rgba(235, 178, 244, 0.2)),
       url('https://cdn.pixabay.com/photo/2016/01/09/18/27/camera-1130731_1280.jpg');
     background-size: cover;
-    height: 35em;
+    height: 30em;
   }
   .half-circle {
     position: absolute;

@@ -40,7 +40,7 @@ export const usePartnerHotelsStore = defineStore('partnerHotelsStore', () => {
   }
   const updateRoom = async(id: string, data: any) => {
     return await connectionsAPI({
-      methods: 'POST',
+      methods: 'PUT',
       path: `hotel/room/${id}`,
       data: data
     })

@@ -6,16 +6,36 @@
     </template>
     <template #default="{ isActive }">
       <v-card>
-        <v-card-title class="justify-space-between">
-          Tiếp tục thanh toán
-        </v-card-title>
+        <v-toolbar class="px-5">
+          <v-toolbar-title>
+            <h4 class="font-rowdies">
+              <v-icon icon="mdi-credit-card-outline" />
+              Tiếp Tục Thanh Toán
+            </h4>
+          </v-toolbar-title>
+        </v-toolbar>
         <v-card-text>
           <n-select-bank v-model="bankCode" />
         </v-card-text>
-        <v-card-actions>
-          <v-btn @click="() => isActive.value = false">Đóng</v-btn>
+        <v-card-actions class="my-2 mx-3">
+          <v-btn
+            class="text-none"
+            prepend-icon="mdi-close-outline"
+            @click="() => isActive.value = false"
+          >
+            Đóng
+          </v-btn>
           <v-spacer />
-          <v-btn @click="() => getAndToPayment({ id: propItems.idBooking, bankCode: bankCode })">Payment</v-btn>
+          <v-btn
+            class="text-none rounded-xl"
+            min-width="110"
+            color="primary"
+            variant="tonal"
+            prepend-icon="mdi-cloud-arrow-up-outline"
+            @click="() => getAndToPayment({ id: propItems.idBooking, bankCode: bankCode })"
+          >
+            Payment
+          </v-btn>
         </v-card-actions>
       </v-card>
     </template>
@@ -40,6 +60,7 @@ const hanldeChange = (event: boolean) => {
   emit('update:modelValue', event)
 }
 const bookStore = useBookStore()
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getAndToPayment = (params: any) => {
   bookStore.getPaymentLinkAgain(params)
     .then(data => {

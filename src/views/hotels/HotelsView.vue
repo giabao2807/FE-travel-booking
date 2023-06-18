@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-static-inline-styles -->
 <template>
   <v-sheet class="hotels-page">
     <v-container fluid class="pa-0">
@@ -5,7 +6,7 @@
         <v-row class="h-50 w-100" align="end" justify="center">
           <h1 class="heading-primary shadow-text">
             <span class="heading-primary--main">Hotels</span>
-            <span class="heading-primary--sub">is where life happens is where life</span>
+            <span class="heading-primary--sub" style="font-size: 20px;">Come, stay and enjoy your day</span>
           </h1>
         </v-row>
       </div>

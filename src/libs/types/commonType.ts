@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Vue } from 'vue-class-component'
 import { Method, ResponseType } from 'axios'
 export type IForm = Vue & {validate: () => boolean, reset: () => void, resetValidation: () => void}
@@ -59,4 +60,9 @@ export type IFilterPanel = IFilterDate & IParamPage & {
 
 export type IHistoryBooking = IParamPage & {
   type: number
+}
+export type IAddReview = {
+  rate: number,
+  title: string,
+  content: string
 }

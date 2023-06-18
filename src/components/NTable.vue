@@ -70,6 +70,7 @@ const data = ref()
 const Row = ({ cells, rowData }) => {
   if (rowData.detail)
     return (<div class="ma-5">
+      <h4 class="my-2">Loại Phòng Đã Đặt</h4>
       {rowData.detail.map((item: any) => (
         <div class="d-flex px-6">
           <v-icon icon="mdi-bed-single-outline" class="mr-1" />

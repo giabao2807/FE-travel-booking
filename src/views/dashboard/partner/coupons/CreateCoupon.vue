@@ -9,8 +9,11 @@
         <el-form
           label-width="120px"
           label-position="left"
+          ref="formRef"
+          :rules="rulesCoupon"
+          :model="formCoupon"
         >
-          <el-form-item prop="groupSize">
+          <el-form-item prop="name">
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-rename" />
@@ -21,7 +24,7 @@
               <el-input v-model="formCoupon.name" />
             </el-col>
           </el-form-item>
-          <el-form-item prop="groupSize">
+          <el-form-item prop="rangeDate">
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-timeline-clock-outline" />
@@ -39,7 +42,7 @@
               />
             </el-col>
           </el-form-item>
-          <el-form-item prop="groupSize">
+          <el-form-item prop="discountPercent">
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-file-percent-outline" />
@@ -47,12 +50,12 @@
               </div>
             </template>
             <el-col :span="15">
-              <el-input v-model="formCoupon.discountPercent">
+              <el-input :min="0" v-model="formCoupon.discountPercent">
                 <template #append>%</template>
               </el-input>
             </el-col>
           </el-form-item>
-          <el-form-item prop="groupSize">
+          <el-form-item prop="description">
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-alpha-d-box" />
@@ -70,7 +73,7 @@
           </el-form-item>
           <v-divider />
           <h3 class="my-5">Danh Sách Approve Coupon</h3>
-          <el-form-item prop="groupSize" class="ml-2">
+          <el-form-item prop="tourIds" class="ml-2">
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-compass-rose" />
@@ -91,7 +94,7 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item prop="groupSize" class="ml-2">
+          <el-form-item prop="hotelIds" class="ml-2">
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-home-city-outline" />
@@ -117,6 +120,7 @@
           <v-btn
             class="text-none rounded-xl"
             prepend-icon="mdi-broom"
+            @click="() => resetForm(formRef)"
           >
             Clear
           </v-btn>
@@ -125,7 +129,7 @@
             color="primary"
             class="text-none rounded-xl"
             prepend-icon="mdi-ticket-percent-outline"
-            @click="() => createCoupon()"
+            @click="() => createCoupon(formRef)"
           >
             Create
           </v-btn>
@@ -142,6 +146,9 @@ const {
   formCoupon,
   tours,
   hotels,
+  formRef,
+  rulesCoupon,
+  resetForm,
   getTours,
   getHotels,
   createCoupon

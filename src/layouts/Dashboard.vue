@@ -63,7 +63,7 @@
             :class="rail ? 'custom-child-select' : ''"
           >
             <template #prepend>
-              <v-icon :icon="tour.icon" :class="rail ? 'icon' : ''" />
+              <v-icon :icon="tour.icon" :class="rail ? 'icon' : 'mr-3'" />
             </template>
           </v-list-item>
         </v-list-group>
@@ -85,7 +85,7 @@
             :class="rail ? 'custom-child-select' : ''"
           >
             <template #prepend>
-              <v-icon :icon="hotel.icon" :class="rail ? 'icon' : ''" />
+              <v-icon :icon="hotel.icon" :class="rail ? 'icon' : 'mr-3'" />
             </template>
           </v-list-item>
         </v-list-group>
@@ -107,7 +107,7 @@
             :class="rail ? 'custom-child-select' : ''"
           >
             <template #prepend>
-              <v-icon :icon="coupon.icon" :class="rail ? 'icon' : ''" />
+              <v-icon :icon="coupon.icon" :class="rail ? 'icon' : 'mr-3'" />
             </template>
           </v-list-item>
         </v-list-group>
@@ -123,7 +123,7 @@
         <v-list density="compact" nav>
           <v-list-item
             prepend-icon="mdi-logout"
-            title="SignOut"
+            title="Đăng Xuất"
             value="signOut"
             @click="signOut"
           />
@@ -188,7 +188,7 @@ const TOURS_PANEL = [
 ]
 const HOTELS_PANEL = [
   { name: 'Danh Sách Hotels', value: 'hotelsPartner', icon: 'mdi-format-list-checkbox' },
-  { name: 'Tạo Mới Hotels', value: 'createHotel', icon: 'mdi-note-edit-outline' }
+  { name: 'Tạo Mới Hotel', value: 'createHotel', icon: 'mdi-note-edit-outline' }
 ]
 const COUPON_PANEL = [
   { name: 'Danh Sách Coupons', value: 'couponsPartner', icon: 'mdi-format-list-checkbox' },

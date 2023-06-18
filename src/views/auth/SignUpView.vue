@@ -75,12 +75,12 @@
               @click:append-inner="showPassword = !showPassword"
             />
             <v-text-field
-              v-mode="userSignUp.passwordConfirm"
+              v-model="userSignUp.passwordConfirm"
               :rules="[ruleRequired('ConfirmPassword'), ruleConfirmPassword(userSignUp.password, userSignUp.passwordConfirm)]"
               label="ConfirmPassword"
               name="confirmPassword"
               prepend-inner-icon="mdi-lock-outline"
-              type="password"
+              :type="showPassword ? 'text' : 'password'"
               color="primary"
               variant="outlined"
               hide-details="auto"

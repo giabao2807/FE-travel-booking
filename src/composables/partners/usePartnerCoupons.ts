@@ -1,18 +1,26 @@
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { IParamPage } from '@/libs/types/commonType'
 import { useCouponsStore } from '@/store/coupons'
 import { useFeedBack } from '../useFeedBack'
 import { useLoading } from '@/composables/useLoading'
 import { handleRoute } from '@/helpers/loadingRoute'
+import { FormInstance, FormRules } from 'element-plus'
+import { validations } from '@/helpers/validate'
 
 const createPartnerCoupons = () => {
   const couponsStore = useCouponsStore()
   const { feedBack } = useFeedBack()
   const { startLoading, finishLoading } = useLoading()
+  const {
+    checkPercent,
+    checkLength,
+    checkName
+  } = validations()
   const coupons = ref()
   const tours = ref<any[]>([])
   const hotels = ref<any[]>([])
+  const formRef = ref()
   const formCoupon = ref({
     hotelIds: [],
     tourIds: [],
@@ -24,6 +32,11 @@ const createPartnerCoupons = () => {
     discountPercent: 0
   })
   const loadingCoupons = ref<boolean>(false)
+  const rulesCoupon = reactive<FormRules>({
+    name: [{ validator: checkName }],
+    discountPercent: [{ validator: checkPercent }],
+    description: [{ validator: checkLength }]
+  })
   const getCoupons = (params?: IParamPage) => {
     loadingCoupons.value = true
     couponsStore.getCoupons(params)
@@ -53,30 +66,39 @@ const createPartnerCoupons = () => {
     couponsStore.getHotelsForCoupon()
       .then(data => hotels.value = data)
   }
-  const createCoupon = () => {
-    startLoading()
-    formCoupon.value = {
-      ...formCoupon.value,
-      startDate: formCoupon.value.rangeDate[0],
-      endDate: formCoupon.value.rangeDate[1]
-    }
-    couponsStore.createPartnerCoupons(formCoupon.value)
-      .then(() => {
-        handleRoute({ name: 'couponsPartner' })
-        finishLoading()
-        feedBack({
-          title: 'Create Coupon',
-          message: 'Create success coupon',
-          type:'success'
-        })
-      }).catch(error => {
-        finishLoading()
-        feedBack({
-          title: 'Create Coupon',
-          message: error,
-          type:'error'
-        })
-      })
+  const createCoupon = async(formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    await formEl.validate(async(valid) => {
+      if (valid) {
+        startLoading()
+        formCoupon.value = {
+          ...formCoupon.value,
+          startDate: formCoupon.value.rangeDate[0],
+          endDate: formCoupon.value.rangeDate[1]
+        }
+        await couponsStore.createPartnerCoupons(formCoupon.value)
+          .then(() => {
+            handleRoute({ name: 'couponsPartner' })
+            finishLoading()
+            feedBack({
+              title: 'Create Coupon',
+              message: 'Create success coupon',
+              type:'success'
+            })
+          }).catch(error => {
+            finishLoading()
+            feedBack({
+              title: 'Create Coupon',
+              message: error,
+              type:'error'
+            })
+          })
+      }
+    })
+  }
+  const resetForm = (formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    formEl.resetFields()
   }
   return {
     coupons,
@@ -84,6 +106,9 @@ const createPartnerCoupons = () => {
     hotels,
     loadingCoupons,
     formCoupon,
+    formRef,
+    rulesCoupon,
+    resetForm,
     getCoupons,
     deleteCoupon,
     getTours,

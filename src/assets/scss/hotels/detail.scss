@@ -88,8 +88,16 @@
   }
   .card-decs-detail {
     position: absolute;
+    min-width: 600px;
+    min-height: 450px;
     margin-left: -160px;
     margin-top: 80px;
+  }
+  @media screen and (max-width: 900px) {
+    .card-decs-detail {
+      min-width: 200px;
+      min-height: 150px;
+    }
   }
   .text-field {
     width: 200px;

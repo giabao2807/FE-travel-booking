@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-static-inline-styles -->
 <template>
   <v-sheet class="home-container">
     <v-container fluid class="pa-0">
@@ -5,7 +6,7 @@
         <v-row class="h-50 w-100" align="end" justify="center">
           <h1 class="heading-primary shadow-text">
             <span class="heading-primary--main">Travels and booking</span>
-            <span class="heading-primary--sub">is where life happens is where life</span>
+            <span class="heading-primary--sub">No land is strange, only travelers are strangers</span>
           </h1>
         </v-row>
       </div>
@@ -445,7 +446,7 @@
                   size="large"
                   rounded
                   variant="text"
-                  :color="isSelected ? 'primary' : '#fff'"
+                  :color="isSelected ? 'primary' : '#000'"
                   @click="()=>{
                     getRecomendHotelByCity(city?.id)
                     toggle()
@@ -553,45 +554,79 @@
           </v-col>
         </v-row>
       </v-container>
+      <div class="text-center mt-15">
+        <n-button-animated
+          label="Discover our hotels"
+          width="19rem"
+          @click="() => handleRoute({ name: 'hotels' })"
+        />
+      </div>
     </v-container>
     <v-container class="mt-10">
       <div class="text-center mb-8">
         <h3 class="text-primary text-uppercase">Services</h3>
         <h1 class="heading-secondary font-bungee mt-n2">Tours & Travel Services</h1>
       </div>
-      <v-row>
-        <v-col>
-          <v-card width="350" height="300">
-            <v-card-text class="text-center">
-              <v-icon size="50" icon="mdi-compass-rose" />
-              <h2 class="ma-5">Travel Guide</h2>
-              <p class="ma-5">
-                Travel information to inspire global travelers.
-                From cities to airports, cruise ports to ski and beach resorts, attractions to events, our guides provide ...
-              </p>
-            </v-card-text>
-          </v-card>
+      <v-row style="height: 500px; margin-top: 5rem;">
+        <v-col cols="5" class="mt-5">
+          <h3 class="heading-text">You're going to fall in love with nature</h3>
+          <p class="ml-2">
+            Đội ngũ nhân viên tư vấn nhiệt tình – phản hồi nhanh chóng – tác phong chuyên nghiệp. luôn sẵn sàng giúp đỡ bạn trong từng bước của quá trình đặt vé.
+          </p>
+          <v-divider class="ma-2" />
+          <p>
+            Tải ngay ứng dụng TravelNE
+            <br>
+            Khách sạn - Du lịch hàng đầu Việt Nam. Mang cả thế giới nằm trọn trong tay!
+          </p>
+          <div>
+            <v-spacer />
+            <v-btn color="primary" class="mx-n5 text-none" variant="text">Learn more &rarr;</v-btn>
+          </div>
         </v-col>
         <v-col>
-          <v-card width="350" height="300">
-            <v-card-text class="text-center">
-              <v-icon size="50" icon="mdi-ticket-percent-outline" />
-              <h2 class="ma-5">Ticket Booking</h2>
-              <p class="ma-5">
-                Enjoy Easy Cancellation & Instant Refunds with Flexible Date Change of Flight Tickets.
-                Easily compare and book from a wide selection of International flights on MakeMyTrip.
-              </p>
-            </v-card-text>
-          </v-card>
-        </v-col>
-        <v-col>
-          <v-card width="350" height="300">
-            <v-card-text class="text-center">
-              <v-icon size="50" icon="mdi-home-city-outline" />
-              <h2 class="ma-5">Hotel Booking</h2>
-              <p class="ma-5">I just made a hotel booking for my upcoming trip to ensure a comfortable stay during my travels.</p>
-            </v-card-text>
-          </v-card>
+          <div class="content-img-view">
+            <v-img
+              :src="require('@/assets/img/map-bg.png')"
+              cover
+            />
+            <v-img
+              class="content-img-view__photo content-img-view__photo--p1 rounded-xl"
+              src="https://i.pinimg.com/564x/b4/9a/de/b49ade0c9859ec26eb7e9192ef4fdea8.jpg"
+              cover
+            >
+              <v-card color="transparent" height="100%">
+                <v-card-text class="text-center my-5">
+                  <v-icon color="surface" size="50" icon="mdi-compass-rose" />
+                  <h2 class="ma-5" style="color: #FFF">Travel Guide</h2>
+                </v-card-text>
+              </v-card>
+            </v-img>
+            <v-img
+              class="content-img-view__photo content-img-view__photo--p2 rounded-xl"
+              src="https://i.pinimg.com/564x/22/90/f9/2290f9190b3ac2f967c777d9dd6c2d90.jpg"
+              cover
+            >
+              <v-card color="transparent" height="100%">
+                <v-card-text class="text-center my-5">
+                  <v-icon color="surface" size="50" icon="mdi-home-city-outline" />
+                  <h2 class="ma-5" style="color: #FFF">Hotel Booking</h2>
+                </v-card-text>
+              </v-card>
+            </v-img>
+            <v-img
+              class="content-img-view__photo content-img-view__photo--p3 rounded-xl"
+              src="https://i.pinimg.com/736x/b5/ba/68/b5ba680b522761344eb642a5264ddfae.jpg"
+              cover
+            >
+              <v-card color="transparent" height="100%">
+                <v-card-text class="text-center my-5">
+                  <v-icon color="surface" size="50" icon="mdi-ticket-percent-outline" />
+                  <h2 class="ma-5" style="color: #FFF">Ticket Booking</h2>
+                </v-card-text>
+              </v-card>
+            </v-img>
+          </div>
         </v-col>
       </v-row>
     </v-container>
@@ -604,6 +639,7 @@ import NSkeletonLoader from '@/components/NSkeletonLoader.vue'
 import NCitiesSelect from '@/components/NCitiesSelect.vue'
 import _ from 'lodash'
 import NImage from '@/components/NImage.vue'
+import '@/assets/css/home.css'
 import { SEARCH_FOR } from '@/resources/mockData'
 import { handleRoute } from '@/helpers/loadingRoute'
 import { useHomeUtil } from '@/composables/useHomeUtil'
@@ -638,8 +674,7 @@ const {
   getTraffic
 } = convertionType()
 </script>
-<style scoped>
-@import '@/assets/css/home.css';
+<style lang="scss" scoped>
 .button-card-tour {
   position: absolute !important;
   bottom: 0;
@@ -670,4 +705,56 @@ const {
   height: 100%;
   transition: all 0.8s ease;
 }
+.heading-text {
+  text-transform: uppercase; }
+.title-group :hover {
+  color: var(--btn-animation-color);
+  transition: all 0.2s cubic-bezier(0.680, -0.550, 0.265, 1.550);
+}
+.content-img-view {
+  position: relative;
+}
+  .content-img-view__photo {
+    width: 55%;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.4);
+    border-radius: 2px;
+    position: absolute;
+    z-index: 10;
+    transition: all .2s;
+    outline-offset: 2rem; }
+    @media only screen and (max-width: 56.25em) {
+      .content-img-view__photo {
+        float: left;
+        position: relative;
+        width: 33.3%;
+        box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.2); } }
+    .content-img-view__photo--p1 {
+      left: 0;
+      top: -2rem; }
+      @media only screen and (max-width: 56.25em) {
+        .content-img-view__photo--p1 {
+          top: 0;
+          transform: scale(1.2); } }
+    .content-img-view__photo--p2 {
+      right: 0;
+      top: 2rem; }
+      @media only screen and (max-width: 56.25em) {
+        .content-img-view__photo--p2 {
+          top: -1rem;
+          transform: scale(1.3);
+          z-index: 100; } }
+    .content-img-view__photo--p3 {
+      left: 20%;
+      top: 10rem; }
+      @media only screen and (max-width: 56.25em) {
+        .content-img-view__photo--p3 {
+          top: 1rem;
+          left: 0;
+          transform: scale(1.1); } }
+    .content-img-view__photo:hover {
+      transform: scale(1.05) translateY(-0.5rem);
+      box-shadow: 0 2.5rem 4rem rgba(0, 0, 0, 0.5);
+      z-index: 20; }
+  .content-img-view:hover .content-img-view__photo:not(:hover) {
+    transform: scale(0.95); }
 </style>

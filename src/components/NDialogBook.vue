@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <v-dialog persistent class="font-serif" :width="isSignIn ? '70%' : '40%'">
+  <v-dialog persistent class="font-serif" :width="isSignIn && isFullContact ? '70%' : '40%'">
     <template #activator>
       <slot name="action" />
     </template>
@@ -41,7 +41,46 @@
           </v-btn>
         </v-card-actions>
       </v-card>
-      <v-card v-if="isSignIn">
+      <v-card class="rounded-xl" v-if="!isFullContact">
+        <v-toolbar class="px-5">
+          <v-toolbar-title>
+            <v-icon icon="mdi-shield-account-outline" />
+            <strong class="mx-3">Notification</strong>
+          </v-toolbar-title>
+        </v-toolbar>
+        <v-card-text>
+          <h3> Thông tin của bạn chưa hoàn thiện!</h3>
+          <span>Hãy bỏ sung thông tin số điện thoại để booking.</span>
+        </v-card-text>
+        <v-card-actions class="mt-15 mx-2">
+          <v-btn
+            variant="flat"
+            rounded
+            class="text-none"
+            prepend-icon="mdi-close-outline"
+            @click="() => {
+              isActive.value = false
+            }"
+          >
+            Close
+          </v-btn>
+          <v-spacer />
+          <v-btn
+            min-width="110"
+            variant="flat"
+            color="primary"
+            class="text-none rounded-xl "
+            prepend-icon="mdi-cloud-arrow-up-outline"
+            @click="() => {
+              isActive.value = false
+              handleRoute({ name: 'userInfo' })
+            }"
+          >
+            Update
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+      <v-card v-if="isSignIn && isFullContact">
         <v-card-title class="justify-space-between">
           <h2 class="text-center mt-5">{{ propItems.titleDialog }}</h2>
           <v-timeline direction="horizontal" truncate-line="both">
@@ -305,12 +344,17 @@
               isActive.value = false
               resetBookTour()
             }"
+            rounded
+            class="text-none"
+            prepend-icon="mdi-close-outline"
           >
             Close
           </v-btn>
           <v-btn
             v-if="step === 2"
-            variant="text"
+            rounded
+            class="text-none"
+            prepend-icon="mdi-arrow-left"
             @click="step--"
           >
             Back
@@ -320,6 +364,10 @@
             v-if="step === 1"
             color="primary"
             variant="flat"
+            rounded
+            min-width="110"
+            class="text-none"
+            prepend-icon="mdi-arrow-right"
             @click="() => {
               nextBookingTour()
             }"
@@ -331,6 +379,10 @@
             :disabled="!bookTour?.bankCode"
             color="primary"
             variant="flat"
+            rounded
+            min-width="110"
+            class="text-none"
+            prepend-icon="mdi-cloud-arrow-up-outline"
             @click="bookingService(bookTour)"
           >
             Booking
@@ -407,7 +459,7 @@
 <script lang="ts" setup>
 import NImage from '@/components/NImage.vue'
 import NSelectBank from './NSelectBank.vue'
-import { computed, defineProps, withDefaults, onMounted } from 'vue'
+import { computed, defineProps, withDefaults, watchEffect } from 'vue'
 import { STEP_BOOK } from '@/resources/mockData'
 import { convertionType } from '@/helpers/convertion'
 import { useBookingDialog } from '@/composables/useBookingDialog'
@@ -432,7 +484,7 @@ const propItems = withDefaults(defineProps<Props>(), {
 })
 const { ruleRequired, ruleQuantity, ruleMaxQuantity } = validations()
 const { formatCurrency, getPriceDiscount, minDate, getTraffic } = convertionType()
-const { isSignIn } = checkInfo()
+const { isSignIn, isFullContact } = checkInfo()
 const totalPrice = computed(() => {
   return roomsBook?.value.reduce((total, item) => {
     const amount = item.amount || 0
@@ -470,7 +522,10 @@ const {
   resetBookHotel,
   bookingService
 } = useBookingDialog()
-onMounted(() => {
-  quantityTour.value
+watchEffect(() => {
+  if (propItems.tourInfo?.id && bookTour.value.startDate) {
+    getQuantityTour({ id: propItems.tourInfo?.id, startDate: bookTour.value.startDate })
+    quantityTour.value
+  }
 })
 </script>

@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <template>
   <v-container class="partner-booking-page">
     <div class="text-center my-5">
@@ -28,7 +29,7 @@
   </v-container>
 </template>
 <script lang="tsx" setup>
-import { onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
 import type { Column } from 'element-plus'
 import { usePartnerBooking } from '@/composables/partners/usePartnerBooking'
 import NTable from '@/components/NTable.vue'

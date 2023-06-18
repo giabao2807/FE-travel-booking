@@ -1,7 +1,7 @@
 <template>
   <v-sheet min-height="600" class="booking-page">
     <h2 class="text-center pt-10 pb-5">
-      Yours Booking
+      Yours Booking History
     </h2>
     <v-tabs
       color="primary"
@@ -106,6 +106,7 @@
                             rounded
                             min-width="110"
                             variant="outlined"
+                            prepend-icon="mdi-cash-sync"
                             @click="bookItem.dialogPayment = true"
                           >
                             Thanh toán
@@ -125,6 +126,7 @@
                             rounded
                             min-width="110"
                             variant="outlined"
+                            prepend-icon="mdi-star-plus-outline"
                             @click="bookItem.dialogReview = true"
                           >
                             Đánh giá
@@ -237,8 +239,10 @@
                                 v-if="bookItem.status === 'Unpaid'"
                                 class="text-none"
                                 color="primary"
-                                variant="tonal"
+                                rounded
                                 min-width="110"
+                                variant="outlined"
+                                prepend-icon="mdi-cash-sync"
                                 @click="bookItem.dialogPayment = true"
                               >
                                 Thanh toán
@@ -248,15 +252,17 @@
                           <n-dialog-review
                             v-model="bookItem.dialogReview"
                             :idBooking="bookItem.id"
-                            title="Tours"
+                            title="Hotel"
                           >
                             <template #action>
                               <v-btn
                                 v-if="bookItem.status === 'Completed'"
                                 class="text-none"
                                 color="primary"
-                                variant="tonal"
+                                rounded
                                 min-width="110"
+                                variant="outlined"
+                                prepend-icon="mdi-star-plus-outline"
                                 @click="bookItem.dialogReview = true"
                               >
                                 Đánh giá

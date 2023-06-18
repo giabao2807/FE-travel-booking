@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const validations = () => {
   // eslint-disable-next-line no-useless-escape
   const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
   const regexPhone = /^0\d{9}$/
   const nameRules = [
     (v: string) => !!v || 'Tên không được để trống.',
-    (v: string) => (v && v.length >= 5) || 'Tên phải lớn hoặc bằng 5 kí tự.'
+    (v: string) => (v && v.length >= 3) || 'Tên phải lớn hoặc bằng 3 kí tự.'
   ]
   const ruleRequired = (name: string) => (v: string | boolean) => !!v || `${name} không được để trống.`
   const ruleEmail = (email: string) => regexEmail.test(email) || 'Email không đúng cú pháp.'
@@ -23,6 +24,12 @@ export const validations = () => {
   const checkQuantity = (rule: any, value: number, callback: any) => {
     return value < 1 ?
       callback(new Error('Số lượng phải lớn hơn bằng 1.'))
+      :
+      callback()
+  }
+  const checkPercent = (rule: any, value: number, callback: any) => {
+    return value < 1 ?
+      callback(new Error('Phần trăm giảm phải lớn hơn bằng 1%.'))
       :
       callback()
   }
@@ -50,6 +57,9 @@ export const validations = () => {
   }
   const checkCoverImage = (rule: any, value: string, callback: any) => {
     !value ? callback(new Error('Ảnh đại diện không được bỏ trống.')) : callback()
+  }
+  const checkAddress = (rule: any, value: string, callback: any) => {
+    !value ? callback(new Error('Địa chỉ không được bỏ trống.')) : callback()
   }
   const checkCity = (rule: any, value: string, callback: any) => {
     !value ? callback(new Error('Điểm đến không được bỏ trống.')) : callback()
@@ -83,7 +93,9 @@ export const validations = () => {
     ruleConfirmPassword,
     ruleMaxQuantity,
     checkQuantity,
+    checkPercent,
     checkCash,
+    checkAddress,
     checkLength,
     checkName,
     checkCoverImage,

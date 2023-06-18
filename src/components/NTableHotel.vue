@@ -77,30 +77,34 @@ const Row = ({ cells, rowData }) => {
     return (<div class="ma-5 w-100">
       <h3>List rooms</h3>
       <div class="overflow-y-auto" style="max-height: 200px">
-        {rowData.detail.map((item: any) => (
-          <v-row class="pl-6" align="center" justify="center">
-            <v-col cols="5">
-              <v-icon icon="mdi-bed-single-outline" class="mr-1" />
-              <strong>{item.name}</strong>
-            </v-col>
-            <v-col cols="2">
-              <span>Quantity: <strong>{item.quantity}</strong></span>
-            </v-col>
-            <v-col cols="2">
-              <span>Price Room: <strong>{formatCurrency(item.price)}</strong></span>
-            </v-col>
-            <v-col cols="2">
-              <v-btn
-                variant="plain"
-                color="primary"
-                icon="mdi-comment-edit-outline"
-                onClick={() => {
-                  dialogEditRoom.value = true
-                  getRoomById(item.id)
-                }}
-              />
-            </v-col>
-          </v-row>
+        {rowData.detail.map((item: any, idx: number) => (
+          <>
+            <v-row class="pl-6" align="center" justify="center">
+              <v-col class="py-0" cols="5">
+                <strong class="mr-5">{idx + 1}</strong>
+                <v-icon icon="mdi-bed-single-outline" class="mr-1" />
+                <strong>{item.name}</strong>
+              </v-col>
+              <v-col class="py-0" cols="2">
+                <span>Quantity: <strong>{item.quantity}</strong></span>
+              </v-col>
+              <v-col class="py-0" cols="2">
+                <span>Price Room: <strong>{formatCurrency(item.price)}</strong></span>
+              </v-col>
+              <v-col class="py-0" cols="2">
+                <v-btn
+                  variant="plain"
+                  color="primary"
+                  icon="mdi-comment-edit-outline"
+                  onClick={() => {
+                    dialogEditRoom.value = true
+                    getRoomById(item.id)
+                  }}
+                />
+              </v-col>
+            </v-row>
+            <v-divider class="mx-15 my-2"/>
+          </>
         ))}
       </div>
     </div>)

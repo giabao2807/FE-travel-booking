@@ -10,7 +10,10 @@
     @update:modelValue="(event) => hanldeChange(event)"
   >
     <template #header>
-      <h3>Cập Nhật Thông Tin Phòng</h3>
+      <h3>
+        <v-icon icon="mdi-bed-double-outline" />
+        Cập Nhật Thông Tin Phòng
+      </h3>
     </template>
     <template #default>
       <v-card elevation="0" color="transparent">
@@ -46,6 +49,7 @@
                           variant="plain"
                           size="small"
                           icon="mdi-close"
+                          @click="() => handleRemoveImgRoom(item)"
                         />
                       </div>
                     </n-image>
@@ -56,11 +60,11 @@
             <el-form-item prop="tourImages">
               <template #label>
                 <div class="d-flex align-center">
-                  <v-icon class="mr-1" icon="mdi-image-multiple-outline" />
-                  <span class="font-weight-600">Hình ảnh</span>
+                  <v-icon class="mr-1" icon="mdi-image-plus-outline" />
+                  <span class="font-weight-600">Thêm Hình</span>
                 </div>
               </template>
-              <n-upload-multi v-model="formUpdateRoom.roomImages" />
+              <n-upload-multi v-model="imgListUpdateRoom" />
             </el-form-item>
             <el-form-item prop="name">
               <template #label>
@@ -190,12 +194,13 @@
           </el-form>
         </v-card-text>
         <v-divider />
-        <v-card-actions class="mx-5 mt-2">
+        <v-card-actions class="mx-5 mt-2 mb-n2">
           <v-btn
             rounded
             min-width="110"
             variant="outlined"
             class="text-none"
+            prepend-icon="mdi-close-outline"
             @click="() => dialogEditRoom = false"
           >
             Đóng
@@ -207,6 +212,7 @@
             variant="outlined"
             color="primary"
             class="text-none"
+            prepend-icon="mdi-cloud-arrow-up-outline"
             @click="() => {
               updateRoom()
             }"
@@ -219,14 +225,13 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
+import NImage from './NImage.vue'
 import NUploadMulti from './NUploadMulti.vue'
 import NEditor from './NEditor.vue'
 import { defineEmits } from 'vue'
-import { useCities } from '@/composables/useCities'
 import { usePartnerHotels } from '@/composables/partners/usePartnerHotels'
 
-const { allCities } = useCities()
-const { dialogEditRoom, formUpdateRoom, updateRoom } = usePartnerHotels()
+const { dialogEditRoom, formUpdateRoom, imgListUpdateRoom, updateRoom, handleRemoveImgRoom } = usePartnerHotels()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', booking: boolean): void

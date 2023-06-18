@@ -91,7 +91,7 @@ export const convertionType = () => {
     else {
       formData.append('coverPicture', object['coverPicture'])
     }
-    object[packImage].forEach((item: any) => {
+    object[packImage]?.forEach((item: any) => {
       if (typeof(item) === 'string') {
         dataImgString.push(item)
       }

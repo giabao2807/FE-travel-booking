@@ -136,7 +136,7 @@
                       />
                       {{ formatCurrency(getPriceDiscount(room?.price, hotelInfo?.couponData.discountPercent)) }}
                     </div>
-                    <p class="mt-3" style="font-size: 11px">
+                    <p class="mt-3 card-room-text">
                       <v-icon icon="mdi-ticket-percent-outline" />
                       Giá đã bao gồm:
                       Sales & Services tax.
@@ -225,7 +225,7 @@
       <v-row class="mx-0">
         <v-col class="px-0">
           <div class="position-relative container-photo">
-            <n-image :src="hotelInfo?.listImages[1]" height="600" class="composition-photo" />
+            <n-image :src="hotelInfo?.listImages[0]" height="600" class="composition-photo" />
           </div>
         </v-col>
         <v-col class="px-0">
@@ -244,7 +244,16 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer />
-              <v-btn class="mx-5" color="primary" variant="tonal">Book now</v-btn>
+              <v-btn
+                min-width="150"
+                class="ma-5 rounded-xl htdt-description-btn"
+                prepend-icon="mdi-cloud-arrow-up-outline"
+                color="primary"
+                variant="tonal"
+                @click="() => goToTop()"
+              >
+                Book now
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -319,7 +328,7 @@
               height="300"
               :src="item?.coverPicture"
             >
-              <div v-if="item?.couponData" class="mx-2 mt-n1 card-content-coupon" variant="outlined">
+              <div v-if="!_.isEmpty(hotelInfo?.couponData)" class="mx-2 mt-n1 card-content-coupon" variant="outlined">
                 <span class="text-h7 font-weight-bold mx-auto">
                   {{ item?.couponData.discountPercent }}%
                 </span>
@@ -423,7 +432,9 @@ const {
   getIconHuman
 } = convertionType()
 const { ruleQuantity, ruleMaxQuantity } = validations()
-
+const goToTop = () => {
+  window.scrollTo(0, 0)
+}
 onMounted(async() => {
   await getHotelById(hotelId.value)
 })
@@ -440,6 +451,12 @@ watchEffect(async() => {
 })
 </script>
 <style lang="scss" scoped>
+.card-room-text {
+  font-size: 11px;
+}
+.htdt-description-btn {
+  position: absolute; right: 0; bottom: 0;
+}
 ::v-deep {
     .htdt-policy, .htdt-description {
       background-color: transparent !important;

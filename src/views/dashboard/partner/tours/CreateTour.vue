@@ -257,7 +257,7 @@
         color="primary"
         class="text-none rounded-xl"
         prepend-icon="mdi-archive-edit-outline"
-        @click="() => updateTour(route.query.id as string)"
+        @click="() => updateTour(route.query.id as string, formRef)"
       >
         Update
       </v-btn>
@@ -275,7 +275,7 @@
         color="primary"
         class="text-none rounded-xl"
         prepend-icon="mdi-send-variant-outline"
-        @click="createTour"
+        @click="createTour(formRef)"
       >
         Create
       </v-btn>
@@ -309,9 +309,7 @@ const {
   updateTour
 } = usePartnerTours()
 onMounted(() => {
-  if (route.query.id) {
-    getTourById(route.query.id as string)
-  }
+  route.query.id ? getTourById(route.query.id as string) : null
 })
 </script>
 <style lang="scss" scoped>

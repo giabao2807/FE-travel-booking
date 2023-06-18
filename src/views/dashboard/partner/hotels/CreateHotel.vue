@@ -25,7 +25,9 @@
         </h3>
         <el-form
           class="mx-5"
-          ref="formRef"
+          ref="formRefHotel"
+          :model="formHotel"
+          :rules="rulesHotel"
           label-width="120px"
           label-position="left"
         >
@@ -56,7 +58,7 @@
               </el-form-item>
             </v-col>
             <v-col>
-              <el-form-item prop="tourImages">
+              <el-form-item prop="hotelImages">
                 <template #label>
                   <div class="d-flex align-center">
                     <v-icon class="mr-1" icon="mdi-image-multiple-outline" />
@@ -74,7 +76,7 @@
                 <span class="font-weight-600">Thành Phố</span>
               </div>
             </template>
-            <el-select v-model="formHotel.city" clearable placeholder="Select">
+            <el-select v-model="formHotel.city" clearable placeholder="Select city">
               <el-option
                 v-for="item in allCities"
                 :key="item.id"
@@ -83,7 +85,7 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item prop="name">
+          <el-form-item prop="address">
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-rename-box-outline" />
@@ -108,7 +110,7 @@
               <n-editor v-model="formHotel.descriptions" />
             </el-col>
           </el-form-item>
-          <el-form-item prop="descriptions">
+          <el-form-item prop="rules">
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-alert-outline" />
@@ -196,13 +198,14 @@
                       <el-col :span="5">
                         <el-input-number
                           v-model="dataForm.quantity"
+                          :min="0"
                           style="width: 200px"
                         />
                       </el-col>
                     </el-form-item>
                     <el-row>
                       <el-col :span="10">
-                        <el-form-item prop="adults">
+                        <el-form-item prop="square">
                           <template #label>
                             <div class="d-flex align-center">
                               <v-icon class="mr-1" icon="mdi-rename-box-outline" />
@@ -212,13 +215,14 @@
                           <el-col :span="5">
                             <el-input-number
                               v-model="dataForm.square"
+                              :min="0"
                               style="width: 200px"
                             />
                           </el-col>
                         </el-form-item>
                       </el-col>
                       <el-col :span="10">
-                        <el-form-item prop="adults">
+                        <el-form-item prop="beds">
                           <template #label>
                             <div class="d-flex align-center">
                               <v-icon class="mr-1" icon="mdi-rename-box-outline" />
@@ -228,6 +232,7 @@
                           <el-col :span="5">
                             <el-input-number
                               v-model="dataForm.beds"
+                              :min="0"
                               style="width: 200px"
                             />
                           </el-col>
@@ -246,13 +251,14 @@
                           <el-col :span="5">
                             <el-input-number
                               v-model="dataForm.adults"
+                              :min="0"
                               style="width: 200px"
                             />
                           </el-col>
                         </el-form-item>
                       </el-col>
                       <el-col :span="10">
-                        <el-form-item prop="adults">
+                        <el-form-item prop="children">
                           <template #label>
                             <div class="d-flex align-center">
                               <v-icon class="mr-1" icon="mdi-rename-box-outline" />
@@ -263,6 +269,7 @@
                             <el-col :span="5">
                               <el-input-number
                                 v-model="dataForm.children"
+                                :min="0"
                                 style="width: 200px"
                               />
                             </el-col>
@@ -280,6 +287,7 @@
                       <el-col :span="20">
                         <el-input
                           v-model="dataForm.price"
+                          :min="0"
                           type="number"
                         >
                           <template #append>VNĐ</template>
@@ -307,19 +315,14 @@
     </v-window>
     <v-divider />
     <v-card-actions class="mx-2">
-      <v-btn
-        v-if="step === 2"
-        variant="flat"
-        @click="() => step--"
-      >
-        Back
-      </v-btn>
       <v-spacer />
       <v-btn
         v-if="step === 1"
         color="primary"
         variant="flat"
+        min-width="130"
         class="text-none rounded-xl"
+        prepend-icon="mdi-home-plus-outline"
         @click="() => {
           createHotel()
         }"
@@ -330,7 +333,9 @@
         v-if="step === 2"
         color="primary"
         variant="flat"
-        class="text-none"
+        min-width="130"
+        class="text-none rounded-xl"
+        prepend-icon="mdi-bed-double-outline"
         @click="() => {
           createRooms()
         }"
@@ -353,6 +358,8 @@ const {
   formHotel,
   dataFormRooms,
   openFistRoom,
+  rulesHotel,
+  formRefHotel,
   createHotel,
   createRooms,
   addNewRoom,

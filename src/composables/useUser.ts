@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ref, computed } from 'vue'
 import { useFeedBack } from './useFeedBack'
 import { storeToRefs } from 'pinia'

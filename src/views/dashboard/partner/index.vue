@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-static-inline-styles -->
 <template>
   <v-container class="partner-page">
     <v-container fluid>
@@ -11,7 +12,10 @@
               <h1 class="font-palanquin" :style="{ color: item.color }">{{ item?.value }}</h1>
             </div>
             <div class="info">
-              <span :style="{ color: item.color }">{{ item.title.toUpperCase() }}</span>
+              <span :style="{ color: item.color }">
+                <v-icon :icon="item.icon" size="small" class="mr-1" />
+                {{ item.title.toUpperCase() }}
+              </span>
               <br>
               <v-chip
                 class="ma-2"
