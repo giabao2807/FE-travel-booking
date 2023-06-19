@@ -497,7 +497,7 @@
                   </span>
                 </div>
               </n-image>
-              <div class="background-card-title" @click="()=> handleRoute({ name: 'hotelDetail', params: { id: hotel?.id } })">
+              <div class="background-card-title" @click="() => handleRoute({ name: 'hotelDetail', params: { id: hotel?.id } })">
                 <v-card-title class="font-rowdies font-weight-bold">
                   {{ hotel?.name }}
                   <v-tooltip
