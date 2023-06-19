@@ -21,6 +21,13 @@ export const useUserStore = defineStore('userStore', () => {
       path: 'user/info'
     })
   }
+  const getUsers = async(params?: any) => {
+    return await connectionsAPI({
+      methods: 'GET',
+      path: 'user',
+      params: params
+    })
+  }
   const updateUserInfo = async(id: string, data: any) => {
     return await connectionsAPI({
       methods: 'PUT',
@@ -31,6 +38,7 @@ export const useUserStore = defineStore('userStore', () => {
   return {
     userInfo,
     getUserInfo,
-    updateUserInfo
+    updateUserInfo,
+    getUsers
   }
 })

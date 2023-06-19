@@ -20,6 +20,7 @@
             variant="flat"
             rounded
             class="text-none"
+            prepend-icon="mdi-close-outline"
             @click="() => {
               isActive.value = false
             }"
@@ -31,7 +32,9 @@
             color="primary"
             variant="flat"
             rounded
+            min-width="110"
             class="text-none"
+            prepend-icon="mdi-cloud-arrow-up-outline"
             @click="() => {
               isActive.value = false
               handleRoute({ name: 'signIn' })
@@ -41,7 +44,7 @@
           </v-btn>
         </v-card-actions>
       </v-card>
-      <v-card class="rounded-xl" v-if="!isFullContact">
+      <v-card class="rounded-xl" v-if="isSignIn && !isFullContact">
         <v-toolbar class="px-5">
           <v-toolbar-title>
             <v-icon icon="mdi-shield-account-outline" />
@@ -459,7 +462,7 @@
 <script lang="ts" setup>
 import NImage from '@/components/NImage.vue'
 import NSelectBank from './NSelectBank.vue'
-import { computed, defineProps, withDefaults, watchEffect } from 'vue'
+import { computed, defineProps, withDefaults } from 'vue'
 import { STEP_BOOK } from '@/resources/mockData'
 import { convertionType } from '@/helpers/convertion'
 import { useBookingDialog } from '@/composables/useBookingDialog'
@@ -522,10 +525,4 @@ const {
   resetBookHotel,
   bookingService
 } = useBookingDialog()
-watchEffect(() => {
-  if (propItems.tourInfo?.id && bookTour.value.startDate) {
-    getQuantityTour({ id: propItems.tourInfo?.id, startDate: bookTour.value.startDate })
-    quantityTour.value
-  }
-})
 </script>

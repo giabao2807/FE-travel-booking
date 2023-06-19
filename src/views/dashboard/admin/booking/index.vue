@@ -1,4 +1,4 @@
-<!-- eslint-disable @typescript-eslint/no-explicit-any -->
+<!-- eslint-disable vue/no-static-inline-styles -->
 <template>
   <v-container class="partner-booking-page">
     <div class="text-center my-5">
@@ -12,7 +12,7 @@
         @getNextPage="getBookingTours"
       />
     </div>
-    <div class="text-center mt-8 mb-5">
+    <div class="text-center mb-5" style="margin-top: 10rem;">
       <h3>Danh Sách Booking Hotels Hiện Tại</h3>
     </div>
     <div class="d-flex align-center mx-0">
@@ -34,7 +34,6 @@ import type { Column } from 'element-plus'
 import { usePartnerBooking } from '@/composables/partners/usePartnerBooking'
 import NTable from '@/components/NTable.vue'
 import { convertionType } from '@/helpers/convertion'
-
 
 const {
   bookingTours,
@@ -82,7 +81,12 @@ const columnsTour: Column<any>[] = [
     key: 'name',
     title: 'Name Tour',
     width: 300,
-    headerClass: 'justify-center'
+    headerClass: 'justify-center',
+    cellRenderer: ({ rowData }) => (
+      <el-tooltip content={rowData.tour.name}>
+        <span class='text-start'>{rowData.tour.name}</span>
+      </el-tooltip>
+    )
   },
   {
     key: 'quantity',

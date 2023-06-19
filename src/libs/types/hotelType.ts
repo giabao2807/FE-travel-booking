@@ -12,6 +12,7 @@ export type IHotel = {
   longitude: number,
   latitude: number,
   couponData: ICoupon,
+  isFav?: boolean,
 }
 export type IParamHotel = IParamPage & {
   cityId: number
@@ -25,13 +26,14 @@ export type IParamRoomType = {
   endDate?: string
 }
 export type IDetailHotel = IHotel & {
-createdAt: string,
-updatedAt: string,
-descriptions: string,
-rules: string,
-owner: string,
-city: number,
-listImages: string[]
+  createdAt: string,
+  updatedAt: string,
+  descriptions: string,
+  rules: string,
+  owner: string,
+  city: number,
+  isFav?: boolean,
+  listImages: string[]
 }
 export type IRoomType = {
   id: string,

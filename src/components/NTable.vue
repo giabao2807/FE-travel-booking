@@ -41,6 +41,7 @@
   </el-table-v2>
 </template>
 <script lang="tsx" setup>
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import NPagination from '@/components/NPagination.vue'
 import { defineProps, withDefaults, ref, defineEmits } from 'vue'
 import { Loading as LoadingIcon } from '@element-plus/icons-vue'
@@ -71,8 +72,9 @@ const Row = ({ cells, rowData }) => {
   if (rowData.detail)
     return (<div class="ma-5">
       <h4 class="my-2">Loại Phòng Đã Đặt</h4>
-      {rowData.detail.map((item: any) => (
+      {rowData.detail.map((item: any, idx: number) => (
         <div class="d-flex px-6">
+          <strong class="mr-5">{idx + 1}</strong>
           <v-icon icon="mdi-bed-single-outline" class="mr-1" />
           <strong>{ item.roomName } x { item.quantity }</strong>
         </div>

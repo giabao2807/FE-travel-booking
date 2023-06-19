@@ -1,0 +1,142 @@
+<template>
+  <v-container class="partner-hotel-page">
+    <div class="text-center mb-5">
+      <h3>Danh Sách Coupons Hiện Tại</h3>
+    </div>
+    <div class="d-flex align-center mx-0">
+      <n-table
+        :columns="columns"
+        :data="coupons"
+        :loading="loadingCoupons"
+        @getNextPage="getCoupons"
+      />
+    </div>
+    <div class="d-flex">
+      <v-spacer />
+      <v-btn
+        @click="() => handleRoute({ name: 'createAdminCoupon' })"
+      >
+        Create New Coupon
+      </v-btn>
+    </div>
+  </v-container>
+</template>
+<script lang="tsx" setup>
+import { onMounted } from 'vue'
+import type { Column } from 'element-plus'
+import NTable from '@/components/NTable.vue'
+import { convertionType } from '@/helpers/convertion'
+import { useAdminCoupons } from '@/composables/admins/useAdminCoupon'
+import { handleRoute } from '@/helpers/loadingRoute'
+const {
+  coupons,
+  loadingCoupons,
+  getCoupons,
+  deleteCoupon
+} = useAdminCoupons()
+const { formatDate } = convertionType()
+onMounted(() => {
+  getCoupons()
+})
+
+const columns: Column<any>[] = [
+  {
+    key: 'column-n-1',
+    title: 'No.',
+    width: 50,
+    cellRenderer: ({ rowIndex }) => (<>{rowIndex + 1}</>),
+    align: 'center'
+  },
+  {
+    key: 'name',
+    title: 'Name',
+    dataKey: 'name',
+    width: 200,
+    headerClass: 'justify-center'
+  },
+  {
+    key: 'description',
+    title: 'Description',
+    dataKey: 'description',
+    width: 250,
+    headerClass: 'justify-center',
+    cellRenderer: ({ cellData: description }) => (
+      <el-tooltip content={description}>
+        <span class='text-start'>{description}</span>
+      </el-tooltip>
+    )
+  },
+  {
+    key: 'startDate',
+    title: 'Start Date',
+    dataKey: 'startDate',
+    width: 150,
+    align: 'center',
+    cellRenderer: ({ cellData: startDate }) => (
+      <>
+        { formatDate(startDate) }
+      </>
+    )
+  },
+  {
+    key: 'endDate',
+    title: 'End Date',
+    dataKey: 'endDate',
+    width: 150,
+    align: 'center',
+    cellRenderer: ({ cellData: endDate }) => (
+      <>
+        { formatDate(endDate) }
+      </>
+    )
+  },
+  {
+    key: 'discountPercent',
+    title: 'Discount',
+    dataKey: 'discountPercent',
+    align: 'center',
+    width: 150,
+    cellRenderer: ({ cellData: discountPercent }) => (
+      <>
+        { discountPercent }%
+      </>
+    )
+  },
+  {
+    key: 'isActive',
+    title: 'Status',
+    dataKey: 'isActive',
+    width: 100,
+    align: 'center',
+    cellRenderer: ({ cellData: isActive }) =>(
+      <el-tag
+        class="mx-1"
+        effect="light"
+        type={!isActive ? 'info' : ''}
+        round
+      >
+        { isActive ? 'Active' : 'Inactive' }
+      </el-tag>
+    )
+  },
+  {
+    key: 'operations',
+    title: 'Operations',
+    cellRenderer: ({ rowData }) => (
+      <>
+        <v-btn
+          variant="plain"
+          color="error"
+          icon="mdi-delete-empty-outline"
+          onClick={() => deleteCoupon(rowData.id)}
+        />
+      </>
+    ),
+    width: 150,
+    align: 'center'
+  }
+]
+
+</script>
+<style lang="scss" scoped>
+</style>

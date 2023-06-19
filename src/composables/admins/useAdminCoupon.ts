@@ -8,7 +8,7 @@ import { handleRoute } from '@/helpers/loadingRoute'
 import { FormInstance, FormRules } from 'element-plus'
 import { validations } from '@/helpers/validate'
 
-const createCoupons = () => {
+const createAdminCoupons = () => {
   const couponsStore = useCouponsStore()
   const { feedBack } = useFeedBack()
   const { startLoading, finishLoading } = useLoading()
@@ -18,17 +18,16 @@ const createCoupons = () => {
     checkName
   } = validations()
   const coupons = ref()
-  const tours = ref<any[]>([])
-  const hotels = ref<any[]>([])
+  const partners = ref<any[]>([])
   const formRef = ref()
   const formCoupon = ref({
-    hotelIds: [],
-    tourIds: [],
+    partnerIds: [],
     name: '',
     description: '',
     rangeDate: '',
     startDate: '',
     endDate: '',
+    forAll: false,
     discountPercent: 0
   })
   const loadingCoupons = ref<boolean>(false)
@@ -58,13 +57,9 @@ const createCoupons = () => {
       }))
     getCoupons()
   }
-  const getTours = () => {
-    couponsStore.getToursForCoupon()
-      .then(data => tours.value = data)
-  }
-  const getHotels = () => {
-    couponsStore.getHotelsForCoupon()
-      .then(data => hotels.value = data)
+  const getPartners = () => {
+    couponsStore.getPartnersForCoupon()
+      .then(data => partners.value = data)
   }
   const createCoupon = async(formEl: FormInstance | undefined) => {
     if (!formEl) return
@@ -78,14 +73,14 @@ const createCoupons = () => {
         }
         await couponsStore.createCoupons(formCoupon.value)
           .then(() => {
-            handleRoute({ name: 'couponsPartner' })
+            handleRoute({ name: 'couponsAdmin' })
             finishLoading()
             feedBack({
               title: 'Create Coupon',
               message: 'Create success coupon',
               type:'success'
             })
-          }).catch(error => {
+          }).catch((error: any) => {
             finishLoading()
             feedBack({
               title: 'Create Coupon',
@@ -102,8 +97,7 @@ const createCoupons = () => {
   }
   return {
     coupons,
-    tours,
-    hotels,
+    partners,
     loadingCoupons,
     formCoupon,
     formRef,
@@ -111,9 +105,8 @@ const createCoupons = () => {
     resetForm,
     getCoupons,
     deleteCoupon,
-    getTours,
-    getHotels,
+    getPartners,
     createCoupon
   }
 }
-export const usePartnerCoupons = createSharedComposable(createCoupons)
+export const useAdminCoupons = createSharedComposable(createAdminCoupons)

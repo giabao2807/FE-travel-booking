@@ -76,7 +76,7 @@
                 <span class="font-weight-600">Thành Phố</span>
               </div>
             </template>
-            <el-select v-model="formHotel.city" clearable placeholder="Select city">
+            <el-select filterable v-model="formHotel.city" clearable placeholder="Select city">
               <el-option
                 v-for="item in allCities"
                 :key="item.id"
@@ -161,11 +161,12 @@
                 <v-card-text>
                   <el-form
                     class="mx-5"
-                    ref="formRef"
                     label-width="120px"
                     label-position="left"
+                    ref="formRefRoom"
+                    :model="dataForm"
                   >
-                    <el-form-item prop="tourImages">
+                    <el-form-item prop="roomImages">
                       <template #label>
                         <div class="d-flex align-center">
                           <v-icon class="mr-1" icon="mdi-image-multiple-outline" />
@@ -324,7 +325,7 @@
         class="text-none rounded-xl"
         prepend-icon="mdi-home-plus-outline"
         @click="() => {
-          createHotel()
+          createHotel(formRefHotel)
         }"
       >
         Create Hotel

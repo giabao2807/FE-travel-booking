@@ -68,7 +68,7 @@
                 <span class="font-weight-600">Điểm đến</span>
               </div>
             </template>
-            <el-select v-model="formTour.city" clearable placeholder="Select">
+            <el-select filterable v-model="formTour.city" clearable placeholder="Select">
               <el-option
                 v-for="item in allCities"
                 :key="item.id"

@@ -77,42 +77,32 @@
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-compass-rose" />
-                <span class="font-weight-600" style="width: 150px;">Danh Sách Tours</span>
+                <span class="font-weight-600" style="width: 250px;">Áp Dụng Cho Toàn Hệ Thống</span>
               </div>
             </template>
-            <el-select
-              v-model="formCoupon.tourIds"
-              multiple
-              filterable
-              style="margin-left: 50px; width: 52%;"
-              placeholder="Select tours"
-            >
-              <el-option
-                v-for="item in tours"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
-              />
-            </el-select>
+            <el-switch
+              v-model="formCoupon.forAll"
+              style="margin-left: 120px"
+            />
           </el-form-item>
           <el-form-item prop="hotelIds" class="ml-2">
             <template #label>
               <div class="d-flex align-center">
-                <v-icon class="mr-1" icon="mdi-home-city-outline" />
-                <span class="font-weight-600" style="width: 150px;">Danh Sách Hotels</span>
+                <v-icon class="mr-1" icon="mdi-handshake-outline" />
+                <span class="font-weight-600" style="width: 150px;">Danh Sách Partner</span>
               </div>
             </template>
             <el-select
-              v-model="formCoupon.hotelIds"
+              v-model="formCoupon.partnerIds"
               multiple
               filterable
               style="margin-left: 50px; width: 52%;"
-              placeholder="Select hotels"
+              placeholder="Select partners"
             >
               <el-option
-                v-for="item in hotels"
+                v-for="item in partners"
                 :key="item.id"
-                :label="item.name"
+                :label="item.lastName + item.firstName"
                 :value="item.id"
               />
             </el-select>
@@ -142,26 +132,23 @@
 </template>
 <script lang="ts" setup>
 import { onMounted } from 'vue'
-import { usePartnerCoupons } from '@/composables/partners/usePartnerCoupons'
+import { useAdminCoupons } from '@/composables/admins/useAdminCoupon'
 
 const {
   formCoupon,
-  tours,
-  hotels,
   formRef,
+  partners,
   rulesCoupon,
+  getPartners,
   resetForm,
-  getTours,
-  getHotels,
   createCoupon
-} = usePartnerCoupons()
+} = useAdminCoupons()
 const pickerEndDisable = (time: any) => {
   var yesterday = new Date()
   yesterday.setDate(yesterday.getDate() - 1)
   return time < yesterday
 }
 onMounted(() => {
-  getTours()
-  getHotels()
+  getPartners()
 })
 </script>

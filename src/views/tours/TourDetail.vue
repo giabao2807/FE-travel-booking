@@ -122,7 +122,7 @@
                     :src="item?.coverPicture"
                     height="150"
                   />
-                  {{ item?.name }}
+                  <h5>{{ item?.name }}</h5>
                   <v-tooltip
                     activator="parent"
                     :text="item?.name"
@@ -146,10 +146,10 @@
                       {{ item?.rate }} ({{ item?.numReview }})
                     </div>
                   </v-row>
-                  <div v-if="item?.couponData" class="mt-5 mb-2 remove-text text-grey-darken-2">
+                  <div v-if="!_.isEmpty(item?.couponData)" class="my-3 remove-text text-grey-darken-2">
                     {{ formatCurrency(item?.price) }}
                   </div>
-                  <div class="d-flex align-center justify-space-between mb-3">
+                  <div class="d-flex align-center justify-space-between my-3">
                     <div class="text-subtitle-1 animate-charcter">
                       <v-icon icon="mdi-cash-multiple" class="mt-n2 animate-charcter" />
                       {{
@@ -224,11 +224,11 @@
                     variant="outlined"
                     class="my-5 text-field"
                   />
-                  <div v-if="quantityByStartDate">
+                  <div v-if="quantityTour">
                     <v-divider class="mx-5 mb-3" />
                     <span>
                       <v-icon icon="mdi-ticket-outline" />
-                      Số lượng vé còn lại: {{ quantityByStartDate }}
+                      Số lượng vé còn lại: {{ quantityTour }}
                     </span>
                   </div>
                   <v-text-field
@@ -236,9 +236,9 @@
                     label="Số lượng"
                     density="compact"
                     :min="0"
-                    :max="quantityByStartDate"
+                    :max="quantityTour"
                     type="number"
-                    :rules="[...ruleQuantity, ruleMaxQuantity(quantityByStartDate)]"
+                    :rules="[...ruleQuantity, ruleMaxQuantity(quantityTour)]"
                     color="primary"
                     prepend-inner-icon="mdi-account-multiple-outline"
                     hide-details="auto"
@@ -330,7 +330,7 @@ const {
   anotherTours,
   tourId,
   dialogBooking,
-  quantityByStartDate,
+  quantityTour,
   loadingAnotherTours,
   loadingReview,
   dataReview,

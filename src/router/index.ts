@@ -13,6 +13,12 @@ import PartnerHotel from '@/views/dashboard/partner/hotels/index.vue'
 import CreateHotel from '@/views/dashboard/partner/hotels/CreateHotel.vue'
 import PartnerCoupons from '@/views/dashboard/partner/coupons/index.vue'
 import CreateCoupon from '@/views/dashboard/partner/coupons/CreateCoupon.vue'
+import AdminCoupons from '@/views/dashboard/admin/coupons/index.vue'
+import CreateAdminCoupon from '@/views/dashboard/admin/coupons/CreateCoupon.vue'
+import Users from '@/views/dashboard/admin/users/index.vue'
+import AdminTours from '@/views/dashboard/admin/tours/index.vue'
+import AdminHotels from '@/views/dashboard/admin/hotels/index.vue'
+import AdminBooking from '@/views/dashboard/admin/booking/index.vue'
 import BookingPartner from '@/views/dashboard/partner/booking/index.vue'
 import AdminView from '@/views/dashboard/admin/index.vue'
 import HotelsView from '@/views/hotels/HotelsView.vue'
@@ -58,7 +64,19 @@ const routes: Array<RouteRecordRaw> = [
           { path: 'booking', name:'bookingPartner', component: BookingPartner }
         ]
       },
-      { path: 'admin', name: 'admin', component: AdminView, meta: { requiresAuth: true, roleChildren: ['Admin'] } }
+      {
+        path: 'admin',
+        meta: { requiresAuth: true, roleChildren: ['Admin'] },
+        children: [
+          { path: '', name:'admin', component: AdminView },
+          { path: 'coupons', name:'couponsAdmin', component: AdminCoupons },
+          { path: 'create-coupon', name:'createAdminCoupon', component: CreateAdminCoupon },
+          { path: 'users', name:'users', component: Users },
+          { path: 'tours', name:'adminTours', component: AdminTours },
+          { path: 'hotels', name:'adminHotels', component: AdminHotels },
+          { path: 'booking', name:'adminBooking', component: AdminBooking }
+        ]
+      }
     ]
   },
   {

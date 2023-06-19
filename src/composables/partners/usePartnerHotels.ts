@@ -9,7 +9,7 @@ import { useLoading } from '@/composables/useLoading'
 import { handleRoute } from '@/helpers/loadingRoute'
 import { convertionType } from '@/helpers/convertion'
 import { validations } from '@/helpers/validate'
-import { FormRules } from 'element-plus'
+import { FormRules, FormInstance } from 'element-plus'
 
 type ICreateRoom = {
   name: string,
@@ -161,35 +161,37 @@ const createPartnerHotels = () => {
         })
       })
   }
-  const createHotel = async() => {
-    const { valid } = await formRefHotel.value.validate()
-    if (valid) {
-      startLoading()
-      const dataCreate = await({
-        ...formHotel.value,
-        descriptions : `<section class="htdt-description clearfix bg-white br-8 pad-tb-15  mrg-b-15 ">${formHotel.value.descriptions}</section>`,
-        rules: `<section class="htdt-policy clearfix bg-white br-8  mrg-b-15 pad-tb-15">${formHotel.value.rules}</section>`
-      })
-      const formData = await convertObjectToFormData(dataCreate, 'hotelImages')
-      partnerHotelStore.createHotel(formData)
-        .then(data => {
-          idHotel.value = data.id
-          step.value++
-          finishLoading()
-          feedBack({
-            title: 'Create Hotel',
-            message: 'Create success Hotel',
-            type:'success'
-          })
-        }).catch(error => {
-          finishLoading()
-          feedBack({
-            title: 'Create Hotel',
-            message: error,
-            type:'error'
-          })
+  const createHotel = async(formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    await formEl.validate(async(valid: any) => {
+      if (valid) {
+        startLoading()
+        const dataCreate = await({
+          ...formHotel.value,
+          descriptions : `<section class="htdt-description clearfix bg-white br-8 pad-tb-15  mrg-b-15 ">${formHotel.value.descriptions}</section>`,
+          rules: `<section class="htdt-policy clearfix bg-white br-8  mrg-b-15 pad-tb-15">${formHotel.value.rules}</section>`
         })
-    }
+        const formData = await convertObjectToFormData(dataCreate, 'hotelImages')
+        partnerHotelStore.createHotel(formData)
+          .then(data => {
+            idHotel.value = data.id
+            step.value++
+            finishLoading()
+            feedBack({
+              title: 'Create Hotel',
+              message: 'Create success Hotel',
+              type:'success'
+            })
+          }).catch(error => {
+            finishLoading()
+            feedBack({
+              title: 'Create Hotel',
+              message: error,
+              type:'error'
+            })
+          })
+      }
+    })
   }
   const updateHotel = async() => {
     startLoading()

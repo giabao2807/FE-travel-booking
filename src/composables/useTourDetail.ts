@@ -20,16 +20,15 @@ const createTourDetail = () => {
   const tourInfo = ref<IDetailTour>()
   const dialogBooking = ref<boolean>(false)
   const loadingAnotherTours = ref<boolean>(false)
-  const quantityByStartDate = ref<number>(0)
   const firstPageReview = ref<IReview>()
   const dataReview = ref<IReview>()
   const loadingReview = ref<boolean>(false)
   const bookingRef = ref()
-  const { bookTour } = useBookingDialog()
+  const { bookTour, quantityTour } = useBookingDialog()
 
   const getQuantityByStartDate = (event: any) => {
     const response = event ? tourStore.getQuantityByDate({ id: tourId.value, startDate: event }) : null
-    response?.then(data => quantityByStartDate.value = data?.availableGroupSize)
+    response?.then(data => quantityTour.value = data?.availableGroupSize)
   }
 
   const getAnotherToursByCity = async(id: string, city?: string) => {
@@ -79,7 +78,7 @@ const createTourDetail = () => {
     loadingReview,
     firstPageReview,
     dataReview,
-    quantityByStartDate,
+    quantityTour,
     initFilterTour,
     openDialogBooking,
     getReviews,

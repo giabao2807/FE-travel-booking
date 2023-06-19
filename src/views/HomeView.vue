@@ -128,7 +128,11 @@
             :class="chooseCard===idx ? 'card-for-user rounded' : null"
           >
             <v-card height="300px">
-              <n-image :src="item.coverPicture" class="image-card-user" />
+              <n-image
+                :hasFav="chooseCard===idx ? true : false"
+                :src="item.coverPicture"
+                class="image-card-user"
+              />
               <v-card-text class="pa-3 content-card-user">
                 <h3 class="font-rowdies font-weight-bold">{{ item.name }}</h3>
                 <v-divider class="mt-2 mb-5 mx-5" />
@@ -186,6 +190,7 @@
                   </div>
                 </div>
                 <v-btn
+                  v-if="chooseCard===idx"
                   color="primary"
                   variant="tonal"
                   class="text-none rounded-xl ma-5 button-card-user"
@@ -214,9 +219,9 @@
               elevation="8"
               width="310"
               height="420"
-              @click="() => handleRoute({ name: 'tourDetail', params: { id: tour?.id } })"
             >
               <n-image
+                :hasFav="true"
                 class="align-end text-white"
                 height="180"
                 :src="tour?.coverPicture"
@@ -250,7 +255,7 @@
                   size="small"
                 />
               </v-card-subtitle>
-              <v-card-text>
+              <v-card-text @click="() => handleRoute({ name: 'tourDetail', params: { id: tour?.id } })">
                 <v-row
                   align="center"
                   class="mx-0"
@@ -308,6 +313,7 @@
                 class="font-rowdies button-card-tour"
                 color="primary"
                 variant="text"
+                @click="() => handleRoute({ name: 'tourDetail', params: { id: tour?.id } })"
               >
                 See More...
               </v-btn>
@@ -346,7 +352,11 @@
             :class="chooseCardHotel===idx ? 'card-for-user rounded' : null"
           >
             <v-card height="300px">
-              <n-image :src="item.coverPicture" class="image-card-user" />
+              <n-image
+                :hasFav="chooseCardHotel===idx ? true : false"
+                :src="item.coverPicture"
+                class="image-card-user"
+              />
               <v-card-text class="pa-3 content-card-user">
                 <h3 class="font-rowdies font-weight-bold">{{ item.name }}</h3>
                 <v-divider class="mt-2 mb-5 mx-5" />
@@ -408,6 +418,7 @@
                   </div>
                 </div>
                 <v-btn
+                  v-if="chooseCardHotel===idx"
                   color="primary"
                   variant="tonal"
                   class="text-none rounded-xl ma-5 button-card-user"
@@ -469,11 +480,9 @@
             :key="hotel?.id"
             md="3"
           >
-            <v-card
-              class="element-card mt-5"
-              @click="()=> handleRoute({ name: 'hotelDetail', params: { id: hotel?.id } })"
-            >
+            <v-card class="element-card mt-5">
               <n-image
+                :hasFav="true"
                 class="align-end text-white"
                 height="40%"
                 :src="hotel?.coverPicture"
@@ -488,7 +497,7 @@
                   </span>
                 </div>
               </n-image>
-              <div class="background-card-title">
+              <div class="background-card-title" @click="()=> handleRoute({ name: 'hotelDetail', params: { id: hotel?.id } })">
                 <v-card-title class="font-rowdies font-weight-bold">
                   {{ hotel?.name }}
                   <v-tooltip
@@ -638,6 +647,7 @@ import NPanelLoading from '@/components/NPanelLoading.vue'
 import NSkeletonLoader from '@/components/NSkeletonLoader.vue'
 import NCitiesSelect from '@/components/NCitiesSelect.vue'
 import _ from 'lodash'
+import { ref } from 'vue'
 import NImage from '@/components/NImage.vue'
 import '@/assets/css/home.css'
 import { SEARCH_FOR } from '@/resources/mockData'
@@ -647,6 +657,7 @@ import { convertionType } from '@/helpers/convertion'
 import { useAuthentication } from '@/composables/useAuth'
 
 const { authUser } = useAuthentication()
+const test = ref(false)
 const {
   recomendCities,
   selectedCity,

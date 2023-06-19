@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-static-inline-styles -->
 <template>
   <v-container fluid class="admin-page">
     <v-container fluid>
@@ -12,7 +13,10 @@
               <h1 class="font-palanquin" :style="{ color: item.color }">{{ item?.value }}</h1>
             </div>
             <div class="info">
-              <span :style="{ color: item.color }">{{ item.title.toUpperCase() }}</span>
+              <span :style="{ color: item.color }">
+                <v-icon :icon="item.icon" size="small" class="mr-1" />
+                {{ item.title.toUpperCase() }}
+              </span>
               <br>
               <v-chip
                 class="ma-2"
@@ -34,7 +38,8 @@
             <v-card-title>
               <h4 class="mx-3 mt-3"><v-icon icon="mdi-star-check-outline" />The Potential Customers</h4>
             </v-card-title>
-            <v-card-text class="overflow-y-auto" style="height: 420px;">
+            <v-card-text class="overflow-y-auto" style="height: 450px;">
+              <n-panel-loading :loading="loadingCustomer" />
               <v-list
                 lines="three"
               >
@@ -86,13 +91,30 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-container>
+    <v-container fluid>
       <v-row>
-        <v-col>
-          <v-card min-height="370" class="rounded-xl">
+        <v-col cols="5">
+          <v-card min-height="350" class="rounded-xl">
+            <v-card-title>
+              <h4 class="ma-3">
+                <v-icon icon="mdi-archive-star-outline" />
+                Total Price
+              </h4>
+            </v-card-title>
             <v-card-text>
               <n-doughnut-chart :chart-data="revenue" :chart-options="optionsDoughnut" />
             </v-card-text>
+            <v-card-actions>
+              <v-row align="center" justify="center">
+                <h4
+                  class="mx-5"
+                  :style="revenue?.totalTour > revenue?.totalHotel ? 'color: rgb(255, 163, 158)' : 'color: rgb(100, 181, 246)'"
+                >
+                  <v-icon icon="mdi-cash-fast" />
+                  Revenue:  {{ formatCurrency(revenue?.totalTour + revenue?.totalHotel) }}
+                </h4>
+              </v-row>
+            </v-card-actions>
           </v-card>
         </v-col>
         <v-col>
@@ -104,7 +126,7 @@
             color="rgb(255,163,158)"
             title="Total Tours"
             icon="mdi-compass-rose"
-            class="mb-5"
+            class="mb-10"
           />
           <n-linear-chart
             :dataLinear="revenue?.totalHotel"
@@ -123,6 +145,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import { usePartner } from '@/composables/partners/usePartner'
+import NPanelLoading from '@/components/NPanelLoading.vue'
 import NChart from '@/components/NChart.vue'
 import NDoughnutChart from '@/components/NDoughnutChart.vue'
 import NLinearChart from '@/components/NLinearChart.vue'
@@ -131,6 +154,7 @@ import { convertionType } from '@/helpers/convertion'
 const {
   staticBox,
   potentailCustomers,
+  loadingCustomer,
   revenue,
   getStaticBox,
   getPotentialCustomers,

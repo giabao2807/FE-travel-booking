@@ -44,7 +44,7 @@
                   <span class="font-weight-600">Thành Phố</span>
                 </div>
               </template>
-              <el-select v-model="formHotel.city" clearable placeholder="Select">
+              <el-select filterable v-model="formHotel.city" clearable placeholder="Select">
                 <el-option
                   v-for="item in allCities"
                   :key="item.id"
@@ -94,7 +94,7 @@
               <template #label>
                 <div class="d-flex align-center">
                   <v-icon class="mr-1" icon="mdi-image-outline" />
-                  <span class="font-weight-600" style="width: 150px;">Ảnh Đại Diện</span>
+                  <span class="font-weight-600 width-150">Ảnh Đại Diện</span>
                 </div>
               </template>
               <n-upload-pic

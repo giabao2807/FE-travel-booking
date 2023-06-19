@@ -12,7 +12,7 @@ export const useCouponsStore = defineStore('couponsStore', () => {
       params: params
     })
   }
-  const createPartnerCoupons = async(data: any) => {
+  const createCoupons = async(data: any) => {
     return await connectionsAPI({
       methods: 'POST',
       path: 'general/coupon',
@@ -37,11 +37,18 @@ export const useCouponsStore = defineStore('couponsStore', () => {
       path: 'hotel/hotels_for_coupon'
     })
   }
+  const getPartnersForCoupon = async() => {
+    return await connectionsAPI({
+      methods: 'GET',
+      path: 'user/list_partner'
+    })
+  }
   return {
     getCoupons,
-    createPartnerCoupons,
+    createCoupons,
     deleteCoupon,
     getToursForCoupon,
-    getHotelsForCoupon
+    getHotelsForCoupon,
+    getPartnersForCoupon
   }
 })

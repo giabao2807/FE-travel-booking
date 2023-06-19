@@ -41,6 +41,7 @@
   </el-table-v2>
 </template>
 <script lang="tsx" setup>
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import NPagination from '@/components/NPagination.vue'
 import { defineProps, withDefaults, ref, defineEmits } from 'vue'
 import { Loading as LoadingIcon } from '@element-plus/icons-vue'

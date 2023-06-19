@@ -10,6 +10,7 @@
 </template>
 
 <script lang="ts" setup>
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineProps, withDefaults, computed } from 'vue'
 import { Line as LineChart } from 'vue-chartjs'
 import {

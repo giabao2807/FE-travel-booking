@@ -30,6 +30,36 @@
           value="dashboard"
           @click="() => handleRoute({ name: 'admin' })"
         />
+        <v-list-item
+          prepend-icon="mdi-card-account-details-outline"
+          title="Quản lí Users"
+          value="users"
+          @click="() => handleRoute({ name: 'users' })"
+        />
+        <v-list-item
+          prepend-icon="mdi-compass-rose"
+          title="Danh Sách Tours"
+          value="adminTours"
+          @click="() => handleRoute({ name: 'adminTours' })"
+        />
+        <v-list-item
+          prepend-icon="mdi-shield-home-outline"
+          title="Danh Sách Hotels"
+          value="adminHotels"
+          @click="() => handleRoute({ name: 'adminHotels' })"
+        />
+        <v-list-item
+          prepend-icon="mdi-archive-check-outline"
+          title="Danh Sách Booking"
+          value="adminBooking"
+          @click="() => handleRoute({ name: 'adminBooking' })"
+        />
+        <v-list-item
+          prepend-icon="mdi-ticket-percent-outline"
+          title="Quản lí Coupons"
+          value="coupon"
+          @click="() => handleRoute({ name: 'couponsAdmin' })"
+        />
       </v-list>
       <v-list
         v-else

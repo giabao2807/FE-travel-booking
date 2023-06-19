@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-static-inline-styles -->
 <template>
   <v-sheet class="container-detail">
     <v-container fluid class="pa-0">
@@ -350,9 +351,8 @@
                         color="primary"
                         size="small"
                         label
-                        text-color="white"
                       >
-                        {{ item?.numReview }}
+                        <span style="color: #FFF">{{ item?.numReview }}</span>
                       </v-chip>
                     </v-col>
                     <v-col>

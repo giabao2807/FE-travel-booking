@@ -108,6 +108,7 @@ const paramsReview = ref<IAddReview>({
   title: '',
   content: ''
 })
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const postReview = (params: any) => {
   bookStore.postReview(params)
 }
