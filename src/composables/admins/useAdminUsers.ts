@@ -15,7 +15,7 @@ import { useUserStore } from '@/store/user'
 const createAdminUsers = () => {
   const userStore = useUserStore()
   const { getCityByName } = useCities()
-  const { deCode, convertObjectToFormData } = convertionType()
+  const { deCode, convertFormDataWithOutList } = convertionType()
   const { startLoading, finishLoading } = useLoading()
   const {
     checkQuantity,
@@ -32,6 +32,19 @@ const createAdminUsers = () => {
   const users = ref()
   const loadingUser = ref<boolean>(false)
   const imgListUpdate = ref<any[]>([])
+  const dialogCreate = ref<boolean>(false)
+  const selectFilter = ref<string>('Name')
+  const filtersUser = ref<any>({
+    name: '',
+    role: ''
+  })
+  const formCreateUser = ref<any>({
+    lastName: '',
+    fistName: '',
+    email: '',
+    phone: '',
+    address: ''
+  })
   const formRef = ref()
 
   // const rules = reactive<FormRules>({
@@ -66,11 +79,37 @@ const createAdminUsers = () => {
         loadingUser.value = false
       })
   }
+  const createUser = async() => {
+    startLoading()
+    const formData = await convertFormDataWithOutList(formCreateUser.value)
+    userStore.createUser(formData)
+      .then(() => {
+        finishLoading()
+        dialogCreate.value = false
+        feedBack({
+          title: 'Create User',
+          message: 'Create success User',
+          type:'success'
+        })
+      }).catch(error => {
+        finishLoading()
+        feedBack({
+          title: 'Create User',
+          message: error.data,
+          type:'error'
+        })
+      })
+  }
 
   return {
     users,
     loadingUser,
     formRef,
+    selectFilter,
+    filtersUser,
+    dialogCreate,
+    formCreateUser,
+    createUser,
     resetForm,
     getUsers
   }

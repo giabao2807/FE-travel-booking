@@ -35,10 +35,18 @@ export const useUserStore = defineStore('userStore', () => {
       data: data
     })
   }
+  const createUser = async(data: any) => {
+    return await connectionsAPI({
+      methods: 'POST',
+      path: 'user',
+      data: data
+    })
+  }
   return {
     userInfo,
     getUserInfo,
     updateUserInfo,
-    getUsers
+    getUsers,
+    createUser
   }
 })

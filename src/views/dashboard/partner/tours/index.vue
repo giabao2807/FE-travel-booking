@@ -3,7 +3,20 @@
     <div class="text-center mb-5">
       <h3>Danh Sách Tours Hiện Tại</h3>
     </div>
-    <div class="d-flex align-center mx-0">
+    <div class="mx-0">
+      <v-card color="#FFF" elevation="0" class="w-25 rounded-0 rounded-t-xl pa-0">
+        <v-card-text>
+          <v-btn
+            color="primary"
+            class="text-none rounded-xl"
+            variant="tonal"
+            prepend-icon="mdi-map-marker-plus-outline"
+            @click="handleRoute({ name: 'createTour' })"
+          >
+            Tạo Tour Mới
+          </v-btn>
+        </v-card-text>
+      </v-card>
       <n-table
         :columns="columns"
         :data="tours"

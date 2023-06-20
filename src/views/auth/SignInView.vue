@@ -80,6 +80,7 @@ import NDialog from '@/components/NDialog.vue'
 import NImage from '@/components/NImage.vue'
 import { useAuthentication } from '@/composables/useAuth'
 import { validations } from '@/helpers/validate'
+import { onMounted } from 'vue'
 
 const { ruleRequired, ruleEmail, ruleLength } = validations()
 const {
@@ -91,8 +92,12 @@ const {
   signIn,
   signInWithGoogle,
   isRememberMe,
+  routeDirectional,
   forgotPassword
 } = useAuthentication()
+onMounted(() => {
+  routeDirectional()
+})
 </script>
 <style scoped>
 @import '@/assets/css/signIn.css';

@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-static-inline-styles -->
 <template>
   <v-sheet class="tour-container">
     <v-row class="py-5" justify="center">
@@ -5,14 +6,51 @@
         <h1>
           {{ tourInfo?.name }}
         </h1>
-        <div class="mt-5">
+        <div class="mt-5 d-flex">
           <v-icon :icon="voteText(tourInfo?.rate).icon" color="primary" class="mr-1" />
           <strong class="text-color-priamry">{{ voteText(tourInfo?.rate).name }}</strong>
-          |
+          <strong class="mx-2">|</strong>
           <strong>{{ tourInfo?.numReview }} đánh giá.</strong>
+          <v-spacer />
+          <v-btn
+            v-if="tourInfo?.isFavorite"
+            color="primary"
+            prepend-icon="mdi-cards-heart-outline"
+            class="text-none rounded-xl"
+            variant="plain"
+            @click="async() => {
+              await addFavoriteTour(tourInfo?.id || '')
+              getTourById(tourInfo?.id || '')
+            }"
+          >
+            Yêu Thích
+            <v-tooltip
+              activator="parent"
+              text="Thêm vào trang yêu thích"
+              location="top"
+            />
+          </v-btn>
+          <v-btn
+            v-else
+            color="error"
+            prepend-icon="mdi-heart"
+            class="text-none rounded-xl"
+            variant="plain"
+            @click="async() => {
+              await removeFavoriteTour(tourInfo?.id || '')
+              getTourById(tourInfo?.id || '')
+            }"
+          >
+            Bỏ Yêu Thích
+            <v-tooltip
+              activator="parent"
+              text="Bỏ khỏi trang yêu thích"
+              location="top"
+            />
+          </v-btn>
         </div>
         <v-sheet color="transparent">
-          <n-carousel class="mt-5" :data="tourInfo?.listImages" />
+          <n-carousel class="mt-2" :data="tourInfo?.listImages" />
           <v-card color="transparent" class="pa-5">
             <v-row>
               <v-col>
@@ -117,19 +155,19 @@
                 width="300"
                 @click="()=> handleRoute({ name: 'tourDetail', params: { id: item?.id } })"
               >
-                <v-card-title class="font-weight-bold">
+                <v-card-title class="font-weight-bold pa-2" style="font-size: 18px;">
                   <n-image
                     :src="item?.coverPicture"
                     height="150"
                   />
-                  <h5>{{ item?.name }}</h5>
+                  {{ item?.name }}
                   <v-tooltip
                     activator="parent"
                     :text="item?.name"
                     location="top"
                   />
                 </v-card-title>
-                <v-card-text class="pt-2">
+                <v-card-text class="mt-2">
                   <v-row
                     align="center"
                     class="mx-0"
@@ -190,7 +228,7 @@
           <v-card
             class="card-drawer"
           >
-            <div class="ma-5">
+            <div class="my-5 mx-3">
               <v-card-item>
                 <v-card-title class="py-3">
                   <h2 class="">
@@ -207,7 +245,7 @@
                   />
                 </v-card-subtitle>
               </v-card-item>
-              <v-card-text>
+              <v-card-text class="mx-4">
                 <v-form ref="bookingRef">
                   <v-text-field
                     v-model="bookTour.startDate"
@@ -291,13 +329,14 @@
                 >
                   <template #action>
                     <v-btn
+                      min-width="120"
                       prepend-icon="mdi-checkbox-marked-circle-auto-outline"
-                      class="mr-2"
+                      class="text-none rounded-xl"
                       color="primary"
                       variant="tonal"
                       @click="() => openDialogBooking()"
                     >
-                      Book now
+                      Đặt Tour
                     </v-btn>
                   </template>
                 </n-dialog-book>
@@ -321,6 +360,7 @@ import { useTourDetail } from '@/composables/useTourDetail'
 import { convertionType } from '@/helpers/convertion'
 import { handleRoute } from '@/helpers/loadingRoute'
 import { validations } from '@/helpers/validate'
+import { useTourUtil } from '@/composables/useTour'
 
 const { ruleRequired, ruleQuantity, ruleMaxQuantity } = validations()
 const {
@@ -340,6 +380,7 @@ const {
   getQuantityByStartDate,
   getTourById
 } = useTourDetail()
+const { addFavoriteTour, removeFavoriteTour } = useTourUtil()
 const { formatCurrency, voteText, getPriceDiscount, minDate, getTraffic } = convertionType()
 
 onMounted(async() => {

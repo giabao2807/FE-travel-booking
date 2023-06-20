@@ -36,7 +36,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: { requiresAuth: false },
     children: [
       { path: '', name:'homepage', component: HomeView },
-      { path: 'tours', name:'tours', component: ToursView },
+      { path: 'tours', name:'tours', component:() => ToursView },
       { path: 'tour/:id', name:'tourDetail', component: TourDetail },
       { path: 'hotels', name:'hotels', component: HotelsView },
       { path: 'hotel/:id', name:'hotelDetail', component: HotelDetail },
@@ -95,7 +95,7 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(process.env.BASE_URL),
   routes: [...routes]
 })
 router.beforeEach((to, from, next) => {

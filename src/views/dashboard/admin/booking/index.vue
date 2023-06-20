@@ -4,7 +4,7 @@
     <div class="text-center my-5">
       <h3>Danh Sách Booking Tours Hiện Tại</h3>
     </div>
-    <div class="d-flex align-center mx-0">
+    <div class="mx-0">
       <n-table
         :columns="columnsTour"
         :data="bookingTours"
@@ -15,7 +15,7 @@
     <div class="text-center mb-5" style="margin-top: 10rem;">
       <h3>Danh Sách Booking Hotels Hiện Tại</h3>
     </div>
-    <div class="d-flex align-center mx-0">
+    <div class="mx-0">
       <n-table
         :columns="columnsHotel"
         :data="bookingHotels"
@@ -231,3 +231,5 @@ const columnsHotel: Column<any>[] = [
 ]
 
 </script>
+<style scoped>
+</style>

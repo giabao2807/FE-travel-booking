@@ -115,6 +115,15 @@ export const convertionType = () => {
     }
     return formData
   }
+  const convertFormDataWithOutList = async(object: Record<string, any>): Promise<FormData> => {
+    const formData = new FormData()
+    for (const key in object) {
+      if (Object.prototype.hasOwnProperty.call(object, key)) {
+        formData.append(key, object[key])
+      }
+    }
+    return formData
+  }
   return {
     formatCurrency,
     deCode,
@@ -128,6 +137,7 @@ export const convertionType = () => {
     getIconStatus,
     getIconHuman,
     checkColorTag,
-    convertObjectToFormData
+    convertObjectToFormData,
+    convertFormDataWithOutList
   }
 }

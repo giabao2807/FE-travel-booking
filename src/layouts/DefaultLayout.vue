@@ -212,7 +212,6 @@ const {
   showBookingPage,
   signOut
 } = useDefaultLayout()
-const reloadPage = () => window.location.reload()
 </script>
 <style scoped>
 .header-title {

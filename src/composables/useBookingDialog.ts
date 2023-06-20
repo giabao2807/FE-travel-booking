@@ -14,7 +14,7 @@ const createBooking = () => {
   const errorFeedBack = ref<IError>()
   const roomsBook = ref<IRoomType[]>([])
   const formRef = ref()
-  const quantityTour = ref<number>(1)
+  const quantityTour = ref<number>(0)
   const initBookingTour: IBookingTour = {
     bookingItems: [
       {

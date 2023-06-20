@@ -75,72 +75,25 @@
           value="dashboard"
           @click="() => handleRoute({ name: 'partner' })"
         />
-        <v-list-group>
-          <template #activator="{ props }">
-            <v-list-item
-              v-bind="props"
-              prepend-icon="mdi-compass-rose"
-              title="Quản Lý Tours"
-              value="tours"
-            />
-          </template>
-          <v-list-item
-            v-for="tour in TOURS_PANEL"
-            :key="tour.value"
-            :title="tour.name"
-            :value="tour.value"
-            @click="() => handleRoute({ name: tour.value })"
-            :class="rail ? 'custom-child-select' : ''"
-          >
-            <template #prepend>
-              <v-icon :icon="tour.icon" :class="rail ? 'icon' : 'mr-3'" />
-            </template>
-          </v-list-item>
-        </v-list-group>
-        <v-list-group>
-          <template #activator="{ props }">
-            <v-list-item
-              v-bind="props"
-              prepend-icon="mdi-shield-home-outline"
-              title="Quản Lý Hotels"
-              value="hotels"
-            />
-          </template>
-          <v-list-item
-            v-for="hotel in HOTELS_PANEL"
-            :key="hotel.value"
-            :title="hotel.name"
-            :value="hotel.value"
-            @click="() => handleRoute({ name: hotel.value })"
-            :class="rail ? 'custom-child-select' : ''"
-          >
-            <template #prepend>
-              <v-icon :icon="hotel.icon" :class="rail ? 'icon' : 'mr-3'" />
-            </template>
-          </v-list-item>
-        </v-list-group>
-        <v-list-group>
-          <template #activator="{ props }">
-            <v-list-item
-              v-bind="props"
-              prepend-icon="mdi-ticket-percent-outline"
-              title="Quản lí Coupons"
-              value="coupon"
-            />
-          </template>
-          <v-list-item
-            v-for="coupon in COUPON_PANEL"
-            :key="coupon.value"
-            :title="coupon.name"
-            :value="coupon.value"
-            @click="() => handleRoute({ name: coupon.value })"
-            :class="rail ? 'custom-child-select' : ''"
-          >
-            <template #prepend>
-              <v-icon :icon="coupon.icon" :class="rail ? 'icon' : 'mr-3'" />
-            </template>
-          </v-list-item>
-        </v-list-group>
+        <v-list-item
+          prepend-icon="mdi-compass-rose"
+          title="Quản Lý Tours"
+          value="tours"
+          @click="() => handleRoute({ name: 'toursPartner' })"
+        />
+        <v-list-item
+          prepend-icon="mdi-shield-home-outline"
+          title="Quản Lý Hotels"
+          value="hotels"
+          @click="() => handleRoute({ name: 'hotelsPartner' })"
+        />
+        <v-list-item
+          prepend-icon="mdi-ticket-percent-outline"
+          title="Quản lí Coupons"
+          value="coupons"
+          @click="() => handleRoute({ name: 'couponsPartner' })"
+        />
+
         <v-list-item
           prepend-icon="mdi-archive-check-outline"
           title="Quản lí booking"
@@ -212,18 +165,7 @@ const order = computed(() => {
 const imgAppBar = computed(() => {
   return theme.global.name.value === 'dark' ? 'app_bar_dark.jpg' : 'app_bar.jpg'
 })
-const TOURS_PANEL = [
-  { name: 'Danh Sách Tours', value: 'toursPartner', icon: 'mdi-format-list-checkbox' },
-  { name: 'Tạo Mới Tour', value: 'createTour', icon: 'mdi-note-edit-outline' }
-]
-const HOTELS_PANEL = [
-  { name: 'Danh Sách Hotels', value: 'hotelsPartner', icon: 'mdi-format-list-checkbox' },
-  { name: 'Tạo Mới Hotel', value: 'createHotel', icon: 'mdi-note-edit-outline' }
-]
-const COUPON_PANEL = [
-  { name: 'Danh Sách Coupons', value: 'couponsPartner', icon: 'mdi-format-list-checkbox' },
-  { name: 'Tạo Mới Coupon', value: 'createCoupon', icon: 'mdi-note-edit-outline' }
-]
+
 const {
   signOut
 } = useAuthentication()
@@ -243,7 +185,7 @@ onMounted(async() => {
   background-image: url('@/assets/img/map-bg.png');
   background-size: contain;
   background-position: center center;
-  min-height: 45rem;
+  min-height: 50rem;
 }
 .border {
   margin-left: 12px;

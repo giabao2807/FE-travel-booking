@@ -1,4 +1,4 @@
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { useAuthStore } from '@/store/auth'
 import router from '@/router'
@@ -79,14 +79,9 @@ const useAuth = () => {
   const forgotPassword = (email: string) => {
     authStore.forgotPassword(email)
   }
-
-
   setInterval(() => {
     authStore.refreshToken()
   }, refreshTokenTimeout.value)
-  onMounted(() => {
-    routeDirectional()
-  })
   return {
     userSignIn,
     userSignUp,

@@ -55,6 +55,7 @@ const createPartnerHotels = () => {
   const openFistRoom = ref<number>(0)
   const formRefHotel = ref()
   const formRefRoom = ref()
+  const dialogRoomRef = ref()
   const formHotel = ref<any>({
     id: '',
     coverPicture: '',
@@ -210,33 +211,38 @@ const createPartnerHotels = () => {
       }
     })
   }
-  const updateHotel = async() => {
-    startLoading()
-    formHotel.value.hotelImages?.push(...imgListUpdate.value)
-    const dataUpdate = await({
-      ...formHotel.value,
-      descriptions : `<section class="htdt-description clearfix bg-white br-8 pad-tb-15  mrg-b-15 ">${formHotel.value.descriptions}</section>`,
-      rules: `<section class="htdt-policy clearfix bg-white br-8  mrg-b-15 pad-tb-15">${formHotel.value.rules}</section>`
+  const updateHotel = async(formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    await formEl.validate(async(valid: any) => {
+      if (valid) {
+        startLoading()
+        formHotel.value.hotelImages?.push(...imgListUpdate.value)
+        const dataUpdate = await({
+          ...formHotel.value,
+          descriptions : `<section class="htdt-description clearfix bg-white br-8 pad-tb-15  mrg-b-15 ">${formHotel.value.descriptions}</section>`,
+          rules: `<section class="htdt-policy clearfix bg-white br-8  mrg-b-15 pad-tb-15">${formHotel.value.rules}</section>`
+        })
+        const formData = await convertObjectToFormData(dataUpdate, 'hotelImages')
+        partnerHotelStore.updateHotel(formHotel.value.id, formData)
+          .then(() => {
+            dialogUpdate.value = false
+            getHotels()
+            finishLoading()
+            feedBack({
+              title: 'Update Hotel',
+              message: 'Update success Hotel',
+              type:'success'
+            })
+          }).catch(error => {
+            finishLoading()
+            feedBack({
+              title: 'Update Hotel',
+              message: error,
+              type:'error'
+            })
+          })
+      }
     })
-    const formData = await convertObjectToFormData(dataUpdate, 'hotelImages')
-    partnerHotelStore.updateHotel(formHotel.value.id, formData)
-      .then(() => {
-        handleRoute({ name: 'hotelsPartner' })
-        getHotels()
-        finishLoading()
-        feedBack({
-          title: 'Update Hotel',
-          message: 'Update success Hotel',
-          type:'success'
-        })
-      }).catch(error => {
-        finishLoading()
-        feedBack({
-          title: 'Update Hotel',
-          message: error,
-          type:'error'
-        })
-      })
   }
   const createRoom = async(data: any) => {
     startLoading()
@@ -258,15 +264,21 @@ const createPartnerHotels = () => {
         })
       })
   }
-  const createRoomInList = async() => {
-    const roomCreate = ({
-      ...formDataRoom.value,
-      square: `${formDataRoom.value.square} m2`,
-      description: `<div class="ChildRoomsList-room-featurebucket ChildRoomsList-room-featurebucket-Benefits">${formDataRoom.value.description}</div>`
-    })
-    await createRoom(roomCreate).then(() => {
-      dialogRoom.value = false
-      getHotels()
+  const createRoomForDialog = async(formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    await formEl.validate(async(valid: any) => {
+      if (valid) {
+        const roomCreate = ({
+          ...formDataRoom.value,
+          square: `${formDataRoom.value.square} m2`,
+          description: `<div class="ChildRoomsList-room-featurebucket ChildRoomsList-room-featurebucket-Benefits">${formDataRoom.value.description}</div>`
+        })
+        await createRoom(roomCreate).then(() => {
+          dialogRoom.value = false
+          resetFormRoom(formEl)
+          getHotels()
+        })
+      }
     })
   }
   const createRooms = async(formEl: FormInstance[] | undefined) => {
@@ -291,33 +303,39 @@ const createPartnerHotels = () => {
       })
     }
   }
-  const updateRoom = async() => {
-    startLoading()
-    formDataRoom.value.roomImages.push(...imgListUpdateRoom.value)
-    const roomCreate = await({
-      ...formDataRoom.value,
-      square: `${formDataRoom.value.square} m2`,
-      description: `<div class="ChildRoomsList-room-featurebucket ChildRoomsList-room-featurebucket-Benefits">${formDataRoom.value.description}</div>`
+  const updateRoom = async(formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    await formEl.validate(async(valid: any) => {
+      if (valid) {
+        startLoading()
+        formDataRoom.value.roomImages.push(...imgListUpdateRoom.value)
+        const roomCreate = await({
+          ...formDataRoom.value,
+          square: `${formDataRoom.value.square} m2`,
+          description: `<div class="ChildRoomsList-room-featurebucket ChildRoomsList-room-featurebucket-Benefits">${formDataRoom.value.description}</div>`
+        })
+        const formData = await convertObjectToFormData(roomCreate, 'roomImages')
+        partnerHotelStore.updateRoom(idRoomUpdate.value, formData)
+          .then(() => {
+            dialogRoom.value = false
+            resetFormRoom(formEl)
+            getHotels()
+            finishLoading()
+            feedBack({
+              title: 'Update Room',
+              message: 'Update success Room',
+              type:'success'
+            })
+          }).catch(error => {
+            finishLoading()
+            feedBack({
+              title: 'Update Room',
+              message: error,
+              type:'error'
+            })
+          })
+      }
     })
-    const formData = await convertObjectToFormData(roomCreate, 'roomImages')
-    partnerHotelStore.updateRoom(idRoomUpdate.value, formData)
-      .then(() => {
-        dialogRoom.value = false
-        getHotels()
-        finishLoading()
-        feedBack({
-          title: 'Update Room',
-          message: 'Update success Room',
-          type:'success'
-        })
-      }).catch(error => {
-        finishLoading()
-        feedBack({
-          title: 'Update Room',
-          message: error,
-          type:'error'
-        })
-      })
   }
   const getRoomById = async(id: string) => {
     startLoading()
@@ -345,6 +363,12 @@ const createPartnerHotels = () => {
   const handleRemoveImgRoom = (image: string) => {
     formDataRoom.value.roomImages = formDataRoom.value.roomImages?.filter(item => item !== image)
   }
+  const resetFormRoom = (formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    formEl.resetFields()
+    idRoomUpdate.value = ''
+    formDataRoom.value.roomImages = []
+  }
   return {
     hotels,
     step,
@@ -359,11 +383,12 @@ const createPartnerHotels = () => {
     openFistRoom,
     rulesHotel,
     formRefHotel,
+    dialogRoomRef,
     formRefRoom,
     imgListUpdateRoom,
     rulesRoom,
     idRoomUpdate,
-    createRoomInList,
+    createRoomForDialog,
     handleRemoveImgHotel,
     handleRemoveImgRoom,
     updateRoom,
@@ -377,8 +402,7 @@ const createPartnerHotels = () => {
     addNewRoom,
     removeRoom,
     getRoomById,
-    checkLength,
-    checkName
+    resetFormRoom
   }
 }
 export const usePartnerHotels = createSharedComposable(createPartnerHotels)

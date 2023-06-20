@@ -11,148 +11,151 @@
         </v-row>
       </div>
     </v-container>
-    <v-row>
-      <v-col>
-        <v-card elevation="3" class="card-search my-3 rounded-xl">
-          <h3 class="text-center my-3">
-            <v-icon icon="mdi-map-search-outline" />
-            Search Tours
-          </h3>
-          <v-form ref="formSearchRef">
-            <v-card-text>
-              <h4 class="mb-2">Thông Tin Tour</h4>
-              <v-text-field
-                v-model="filtersTours.name"
-                label="Name Tour"
-                color="primary"
-                density="compact"
-                prepend-inner-icon="mdi-compass-rose"
-                class="ma-2"
-                variant="outlined"
-                hide-details="auto"
-              />
-              <n-cities-select
-                v-model="filtersTours.cityId"
-                prependInnerIcon="mdi-map-marker-radius-outline"
-                class="ma-2"
-                :compact="true"
-                variant="outlined"
-              />
-              <v-text-field
-                v-model="filtersTours.startDate"
-                :min="minDate(new Date())"
-                label="Start Date"
-                name="startDate"
-                type="Date"
-                prepend-inner-icon="mdi-calendar-export-outline"
-                color="primary"
-                density="compact"
-                class="ma-2"
-                variant="outlined"
-                hide-details="auto"
-              />
-              <v-text-field
-                v-model="filtersTours.endDate"
-                :min="filtersTours.startDate"
-                label="End Date"
-                name="endDate"
-                type="Date"
-                prepend-inner-icon="mdi-calendar-import-outline"
-                density="compact"
-                color="primary"
-                class="ma-2"
-                variant="outlined"
-                hide-details="auto"
-              />
-              <h4 class="mt-5 mb-8">Khoảng Giá Tour</h4>
-              <v-row>
-                <v-range-slider
-                  v-model="priceRangeFilter"
-                  :max="200000000"
-                  :min="0"
-                  :step="1"
-                  hide-details
+    <v-container fluid>
+      <v-row>
+        <v-col class="px-0">
+          <v-card elevation="3" class="card-search my-3 rounded-xl">
+            <h3 class="text-center my-3">
+              <v-icon icon="mdi-map-search-outline" />
+              Search Tours
+            </h3>
+            <v-form ref="formSearchRef">
+              <v-card-text>
+                <h4 class="mb-2">Thông Tin Tour</h4>
+                <v-text-field
+                  v-model="filtersTours.name"
+                  label="Name Tour"
+                  color="primary"
+                  density="compact"
+                  prepend-inner-icon="mdi-compass-rose"
+                  class="ma-2"
+                  variant="outlined"
+                  hide-details="auto"
+                />
+                <n-cities-select
+                  v-model="filtersTours.cityId"
+                  prependInnerIcon="mdi-map-marker-radius-outline"
+                  class="ma-2"
+                  :compact="true"
+                  variant="outlined"
+                />
+                <v-text-field
+                  v-model="filtersTours.startDate"
+                  :min="minDate(new Date())"
+                  label="Start Date"
+                  name="startDate"
+                  type="Date"
+                  prepend-inner-icon="mdi-calendar-export-outline"
+                  color="primary"
+                  density="compact"
+                  class="ma-2"
+                  variant="outlined"
+                  hide-details="auto"
+                />
+                <v-text-field
+                  v-model="filtersTours.endDate"
+                  :min="filtersTours.startDate"
+                  label="End Date"
+                  name="endDate"
+                  type="Date"
+                  prepend-inner-icon="mdi-calendar-import-outline"
                   density="compact"
                   color="primary"
-                  class="mx-8 mt-5"
-                  thumb-label="always"
+                  class="ma-2"
+                  variant="outlined"
+                  hide-details="auto"
+                />
+                <h4 class="mt-5 mb-8">Khoảng Giá Tour</h4>
+                <v-row>
+                  <v-range-slider
+                    v-model="priceRangeFilter"
+                    :max="200000000"
+                    :min="0"
+                    :step="1"
+                    hide-details
+                    density="compact"
+                    color="primary"
+                    class="mx-8 mt-5"
+                    thumb-label="always"
+                  >
+                    <template #thumb-label="{ modelValue }">
+                      <span>{{ formatCurrency(modelValue) }}</span>
+                    </template>
+                  </v-range-slider>
+                </v-row>
+                <h4 class="mt-5 mb-2">Sắp Xếp Theo Giá</h4>
+                <v-select
+                  v-model="filtersTours.sortBy"
+                  prepend-inner-icon="mdi-sort-alphabetical-variant"
+                  label="Order By"
+                  density="compact"
+                  color="primary"
+                  :items="[{
+                    name: 'Tăng dần',
+                    value: 'asc'
+                  }, {
+                    name: 'Giảm dần',
+                    value: 'desc'
+                  }]"
+                  item-title="name"
+                  item-value="value"
+                  variant="outlined"
+                  hide-details="auto"
+                />
+              </v-card-text>
+              <v-divider class="mx-10" />
+              <v-card-actions class="ma-2">
+                <v-btn
+                  size="small"
+                  class="mx-2 rounded-xl text-none"
+                  variant="outlined"
+                  @click="() => resetSearch()"
                 >
-                  <template #thumb-label="{ modelValue }">
-                    <span>{{ formatCurrency(modelValue) }}</span>
-                  </template>
-                </v-range-slider>
-              </v-row>
-              <h4 class="mt-5 mb-2">Sắp Xếp Theo Giá</h4>
-              <v-select
-                v-model="filtersTours.sortBy"
-                prepend-inner-icon="mdi-sort-alphabetical-variant"
-                label="Order By"
-                density="compact"
-                color="primary"
-                :items="[{
-                  name: 'Tăng dần',
-                  value: 'asc'
-                }, {
-                  name: 'Giảm dần',
-                  value: 'desc'
-                }]"
-                item-title="name"
-                item-value="value"
-                variant="outlined"
-                hide-details="auto"
-              />
+                  Clear
+                </v-btn>
+                <v-spacer />
+                <v-btn
+                  color="primary"
+                  size="small"
+                  class="mx-2 rounded-xl text-none"
+                  variant="outlined"
+                  prepend-icon="mdi-airplane-search"
+                  @click="() => {
+                    handleRoute({ name: 'tours' })
+                    titlePage = filtersTours
+                    getToursByFilterPanel(filtersTours)
+                  }"
+                >
+                  Search
+                </v-btn>
+              </v-card-actions>
+            </v-form>
+          </v-card>
+        </v-col>
+        <v-col cols="9" class="card-show px-0">
+          <v-card elevation="0" class="card-title pb-0">
+            <v-card-text>
+              <h2 class="ma-2 title-card-show">
+                <v-icon icon="mdi-compass-rose" />
+                Tất cả những tour du lịch hấp dẫn
+                <span v-if="titlePage?.cityId"> ở {{ getCityById(titlePage?.cityId)?.name }}</span>
+                <span v-if="titlePage?.endDate"> từ ngày {{ titlePage?.startDate }} đến {{ titlePage?.endDate }}</span>
+              </h2>
             </v-card-text>
-            <v-divider class="mx-10" />
-            <v-card-actions class="ma-2">
-              <v-btn
-                size="small"
-                class="mx-2 rounded-xl text-none"
-                variant="outlined"
-                @click="() => resetSearch()"
-              >
-                Clear
-              </v-btn>
-              <v-spacer />
-              <v-btn
-                color="primary"
-                size="small"
-                class="mx-2 rounded-xl text-none"
-                variant="outlined"
-                prepend-icon="mdi-airplane-search"
-                @click="() => {
-                  handleRoute({ name: 'tours' })
-                  titlePage = filtersTours
-                  getToursByFilterPanel(filtersTours)
-                }"
-              >
-                Search
-              </v-btn>
-            </v-card-actions>
-          </v-form>
-        </v-card>
-      </v-col>
-      <v-col cols="9" class="card-show">
-        <v-card elevation="0" class="mb-5 card-title">
-          <v-card-text>
-            <h2 class="ma-2 title-card-show">
-              <v-icon icon="mdi-compass-rose" />
-              Tất cả những tour du lịch hấp dẫn
-              <span v-if="titlePage?.cityId"> ở {{ getCityById(titlePage?.cityId)?.name }}</span>
-              <span v-if="titlePage?.endDate"> từ ngày {{ titlePage?.startDate }} đến {{ titlePage?.endDate }}</span>
-            </h2>
-          </v-card-text>
-        </v-card>
-        <n-panel-loading :loading="loadingTours" />
-        <n-panel-not-found
-          v-if="tours?.results.length === 0 && !loadingTours"
-          icon="mdi-timer-sand-empty"
-          title="Không có tour du lịch nào phù hợp!"
-        />
-        <v-row v-if="!loadingTours">
-          <v-col v-for="item in tours?.results" :key="item?.id" cols="12">
+          </v-card>
+          <n-panel-loading :loading="loadingTours" />
+          <n-panel-not-found
+            v-if="tours?.results.length === 0 && !loadingTours"
+            icon="mdi-timer-sand-empty"
+            title="Không có tour du lịch nào phù hợp!"
+          />
+          <v-container fluid v-if="!loadingTours">
             <v-card
+              v-for="item in tours?.results"
+              :key="item?.id"
               elevation="0"
-              class="ml-5 my-5 tour-card rounded-xl"
+              color="transparent"
+              class="ml-8 mb-12 tour-card rounded-xl"
             >
               <v-row>
                 <v-col cols="5">
@@ -160,11 +163,10 @@
                     :src="item?.coverPicture"
                     height="220"
                     class="custom-image-tour"
-                    :hasFav="true"
                   />
                 </v-col>
                 <v-col class="pa-0">
-                  <h3 class="mt-5 mx-2">
+                  <h3 class="mt-5 ml-2 mr-3">
                     {{ item?.name }}
                   </h3>
                   <v-card-text class="mx-3">
@@ -231,19 +233,20 @@
                         <template #action>
                           <v-btn
                             prepend-icon="mdi-checkbox-marked-circle-auto-outline"
-                            class="mr-2"
+                            class="mr-2 text-none rounded-s-xl"
                             color="primary"
                             variant="tonal"
                             @click="() => item.dialog = true"
                           >
-                            Book now
+                            Book Now
                           </v-btn>
                         </template>
                       </n-dialog-book>
                       <v-btn
                         color="primary"
                         variant="tonal"
-                        class="text-none"
+                        prepend-icon="mdi-dots-vertical"
+                        class="text-none rounded-e-xl"
                         @click="() => handleRoute({ name: 'tourDetail', params: { id: item?.id } })"
                       >
                         More...
@@ -253,17 +256,17 @@
                 </v-col>
               </v-row>
             </v-card>
-          </v-col>
-        </v-row>
-        <n-pagination
-          v-if="tours?.results && !loadingTours"
-          class="my-5"
-          v-model="pageTours"
-          :length="tours?.pageNumber"
-          @update:model-value="getToursByFilterPanel({ ...filtersTours, page: pageTours })"
-        />
-      </v-col>
-    </v-row>
+          </v-container>
+          <n-pagination
+            v-if="tours?.results && !loadingTours"
+            class="my-5"
+            v-model="pageTours"
+            :length="tours?.pageNumber"
+            @update:model-value="getToursByFilterPanel({ ...filtersTours, page: pageTours })"
+          />
+        </v-col>
+      </v-row>
+    </v-container>
   </v-sheet>
 </template>
 <script lang="ts" setup>

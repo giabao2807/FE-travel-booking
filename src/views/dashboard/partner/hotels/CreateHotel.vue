@@ -367,7 +367,6 @@ const {
   createHotel,
   createRooms,
   addNewRoom,
-  removeRoom,
-  checkName
+  removeRoom
 } = usePartnerHotels()
 </script>

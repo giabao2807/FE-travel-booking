@@ -70,7 +70,7 @@ const hanldeRemove = () => {
 .icon-img {
   position: absolute;
   top: 0;
-  margin: 8px
+  margin: 9px;
 }
 .icon-fav {
   scale: 1.2;

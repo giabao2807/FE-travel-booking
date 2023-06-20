@@ -20,9 +20,11 @@
         <v-card-text>
           <el-form
             class="mx-5"
-            ref="formRef"
+            ref="formRefHotel"
             label-width="120px"
             label-position="left"
+            :model="formHotel"
+            :rules="rulesHotel"
           >
             <el-form-item prop="name">
               <template #label>
@@ -54,7 +56,7 @@
                 />
               </el-select>
             </el-form-item>
-            <el-form-item prop="name">
+            <el-form-item prop="address">
               <template #label>
                 <div class="d-flex align-center">
                   <v-icon class="mr-1" icon="mdi-rename-box-outline" />
@@ -79,7 +81,7 @@
                 <n-editor v-model="formHotel.descriptions" />
               </el-col>
             </el-form-item>
-            <el-form-item prop="descriptions">
+            <el-form-item prop="rules">
               <template #label>
                 <div class="d-flex align-center">
                   <v-icon class="mr-1" icon="mdi-alert-outline" />
@@ -103,7 +105,7 @@
                 :dataImg="formHotel.coverPicture"
               />
             </el-form-item>
-            <el-form-item prop="tourImages">
+            <el-form-item prop="hotelImages">
               <template #label>
                 <div class="d-flex align-center">
                   <v-icon class="mr-1" icon="mdi-image-multiple-outline" />
@@ -136,7 +138,7 @@
                 </v-slide-group>
               </v-sheet>
             </el-form-item>
-            <el-form-item prop="tourImages">
+            <el-form-item prop="hotelImages">
               <template #label>
                 <div class="d-flex align-center">
                   <v-icon class="mr-1" icon="mdi-image-plus-outline" />
@@ -168,8 +170,7 @@
             class="text-none"
             prepend-icon="mdi-cloud-arrow-up-outline"
             @click="() => {
-              dialogUpdate = false
-              updateHotel()
+              updateHotel(formRefHotel)
             }"
           >
             Cập Nhật
@@ -189,7 +190,15 @@ import { useCities } from '@/composables/useCities'
 import { usePartnerHotels } from '@/composables/partners/usePartnerHotels'
 
 const { allCities } = useCities()
-const { formHotel, dialogUpdate, updateHotel, imgListUpdate, handleRemoveImgHotel } = usePartnerHotels()
+const {
+  formHotel,
+  dialogUpdate,
+  imgListUpdate,
+  formRefHotel,
+  rulesHotel,
+  updateHotel,
+  handleRemoveImgHotel
+} = usePartnerHotels()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', booking: boolean): void

@@ -12,7 +12,7 @@
       </div>
     </v-container>
     <v-row>
-      <v-col>
+      <v-col class="px-0">
         <v-card elevation="3" class="card-search my-3 rounded-xl">
           <h3 class="text-center my-3">
             <v-icon icon="mdi-map-search-outline" />
@@ -131,8 +131,8 @@
           </v-form>
         </v-card>
       </v-col>
-      <v-col cols="9" class="card-show">
-        <v-card color="transparent" elevation="0" class="mb-5">
+      <v-col cols="9" class="card-show px-0">
+        <v-card color="transparent" elevation="0">
           <v-card-text>
             <h2 class="ma-2 title-card-show">
               <v-icon icon="mdi-home-city-outline" />
@@ -148,98 +148,101 @@
           icon="mdi-timer-sand-empty"
           title="Không có Hotel du lịch nào phù hợp!"
         />
-        <v-container class="my-5">
-          <v-row v-if="!loadingHotels">
-            <v-col v-for="item in hotels?.results" :key="item?.id" cols="12">
-              <v-card
-                elevation="0"
-                class="my-5 hotel-card rounded-xl"
-                @click="() => handleRoute({ name: 'hotelDetail', params: { id: item?.id } })"
-              >
-                <v-row>
-                  <v-col cols="4">
-                    <n-image :src="item?.coverPicture" height="250" class="custom-image-hotel" />
-                  </v-col>
-                  <v-col cols="7">
-                    <h2 class="mt-5 ml-2">
-                      {{ item?.name }}
-                    </h2>
-                    <v-card-text class="mx-3 mt-n1">
-                      <v-row align="center" class="my-3">
-                        <v-icon :icon="voteText(item?.rateAverage).icon" color="primary" class="mr-1" />
-                        <strong class="font-size-min-rem">{{ voteText(item?.rateAverage).name }}</strong>
-                        <v-rating
-                          :model-value="item?.rateAverage"
-                          class="mx-5"
-                          color="amber"
-                          density="compact"
-                          half-increments
-                          readonly
-                          size="small"
+        <v-container fluid v-if="!loadingHotels">
+          <v-card
+            v-for="item in hotels?.results"
+            :key="item?.id"
+            elevation="0"
+            color="transparent"
+            class="ml-8 mb-12 hotel-card rounded-xl"
+            @click="() => handleRoute({ name: 'hotelDetail', params: { id: item?.id } })"
+          >
+            <v-row>
+              <v-col cols="4">
+                <n-image
+                  :src="item?.coverPicture"
+                  height="250"
+                  class="custom-image-hotel"
+                />
+              </v-col>
+              <v-col cols="7">
+                <h2 class="mt-5 ml-2">
+                  {{ item?.name }}
+                </h2>
+                <v-card-text class="mx-3 mt-n1">
+                  <v-row align="center" class="my-3">
+                    <v-icon :icon="voteText(item?.rateAverage).icon" color="primary" class="mr-1" />
+                    <strong class="font-size-min-rem">{{ voteText(item?.rateAverage).name }}</strong>
+                    <v-rating
+                      :model-value="item?.rateAverage"
+                      class="mx-5"
+                      color="amber"
+                      density="compact"
+                      half-increments
+                      readonly
+                      size="small"
+                    />
+                  </v-row>
+                  <v-row align="center" class="my-3">
+                    <v-icon color="primary" icon="mdi-vote-outline" />
+                    <strong class="font-size-min-rem mr-5">Đánh giá:</strong>
+                    <v-chip
+                      color="primary"
+                      size="small"
+                      label
+                      text-color="white"
+                    >
+                      {{ item?.numReview }}
+                    </v-chip>
+                  </v-row>
+                  <v-row class="my-3">
+                    <v-icon color="primary" icon="mdi-map-marker-radius-outline" />
+                    <strong class="font-size-min-rem">Địa chỉ:</strong>
+                    <v-col class="pa-0 ml-5" cols="5">
+                      {{ item?.address }}
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+                <div class="card-actions">
+                  <v-row>
+                    <v-col>
+                      <p
+                        v-if="!_.isEmpty(item?.couponData)"
+                        class="text-caption animate-charcter"
+                      >
+                        <v-icon icon="mdi-home-city-outline" class="animate-charcter" />
+                        Ưu đãi khách sạn - {{ item?.couponData.discountPercent }}%
+                      </p>
+                      <p
+                        v-if="!_.isEmpty(item?.couponData)"
+                        class="remove-text"
+                      >
+                        {{ rangePrice(item?.minPrice, item?.maxPrice) }}
+                      </p>
+                      <h3 class="animate-charcter">
+                        <v-icon
+                          v-if="_.isEmpty(item?.couponData)"
+                          icon="mdi-cash-fast"
+                          class="animate-charcter"
                         />
-                      </v-row>
-                      <v-row align="center" class="my-3">
-                        <v-icon color="primary" icon="mdi-vote-outline" />
-                        <strong class="font-size-min-rem mr-5">Đánh giá:</strong>
-                        <v-chip
-                          color="primary"
-                          size="small"
-                          label
-                          text-color="white"
-                        >
-                          {{ item?.numReview }}
-                        </v-chip>
-                      </v-row>
-                      <v-row class="my-3">
-                        <v-icon color="primary" icon="mdi-map-marker-radius-outline" />
-                        <strong class="font-size-min-rem">Địa chỉ:</strong>
-                        <v-col class="pa-0 ml-5" cols="5">
-                          {{ item?.address }}
-                        </v-col>
-                      </v-row>
-                    </v-card-text>
-                    <div class="card-actions">
-                      <v-row>
-                        <v-col>
-                          <p
-                            v-if="!_.isEmpty(item?.couponData)"
-                            class="text-caption animate-charcter"
-                          >
-                            <v-icon icon="mdi-home-city-outline" class="animate-charcter" />
-                            Ưu đãi khách sạn - {{ item?.couponData.discountPercent }}%
-                          </p>
-                          <p
-                            v-if="!_.isEmpty(item?.couponData)"
-                            class="remove-text"
-                          >
-                            {{ rangePrice(item?.minPrice, item?.maxPrice) }}
-                          </p>
-                          <h3 class="animate-charcter">
-                            <v-icon
-                              v-if="_.isEmpty(item?.couponData)"
-                              icon="mdi-cash-fast"
-                              class="animate-charcter"
-                            />
-                            {{ rangePrice(item?.minPrice, item?.maxPrice, item?.couponData.discountPercent) }}
-                          </h3>
-                        </v-col>
-                      </v-row>
-                      <v-row justify="end">
-                        <v-btn
-                          class="text-none"
-                          prepend-icon="mdi-dots-vertical"
-                          color="primary"
-                          variant="tonal"
-                        >
-                          See More...
-                        </v-btn>
-                      </v-row>
-                    </div>
-                  </v-col>
-                </v-row>
-              </v-card>
-            </v-col>
-          </v-row>
+                        {{ rangePrice(item?.minPrice, item?.maxPrice, item?.couponData.discountPercent) }}
+                      </h3>
+                    </v-col>
+                  </v-row>
+                  <v-row justify="end">
+                    <v-btn
+                      class="text-none rounded-xl"
+                      prepend-icon="mdi-dots-vertical"
+                      color="primary"
+                      variant="tonal"
+                    >
+                      See More...
+                    </v-btn>
+                  </v-row>
+                </div>
+              </v-col>
+            </v-row>
+          </v-card>
           <n-pagination
             v-if="hotels?.results.length !== 0 && !loadingHotels"
             class="my-5"

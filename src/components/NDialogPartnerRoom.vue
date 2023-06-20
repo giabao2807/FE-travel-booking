@@ -21,12 +21,14 @@
         <v-card-text>
           <el-form
             class="mx-5"
-            ref="formRef"
             label-width="120px"
             label-position="left"
+            ref="dialogRoomRef"
+            :rules="rulesRoom"
+            :model="formDataRoom"
           >
             <div v-if="idRoomUpdate">
-              <el-form-item prop="tourImages">
+              <el-form-item prop="roomImages">
                 <template #label>
                   <div class="d-flex align-center">
                     <v-icon class="mr-1" icon="mdi-image-multiple-outline" />
@@ -59,7 +61,7 @@
                   </v-slide-group>
                 </v-sheet>
               </el-form-item>
-              <el-form-item prop="tourImages">
+              <el-form-item prop="roomImages">
                 <template #label>
                   <div class="d-flex align-center">
                     <v-icon class="mr-1" icon="mdi-image-plus-outline" />
@@ -69,7 +71,7 @@
                 <n-upload-multi v-model="imgListUpdateRoom" />
               </el-form-item>
             </div>
-            <el-form-item v-else prop="tourImages">
+            <el-form-item v-else prop="roomImages">
               <template #label>
                 <div class="d-flex align-center">
                   <v-icon class="mr-1" icon="mdi-image-plus-outline" />
@@ -108,7 +110,7 @@
             </el-form-item>
             <el-row>
               <el-col :span="10">
-                <el-form-item prop="adults">
+                <el-form-item prop="square">
                   <template #label>
                     <div class="d-flex align-center">
                       <v-icon class="mr-1" icon="mdi-rename-box-outline" />
@@ -124,7 +126,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="10">
-                <el-form-item prop="adults">
+                <el-form-item prop="beds">
                   <template #label>
                     <div class="d-flex align-center">
                       <v-icon class="mr-1" icon="mdi-rename-box-outline" />
@@ -158,7 +160,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="10">
-                <el-form-item prop="adults">
+                <el-form-item prop="children">
                   <template #label>
                     <div class="d-flex align-center">
                       <v-icon class="mr-1" icon="mdi-rename-box-outline" />
@@ -192,7 +194,7 @@
                 </el-input>
               </el-col>
             </el-form-item>
-            <el-form-item prop="descriptions">
+            <el-form-item prop="description">
               <template #label>
                 <div class="d-flex align-center">
                   <v-icon class="mr-1" icon="mdi-alpha-d-box" />
@@ -213,7 +215,10 @@
             variant="outlined"
             class="text-none"
             prepend-icon="mdi-close-outline"
-            @click="() => dialogRoom = false"
+            @click="() => {
+              dialogRoom = false
+              resetFormRoom(dialogRoomRef)
+            }"
           >
             Đóng
           </v-btn>
@@ -227,7 +232,7 @@
             class="text-none"
             prepend-icon="mdi-cloud-arrow-up-outline"
             @click="() => {
-              updateRoom()
+              updateRoom(dialogRoomRef)
             }"
           >
             Cập Nhật
@@ -241,7 +246,7 @@
             class="text-none"
             prepend-icon="mdi-cloud-arrow-up-outline"
             @click="() => {
-              createRoomInList()
+              createRoomForDialog(dialogRoomRef)
             }"
           >
             Tạo Phòng
@@ -263,9 +268,12 @@ const {
   formDataRoom,
   imgListUpdateRoom,
   idRoomUpdate,
-  createRoomInList,
+  rulesRoom,
+  dialogRoomRef,
+  createRoomForDialog,
   updateRoom,
-  handleRemoveImgRoom
+  handleRemoveImgRoom,
+  resetFormRoom
 } = usePartnerHotels()
 
 const emit = defineEmits<{
