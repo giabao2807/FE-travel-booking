@@ -132,6 +132,15 @@
                 :hasFav="chooseCard===idx ? true : false"
                 :src="item.coverPicture"
                 class="image-card-user"
+                :favorite="item.isFavorite"
+                @addFavorite="async() => {
+                  await addFavoriteTour(item.id)
+                  getToursForUser()
+                }"
+                @removeFavorite="async() => {
+                  await removeFavoriteTour(item.id)
+                  getToursForUser()
+                }"
               />
               <v-card-text class="pa-3 content-card-user">
                 <h3 class="font-rowdies font-weight-bold">{{ item.name }}</h3>
@@ -225,6 +234,15 @@
                 class="align-end text-white"
                 height="180"
                 :src="tour?.coverPicture"
+                :favorite="tour.isFavorite"
+                @addFavorite="async() => {
+                  await addFavoriteTour(tour.id)
+                  getPopularTours()
+                }"
+                @removeFavorite="async() => {
+                  await removeFavoriteTour(tour.id)
+                  getPopularTours()
+                }"
               >
                 <div
                   v-if="Object.keys(tour?.couponData).length !== 0"
@@ -356,6 +374,15 @@
                 :hasFav="chooseCardHotel===idx ? true : false"
                 :src="item.coverPicture"
                 class="image-card-user"
+                :favorite="item.isFavorite"
+                @addFavorite="async() => {
+                  await addFavoriteHotel(item.id)
+                  getHotelsForUser()
+                }"
+                @removeFavorite="async() => {
+                  await removeFavoriteHotel(item.id)
+                  getHotelsForUser()
+                }"
               />
               <v-card-text class="pa-3 content-card-user">
                 <h3 class="font-rowdies font-weight-bold">{{ item.name }}</h3>
@@ -486,6 +513,15 @@
                 class="align-end text-white"
                 height="40%"
                 :src="hotel?.coverPicture"
+                :favorite="hotel.isFavorite"
+                @addFavorite="async() => {
+                  await addFavoriteHotel(hotel.id)
+                  getRecomendHotelByCity(selectedCity)
+                }"
+                @removeFavorite="async() => {
+                  await removeFavoriteHotel(hotel.id)
+                  getRecomendHotelByCity(selectedCity)
+                }"
               >
                 <div
                   v-if="Object.keys(hotel?.couponData).length !== 0"
@@ -646,8 +682,8 @@ import NButtonAnimated from '@/components/NButtonAnimated.vue'
 import NPanelLoading from '@/components/NPanelLoading.vue'
 import NSkeletonLoader from '@/components/NSkeletonLoader.vue'
 import NCitiesSelect from '@/components/NCitiesSelect.vue'
+import { onMounted } from 'vue'
 import _ from 'lodash'
-import { ref } from 'vue'
 import NImage from '@/components/NImage.vue'
 import '@/assets/css/home.css'
 import { SEARCH_FOR } from '@/resources/mockData'
@@ -657,24 +693,31 @@ import { convertionType } from '@/helpers/convertion'
 import { useAuthentication } from '@/composables/useAuth'
 
 const { authUser } = useAuthentication()
-const test = ref(false)
 const {
   recomendCities,
-  selectedCity,
   popularHotels,
   hotelsForUser,
+  selectedCity,
   popularTours,
   getCitiesPanel,
   loadingPanelHotel,
-  countDate,
   filterPanel,
   flagSearch,
+  countDate,
   toursForUser,
   chooseCard,
   chooseCardHotel,
-  changeEndDate,
   getRecomendHotelByCity,
-  handleFilter
+  changeEndDate,
+  handleFilter,
+  addFavoriteTour,
+  removeFavoriteTour,
+  getToursForUser,
+  getHotelsForUser,
+  getPopularTours,
+  addFavoriteHotel,
+  removeFavoriteHotel,
+  getRecomendCities
 } = useHomeUtil()
 const {
   formatCurrency,
@@ -684,6 +727,15 @@ const {
   rangePrice,
   getTraffic
 } = convertionType()
+onMounted(async() => {
+  await getRecomendCities()
+  getPopularTours()
+  if (authUser.value.accessToken) {
+    getToursForUser()
+    getHotelsForUser()
+  }
+  getRecomendHotelByCity(selectedCity.value)
+})
 </script>
 <style lang="scss" scoped>
 .button-card-tour {

@@ -21,19 +21,22 @@
     </template>
     <template #default>
       <v-icon
-        v-if="props.hasFav"
-        color="primary"
+        v-if="props.hasFav && isSignIn"
+        color="error"
         size="large"
         :icon="props.favorite ? 'mdi-heart' : 'mdi-cards-heart-outline'"
-        class="icon-img"
-        @click="hanldeChange"
+        :class="props.favorite ? 'icon-img icon-fav' : 'icon-img'"
+        @click="() => {
+          props.favorite ? hanldeRemove() : hanldeChange()
+        }"
       />
       <slot name="default" />
     </template>
   </v-img>
 </template>
 <script lang="ts" setup>
-import { defineProps, withDefaults, ref, defineEmits } from 'vue'
+import { defineProps, withDefaults, defineEmits } from 'vue'
+import { checkInfo } from '@/helpers/checkSignIn'
 
 type Props = {
   src?: string,
@@ -53,16 +56,30 @@ const props = withDefaults(defineProps<Props>(), {
   width: '',
   height: ''
 })
-const emit = defineEmits(['addFavorite'])
+const { isSignIn } = checkInfo()
+const emit = defineEmits(['addFavorite', 'removeFavorite'])
 const hanldeChange = () => {
   emit('addFavorite')
+}
+const hanldeRemove = () => {
+  emit('removeFavorite')
 }
 
 </script>
 <style scoped>
-  .icon-img {
-    position: absolute;
-    top: 0;
-    margin: 7px
+.icon-img {
+  position: absolute;
+  top: 0;
+  margin: 8px
+}
+.icon-fav {
+  scale: 1.2;
+  animation: float 0.8s infinite alternate-reverse ease-in-out;
+  transition: all 0.4s cubic-bezier(0.680, -0.550, 0.265, 1.550);
+}
+@keyframes float {
+  to {
+    translate: 0 -0.3rem;
   }
+}
 </style>

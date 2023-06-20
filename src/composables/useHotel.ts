@@ -6,6 +6,7 @@ import { convertionType } from '@/helpers/convertion'
 import { IHotel, IParamHotel, IResponseHotel } from '@/libs/types/hotelType'
 import { ICity, IFilterPanel, IForm } from '@/libs/types/commonType'
 import { useRoute } from 'vue-router'
+import { useFeedBack } from './useFeedBack'
 
 const createHotel = () => {
   const hotelStore = useHotelStore()
@@ -15,6 +16,7 @@ const createHotel = () => {
   const hotelsForUser = ref<IHotel[]>([])
   const recomendCities = ref<ICity[]>([])
   const { deCodeHtml } = convertionType()
+  const { feedBack } = useFeedBack()
   const selectedCity = ref<number>(0)
   const loadingPanelHotel = ref<boolean>(false)
   const loadingHotels = ref<boolean>(false)
@@ -72,6 +74,38 @@ const createHotel = () => {
     ref?.reset()
     getHotelsByFilterPanel()
   }
+  const addFavoriteHotel = async(id: string) => {
+    await hotelStore.addFavoriteHotel(id)
+      .then(() => {
+        feedBack({
+          title: 'Add Favorite Hotel',
+          message: 'Add hotel favorite success',
+          type:'success'
+        })
+      }).catch(error => {
+        feedBack({
+          title: 'Add Favorite Hotel',
+          message: error?.data,
+          type:'success'
+        })
+      })
+  }
+  const removeFavoriteHotel = async(id: string) => {
+    await hotelStore.removeFavoriteHotel(id)
+      .then(() => {
+        feedBack({
+          title: 'Remove Favorite Hotel',
+          message: 'Remove hotel favorite success',
+          type:'success'
+        })
+      }).catch(error => {
+        feedBack({
+          title: 'Remove Favorite Hotel',
+          message: error?.data,
+          type:'error'
+        })
+      })
+  }
   return {
     hotels,
     popularHotels,
@@ -89,7 +123,9 @@ const createHotel = () => {
     getRecomendHotelByCity,
     getRecomendCities,
     getHotelsByFilterPanel,
-    getHotelsForUser
+    getHotelsForUser,
+    addFavoriteHotel,
+    removeFavoriteHotel
   }
 }
 export const useHotelUtil = createSharedComposable(createHotel)

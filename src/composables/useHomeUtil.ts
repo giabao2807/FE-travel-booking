@@ -1,5 +1,5 @@
 import { handleRoute } from '@/helpers/loadingRoute'
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { ICity, IFilterPanel } from '@/libs/types/commonType'
 import { createSharedComposable } from '@vueuse/core'
 import { useHotelUtil } from './useHotel'
@@ -29,19 +29,23 @@ const useHome = () => {
     hotelsForUser,
     getHotelsForUser,
     getRecomendHotelByCity,
-    getRecomendCities
+    getRecomendCities,
+    addFavoriteHotel,
+    removeFavoriteHotel
   } = useHotelUtil()
 
   const {
     popularTours,
     toursForUser,
     getPopularTours,
-    getToursForUser
+    getToursForUser,
+    addFavoriteTour,
+    removeFavoriteTour
   } = useTourUtil()
 
   const getCitiesPanel = computed(() => {
     const citiesCols: IImageCol[] = []
-    recomendCities.value?.slice(0, 5).forEach((item, index) => citiesCols.push({ ...PANEL_IMAGE[index], ...item }))
+    recomendCities.value?.slice(0, 5).forEach((item: any, index: number) => citiesCols.push({ ...PANEL_IMAGE[index], ...item }))
     return citiesCols
   })
 
@@ -67,16 +71,6 @@ const useHome = () => {
       handleRoute({ name: 'hotels', query: filterPanel.value })
     }
   }
-  onMounted(async() => {
-    await getRecomendCities()
-    getPopularTours()
-    if (authUser.value.accessToken) {
-      getToursForUser()
-      getHotelsForUser()
-    }
-    getRecomendHotelByCity(selectedCity.value)
-  })
-
   return {
     recomendCities,
     popularHotels,
@@ -93,7 +87,15 @@ const useHome = () => {
     chooseCardHotel,
     getRecomendHotelByCity,
     changeEndDate,
-    handleFilter
+    handleFilter,
+    addFavoriteTour,
+    removeFavoriteTour,
+    getToursForUser,
+    getHotelsForUser,
+    getPopularTours,
+    addFavoriteHotel,
+    removeFavoriteHotel,
+    getRecomendCities
   }
 }
 export const useHomeUtil = createSharedComposable(useHome)

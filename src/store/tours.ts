@@ -85,6 +85,18 @@ export const useTourStore = defineStore('tourStore', () => {
       params: { page: param.page, pageSize: param.pageSize }
     })
   }
+  const addFavoriteTour = async(id: string) => {
+    return await connectionsAPI({
+      methods: 'POST',
+      path: `tour/${id}/add_favorite`
+    })
+  }
+  const removeFavoriteTour = async(id: string) => {
+    return await connectionsAPI({
+      methods: 'DELETE',
+      path: `tour/${id}/remove_favorite`
+    })
+  }
   return {
     tours,
     initFilterTour,
@@ -95,6 +107,8 @@ export const useTourStore = defineStore('tourStore', () => {
     getToursByFilter,
     getQuantityByDate,
     getReviewsTour,
-    getToursForUser
+    getToursForUser,
+    addFavoriteTour,
+    removeFavoriteTour
   }
 })

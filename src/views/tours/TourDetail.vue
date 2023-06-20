@@ -97,7 +97,7 @@
           @getReview="getReviews"
           @getReviewByPage="getReviews"
         />
-        <v-sheet color="transparent" class="pa-2">
+        <v-sheet v-if="anotherTours.length !== 0" color="transparent" class="pa-2">
           <div class="text-center">
             <h2>Những Tours Tương Tự</h2>
           </div>

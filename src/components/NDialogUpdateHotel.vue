@@ -9,10 +9,11 @@
     @update:modelValue="(event) => hanldeChange(event)"
   >
     <template #header>
-      <h3>
+      <h3 class="my-2">
         <v-icon icon="mdi-home-edit-outline" />
         Cập Nhật Khách Sạn
       </h3>
+      <v-divider class="mx-2" />
     </template>
     <template #default>
       <v-card elevation="0" color="transparent">

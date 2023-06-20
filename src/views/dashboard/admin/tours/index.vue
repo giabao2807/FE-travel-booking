@@ -98,12 +98,6 @@ const columns: Column<any>[] = [
     cellRenderer: ({ rowData }) => (
       <>
         <v-btn
-          variant="plain"
-          color="primary"
-          icon="mdi-circle-edit-outline"
-          onClick={() => handleRoute({ name: 'createTour', query: { id: rowData.id } }) }
-        />
-        <v-btn
           v-show={rowData.isActive}
           variant="plain"
           color="error"

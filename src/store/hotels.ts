@@ -71,6 +71,18 @@ export const useHotelStore = defineStore('hotelStore', () => {
       params: params
     })
   }
+  const addFavoriteHotel = async(id: string) => {
+    return await connectionsAPI({
+      methods: 'POST',
+      path: `hotel/${id}/add_favorite`
+    })
+  }
+  const removeFavoriteHotel = async(id: string) => {
+    return await connectionsAPI({
+      methods: 'DELETE',
+      path: `hotel/${id}/remove_favorite`
+    })
+  }
   return {
     hotels,
     initFilterHotel,
@@ -80,6 +92,8 @@ export const useHotelStore = defineStore('hotelStore', () => {
     getHotelSumaryById,
     getRoomTypeById,
     getReviewsHotel,
-    getHotelsForUser
+    getHotelsForUser,
+    addFavoriteHotel,
+    removeFavoriteHotel
   }
 })

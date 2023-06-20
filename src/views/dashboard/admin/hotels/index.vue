@@ -10,32 +10,26 @@
         :loading="loadingHotels"
         :estimated-row-height="50"
         :expand="true"
+        :is-admin="true"
         :expand-column-key="columns[0].key"
         @getNextPage="getHotels"
       />
     </div>
-    <n-dialog-update-hotel v-model="dialogUpdate" />
-    <n-dialog-partner-room v-model="dialogRoom" />
   </v-container>
 </template>
 <script lang="tsx" setup>
 import { onMounted } from 'vue'
 import type { Column } from 'element-plus'
 import NTableHotel from '@/components/NTableHotel.vue'
-import NDialogUpdateHotel from '@/components/NDialogUpdateHotel.vue'
-import NDialogPartnerRoom from '@/components/NDialogPartnerRoom.vue'
 import { convertionType } from '@/helpers/convertion'
 import { usePartnerHotels } from '@/composables/partners/usePartnerHotels'
 
 const {
   hotels,
   loadingHotels,
-  dialogUpdate,
-  dialogRoom,
   getHotels,
   activateHotel,
-  deactivateHotel,
-  getHotelById
+  deactivateHotel
 } = usePartnerHotels()
 const { formatCurrency } = convertionType()
 onMounted(() => {
@@ -118,15 +112,6 @@ const columns: Column<any>[] = [
     title: 'Operations',
     cellRenderer: ({ rowData }) => (
       <>
-        <v-btn
-          variant="plain"
-          color="primary"
-          icon="mdi-circle-edit-outline"
-          onClick={() => {
-            dialogUpdate.value = true
-            getHotelById(rowData.id)
-          }}
-        />
         <v-btn
           v-show={rowData.isActive}
           variant="plain"

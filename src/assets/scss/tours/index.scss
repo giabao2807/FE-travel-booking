@@ -9,6 +9,7 @@
     height: 500px;
   }
   .custom-image-tour {
+    position: relative;
     margin-top: 20px;
     -webkit-mask-image: url("@/assets/img/image-card.png");
     mask-image: url("@/assets/img/image-card.png");

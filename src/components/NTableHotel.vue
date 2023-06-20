@@ -54,14 +54,16 @@ type Props = {
   loading?: boolean,
   data: any,
   expandData?: any,
-  expand?: boolean
+  expand?: boolean,
+  isAdmin?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
   columns: undefined,
   loading: false,
   data: [],
   expandData: undefined,
-  expand: false
+  expand: false,
+  isAdmin: false
 })
 const { formatCurrency } = convertionType()
 const { dialogRoom, idHotel, getRoomById } = usePartnerHotels()
@@ -72,49 +74,54 @@ const getNextPage = (params: any) => {
 
 }
 const data = ref()
-
+const isAdminFlag = ref<boolean>()
 const Row = ({ cells, rowData }) => {
   if (rowData.detail)
     return (
       <div class="ma-5 w-100">
         <v-row align="center" class="d-flex mx-5 mb-2 w-50">
           <h3>List Rooms</h3>
-          <v-btn
+          {!isAdminFlag.value ? (<v-btn
             variant="plain"
             color="primary"
+            size="small"
             icon="mdi-package-variant-closed-plus"
             onClick={() => {
               dialogRoom.value = true
               idHotel.value = rowData.idHotel
             }}
-          />
+          />) : null}
         </v-row>
         <div class="overflow-y-auto" style="max-height: 200px">
           {rowData.detail.map((item: any, idx: number) => (
             <>
-              <v-row class="pl-6" align="center" justify="center">
+              <v-row class="pl-6 my-2" align="center" justify="center">
                 <v-col class="py-0" cols="5">
                   <strong class="mr-5">{idx + 1}</strong>
                   <v-icon icon="mdi-bed-single-outline" class="mr-1" />
                   <strong>{item.name}</strong>
                 </v-col>
                 <v-col class="py-0" cols="2">
-                  <span>Quantity: <strong>{item.quantity}</strong></span>
+                  <span style="font-size: 12px;">Quantity: </span>
+                  <strong>{item.quantity}</strong>
                 </v-col>
                 <v-col class="py-0" cols="2">
-                  <span>Price Room: <strong>{formatCurrency(item.price)}</strong></span>
+                  <span style="font-size: 12px;">Price Room: </span>
+                  <strong>{formatCurrency(item.price)}</strong>
                 </v-col>
-                <v-col class="py-0" cols="2">
-                  <v-btn
-                    variant="plain"
-                    color="primary"
-                    icon="mdi-comment-edit-outline"
-                    onClick={() => {
-                      dialogRoom.value = true
-                      getRoomById(item.id)
-                    }}
-                  />
-                </v-col>
+                {!isAdminFlag.value ? (
+                  <v-col class="py-0" cols="2">
+                    <v-btn
+                      variant="plain"
+                      color="primary"
+                      icon="mdi-comment-edit-outline"
+                      onClick={() => {
+                        dialogRoom.value = true
+                        getRoomById(item.id)
+                      }}
+                    />
+                  </v-col>
+                ) : null}
               </v-row>
               <v-divider class="mx-15 my-2"/>
             </>
@@ -126,6 +133,7 @@ const Row = ({ cells, rowData }) => {
 Row.inheritAttrs = false
 watchEffect(() => {
   if (props.expand) {
+    isAdminFlag.value = props.isAdmin
     data.value = props.data.results?.map((data: any) => {
       data.children = [
         {
@@ -140,7 +148,7 @@ watchEffect(() => {
 }
 )
 </script>
-<style>
+<style scoped>
 .el-table-v2__footer {
   width: 1200px;
   height: 100px !important;

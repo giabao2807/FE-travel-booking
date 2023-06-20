@@ -305,7 +305,7 @@
       @getReview="getReviews"
       @getReviewByPage="getReviews"
     />
-    <v-sheet color="transparent" class="pa-2">
+    <v-sheet v-if="anotherHotels.length !== 0" color="transparent" class="pa-2">
       <div class="text-center">
         <h2>Những Khách Sạn Khác</h2>
       </div>

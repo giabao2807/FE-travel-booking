@@ -15,7 +15,7 @@ export type ITour = {
   traffics: string[],
   couponData: ICoupon,
   dialog?: boolean,
-  isFav?: boolean,
+  isFavorite?: boolean,
 }
 
 export type IResponseTour = {

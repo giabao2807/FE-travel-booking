@@ -5,6 +5,7 @@ import { useTourStore } from '@/store/tours'
 import { IResponseTour, ITour } from '@/libs/types/tourType'
 import { IFilterPanel, IForm } from '@/libs/types/commonType'
 import { useRoute } from 'vue-router'
+import { useFeedBack } from './useFeedBack'
 
 const createTour = () => {
   const tourStore = useTourStore()
@@ -17,6 +18,7 @@ const createTour = () => {
   const formSearchRef = ref<IForm>()
   const priceRangeFilter = ref<number[]>([])
   const toursForUser = ref<ITour[]>([])
+  const { feedBack } = useFeedBack()
   const queryData = route.query as IFilterPanel
   const titlePage = ref<IFilterPanel>({
     ...queryData,
@@ -52,6 +54,38 @@ const createTour = () => {
     ref?.reset()
     getToursByFilterPanel()
   }
+  const addFavoriteTour = async(id: string) => {
+    await tourStore.addFavoriteTour(id)
+      .then(() => {
+        feedBack({
+          title: 'Add Favorite Tour',
+          message: 'Add tour favorite success',
+          type:'success'
+        })
+      }).catch(error => {
+        feedBack({
+          title: 'Add Favorite Tour',
+          message: error?.data,
+          type:'success'
+        })
+      })
+  }
+  const removeFavoriteTour = async(id: string) => {
+    await tourStore.removeFavoriteTour(id)
+      .then(() => {
+        feedBack({
+          title: 'Remove Favorite Tour',
+          message: 'Remove tour favorite success',
+          type:'success'
+        })
+      }).catch(error => {
+        feedBack({
+          title: 'Remove Favorite Tour',
+          message: error?.data,
+          type:'error'
+        })
+      })
+  }
   return {
     tours,
     popularTours,
@@ -66,7 +100,9 @@ const createTour = () => {
     resetSearch,
     getPopularTours,
     getToursByFilterPanel,
-    getToursForUser
+    getToursForUser,
+    addFavoriteTour,
+    removeFavoriteTour
   }
 }
 export const useTourUtil = createSharedComposable(createTour)

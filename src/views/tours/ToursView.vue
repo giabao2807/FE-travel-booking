@@ -156,7 +156,12 @@
             >
               <v-row>
                 <v-col cols="5">
-                  <n-image :src="item?.coverPicture" height="220" class="custom-image-tour" />
+                  <n-image
+                    :src="item?.coverPicture"
+                    height="220"
+                    class="custom-image-tour"
+                    :hasFav="true"
+                  />
                 </v-col>
                 <v-col class="pa-0">
                   <h3 class="mt-5 mx-2">
