@@ -15,7 +15,10 @@ const createCoupons = () => {
   const {
     checkPercent,
     checkLength,
-    checkName
+    checkName,
+    checkTimes,
+    checkMultiTours,
+    checkMultiHotels
   } = validations()
   const coupons = ref()
   const tours = ref<any[]>([])
@@ -35,7 +38,10 @@ const createCoupons = () => {
   const rulesCoupon = reactive<FormRules>({
     name: [{ validator: checkName }],
     discountPercent: [{ validator: checkPercent }],
-    description: [{ validator: checkLength }]
+    description: [{ validator: checkLength }],
+    hotelIds: [{ validator: checkMultiHotels }],
+    tourIds: [{ validator: checkMultiTours }],
+    rangeDate: [{ validator: checkTimes }]
   })
   const getCoupons = (params?: IParamPage) => {
     loadingCoupons.value = true

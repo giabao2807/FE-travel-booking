@@ -10,10 +10,11 @@
     @update:modelValue="(event) => hanldeChange(event)"
   >
     <template #header>
-      <h3>
+      <h3 class="my-2">
         <v-icon icon="mdi-bed-double-outline" />
-        Cập Nhật Thông Tin Phòng
+        {{ idRoomUpdate ? 'Cập Nhật Thông Tin Phòng' : 'Tạo Mới Phòng' }}
       </h3>
+      <v-divider />
     </template>
     <template #default>
       <v-card elevation="0" color="transparent">
@@ -24,47 +25,58 @@
             label-width="120px"
             label-position="left"
           >
-            <el-form-item prop="tourImages">
-              <template #label>
-                <div class="d-flex align-center">
-                  <v-icon class="mr-1" icon="mdi-image-multiple-outline" />
-                  <span class="font-weight-600">Hình ảnh</span>
-                </div>
-              </template>
-              <v-sheet
-                max-width="90%"
-              >
-                <v-slide-group
-                  center-active
-                  show-arrows
+            <div v-if="idRoomUpdate">
+              <el-form-item prop="tourImages">
+                <template #label>
+                  <div class="d-flex align-center">
+                    <v-icon class="mr-1" icon="mdi-image-multiple-outline" />
+                    <span class="font-weight-600">Hình ảnh</span>
+                  </div>
+                </template>
+                <v-sheet
+                  max-width="90%"
                 >
-                  <v-slide-group-item
-                    v-for="(item, index) in formUpdateRoom.roomImages"
-                    :key="index"
+                  <v-slide-group
+                    center-active
+                    show-arrows
                   >
-                    <n-image :src="item" height="150" width="150" cover class="mx-2">
-                      <div class="d-flex align-start justify-end fill-height">
-                        <v-btn
-                          rounded
-                          variant="plain"
-                          size="small"
-                          icon="mdi-close"
-                          @click="() => handleRemoveImgRoom(item)"
-                        />
-                      </div>
-                    </n-image>
-                  </v-slide-group-item>
-                </v-slide-group>
-              </v-sheet>
-            </el-form-item>
-            <el-form-item prop="tourImages">
+                    <v-slide-group-item
+                      v-for="(item, index) in formDataRoom.roomImages"
+                      :key="index"
+                    >
+                      <n-image :src="item" height="150" width="150" cover class="mx-2">
+                        <div class="d-flex align-start justify-end fill-height">
+                          <v-btn
+                            rounded
+                            variant="plain"
+                            size="small"
+                            icon="mdi-close"
+                            @click="() => handleRemoveImgRoom(item)"
+                          />
+                        </div>
+                      </n-image>
+                    </v-slide-group-item>
+                  </v-slide-group>
+                </v-sheet>
+              </el-form-item>
+              <el-form-item prop="tourImages">
+                <template #label>
+                  <div class="d-flex align-center">
+                    <v-icon class="mr-1" icon="mdi-image-plus-outline" />
+                    <span class="font-weight-600">Thêm Hình</span>
+                  </div>
+                </template>
+                <n-upload-multi v-model="imgListUpdateRoom" />
+              </el-form-item>
+            </div>
+            <el-form-item v-else prop="tourImages">
               <template #label>
                 <div class="d-flex align-center">
                   <v-icon class="mr-1" icon="mdi-image-plus-outline" />
-                  <span class="font-weight-600">Thêm Hình</span>
+                  <span class="font-weight-600">Hình Ảnh</span>
                 </div>
               </template>
-              <n-upload-multi v-model="imgListUpdateRoom" />
+              <n-upload-multi v-model="formDataRoom.roomImages" />
             </el-form-item>
             <el-form-item prop="name">
               <template #label>
@@ -75,7 +87,7 @@
               </template>
               <el-col :span="20">
                 <el-input
-                  v-model="formUpdateRoom.name"
+                  v-model="formDataRoom.name"
                   clearable
                 />
               </el-col>
@@ -89,7 +101,7 @@
               </template>
               <el-col :span="5">
                 <el-input-number
-                  v-model="formUpdateRoom.quantity"
+                  v-model="formDataRoom.quantity"
                   style="width: 200px"
                 />
               </el-col>
@@ -105,7 +117,7 @@
                   </template>
                   <el-col :span="5">
                     <el-input-number
-                      v-model="formUpdateRoom.square"
+                      v-model="formDataRoom.square"
                       style="width: 200px"
                     />
                   </el-col>
@@ -121,7 +133,7 @@
                   </template>
                   <el-col :span="5">
                     <el-input-number
-                      v-model="formUpdateRoom.beds"
+                      v-model="formDataRoom.beds"
                       style="width: 200px"
                     />
                   </el-col>
@@ -139,7 +151,7 @@
                   </template>
                   <el-col :span="5">
                     <el-input-number
-                      v-model="formUpdateRoom.adults"
+                      v-model="formDataRoom.adults"
                       style="width: 200px"
                     />
                   </el-col>
@@ -156,7 +168,7 @@
                   <el-col :span="5">
                     <el-col :span="5">
                       <el-input-number
-                        v-model="formUpdateRoom.children"
+                        v-model="formDataRoom.children"
                         style="width: 200px"
                       />
                     </el-col>
@@ -173,7 +185,7 @@
               </template>
               <el-col :span="20">
                 <el-input
-                  v-model="formUpdateRoom.price"
+                  v-model="formDataRoom.price"
                   type="number"
                 >
                   <template #append>VNĐ</template>
@@ -188,7 +200,7 @@
                 </div>
               </template>
               <el-col :span="20">
-                <n-editor v-model="formUpdateRoom.description" />
+                <n-editor v-model="formDataRoom.description" />
               </el-col>
             </el-form-item>
           </el-form>
@@ -201,12 +213,13 @@
             variant="outlined"
             class="text-none"
             prepend-icon="mdi-close-outline"
-            @click="() => dialogEditRoom = false"
+            @click="() => dialogRoom = false"
           >
             Đóng
           </v-btn>
           <v-spacer />
           <v-btn
+            v-if="idRoomUpdate"
             rounded
             min-width="110"
             variant="outlined"
@@ -218,6 +231,20 @@
             }"
           >
             Cập Nhật
+          </v-btn>
+          <v-btn
+            v-else
+            rounded
+            min-width="110"
+            variant="outlined"
+            color="primary"
+            class="text-none"
+            prepend-icon="mdi-cloud-arrow-up-outline"
+            @click="() => {
+              createRoomInList()
+            }"
+          >
+            Tạo Phòng
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -231,7 +258,15 @@ import NEditor from './NEditor.vue'
 import { defineEmits } from 'vue'
 import { usePartnerHotels } from '@/composables/partners/usePartnerHotels'
 
-const { dialogEditRoom, formUpdateRoom, imgListUpdateRoom, updateRoom, handleRemoveImgRoom } = usePartnerHotels()
+const {
+  dialogRoom,
+  formDataRoom,
+  imgListUpdateRoom,
+  idRoomUpdate,
+  createRoomInList,
+  updateRoom,
+  handleRemoveImgRoom
+} = usePartnerHotels()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', booking: boolean): void

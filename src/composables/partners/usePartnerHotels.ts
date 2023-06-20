@@ -35,13 +35,18 @@ const createPartnerHotels = () => {
     checkName,
     checkCoverImage,
     checkCity,
-    checkDeparture
+    checkListImage,
+    checkDeparture,
+    checkBed,
+    checkSquare,
+    checkAdult,
+    checkChildren
   } = validations()
   const { feedBack } = useFeedBack()
   const hotels = ref()
   const loadingHotels = ref<boolean>(false)
   const dialogUpdate = ref<boolean>(false)
-  const dialogEditRoom = ref<boolean>(false)
+  const dialogRoom = ref<boolean>(false)
   const imgListUpdate = ref<any[]>([])
   const imgListUpdateRoom = ref<any[]>([])
   const idHotel = ref<string>('')
@@ -49,6 +54,7 @@ const createPartnerHotels = () => {
   const step = ref<number>(1)
   const openFistRoom = ref<number>(0)
   const formRefHotel = ref()
+  const formRefRoom = ref()
   const formHotel = ref<any>({
     id: '',
     coverPicture: '',
@@ -71,7 +77,7 @@ const createPartnerHotels = () => {
     roomImages: []
   }
   const dataFormRooms = ref<ICreateRoom[]>([initDataRoom])
-  const formUpdateRoom = ref<ICreateRoom>({
+  const formDataRoom = ref<ICreateRoom>({
     name: '',
     beds: 0,
     adults: 0,
@@ -91,6 +97,17 @@ const createPartnerHotels = () => {
     address:[{ validator: checkAddress }],
     scheduleContent: [{ validator: checkLength }],
     rules: [{ validator: checkLength }]
+  })
+  const rulesRoom = reactive<FormRules>({
+    name: [{ validator: checkName }],
+    roomImages: [{ validator: checkListImage }],
+    quantity: [{ validator: checkQuantity }],
+    beds: [{ validator: checkBed }],
+    adults: [{ validator: checkAdult }],
+    children: [{ validator: checkChildren }],
+    square: [{ validator: checkSquare }],
+    price: [{ validator: checkCash }],
+    description: [{ validator: checkLength }]
   })
 
   const addNewRoom = () => {
@@ -241,32 +258,51 @@ const createPartnerHotels = () => {
         })
       })
   }
-  const createRooms = async() => {
-    await Promise.all(
-      dataFormRooms.value.map(async(room) => {
-        const roomCreate = ({
-          ...room,
-          square: `${formUpdateRoom.value.square} m2`,
-          description: `<div class="ChildRoomsList-room-featurebucket ChildRoomsList-room-featurebucket-Benefits">${room.description}</div>`
+  const createRoomInList = async() => {
+    const roomCreate = ({
+      ...formDataRoom.value,
+      square: `${formDataRoom.value.square} m2`,
+      description: `<div class="ChildRoomsList-room-featurebucket ChildRoomsList-room-featurebucket-Benefits">${formDataRoom.value.description}</div>`
+    })
+    await createRoom(roomCreate).then(() => {
+      dialogRoom.value = false
+      getHotels()
+    })
+  }
+  const createRooms = async(formEl: FormInstance[] | undefined) => {
+    if (!formEl) return
+    const validArr: boolean[] = []
+    await Promise.all(formEl.map(async(item) => {
+      return await item.validate((valid: boolean) => validArr.push(valid))
+    }))
+    const check = validArr.some(valid => valid !== true)
+    if (!check) {
+      await Promise.all(
+        dataFormRooms.value.map(async(room) => {
+          const roomCreate = ({
+            ...room,
+            square: `${room.square} m2`,
+            description: `<div class="ChildRoomsList-room-featurebucket ChildRoomsList-room-featurebucket-Benefits">${room.description}</div>`
+          })
+          await createRoom(roomCreate)
         })
-        await createRoom(roomCreate)
+      ).then(() => {
+        handleRoute({ name: 'hotelsPartner' })
       })
-    )
-    handleRoute({ name: 'hotelsPartner' })
-    getHotels()
+    }
   }
   const updateRoom = async() => {
     startLoading()
-    formUpdateRoom.value.roomImages.push(...imgListUpdateRoom.value)
+    formDataRoom.value.roomImages.push(...imgListUpdateRoom.value)
     const roomCreate = await({
-      ...formUpdateRoom.value,
-      square: `${formUpdateRoom.value.square} m2`,
-      description: `<div class="ChildRoomsList-room-featurebucket ChildRoomsList-room-featurebucket-Benefits">${formUpdateRoom.value.description}</div>`
+      ...formDataRoom.value,
+      square: `${formDataRoom.value.square} m2`,
+      description: `<div class="ChildRoomsList-room-featurebucket ChildRoomsList-room-featurebucket-Benefits">${formDataRoom.value.description}</div>`
     })
     const formData = await convertObjectToFormData(roomCreate, 'roomImages')
     partnerHotelStore.updateRoom(idRoomUpdate.value, formData)
       .then(() => {
-        dialogEditRoom.value = false
+        dialogRoom.value = false
         getHotels()
         finishLoading()
         feedBack({
@@ -288,7 +324,7 @@ const createPartnerHotels = () => {
     partnerHotelStore.getRoomById(id)
       .then(data => {
         idRoomUpdate.value = id
-        formUpdateRoom.value = {
+        formDataRoom.value = {
           ... data,
           square: parseInt(data.square),
           roomImages: data.listImages
@@ -307,7 +343,7 @@ const createPartnerHotels = () => {
     formHotel.value.hotelImages = formHotel.value.hotelImages?.filter((item: any) => item !== image)
   }
   const handleRemoveImgRoom = (image: string) => {
-    formUpdateRoom.value.roomImages = formUpdateRoom.value.roomImages?.filter(item => item !== image)
+    formDataRoom.value.roomImages = formDataRoom.value.roomImages?.filter(item => item !== image)
   }
   return {
     hotels,
@@ -317,13 +353,17 @@ const createPartnerHotels = () => {
     loadingHotels,
     dialogUpdate,
     imgListUpdate,
-    dialogEditRoom,
+    dialogRoom,
     dataFormRooms,
-    formUpdateRoom,
+    formDataRoom,
     openFistRoom,
     rulesHotel,
     formRefHotel,
+    formRefRoom,
     imgListUpdateRoom,
+    rulesRoom,
+    idRoomUpdate,
+    createRoomInList,
     handleRemoveImgHotel,
     handleRemoveImgRoom,
     updateRoom,
@@ -336,7 +376,9 @@ const createPartnerHotels = () => {
     getHotelById,
     addNewRoom,
     removeRoom,
-    getRoomById
+    getRoomById,
+    checkLength,
+    checkName
   }
 }
 export const usePartnerHotels = createSharedComposable(createPartnerHotels)

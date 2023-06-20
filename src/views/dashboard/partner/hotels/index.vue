@@ -15,7 +15,7 @@
       />
     </div>
     <n-dialog-update-hotel v-model="dialogUpdate" />
-    <n-dialog-update-room v-model="dialogEditRoom" />
+    <n-dialog-partner-room v-model="dialogRoom" />
   </v-container>
 </template>
 <script lang="tsx" setup>
@@ -23,7 +23,7 @@ import { onMounted } from 'vue'
 import type { Column } from 'element-plus'
 import NTableHotel from '@/components/NTableHotel.vue'
 import NDialogUpdateHotel from '@/components/NDialogUpdateHotel.vue'
-import NDialogUpdateRoom from '@/components/NDialogUpdateRoom.vue'
+import NDialogPartnerRoom from '@/components/NDialogPartnerRoom.vue'
 import { convertionType } from '@/helpers/convertion'
 import { usePartnerHotels } from '@/composables/partners/usePartnerHotels'
 
@@ -31,7 +31,7 @@ const {
   hotels,
   loadingHotels,
   dialogUpdate,
-  dialogEditRoom,
+  dialogRoom,
   getHotels,
   activateHotel,
   deactivateHotel,

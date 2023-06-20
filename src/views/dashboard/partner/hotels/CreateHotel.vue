@@ -140,7 +140,7 @@
             {{ dataFormRooms.length }}
           </v-btn>
         </div>
-        <v-expansion-panels v-model="openFistRoom">
+        <v-expansion-panels v-model="openFistRoom" multiple>
           <v-expansion-panel class="my-2" v-for="(dataForm, idx) in dataFormRooms" :key="idx">
             <v-expansion-panel-title>
               <h3>
@@ -157,13 +157,14 @@
               />
             </v-expansion-panel-title>
             <v-expansion-panel-text>
-              <v-card>
+              <v-card elevation="0">
                 <v-card-text>
                   <el-form
                     class="mx-5"
                     label-width="120px"
                     label-position="left"
                     ref="formRefRoom"
+                    :rules="rulesRoom"
                     :model="dataForm"
                   >
                     <el-form-item prop="roomImages">
@@ -295,7 +296,7 @@
                         </el-input>
                       </el-col>
                     </el-form-item>
-                    <el-form-item prop="descriptions">
+                    <el-form-item prop="description">
                       <template #label>
                         <div class="d-flex align-center">
                           <v-icon class="mr-1" icon="mdi-alpha-d-box" />
@@ -338,7 +339,7 @@
         class="text-none rounded-xl"
         prepend-icon="mdi-bed-double-outline"
         @click="() => {
-          createRooms()
+          createRooms(formRefRoom)
         }"
       >
         Create Rooms
@@ -361,9 +362,12 @@ const {
   openFistRoom,
   rulesHotel,
   formRefHotel,
+  formRefRoom,
+  rulesRoom,
   createHotel,
   createRooms,
   addNewRoom,
-  removeRoom
+  removeRoom,
+  checkName
 } = usePartnerHotels()
 </script>

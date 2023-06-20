@@ -50,7 +50,7 @@
               </div>
             </template>
             <el-col :span="15">
-              <el-input :min="0" v-model="formCoupon.discountPercent">
+              <el-input :min="0" :max="100" v-model="formCoupon.discountPercent">
                 <template #append>%</template>
               </el-input>
             </el-col>
@@ -77,14 +77,14 @@
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-compass-rose" />
-                <span class="font-weight-600" style="width: 150px;">Danh Sách Tours</span>
+                <span class="font-weight-600" style="width: 150px;">Tours</span>
               </div>
             </template>
             <el-select
               v-model="formCoupon.tourIds"
               multiple
               filterable
-              style="margin-left: 50px; width: 52%;"
+              style="width: 52%;"
               placeholder="Select tours"
             >
               <el-option
@@ -99,14 +99,14 @@
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-home-city-outline" />
-                <span class="font-weight-600" style="width: 150px;">Danh Sách Hotels</span>
+                <span class="font-weight-600">Hotels</span>
               </div>
             </template>
             <el-select
               v-model="formCoupon.hotelIds"
               multiple
               filterable
-              style="margin-left: 50px; width: 52%;"
+              style="width: 52%;"
               placeholder="Select hotels"
             >
               <el-option

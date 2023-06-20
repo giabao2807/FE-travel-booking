@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import _ from 'lodash'
+
 export const validations = () => {
   // eslint-disable-next-line no-useless-escape
   const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
@@ -21,9 +23,57 @@ export const validations = () => {
     (v: number) => (v && v >= 1) || 'Số lượng không được bé hơn 1.'
   ]
   const ruleMaxQuantity = (quantity: number) => (v: number) => (!!v && v <= quantity) || `Số lượng không được lớn hơn ${quantity}.`
+  const checkMultiTours = (rule: any, value: number, callback: any) => {
+    return _.isEmpty(value) ?
+      callback(new Error('Danh sách tours không được bỏ trống.'))
+      :
+      callback()
+  }
+  const checkMultiHotels = (rule: any, value: number, callback: any) => {
+    return _.isEmpty(value) ?
+      callback(new Error('Danh sách hotels không được bỏ trống.'))
+      :
+      callback()
+  }
   const checkQuantity = (rule: any, value: number, callback: any) => {
     return value < 1 ?
       callback(new Error('Số lượng phải lớn hơn bằng 1.'))
+      :
+      callback()
+  }
+  const checkBed = (rule: any, value: number, callback: any) => {
+    return value < 1 ?
+      callback(new Error('Số lượng giường phải lớn hơn bằng 1.'))
+      :
+      callback()
+  }
+  const checkAdult = (rule: any, value: number, callback: any) => {
+    return value < 1 ?
+      callback(new Error('Số lượng người phải lớn hơn bằng 1.'))
+      :
+      callback()
+  }
+  const checkChildren = (rule: any, value: number, callback: any) => {
+    return value < 1 ?
+      callback(new Error('Số lượng trẻ phải lớn hơn bằng 1.'))
+      :
+      callback()
+  }
+  const checkSquare = (rule: any, value: number, callback: any) => {
+    return value < 1 ?
+      callback(new Error('Diện tích phải lớn hơn bằng 1.'))
+      :
+      callback()
+  }
+  const checkTimes = (rule: any, value: number, callback: any) => {
+    return _.isEmpty(value) ?
+      callback(new Error('Thời gian không được bỏ trống.'))
+      :
+      callback()
+  }
+  const checkListImage = (rule: any, value: number, callback: any) => {
+    return _.isEmpty(value) ?
+      callback(new Error('Hình ảnh không được bỏ trống.'))
       :
       callback()
   }
@@ -93,7 +143,15 @@ export const validations = () => {
     ruleConfirmPassword,
     ruleMaxQuantity,
     checkQuantity,
+    checkListImage,
+    checkTimes,
+    checkMultiTours,
+    checkMultiHotels,
     checkPercent,
+    checkBed,
+    checkSquare,
+    checkAdult,
+    checkChildren,
     checkCash,
     checkAddress,
     checkLength,
