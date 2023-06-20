@@ -22,8 +22,7 @@ export const useTourStore = defineStore('tourStore', () => {
     return await connectionsAPI({
       methods: 'GET',
       path: 'tour',
-      params: params,
-      headers: { 'Content-Type': 'application/json' }
+      params: params
     })
   }
 
@@ -39,16 +38,14 @@ export const useTourStore = defineStore('tourStore', () => {
     return await connectionsAPI({
       methods: 'GET',
       path: 'tour',
-      params: params,
-      headers: { 'Content-Type': 'application/json' }
+      params: params
     })
   }
 
   const getTourById = async(id: string) => {
     return await connectionsAPI({
       methods: 'GET',
-      path: `tour/${id}`,
-      headers: { 'Content-Type': 'application/json' }
+      path: `tour/${id}`
     })
   }
 
@@ -64,8 +61,7 @@ export const useTourStore = defineStore('tourStore', () => {
     return await connectionsAPI({
       methods: 'GET',
       path: 'tour',
-      params: params,
-      headers: { 'Content-Type': 'application/json' }
+      params: params
     })
   }
 

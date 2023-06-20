@@ -34,16 +34,14 @@ export const useHotelStore = defineStore('hotelStore', () => {
     return await connectionsAPI({
       methods: 'GET',
       path: `general/city/${paramHotel.cityId}/top-hotels`,
-      params: { pageSize: paramHotel.pageSize, page: paramHotel.page },
-      headers: { 'Content-Type': 'application/json' }
+      params: { pageSize: paramHotel.pageSize, page: paramHotel.page }
     })
   }
 
   const getHotelSumaryById = async(id: string) => {
     return await connectionsAPI({
       methods: 'GET',
-      path: `hotel/${id}`,
-      headers: { 'Content-Type': 'application/json' }
+      path: `hotel/${id}`
     })
   }
   const getRoomTypeById = async(param: Partial<IParamRoomType>) => {
@@ -67,7 +65,6 @@ export const useHotelStore = defineStore('hotelStore', () => {
     return await connectionsAPI({
       methods: 'GET',
       path: 'hotel',
-      headers: { 'Content-Type': 'application/json' },
       params: params
     })
   }
