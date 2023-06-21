@@ -89,13 +89,13 @@
         </h2>
       </div>
       <v-row class="ma-5">
-        <v-col v-for="item in getCitiesPanel" :key="item.id" :cols="item.col">
+        <v-col v-for="item in getCitiesPanel" :key="item?.id" :cols="item.col">
           <n-image
             :src="item?.image"
             height="300"
             class="image-transform"
             @click="() => {
-              filterPanel.cityId = item.id
+              filterPanel.cityId = item?.id
               handleFilter()
             }"
           >
@@ -124,26 +124,26 @@
         >
           <el-carousel-item
             v-for="(item, idx) in toursForUser"
-            :key="item.id"
+            :key="item?.id"
             :class="chooseCard===idx ? 'card-for-user rounded' : null"
           >
             <v-card height="300px">
               <n-image
                 :hasFav="chooseCard===idx ? true : false"
-                :src="item.coverPicture"
+                :src="item?.coverPicture"
                 class="image-card-user"
-                :favorite="item.isFavorite"
+                :favorite="item?.isFavorite"
                 @addFavorite="async() => {
-                  await addFavoriteTour(item.id)
+                  await addFavoriteTour(item?.id)
                   getToursForUser()
                 }"
                 @removeFavorite="async() => {
-                  await removeFavoriteTour(item.id)
+                  await removeFavoriteTour(item?.id)
                   getToursForUser()
                 }"
               />
               <v-card-text class="pa-3 content-card-user">
-                <h3 class="font-rowdies font-weight-bold">{{ item.name }}</h3>
+                <h3 class="font-rowdies font-weight-bold">{{ item?.name }}</h3>
                 <v-divider class="mt-2 mb-5 mx-5" />
                 <div class="text-card-user">
                   <v-row
@@ -151,7 +151,7 @@
                     class="mx-0 mb-2"
                   >
                     <v-rating
-                      :model-value="item.rate"
+                      :model-value="item?.rate"
                       color="amber"
                       density="compact"
                       half-increments
@@ -185,7 +185,7 @@
                   <div class="my-2">
                     <p v-if="!_.isEmpty(item?.couponData)" class="text-caption animate-charcter">
                       <v-icon icon="mdi-billboard" class="animate-charcter" />
-                      Ưu đãi du lịch - {{ item?.couponData.discountPercent }}%
+                      Ưu đãi du lịch - {{ item?.couponData?.discountPercent }}%
                     </p>
                     <p v-if="!_.isEmpty(item?.couponData)" class="remove-text">{{ formatCurrency(item?.price) }}</p>
                     <h2 class="animate-charcter">
@@ -194,7 +194,7 @@
                         icon="mdi-cash-fast"
                         class="animate-charcter"
                       />
-                      {{ formatCurrency(getPriceDiscount(item?.price, item?.couponData.discountPercent)) }}
+                      {{ formatCurrency(getPriceDiscount(item?.price, item?.couponData?.discountPercent)) }}
                     </h2>
                   </div>
                 </div>
@@ -234,7 +234,7 @@
                 class="align-end text-white"
                 height="180"
                 :src="tour?.coverPicture"
-                :favorite="tour.isFavorite"
+                :favorite="tour?.isFavorite"
                 @addFavorite="async() => {
                   await addFavoriteTour(tour.id)
                   getPopularTours()
@@ -250,7 +250,7 @@
                   variant="outlined"
                 >
                   <span class="font-weight-bold font-size-15 mx-auto">
-                    {{ tour?.couponData.discountPercent }}%
+                    {{ tour?.couponData?.discountPercent }}%
                   </span>
                 </div>
                 <v-card-title
@@ -279,7 +279,7 @@
                   class="mx-0"
                 >
                   <v-rating
-                    :model-value="tour.rate"
+                    :model-value="tour?.rate"
                     color="amber"
                     density="compact"
                     half-increments
@@ -372,9 +372,9 @@
             <v-card height="300px">
               <n-image
                 :hasFav="chooseCardHotel===idx ? true : false"
-                :src="item.coverPicture"
+                :src="item?.coverPicture"
                 class="image-card-user"
-                :favorite="item.isFavorite"
+                :favorite="item?.isFavorite"
                 @addFavorite="async() => {
                   await addFavoriteHotel(item.id)
                   getHotelsForUser()
@@ -385,7 +385,7 @@
                 }"
               />
               <v-card-text class="pa-3 content-card-user">
-                <h3 class="font-rowdies font-weight-bold">{{ item.name }}</h3>
+                <h3 class="font-rowdies font-weight-bold">{{ item?.name }}</h3>
                 <v-divider class="mt-2 mb-5 mx-5" />
                 <div class="mx-2">
                   <v-row align="center" class="my-3">
@@ -426,7 +426,7 @@
                       class="text-caption animate-charcter"
                     >
                       <v-icon icon="mdi-home-city-outline" class="animate-charcter" />
-                      Ưu đãi khách sạn - {{ item?.couponData.discountPercent }}%
+                      Ưu đãi khách sạn - {{ item?.couponData?.discountPercent }}%
                     </p>
                     <p
                       v-if="!_.isEmpty(item?.couponData)"
@@ -440,7 +440,7 @@
                         icon="mdi-cash-fast"
                         class="animate-charcter"
                       />
-                      {{ rangePrice(item?.minPrice, item?.maxPrice, item?.couponData.discountPercent) }}
+                      {{ rangePrice(item?.minPrice, item?.maxPrice, item?.couponData?.discountPercent) }}
                     </h3>
                   </div>
                 </div>
@@ -513,7 +513,7 @@
                 class="align-end text-white"
                 height="40%"
                 :src="hotel?.coverPicture"
-                :favorite="hotel.isFavorite"
+                :favorite="hotel?.isFavorite"
                 @addFavorite="async() => {
                   await addFavoriteHotel(hotel.id)
                   getRecomendHotelByCity(selectedCity)
@@ -529,7 +529,7 @@
                   variant="outlined"
                 >
                   <span class="font-weight-bold font-size-15 mx-auto">
-                    {{ hotel?.couponData.discountPercent }}%
+                    {{ hotel?.couponData?.discountPercent }}%
                   </span>
                 </div>
               </n-image>
@@ -584,7 +584,7 @@
                 <v-card-actions class="mx-2">
                   <v-icon icon="mdi-cash-multiple" size="18" class="mb-1 animate-charcter" />
                   <p class="mx-2 animate-charcter">
-                    {{ rangePrice(hotel?.minPrice, hotel?.maxPrice, hotel?.couponData.discountPercent) }}
+                    {{ rangePrice(hotel?.minPrice, hotel?.maxPrice, hotel?.couponData?.discountPercent) }}
                   </p>
                   <v-spacer />
                   <v-icon

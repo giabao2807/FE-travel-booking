@@ -1,10 +1,10 @@
-import { IParamPage } from '@/libs/types/commonType'
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import connectionsAPI from '@/plugins/axios'
 import { defineStore } from 'pinia'
 
 export const usePartnerHotelsStore = defineStore('partnerHotelsStore', () => {
 
-  const getHotels = async(params?: IParamPage) => {
+  const getHotels = async(params?: any) => {
     return await connectionsAPI({
       methods: 'GET',
       path: 'hotel/for_management',
@@ -45,6 +45,12 @@ export const usePartnerHotelsStore = defineStore('partnerHotelsStore', () => {
       data: data
     })
   }
+  const deleteRoom = async(id: string) => {
+    return await connectionsAPI({
+      methods: 'DELETE',
+      path: `hotel/room/${id}`
+    })
+  }
   const deactivateHotel = async(id: string) => {
     return await connectionsAPI({
       methods: 'PUT',
@@ -65,6 +71,7 @@ export const usePartnerHotelsStore = defineStore('partnerHotelsStore', () => {
     updateHotel,
     createRoom,
     updateRoom,
-    getRoomById
+    getRoomById,
+    deleteRoom
   }
 })

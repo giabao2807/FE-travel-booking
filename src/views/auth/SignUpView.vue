@@ -91,13 +91,6 @@
             />
             <div class="text-center">
               <n-button-animated label="Sign Up" />
-              <div class="ma-4">
-                <span class="double-line text-medium-emphasis">Hoặc đăng ký với
-                  <v-avatar size="x-small" @click="signUpWithGoogle">
-                    <v-img :src="require('@/assets/img/google-logo.png')" cover />
-                  </v-avatar>
-                </span>
-              </div>
               <h4 class="mt-2 font-weight-thin text-medium-emphasis">
                 Bạn đã đăng ký?
                 <router-link class="text-decoration-none" to="/sign_in">Đăng nhập</router-link>
@@ -124,8 +117,7 @@ const {
   showConfirmPassword,
   GENDER_DATA,
   routeDirectional,
-  signUp,
-  signUpWithGoogle
+  signUp
 } = useAuthentication()
 onMounted(() => {
   routeDirectional()

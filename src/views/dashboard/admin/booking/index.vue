@@ -4,18 +4,106 @@
     <div class="text-center my-5">
       <h3>Danh Sách Booking Tours Hiện Tại</h3>
     </div>
-    <div class="mx-0">
+    <div class="my-2">
+      <v-card color="#FFF" elevation="0" class="w-50 rounded-0 rounded-t-xl pa-0">
+        <v-card-text>
+          <div class="d-flex">
+            <v-text-field
+              v-if="selectFilterTour === 'Name'"
+              v-model="filterBookingTour.name"
+              color="primary"
+              prepend-inner-icon="mdi-map-search"
+              variant="outlined"
+              density="compact"
+              placeholder="Please input name"
+              style="width: 80%;"
+              hide-details
+              clearable
+              @keydown.enter="() => getBookingTours({ ...filterBookingTour })"
+            />
+            <v-select
+              v-else
+              v-model="filterBookingTour.status"
+              :items="STATUS_ICON"
+              item-title="name"
+              item-value="name"
+              color="primary"
+              prepend-inner-icon="mdi-map-search"
+              variant="outlined"
+              density="compact"
+              placeholder="Please input role"
+              style="width: 80%;"
+              hide-details
+              clearable
+              @update:model-value="() => getBookingTours({ ...filterBookingTour })"
+            />
+            <v-select
+              v-model="selectFilterTour"
+              :items="['Name', 'Status']"
+              variant="outlined"
+              class="mx-2"
+              color="primary"
+              density="compact"
+              hide-details
+            />
+          </div>
+        </v-card-text>
+      </v-card>
       <n-table
         :columns="columnsTour"
         :data="bookingTours"
         :loading="loadingTours"
-        @getNextPage="getBookingTours"
+        @getNextPage="event => getBookingTours({ ...filterBookingTour, ...event })"
       />
     </div>
     <div class="text-center mb-5" style="margin-top: 10rem;">
       <h3>Danh Sách Booking Hotels Hiện Tại</h3>
     </div>
     <div class="mb-15">
+      <v-card color="#FFF" elevation="0" class="w-50 rounded-0 rounded-t-xl pa-0">
+        <v-card-text>
+          <div class="d-flex">
+            <v-text-field
+              v-if="selectFilterHotel === 'Name'"
+              v-model="filterBookingHotel.name"
+              color="primary"
+              prepend-inner-icon="mdi-home-search-outline"
+              variant="outlined"
+              density="compact"
+              placeholder="Please input name"
+              style="width: 80%;"
+              hide-details
+              clearable
+              @keydown.enter="() => getBookingHotels({ ...filterBookingHotel })"
+            />
+            <v-select
+              v-else
+              v-model="filterBookingHotel.status"
+              :items="STATUS_ICON"
+              item-title="name"
+              item-value="name"
+              color="primary"
+              prepend-inner-icon="mdi-home-search-outline"
+              variant="outlined"
+              density="compact"
+              placeholder="Please input role"
+              style="width: 80%;"
+              clearable
+              hide-details
+              @update:model-value="() => getBookingHotels({ ...filterBookingHotel })"
+            />
+            <v-select
+              v-model="selectFilterHotel"
+              :items="['Name', 'Status']"
+              variant="outlined"
+              class="mx-2"
+              color="primary"
+              density="compact"
+              hide-details
+            />
+          </div>
+        </v-card-text>
+      </v-card>
       <n-table
         :columns="columnsHotel"
         :data="bookingHotels"
@@ -23,7 +111,7 @@
         :estimated-row-height="50"
         :expand="true"
         :expand-column-key="columnsHotel[0].key"
-        @getNextPage="getBookingTours"
+        @getNextPage="event => getBookingHotels({ ...filterBookingHotel, ...event })"
       />
     </div>
   </v-container>
@@ -34,12 +122,17 @@ import type { Column } from 'element-plus'
 import { usePartnerBooking } from '@/composables/partners/usePartnerBooking'
 import NTable from '@/components/NTable.vue'
 import { convertionType } from '@/helpers/convertion'
+import { STATUS_ICON } from '@/resources/mockData'
 
 const {
   bookingTours,
   loadingTours,
   bookingHotels,
   loadingHotels,
+  filterBookingTour,
+  filterBookingHotel,
+  selectFilterTour,
+  selectFilterHotel,
   getBookingTours,
   getBookingHotels
 } = usePartnerBooking()
@@ -49,6 +142,7 @@ onMounted(() => {
   getBookingHotels()
 })
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const columnsTour: Column<any>[] = [
   {
     key: 'column-n-1',
@@ -69,11 +163,13 @@ const columnsTour: Column<any>[] = [
   {
     key: 'nameUser',
     title: 'Name User',
-    width: 150,
+    width: 200,
     headerClass: 'justify-center',
     cellRenderer: ({ rowData }) => (
-      <el-tooltip content={rowData.customer.firstName}>
-        <span class='text-start'>{rowData.customer.firstName}</span>
+      <el-tooltip content={rowData.customer.lastName + ' ' + rowData.customer.firstName}>
+        <span class='text-start'>
+          {rowData.customer.lastName + ' ' + rowData.customer.firstName}
+        </span>
       </el-tooltip>
     )
   },
@@ -147,6 +243,7 @@ const columnsTour: Column<any>[] = [
     )
   }
 ]
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const columnsHotel: Column<any>[] = [
   {
     key: 'avatar',
@@ -160,11 +257,13 @@ const columnsHotel: Column<any>[] = [
   {
     key: 'nameUser',
     title: 'Name User',
-    width: 150,
+    width: 200,
     headerClass: 'justify-center',
     cellRenderer: ({ rowData }) => (
-      <el-tooltip content={rowData.customer.firstName}>
-        <span class='text-start'>{rowData.customer.firstName}</span>
+      <el-tooltip content={rowData.customer.lastName + ' ' + rowData.customer.firstName}>
+        <span class='text-start'>
+          {rowData.customer.lastName + ' ' + rowData.customer.firstName}
+        </span>
       </el-tooltip>
     )
   },

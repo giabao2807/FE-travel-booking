@@ -68,10 +68,9 @@ const props = withDefaults(defineProps<Props>(), {
 const { formatCurrency } = convertionType()
 const { dialogRoom, idHotel, getRoomById } = usePartnerHotels()
 const pageNumber = ref<number>(1)
-const emit = defineEmits(['getNextPage'])
+const emit = defineEmits(['getNextPage', 'deteleRoom'])
 const getNextPage = (params: any) => {
   emit('getNextPage', params)
-
 }
 const data = ref()
 const isAdminFlag = ref<boolean>()
@@ -81,16 +80,17 @@ const Row = ({ cells, rowData }) => {
       <div class="ma-5 w-100">
         <v-row align="center" class="d-flex mx-5 mb-2 w-50">
           <h3>List Rooms</h3>
-          {!isAdminFlag.value ? (<v-btn
-            variant="plain"
-            color="primary"
-            size="small"
-            icon="mdi-package-variant-closed-plus"
-            onClick={() => {
-              dialogRoom.value = true
-              idHotel.value = rowData.idHotel
-            }}
-          />) : null}
+          {!isAdminFlag.value ?
+            (<v-btn
+              variant="plain"
+              color="primary"
+              size="small"
+              icon="mdi-package-variant-closed-plus"
+              onClick={() => {
+                dialogRoom.value = true
+                idHotel.value = rowData.idHotel
+              }}
+            />) : null}
         </v-row>
         <div class="overflow-y-auto" style="max-height: 200px">
           {rowData.detail.map((item: any, idx: number) => (
@@ -118,6 +118,14 @@ const Row = ({ cells, rowData }) => {
                       onClick={() => {
                         dialogRoom.value = true
                         getRoomById(item.id)
+                      }}
+                    />
+                    <v-btn
+                      variant="plain"
+                      color="error"
+                      icon="mdi-comment-remove-outline"
+                      onClick={() => {
+                        emit('deleteRoom', { id: item.id, page: pageNumber.value })
                       }}
                     />
                   </v-col>

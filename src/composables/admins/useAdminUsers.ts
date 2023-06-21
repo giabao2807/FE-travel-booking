@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { reactive, ref } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
-import { IParamPage } from '@/libs/types/commonType'
 import type { FormRules, FormInstance } from 'element-plus'
 import { validations } from '@/helpers/validate'
 import { useFeedBack } from '../useFeedBack'

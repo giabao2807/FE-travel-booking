@@ -3,12 +3,26 @@
     <div class="text-center mb-5">
       <h3>Danh Sách Tours Hiện Tại</h3>
     </div>
-    <div class="d-flex align-center mx-0">
+    <div class="mx-0">
+      <v-card color="#FFF" elevation="0" class="w-35 rounded-0 rounded-t-xl pa-0">
+        <v-card-text>
+          <v-text-field
+            v-model="filterTour.name"
+            color="primary"
+            prepend-icon="mdi-map-search"
+            variant="outlined"
+            density="compact"
+            placeholder="Please input tour name"
+            hide-details
+            @keydown.enter="() => getTours({ ...filterTour })"
+          />
+        </v-card-text>
+      </v-card>
       <n-table
         :columns="columns"
         :data="tours"
         :loading="loadingTours"
-        @getNextPage="getTours"
+        @getNextPage="event => getTours({ ...filterTour, ...event })"
       />
     </div>
   </v-container>
@@ -19,14 +33,14 @@ import type { Column } from 'element-plus'
 import { usePartnerTours } from '@/composables/partners/usePartnerTours'
 import NTable from '@/components/NTable.vue'
 import { convertionType } from '@/helpers/convertion'
-import { handleRoute } from '@/helpers/loadingRoute'
 
 
-const { tours, loadingTours, getTours, deactivateTour, activateTour } = usePartnerTours()
+const { tours, loadingTours, filterTour, getTours, deactivateTour, activateTour } = usePartnerTours()
 const { formatCurrency } = convertionType()
 onMounted(() => {
   getTours()
 })
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const columns: Column<any>[] = [
   {
     key: 'column-n-1',

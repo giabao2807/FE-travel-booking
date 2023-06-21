@@ -61,7 +61,7 @@ const createAdminCoupons = () => {
   }
   const getPartners = () => {
     couponsStore.getPartnersForCoupon()
-      .then(data => partners.value = data.results)
+      .then(data => partners.value = data)
   }
   const createCoupon = async(formEl: FormInstance | undefined) => {
     if (!formEl) return

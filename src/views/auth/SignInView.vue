@@ -60,7 +60,7 @@
                 <span class="double-line text-medium-emphasis">Hoặc đăng nhập với:
                 </span>
               </div>
-              <GoogleLogin :callback="googleSignInCallBack"/>
+              <GoogleLogin :callback="googleSignInCallBack" />
               <h4 class="mt-5 font-weight-thin text-medium-emphasis">
                 Bạn chưa có tài khoản?
                 <router-link class="text-decoration-none" to="/sign_up">Đăng ký</router-link>

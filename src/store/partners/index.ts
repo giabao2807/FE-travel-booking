@@ -1,4 +1,4 @@
-import { IParamPage } from '@/libs/types/commonType'
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import connectionsAPI from '@/plugins/axios'
 import { defineStore } from 'pinia'
 
@@ -23,7 +23,7 @@ export const usePartnerStore = defineStore('partnerStore', () => {
       path: 'statistic/get_potential_customers'
     })
   }
-  const getBooking = async(type: number, params?: IParamPage) => {
+  const getBooking = async(type: number, params?: any) => {
     return await connectionsAPI({
       methods: 'GET',
       path: 'booking/for_management',

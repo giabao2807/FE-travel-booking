@@ -4,17 +4,33 @@
       <h3>Danh Sách Hotels Hiện Tại</h3>
     </div>
     <div class="mx-0">
-      <v-card color="#FFF" elevation="0" class="w-25 rounded-0 rounded-t-xl pa-0">
+      <v-card color="#FFF" elevation="0" class="w-50 rounded-0 rounded-t-xl pa-0">
         <v-card-text>
-          <v-btn
-            color="primary"
-            class="text-none rounded-xl"
-            variant="tonal"
-            prepend-icon="mdi-home-plus"
-            @click="handleRoute({ name: 'createHotel' })"
-          >
-            <strong>Tạo Hotel</strong>
-          </v-btn>
+          <v-row align="center">
+            <v-col cols="5">
+              <v-btn
+                color="primary"
+                class="text-none rounded-xl"
+                variant="tonal"
+                prepend-icon="mdi-home-plus"
+                @click="handleRoute({ name: 'createHotel' })"
+              >
+                <strong>Tạo Hotel</strong>
+              </v-btn>
+            </v-col>
+            <v-col>
+              <v-text-field
+                v-model="filterHotel.name"
+                color="primary"
+                prepend-inner-icon="mdi-home-search-outline"
+                variant="outlined"
+                density="compact"
+                placeholder="Please input hotel name"
+                hide-details
+                @keydown.enter="() => getHotels({ ...filterHotel })"
+              />
+            </v-col>
+          </v-row>
         </v-card-text>
       </v-card>
       <n-table-hotel
@@ -24,7 +40,11 @@
         :estimated-row-height="50"
         :expand="true"
         :expand-column-key="columns[0].key"
-        @getNextPage="getHotels"
+        @getNextPage="event => getHotels({ ...filterHotel, ...event })"
+        @deleteRoom="async(event) => {
+          await deleteRoom(event.id)
+          getHotels({ ...filterHotel, ...event })
+        }"
       />
     </div>
     <n-dialog-update-hotel v-model="dialogUpdate" />
@@ -46,10 +66,12 @@ const {
   loadingHotels,
   dialogUpdate,
   dialogRoom,
+  filterHotel,
   getHotels,
   activateHotel,
   deactivateHotel,
-  getHotelById
+  getHotelById,
+  deleteRoom
 } = usePartnerHotels()
 const { formatCurrency } = convertionType()
 onMounted(() => {

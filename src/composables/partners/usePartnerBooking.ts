@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ref } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
-import { IParamPage } from '@/libs/types/commonType'
 import { usePartnerStore } from '@/store/partners'
 
 
@@ -10,7 +10,17 @@ const createPartnerBooking = () => {
   const bookingHotels = ref<any[]>([])
   const loadingTours = ref<boolean>(false)
   const loadingHotels = ref<boolean>(false)
-  const getBookingTours = (params?: IParamPage) => {
+  const selectFilterTour = ref<string>('Name')
+  const selectFilterHotel = ref<string>('Name')
+  const filterBookingTour = ref<any>({
+    name: '',
+    status: ''
+  })
+  const filterBookingHotel = ref<any>({
+    name: '',
+    status: ''
+  })
+  const getBookingTours = (params?: any) => {
     loadingTours.value = true
     partnerStore.getBooking(2, params)
       .then(data => {
@@ -18,7 +28,7 @@ const createPartnerBooking = () => {
         loadingTours.value = false
       })
   }
-  const getBookingHotels = (params?: IParamPage) => {
+  const getBookingHotels = (params?: any) => {
     loadingHotels.value = true
     partnerStore.getBooking(1, params)
       .then(data => {
@@ -31,6 +41,10 @@ const createPartnerBooking = () => {
     loadingTours,
     bookingHotels,
     loadingHotels,
+    selectFilterTour,
+    selectFilterHotel,
+    filterBookingTour,
+    filterBookingHotel,
     getBookingTours,
     getBookingHotels
   }

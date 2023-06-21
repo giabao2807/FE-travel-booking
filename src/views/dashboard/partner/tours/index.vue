@@ -4,24 +4,40 @@
       <h3>Danh Sách Tours Hiện Tại</h3>
     </div>
     <div class="mx-0">
-      <v-card color="#FFF" elevation="0" class="w-25 rounded-0 rounded-t-xl pa-0">
+      <v-card color="#FFF" elevation="0" class="w-50 rounded-0 rounded-t-xl pa-0">
         <v-card-text>
-          <v-btn
-            color="primary"
-            class="text-none rounded-xl"
-            variant="tonal"
-            prepend-icon="mdi-map-marker-plus-outline"
-            @click="handleRoute({ name: 'createTour' })"
-          >
-            <strong>Tạo Tour</strong>
-          </v-btn>
+          <v-row align="center">
+            <v-col cols="5">
+              <v-btn
+                color="primary"
+                class="text-none rounded-xl"
+                variant="tonal"
+                prepend-icon="mdi-map-marker-plus-outline"
+                @click="handleRoute({ name: 'createTour' })"
+              >
+                <strong>Tạo Tour</strong>
+              </v-btn>
+            </v-col>
+            <v-col>
+              <v-text-field
+                v-model="filterTour.name"
+                color="primary"
+                prepend-inner-icon="mdi-map-search"
+                variant="outlined"
+                density="compact"
+                placeholder="Please input tour name"
+                hide-details
+                @keydown.enter="() => getTours({ ...filterTour })"
+              />
+            </v-col>
+          </v-row>
         </v-card-text>
       </v-card>
       <n-table
         :columns="columns"
         :data="tours"
         :loading="loadingTours"
-        @getNextPage="getTours"
+        @getNextPage="event => getTours({ ...filterTour, ...event })"
       />
     </div>
   </v-container>
@@ -35,11 +51,12 @@ import { convertionType } from '@/helpers/convertion'
 import { handleRoute } from '@/helpers/loadingRoute'
 
 
-const { tours, loadingTours, getTours, deactivateTour, activateTour } = usePartnerTours()
+const { tours, loadingTours, filterTour, getTours, deactivateTour, activateTour } = usePartnerTours()
 const { formatCurrency } = convertionType()
 onMounted(() => {
   getTours()
 })
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const columns: Column<any>[] = [
   {
     key: 'column-n-1',

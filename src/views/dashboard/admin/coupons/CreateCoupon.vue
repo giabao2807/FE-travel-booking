@@ -21,7 +21,11 @@
               </div>
             </template>
             <el-col :span="15">
-              <el-input v-model="formCoupon.name" />
+              <el-input
+                v-model="formCoupon.name"
+                placeholder="Enter the coupon name"
+                clearable
+              />
             </el-col>
           </el-form-item>
           <el-form-item prop="rangeDate">
@@ -50,7 +54,13 @@
               </div>
             </template>
             <el-col :span="15">
-              <el-input :min="0" v-model="formCoupon.discountPercent">
+              <el-input
+                :min="0"
+                :max="100"
+                v-model="formCoupon.discountPercent"
+                placeholder="Enter the disscount percent"
+                clearable
+              >
                 <template #append>%</template>
               </el-input>
             </el-col>
@@ -67,7 +77,8 @@
                 v-model="formCoupon.description"
                 :autosize="{ minRows: 4, maxRows: 5 }"
                 type="textarea"
-                placeholder="Please input"
+                placeholder="Please the description"
+                clearable
               />
             </el-col>
           </el-form-item>

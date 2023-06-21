@@ -44,6 +44,7 @@ onMounted(() => {
   getCoupons()
 })
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const columns: Column<any>[] = [
   {
     key: 'column-n-1',
@@ -100,11 +101,28 @@ const columns: Column<any>[] = [
     title: 'Discount',
     dataKey: 'discountPercent',
     align: 'center',
-    width: 150,
+    width: 100,
     cellRenderer: ({ cellData: discountPercent }) => (
       <>
-        { discountPercent }%
+        { discountPercent ? `${discountPercent}%` : '-' }
       </>
+    )
+  },
+  {
+    key: 'forAll',
+    title: 'Scope',
+    dataKey: 'forAll',
+    width: 50,
+    align: 'center',
+    cellRenderer: ({ cellData: forAll }) =>(
+      <el-tag
+        class="mx-1"
+        effect="light"
+        type={!forAll ? 'info' : ''}
+        round
+      >
+        { forAll ? 'All' : 'Part' }
+      </el-tag>
     )
   },
   {

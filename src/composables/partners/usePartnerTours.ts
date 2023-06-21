@@ -49,6 +49,9 @@ const createPartnerTours = () => {
   const tours = ref()
   const loadingTours = ref<boolean>(false)
   const imgListUpdate = ref<any[]>([])
+  const filterTour = ref<any>({
+    name: ''
+  })
   const formRef = ref()
   const formTour = ref<IFormCreateTour>({
     name: '',
@@ -231,6 +234,7 @@ const createPartnerTours = () => {
     rules,
     formRef,
     imgListUpdate,
+    filterTour,
     resetForm,
     getTours,
     getTourById,

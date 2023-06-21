@@ -51,6 +51,9 @@ const createPartnerHotels = () => {
   const imgListUpdateRoom = ref<any[]>([])
   const idHotel = ref<string>('')
   const idRoomUpdate = ref<string>('')
+  const filterHotel = ref<any>({
+    name: ''
+  })
   const step = ref<number>(1)
   const openFistRoom = ref<number>(0)
   const formRefHotel = ref()
@@ -337,6 +340,25 @@ const createPartnerHotels = () => {
       }
     })
   }
+  const deleteRoom = async(id: string) => {
+    startLoading()
+    partnerHotelStore.deleteRoom(id)
+      .then(() => {
+        finishLoading()
+        feedBack({
+          title: 'Delete Room',
+          message: 'Delete success Room',
+          type:'success'
+        })
+      }).catch(error => {
+        finishLoading()
+        feedBack({
+          title: 'Delete Room',
+          message: error,
+          type:'error'
+        })
+      })
+  }
   const getRoomById = async(id: string) => {
     startLoading()
     partnerHotelStore.getRoomById(id)
@@ -380,6 +402,7 @@ const createPartnerHotels = () => {
     dialogRoom,
     dataFormRooms,
     formDataRoom,
+    filterHotel,
     openFistRoom,
     rulesHotel,
     formRefHotel,
@@ -392,6 +415,7 @@ const createPartnerHotels = () => {
     handleRemoveImgHotel,
     handleRemoveImgRoom,
     updateRoom,
+    deleteRoom,
     getHotels,
     deactivateHotel,
     activateHotel,

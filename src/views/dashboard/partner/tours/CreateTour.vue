@@ -28,6 +28,7 @@
             </template>
             <el-input
               v-model="formTour.name"
+              placeholder="Enter the name of the tour"
               clearable
             />
           </el-form-item>
@@ -56,7 +57,11 @@
           </div>
         </template>
         <el-col :span="5">
-          <el-input-number v-model="formTour.groupSize" style="width: 200px" />
+          <el-input-number
+            :min="0"
+            v-model="formTour.groupSize"
+            style="width: 200px"
+          />
         </el-col>
       </el-form-item>
       <el-row>
@@ -68,7 +73,7 @@
                 <span class="font-weight-600">Điểm đến</span>
               </div>
             </template>
-            <el-select filterable v-model="formTour.city" clearable placeholder="Select">
+            <el-select filterable v-model="formTour.city" clearable placeholder="Select the city">
               <el-option
                 v-for="item in allCities"
                 :key="item.id"
@@ -86,7 +91,11 @@
                 <span class="font-weight-600">Khởi hành</span>
               </div>
             </template>
-            <el-input v-model="formTour.departure" />
+            <el-input
+              v-model="formTour.departure"
+              placeholder="Enter the departure"
+              clearable
+            />
           </el-form-item>
         </el-col>
       </el-row>
@@ -124,13 +133,25 @@
             <el-row>
               <el-col :span="10">
                 <el-form-item prop="totalDay">
-                  <el-input v-model="formTour.totalDay" />
+                  <el-input
+                    :min="0"
+                    type="number"
+                    v-model="formTour.totalDay"
+                    placeholder="Enter number day"
+                    clearable
+                  />
                 </el-form-item>
               </el-col>
               <v-icon class="mx-2 mt-1" color="gray" icon="mdi-theme-light-dark" style="transform: rotate(180deg);" />
               <el-col :span="10">
                 <el-form-item prop="totalNight">
-                  <el-input v-model="formTour.totalNight" />
+                  <el-input
+                    :min="0"
+                    type="number"
+                    v-model="formTour.totalNight"
+                    placeholder="Enter number day"
+                    clearable
+                  />
                 </el-form-item>
               </el-col>
             </el-row>
@@ -146,7 +167,11 @@
         </template>
         <el-col :span="20">
           <el-input
+            :min="0"
+            :max="20000000000"
             v-model="formTour.price"
+            placeholder="Enter the price"
+            clearable
             type="number"
           >
             <template #append>VNĐ</template>

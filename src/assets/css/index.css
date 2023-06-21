@@ -53,6 +53,9 @@
 .width-150 {
   width: 150px;
 }
+.w-35 {
+  width:35%
+}
 .border-left-black {
   border-left: 1px solid #000
 }

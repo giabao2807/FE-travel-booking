@@ -114,21 +114,16 @@
       </template>
     </v-navigation-drawer>
     <v-app-bar :order="order" theme="theme" flat>
-      <v-app-bar-title>
+      <template #image>
+        <n-image :src="require(`@/assets/img/${imgAppBar}`)" />
+      </template>
+      <template #prepend>
         <v-row align="center">
           <img src="@/assets/img/logo-dashboard.svg" alt="SVG Image">
           <p class="header-title font-palanquin">
             TravelNE
           </p>
         </v-row>
-      </v-app-bar-title>
-      <v-spacer />
-      <v-icon class="mx-5" color="primary" icon="mdi-lightbulb-night" @click="toggleTheme" />
-      <template #image>
-        <n-image :src="require(`@/assets/img/${imgAppBar}`)" />
-      </template>
-      <template #prepend>
-        <v-icon v-if="!drawer" class="my-5" icon="mdi-menu-open" @click.stop="drawer = !drawer" />
       </template>
     </v-app-bar>
     <v-container fluid class="partner-page">

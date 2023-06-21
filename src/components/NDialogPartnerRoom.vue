@@ -90,6 +90,7 @@
               <el-col :span="20">
                 <el-input
                   v-model="formDataRoom.name"
+                  placeholder="Enter the room name"
                   clearable
                 />
               </el-col>
@@ -187,8 +188,11 @@
               </template>
               <el-col :span="20">
                 <el-input
+                  :min="0"
                   v-model="formDataRoom.price"
                   type="number"
+                  placeholder="Enter the price"
+                  clearable
                 >
                   <template #append>VNĐ</template>
                 </el-input>

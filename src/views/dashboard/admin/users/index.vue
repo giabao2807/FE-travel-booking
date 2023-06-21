@@ -31,6 +31,7 @@
                   placeholder="Please input name"
                   style="width: 80%;"
                   hide-details
+                  clearable
                   @keydown.enter="() => getUsers({ ...filtersUser })"
                 />
                 <v-select
@@ -46,6 +47,7 @@
                   placeholder="Please input role"
                   style="width: 80%;"
                   hide-details
+                  clearable
                   @update:model-value="() => getUsers({ ...filtersUser })"
                 />
                 <v-select

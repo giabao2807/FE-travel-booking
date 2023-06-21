@@ -41,6 +41,7 @@
             <el-col :span="20">
               <el-input
                 v-model="formHotel.name"
+                placeholder="Enter the name of the hotel"
                 clearable
               />
             </el-col>
@@ -95,6 +96,7 @@
             <el-col :span="20">
               <el-input
                 v-model="formHotel.address"
+                placeholder="Enter the address"
                 clearable
               />
             </el-col>
@@ -186,6 +188,7 @@
                       <el-col :span="20">
                         <el-input
                           v-model="dataForm.name"
+                          placeholder="Enter the room name"
                           clearable
                         />
                       </el-col>

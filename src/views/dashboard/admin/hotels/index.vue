@@ -3,7 +3,21 @@
     <div class="text-center mb-5">
       <h3>Danh Sách Hotels Hiện Tại</h3>
     </div>
-    <div class="d-flex align-center mx-0">
+    <div class="mx-0">
+      <v-card color="#FFF" elevation="0" class="w-35 rounded-0 rounded-t-xl pa-0">
+        <v-card-text>
+          <v-text-field
+            v-model="filterHotel.name"
+            color="primary"
+            prepend-icon="mdi-home-search-outline"
+            variant="outlined"
+            density="compact"
+            placeholder="Please input hotel name"
+            hide-details
+            @keydown.enter="() => getHotels({ ...filterHotel })"
+          />
+        </v-card-text>
+      </v-card>
       <n-table-hotel
         :columns="columns"
         :data="hotels"
@@ -12,7 +26,7 @@
         :expand="true"
         :is-admin="true"
         :expand-column-key="columns[0].key"
-        @getNextPage="getHotels"
+        @getNextPage="event => getHotels({ ...filterHotel, ...event })"
       />
     </div>
   </v-container>
@@ -27,6 +41,7 @@ import { usePartnerHotels } from '@/composables/partners/usePartnerHotels'
 const {
   hotels,
   loadingHotels,
+  filterHotel,
   getHotels,
   activateHotel,
   deactivateHotel

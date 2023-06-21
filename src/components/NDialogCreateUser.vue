@@ -32,11 +32,12 @@
                   <template #label>
                     <div class="d-flex align-center">
                       <v-icon class="mr-1" icon="mdi-rename-box-outline" />
-                      <span class="font-weight-600">Họ Lót</span>
+                      <span class="font-weight-600">Họ</span>
                     </div>
                   </template>
                   <el-input
                     v-model="formCreateUser.lastName"
+                    placeholder="Enter the last name"
                     clearable
                   />
                 </el-form-item>
@@ -51,6 +52,7 @@
                   </template>
                   <el-input
                     v-model="formCreateUser.firstName"
+                    placeholder="Enter the first name"
                     clearable
                   />
                 </el-form-item>
@@ -65,6 +67,7 @@
               </template>
               <el-input
                 v-model="formCreateUser.email"
+                placeholder="Enter the email"
                 clearable
               />
             </el-form-item>
@@ -77,6 +80,7 @@
               </template>
               <el-input
                 v-model="formCreateUser.phone"
+                placeholder="Enter the phone"
                 clearable
               />
             </el-form-item>
@@ -89,6 +93,7 @@
               </template>
               <el-input
                 v-model="formCreateUser.address"
+                placeholder="Enter the address"
                 clearable
               />
             </el-form-item>

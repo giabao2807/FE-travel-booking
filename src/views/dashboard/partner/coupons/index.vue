@@ -101,16 +101,33 @@ const columns: Column<any>[] = [
     title: 'Discount',
     dataKey: 'discountPercent',
     align: 'center',
-    width: 150,
+    width: 100,
     cellRenderer: ({ cellData: discountPercent }) => (
       <>
-        { discountPercent }%
+        { discountPercent ? `${discountPercent}%` : '-' }
       </>
     )
   },
   {
+    key: 'forAll',
+    title: 'Scope',
+    dataKey: 'forAll',
+    width: 50,
+    align: 'center',
+    cellRenderer: ({ cellData: forAll }) =>(
+      <el-tag
+        class="mx-1"
+        effect="light"
+        type={!forAll ? 'info' : ''}
+        round
+      >
+        { forAll ? 'All' : 'Part' }
+      </el-tag>
+    )
+  },
+  {
     key: 'isActive',
-    title: 'Status',
+    title: 'Scope',
     dataKey: 'isActive',
     width: 100,
     align: 'center',
