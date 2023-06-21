@@ -68,6 +68,7 @@
                 class="ma-3"
                 type="daterange"
                 start-placeholder="Start date"
+                :clearable="false"
                 end-placeholder="End date"
                 value-format="YYYY-MM-DD"
                 @update:model-value="() => getRevenue(

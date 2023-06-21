@@ -142,23 +142,22 @@
               </div>
               <v-divider />
             </v-list-item>
-            <div>
+            <div v-if="authUser?.accessToken">
               <v-list-item
+                prepend-icon="mdi-information-box-outline"
+                title="Quản lí tài khoản"
+                @click="() => router.push({ name: 'userInfo' })"
+              />
+              <v-list-item
+                prepend-icon="mdi-logout"
                 title="Đăng xuất"
                 @click="signOut"
               />
-              <v-divider class="mx-2" />
             </div>
-            <v-list-item>
-              Thông báo
-            </v-list-item>
             <div v-if="!authUser?.accessToken">
-              <v-divider class="mx-2" />
               <v-list-item @click="() => router.push('/sign_in')">
                 Đăng nhập
               </v-list-item>
-            </div>
-            <div v-if="!authUser?.accessToken">
               <v-divider class="mx-2" />
               <v-list-item @click="() => router.push('/sign_up')">
                 Đăng ký

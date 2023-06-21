@@ -14,7 +14,7 @@ const createDefaultLayout = () => {
   const { checkAvatar, signOut } = useAuthentication()
   const slideValue = ref<number>()
   const showBookingPage = (name: string) => {
-    if (name === 'Booking') {
+    if (name === 'Booking' || name === 'Favorite') {
       return authUser.value.accessToken ? true : false
     }
     return true

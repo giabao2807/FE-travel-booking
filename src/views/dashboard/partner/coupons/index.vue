@@ -13,7 +13,7 @@
             prepend-icon="mdi-archive-plus-outline"
             @click="handleRoute({ name: 'createCoupon' })"
           >
-            Tạo Coupon Mới
+            <strong>Tạo Coupon</strong>
           </v-btn>
         </v-card-text>
       </v-card>

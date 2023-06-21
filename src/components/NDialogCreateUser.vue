@@ -11,7 +11,7 @@
     <template #header>
       <h3 class="my-2">
         <v-icon icon="mdi-account-multiple-plus-outline" />
-        Tạo Mới Người Dùng
+        Tạo Mới Partner
       </h3>
       <v-divider class="mx-2" />
     </template>
@@ -23,10 +23,12 @@
             ref="formRef"
             label-width="90px"
             label-position="left"
+            :rules="rules"
+            :model="formCreateUser"
           >
             <v-row align="center" class="my-1">
               <v-col class="py-0">
-                <el-form-item prop="name">
+                <el-form-item prop="lastName">
                   <template #label>
                     <div class="d-flex align-center">
                       <v-icon class="mr-1" icon="mdi-rename-box-outline" />
@@ -40,7 +42,7 @@
                 </el-form-item>
               </v-col>
               <v-col class="py-0">
-                <el-form-item prop="name">
+                <el-form-item prop="firstName">
                   <template #label>
                     <div class="d-flex align-center">
                       <v-icon class="mr-1" icon="mdi-rename-box-outline" />
@@ -54,7 +56,7 @@
                 </el-form-item>
               </v-col>
             </v-row>
-            <el-form-item prop="name">
+            <el-form-item prop="email">
               <template #label>
                 <div class="d-flex align-center">
                   <v-icon class="mr-1" icon="mdi-rename-box-outline" />
@@ -66,7 +68,7 @@
                 clearable
               />
             </el-form-item>
-            <el-form-item prop="name">
+            <el-form-item prop="phone">
               <template #label>
                 <div class="d-flex align-center">
                   <v-icon class="mr-1" icon="mdi-rename-box-outline" />
@@ -78,7 +80,7 @@
                 clearable
               />
             </el-form-item>
-            <el-form-item prop="name">
+            <el-form-item prop="address">
               <template #label>
                 <div class="d-flex align-center">
                   <v-icon class="mr-1" icon="mdi-rename-box-outline" />
@@ -113,7 +115,7 @@
             class="text-none"
             prepend-icon="mdi-cloud-arrow-up-outline"
             @click="() => {
-              createUser()
+              createUser(formRef)
             }"
           >
             Tạo Mới
@@ -124,14 +126,16 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import NImage from './NImage.vue'
-import NUploadPic from './NUploadPic.vue'
 import { defineEmits } from 'vue'
-import { useCities } from '@/composables/useCities'
 import { useAdminUsers } from '@/composables/admins/useAdminUsers'
 
-const { allCities } = useCities()
-const { dialogCreate, formCreateUser, createUser } = useAdminUsers()
+const {
+  dialogCreate,
+  formCreateUser,
+  createUser,
+  rules,
+  formRef
+} = useAdminUsers()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', booking: boolean): void

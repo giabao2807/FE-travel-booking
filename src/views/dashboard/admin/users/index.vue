@@ -16,7 +16,7 @@
                 prepend-icon="mdi-account-multiple-plus-outline"
                 @click="() => dialogCreate = true"
               >
-                Tạo User
+                <strong>Tạo Partner</strong>
               </v-btn>
             </v-col>
             <v-col>
@@ -88,7 +88,9 @@ const {
   selectFilter,
   filtersUser,
   dialogCreate,
-  getUsers
+  getUsers,
+  activateUser,
+  deactivateUser
 } = useAdminUsers()
 const { formatDate } = convertionType()
 const ROLE_DATA = [
@@ -203,17 +205,19 @@ const columns: Column<any>[] = [
           v-show={rowData.isActive}
           variant="plain"
           color="error"
-          icon="mdi-delete-empty-outline"
+          icon="mdi-account-cancel-outline"
+          onClick={() => deactivateUser(rowData.id)}
         />
         <v-btn
           v-show={!rowData.isActive}
           variant="plain"
           color="success"
-          icon="mdi-map-check"
+          icon="mdi-account-check-outline"
+          onClick={() => activateUser(rowData.id)}
         />
       </>
     ),
-    width: 150,
+    width: 100,
     align: 'center'
   }
 ]

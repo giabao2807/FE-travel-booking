@@ -169,6 +169,18 @@
                 <h2 class="mt-5 ml-2">
                   {{ item?.name }}
                 </h2>
+                <v-icon
+                  v-if="isSignIn"
+                  style="position: absolute; top: 0; right: 0"
+                  color="error"
+                  size="large"
+                  :icon="item?.isFavorite ? 'mdi-heart' : 'mdi-cards-heart-outline'"
+                  :class="item?.isFavorite ? 'icon-fav-co ma-5' : 'ma-5'"
+                  @click="async () => {
+                    item?.isFavorite ? await addFavoriteHotel(item?.id || '') : await removeFavoriteHotel(item?.id || '')
+                    getHotelsByFilterPanel({ ...filtersHotels, page: pageHotel })
+                  }"
+                />
                 <v-card-text class="mx-3 mt-n1">
                   <v-row align="center" class="my-3">
                     <v-icon :icon="voteText(item?.rateAverage).icon" color="primary" class="mr-1" />
@@ -248,7 +260,7 @@
             class="my-5"
             v-model="pageHotel"
             :length="hotels?.pageNumber"
-            @change="() => getHotelsByFilterPanel({ page: pageHotel })"
+            @change="() => getHotelsByFilterPanel({ ...filtersHotels, page: pageHotel })"
           />
         </v-container>
       </v-col>
@@ -267,6 +279,7 @@ import { convertionType } from '@/helpers/convertion'
 import { handleRoute } from '@/helpers/loadingRoute'
 import { useHotelUtil } from '@/composables/useHotel'
 import { useCities } from '@/composables/useCities'
+import { checkInfo } from '@/helpers/checkSignIn'
 
 const {
   hotels,
@@ -276,10 +289,13 @@ const {
   titlePage,
   priceRangeFilter,
   getHotelsByFilterPanel,
-  resetSearch
+  resetSearch,
+  addFavoriteHotel,
+  removeFavoriteHotel
 } = useHotelUtil()
 const { rangePrice, voteText, minDate, formatDate, formatCurrency } = convertionType()
 const { getCityById } = useCities()
+const { isSignIn } = checkInfo()
 onMounted(() => {
   getHotelsByFilterPanel(filtersHotels.value)
 })

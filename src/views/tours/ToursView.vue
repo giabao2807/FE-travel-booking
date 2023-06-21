@@ -161,14 +161,28 @@
                 <v-col cols="5">
                   <n-image
                     :src="item?.coverPicture"
-                    height="220"
+                    height="210"
                     class="custom-image-tour"
                   />
                 </v-col>
                 <v-col class="pa-0">
-                  <h3 class="mt-5 ml-2 mr-3">
-                    {{ item?.name }}
-                  </h3>
+                  <div>
+                    <h3 class="mt-5 ml-2 w-75">
+                      {{ item?.name }}
+                    </h3>
+                    <v-icon
+                      v-if="isSignIn"
+                      style="position: absolute; top: 0; right: 0"
+                      color="error"
+                      size="large"
+                      :icon="item?.isFavorite ? 'mdi-heart' : 'mdi-cards-heart-outline'"
+                      :class="item?.isFavorite ? 'icon-fav-co ma-5' : 'ma-5'"
+                      @click="async () => {
+                        !item?.isFavorite ? await addFavoriteTour(item?.id || '') : await removeFavoriteTour(item?.id || '')
+                        getToursByFilterPanel({ ...filtersTours, page: pageTours })
+                      }"
+                    />
+                  </div>
                   <v-card-text class="mx-3">
                     <v-row align="start" class="my-3">
                       <v-icon icon="mdi-clock-start" />
@@ -282,6 +296,7 @@ import { useTourUtil } from '@/composables/useTour'
 import { convertionType } from '@/helpers/convertion'
 import { handleRoute } from '@/helpers/loadingRoute'
 import { useCities } from '@/composables/useCities'
+import { checkInfo } from '@/helpers/checkSignIn'
 
 const { getCityById } = useCities()
 const {
@@ -293,10 +308,12 @@ const {
   priceRangeFilter,
   formSearchRef,
   getToursByFilterPanel,
-  resetSearch
+  resetSearch,
+  addFavoriteTour,
+  removeFavoriteTour
 } = useTourUtil()
 const { formatCurrency, getPriceDiscount, minDate, getTraffic } = convertionType()
-
+const { isSignIn } = checkInfo()
 onMounted(() => {
   getToursByFilterPanel(filtersTours.value)
 })

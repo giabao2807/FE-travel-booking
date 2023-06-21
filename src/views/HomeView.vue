@@ -148,7 +148,7 @@
                 <div class="text-card-user">
                   <v-row
                     align="center"
-                    class="mx-0 my-2"
+                    class="mx-0 mb-2"
                   >
                     <v-rating
                       :model-value="item.rate"

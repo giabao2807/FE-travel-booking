@@ -12,42 +12,44 @@
           <strong class="mx-2">|</strong>
           <strong>{{ tourInfo?.numReview }} đánh giá.</strong>
           <v-spacer />
-          <v-btn
-            v-if="tourInfo?.isFavorite"
-            color="primary"
-            prepend-icon="mdi-cards-heart-outline"
-            class="text-none rounded-xl"
-            variant="plain"
-            @click="async() => {
-              await addFavoriteTour(tourInfo?.id || '')
-              getTourById(tourInfo?.id || '')
-            }"
-          >
-            Yêu Thích
-            <v-tooltip
-              activator="parent"
-              text="Thêm vào trang yêu thích"
-              location="top"
-            />
-          </v-btn>
-          <v-btn
-            v-else
-            color="error"
-            prepend-icon="mdi-heart"
-            class="text-none rounded-xl"
-            variant="plain"
-            @click="async() => {
-              await removeFavoriteTour(tourInfo?.id || '')
-              getTourById(tourInfo?.id || '')
-            }"
-          >
-            Bỏ Yêu Thích
-            <v-tooltip
-              activator="parent"
-              text="Bỏ khỏi trang yêu thích"
-              location="top"
-            />
-          </v-btn>
+          <div v-if="isSignIn">
+            <v-btn
+              v-if="!tourInfo?.isFavorite"
+              color="primary"
+              prepend-icon="mdi-cards-heart-outline"
+              class="text-none rounded-xl"
+              variant="plain"
+              @click="async () => {
+                await addFavoriteTour(tourInfo?.id || '')
+                getTourById(tourInfo?.id || '')
+              }"
+            >
+              Yêu Thích
+              <v-tooltip
+                activator="parent"
+                text="Thêm vào trang yêu thích"
+                location="top"
+              />
+            </v-btn>
+            <v-btn
+              v-else
+              color="error"
+              prepend-icon="mdi-heart"
+              class="text-none rounded-xl"
+              variant="plain"
+              @click="async () => {
+                await removeFavoriteTour(tourInfo?.id || '')
+                getTourById(tourInfo?.id || '')
+              }"
+            >
+              Bỏ Yêu Thích
+              <v-tooltip
+                activator="parent"
+                text="Bỏ khỏi trang yêu thích"
+                location="top"
+              />
+            </v-btn>
+          </div>
         </div>
         <v-sheet color="transparent">
           <n-carousel class="mt-2" :data="tourInfo?.listImages" />
@@ -361,6 +363,7 @@ import { convertionType } from '@/helpers/convertion'
 import { handleRoute } from '@/helpers/loadingRoute'
 import { validations } from '@/helpers/validate'
 import { useTourUtil } from '@/composables/useTour'
+import { checkInfo } from '@/helpers/checkSignIn'
 
 const { ruleRequired, ruleQuantity, ruleMaxQuantity } = validations()
 const {
@@ -382,7 +385,7 @@ const {
 } = useTourDetail()
 const { addFavoriteTour, removeFavoriteTour } = useTourUtil()
 const { formatCurrency, voteText, getPriceDiscount, minDate, getTraffic } = convertionType()
-
+const { isSignIn } = checkInfo()
 onMounted(async() => {
   await getTourById(tourId.value)
 })

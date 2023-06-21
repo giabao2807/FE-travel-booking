@@ -41,6 +41,18 @@ export const validations = () => {
       :
       callback()
   }
+  const checkPhone = (rule: any, value: string, callback: any) => {
+    return regexPhone.test(value) ?
+      callback()
+      :
+      callback(new Error('Số điện thoại không đúng.'))
+  }
+  const checkEmail = (rule: any, value: string, callback: any) => {
+    return regexEmail.test(value) ?
+      callback()
+      :
+      callback(new Error('Email không đúng cú pháp.'))
+  }
   const checkBed = (rule: any, value: number, callback: any) => {
     return value < 1 ?
       callback(new Error('Số lượng giường phải lớn hơn bằng 1.'))
@@ -99,8 +111,8 @@ export const validations = () => {
     if (!value) {
       return callback(new Error('Tên không được bỏ trống.'))
     }
-    if (value.length <= 5) {
-      return callback(new Error('Độ dài tên lớn hơn 5 ký tự'))
+    if (value.length <= 3) {
+      return callback(new Error('Độ dài tên lớn hơn 3 ký tự'))
     } else {
       return callback()
     }
@@ -160,6 +172,8 @@ export const validations = () => {
     checkCity,
     checkDeparture,
     checkTraffics,
-    checkDay
+    checkDay,
+    checkEmail,
+    checkPhone
   }
 }

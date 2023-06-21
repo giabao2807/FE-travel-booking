@@ -5,11 +5,14 @@
     persistent
     class="dialog"
   >
-    <v-progress-circular class="align-self-center" color="primary" size="200" width="20" indeterminate />
+    <el-icon class="is-loading align-self-center" color="var(--el-color-primary)" :size="100">
+      <loading-icon />
+    </el-icon>
   </v-dialog>
 </template>
 <script lang="ts" setup>
 import { useLoading } from '@/composables/useLoading'
+import { Loading as LoadingIcon } from '@element-plus/icons-vue'
 const { loading } = useLoading()
 </script>
 

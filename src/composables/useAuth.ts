@@ -70,9 +70,9 @@ const useAuth = () => {
   }
 
   const signUpWithGoogle = () => {}
-  const signOut = () => {
+  const signOut = async() => {
     startLoading()
-    authStore.resetAuthUser()
+    await authStore.resetAuthUser()
     finishLoading()
     router.push({ name: 'signIn' })
   }

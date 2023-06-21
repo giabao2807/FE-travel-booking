@@ -13,7 +13,7 @@
             prepend-icon="mdi-map-marker-plus-outline"
             @click="handleRoute({ name: 'createTour' })"
           >
-            Tạo Tour Mới
+            <strong>Tạo Tour</strong>
           </v-btn>
         </v-card-text>
       </v-card>

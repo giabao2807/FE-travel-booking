@@ -25,6 +25,7 @@ import HotelsView from '@/views/hotels/HotelsView.vue'
 import HotelDetail from '@/views/hotels/HotelDetail.vue'
 import UserView from '@/views/user/index.vue'
 import BookingView from '@/views/user/BookingView.vue'
+import FavoriteView from '@/views/user/FavoriteView.vue'
 import NotFound from '@/views/NotFound.vue'
 import requireAuth from '@/router/guard'
 
@@ -41,7 +42,8 @@ const routes: Array<RouteRecordRaw> = [
       { path: 'hotels', name:'hotels', component: HotelsView },
       { path: 'hotel/:id', name:'hotelDetail', component: HotelDetail },
       { path: 'userinfo', name:'userInfo', component: UserView },
-      { path: '/booking/payment', name: 'booking', component: BookingView }
+      { path: '/booking/payment', name: 'booking', component: BookingView },
+      { path: '/favorite', name: 'favorite', component: FavoriteView }
     ]
   },
   {

@@ -15,7 +15,8 @@ const createAdminCoupons = () => {
   const {
     checkPercent,
     checkLength,
-    checkName
+    checkName,
+    checkTimes
   } = validations()
   const coupons = ref()
   const partners = ref<any[]>([])
@@ -34,7 +35,8 @@ const createAdminCoupons = () => {
   const rulesCoupon = reactive<FormRules>({
     name: [{ validator: checkName }],
     discountPercent: [{ validator: checkPercent }],
-    description: [{ validator: checkLength }]
+    description: [{ validator: checkLength }],
+    rangeDate: [{ validator: checkTimes }]
   })
   const getCoupons = (params?: IParamPage) => {
     loadingCoupons.value = true
@@ -59,7 +61,7 @@ const createAdminCoupons = () => {
   }
   const getPartners = () => {
     couponsStore.getPartnersForCoupon()
-      .then(data => partners.value = data)
+      .then(data => partners.value = data.results)
   }
   const createCoupon = async(formEl: FormInstance | undefined) => {
     if (!formEl) return

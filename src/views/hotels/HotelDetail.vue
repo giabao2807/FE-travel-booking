@@ -227,6 +227,44 @@
         <v-col class="px-0">
           <div class="position-relative container-photo">
             <n-image :src="hotelInfo?.listImages[0]" height="600" class="composition-photo" />
+            <div v-if="isSignIn" style="position: absolute; top: 0">
+              <v-btn
+                v-if="!hotelInfo?.isFavorite"
+                color="primary"
+                prepend-icon="mdi-cards-heart-outline"
+                class="ma-5 text-none rounded-xl"
+                variant="tonal"
+                @click="async () => {
+                  await addFavoriteHotel(hotelInfo?.id || '')
+                  getHotelById(hotelInfo?.id || '')
+                }"
+              >
+                <strong>Yêu Thích</strong>
+                <v-tooltip
+                  activator="parent"
+                  text="Thêm vào trang yêu thích"
+                  location="top"
+                />
+              </v-btn>
+              <v-btn
+                v-else
+                color="error"
+                prepend-icon="mdi-heart"
+                class="ma-5 text-none rounded-xl"
+                variant="tonal"
+                @click="async () => {
+                  await removeFavoriteHotel(hotelInfo?.id || '')
+                  getHotelById(hotelInfo?.id || '')
+                }"
+              >
+                <strong>Bỏ Yêu Thích</strong>
+                <v-tooltip
+                  activator="parent"
+                  text="Bỏ khỏi trang yêu thích"
+                  location="top"
+                />
+              </v-btn>
+            </div>
           </div>
         </v-col>
         <v-col class="px-0">
@@ -402,6 +440,8 @@ import { useHotelDetailUtil } from '@/composables/useHotelDetail'
 import { convertionType } from '@/helpers/convertion'
 import { handleRoute } from '@/helpers/loadingRoute'
 import { validations } from '@/helpers/validate'
+import { useHotelUtil } from '@/composables/useHotel'
+import { checkInfo } from '@/helpers/checkSignIn'
 
 const {
   anotherHotels,
@@ -424,6 +464,7 @@ const {
   getReviews,
   changeEndDate
 } = useHotelDetailUtil()
+const { addFavoriteHotel, removeFavoriteHotel } = useHotelUtil()
 const {
   formatCurrency,
   getPriceDiscount,
@@ -432,6 +473,7 @@ const {
   getIconHuman
 } = convertionType()
 const { ruleQuantity, ruleMaxQuantity } = validations()
+const { isSignIn } = checkInfo()
 const goToTop = () => {
   window.scrollTo(0, 0)
 }

@@ -1,8 +1,9 @@
 <template>
-  <Doughnut :data="revenue" :options="props.chartOptions" />
+  <Doughnut :data="revenue" :options="props.chartOptions" :width="250" />
 </template>
 
 <script lang="ts" setup>
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineProps, withDefaults, computed } from 'vue'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Doughnut } from 'vue-chartjs'

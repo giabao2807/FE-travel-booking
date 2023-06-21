@@ -15,7 +15,7 @@
     <div class="text-center mt-8 mb-5">
       <h3>Danh Sách Booking Hotels Hiện Tại</h3>
     </div>
-    <div class="d-flex align-center mx-0">
+    <div class="mb-15">
       <n-table
         :columns="columnsHotel"
         :data="bookingHotels"

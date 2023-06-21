@@ -73,7 +73,7 @@
           </el-form-item>
           <v-divider />
           <h3 class="my-5">Danh Sách Approve Coupon</h3>
-          <el-form-item prop="tourIds" class="ml-2">
+          <el-form-item prop="forAll" class="ml-2">
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-compass-rose" />
@@ -85,7 +85,7 @@
               style="margin-left: 120px"
             />
           </el-form-item>
-          <el-form-item prop="hotelIds" class="ml-2">
+          <el-form-item prop="partnerIds" class="ml-2">
             <template #label>
               <div class="d-flex align-center">
                 <v-icon class="mr-1" icon="mdi-handshake-outline" />
@@ -102,7 +102,7 @@
               <el-option
                 v-for="item in partners"
                 :key="item.id"
-                :label="item.lastName + item.firstName"
+                :label="item.lastName +' '+ item.firstName"
                 :value="item.id"
               />
             </el-select>

@@ -42,11 +42,33 @@ export const useUserStore = defineStore('userStore', () => {
       data: data
     })
   }
+  const deactivateUser = async(id: string) => {
+    return await connectionsAPI({
+      methods: 'PUT',
+      path: `user/${id}/deactivate`
+    })
+  }
+  const activateUser = async(id: string) => {
+    return await connectionsAPI({
+      methods: 'PUT',
+      path: `user/${id}/activate`
+    })
+  }
+  const getFavorite = async(params: any) => {
+    return await connectionsAPI({
+      methods: 'GET',
+      path: 'booking/favorite',
+      params: params
+    })
+  }
   return {
     userInfo,
     getUserInfo,
     updateUserInfo,
     getUsers,
-    createUser
+    createUser,
+    activateUser,
+    deactivateUser,
+    getFavorite
   }
 })

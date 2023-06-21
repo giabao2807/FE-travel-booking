@@ -13,7 +13,7 @@
             prepend-icon="mdi-home-plus"
             @click="handleRoute({ name: 'createHotel' })"
           >
-            Tạo Hotels Mới
+            <strong>Tạo Hotel</strong>
           </v-btn>
         </v-card-text>
       </v-card>

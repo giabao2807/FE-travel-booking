@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-static-inline-styles -->
 <template>
-  <v-container class="partner-booking-page">
+  <v-container class="admin-booking-page">
     <div class="text-center my-5">
       <h3>Danh Sách Booking Tours Hiện Tại</h3>
     </div>
@@ -15,7 +15,7 @@
     <div class="text-center mb-5" style="margin-top: 10rem;">
       <h3>Danh Sách Booking Hotels Hiện Tại</h3>
     </div>
-    <div class="mx-0">
+    <div class="mb-15">
       <n-table
         :columns="columnsHotel"
         :data="bookingHotels"
@@ -232,4 +232,7 @@ const columnsHotel: Column<any>[] = [
 
 </script>
 <style scoped>
+.admin-booking-page {
+  min-height: 60rem
+}
 </style>

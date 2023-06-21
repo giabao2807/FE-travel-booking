@@ -26,10 +26,9 @@
         <el-empty />
       </div>
     </template>
-    <template #footer>
+    <template v-if="props.data.pageNumber > 1" #footer>
       <div class="d-flex justify-center" style="background-color: #ffffff;">
         <n-pagination
-          v-if="props.data.pageNumber > 1"
           v-model="pageNumber"
           class="mx-5"
           :compact="true"

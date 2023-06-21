@@ -114,3 +114,14 @@
 .border-dashed {
   border: 1px dashed var(--color-border-gray);
 }
+.icon-fav-co {
+  scale: 1.2;
+  animation: float 0.8s infinite alternate-reverse ease-in-out;
+  transition: all 0.4s cubic-bezier(0.680, -0.550, 0.265, 1.550);
+}
+
+@keyframes float {
+  to {
+    translate: 0 -0.3rem;
+  }
+}

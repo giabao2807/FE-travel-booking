@@ -3,7 +3,7 @@
 <template>
   <el-dialog
     class="rounded-xl"
-    width="60%"
+    width="70%"
     center
     draggable
     :show-close="false"
