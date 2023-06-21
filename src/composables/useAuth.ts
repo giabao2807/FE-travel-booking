@@ -10,7 +10,7 @@ import { useFeedBack } from './useFeedBack'
 
 const useAuth = () => {
   const authStore = useAuthStore()
-  const { userSignIn, userSignUp, authUser, refreshTokenTimeout } = storeToRefs(authStore)
+  const { userSignIn, userSignUp, googleSignIn, authUser, refreshTokenTimeout } = storeToRefs(authStore)
   const { startLoading, finishLoading } = useLoading()
   const showPassword = ref<boolean>(false)
   const showConfirmPassword = ref<boolean>(false)
@@ -55,7 +55,14 @@ const useAuth = () => {
     }
   }
 
-  const signInWithGoogle = () => {}
+  const signInWithGoogle = async() => {
+    startLoading()
+    await authStore.signInWithGoogle().then(() => routeDirectional())
+      .catch((error: IError) => {
+        feedBack(error.data)
+      })
+    finishLoading()
+  }
 
   const signUp = async() => {
     const { valid } = await formRef.value.validate()
@@ -85,6 +92,7 @@ const useAuth = () => {
   return {
     userSignIn,
     userSignUp,
+    googleSignIn,
     showPassword,
     showConfirmPassword,
     formRef,

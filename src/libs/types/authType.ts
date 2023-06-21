@@ -19,6 +19,10 @@ export type ISignInInput = {
   password: string;
 }
 
+export type IGoogleSignInInput = {
+  token: string;
+}
+
 
 export type ISignUpInput = {
   lastName: string;

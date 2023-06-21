@@ -33,6 +33,7 @@
     "vue-demi": "^0.13.11",
     "vue-flatpickr-component": "9.0.5",
     "vue-router": "^4.0.3",
+    "vue3-google-login": "^2.0.16",
     "vuetify": "^3.2.2",
     "yarn": "^1.22.19"
   },

@@ -57,12 +57,10 @@
             <div class="text-center">
               <n-button-animated label="Sign In" />
               <div class="ma-4">
-                <span class="double-line text-medium-emphasis">Hoặc đăng nhập với
-                  <v-avatar class="btn-g" size="x-small" @click="signInWithGoogle">
-                    <v-img :src="require('@/assets/img/google-logo.png')" cover />
-                  </v-avatar>
+                <span class="double-line text-medium-emphasis">Hoặc đăng nhập với:
                 </span>
               </div>
+              <GoogleLogin :callback="googleSignInCallBack"/>
               <h4 class="mt-5 font-weight-thin text-medium-emphasis">
                 Bạn chưa có tài khoản?
                 <router-link class="text-decoration-none" to="/sign_up">Đăng ký</router-link>
@@ -81,10 +79,12 @@ import NImage from '@/components/NImage.vue'
 import { useAuthentication } from '@/composables/useAuth'
 import { validations } from '@/helpers/validate'
 import { onMounted } from 'vue'
+import { googleOneTap } from 'vue3-google-login'
 
 const { ruleRequired, ruleEmail, ruleLength } = validations()
 const {
   userSignIn,
+  googleSignIn,
   showPassword,
   rememberMe,
   formRef,
@@ -97,7 +97,16 @@ const {
 } = useAuthentication()
 onMounted(() => {
   routeDirectional()
+  googleOneTap()
+    .then((response) => {
+      googleSignInCallBack(response)
+    })
+    .catch((error) => { console.log('Handle the error', error) })
 })
+const googleSignInCallBack = (response: any) => {
+  googleSignIn.value.token = response.credential
+  signInWithGoogle()
+}
 </script>
 <style scoped>
 @import '@/assets/css/signIn.css';

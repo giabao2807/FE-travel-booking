@@ -1,4 +1,4 @@
-import { IAuthResponse, ISignInInput, ISignUpInput } from '@/libs/types/authType'
+import { IAuthResponse, IGoogleSignInInput, ISignInInput, ISignUpInput } from '@/libs/types/authType'
 import connectionsAPI from '@/plugins/axios'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
@@ -18,6 +18,9 @@ export const useAuthStore = defineStore('authStore', () => {
   const userSignIn = ref<ISignInInput>({
     email: '',
     password: ''
+  })
+  const googleSignIn = ref<IGoogleSignInInput>({
+    token: ''
   })
   const userSignUp = ref<ISignUpInput>({
     lastName: '',
@@ -63,6 +66,15 @@ export const useAuthStore = defineStore('authStore', () => {
     sessionStorage.setItem('userData', JSON.stringify(authUser.value))
   }
 
+  const signInWithGoogle = async() => {
+    authUser.value = await connectionsAPI({
+      methods: 'POST',
+      path: 'user/action/login_with_google',
+      data: googleSignIn.value
+    })
+    sessionStorage.setItem('userData', JSON.stringify(authUser.value))
+  }
+
   const resetAuthUser = () => {
     authUser.value = initUser
     stopRefreshTokenTimer()
@@ -79,11 +91,13 @@ export const useAuthStore = defineStore('authStore', () => {
   return {
     userSignIn,
     userSignUp,
+    googleSignIn,
     authUser,
     refreshTokenTimeout,
     refreshToken,
     signInUser,
     signUpUser,
+    signInWithGoogle,
     resetAuthUser,
     forgotPassword
   }
