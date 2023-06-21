@@ -15,7 +15,7 @@
               prepend-inner-icon="mdi-map-search"
               variant="outlined"
               density="compact"
-              placeholder="Please input name"
+              placeholder="Please input tour name"
               style="width: 80%;"
               hide-details
               clearable
@@ -31,7 +31,7 @@
               prepend-inner-icon="mdi-map-search"
               variant="outlined"
               density="compact"
-              placeholder="Please input role"
+              placeholder="Please input status"
               style="width: 80%;"
               hide-details
               clearable
@@ -70,7 +70,7 @@
               prepend-inner-icon="mdi-home-search-outline"
               variant="outlined"
               density="compact"
-              placeholder="Please input name"
+              placeholder="Please input hotel name"
               style="width: 80%;"
               hide-details
               clearable
@@ -86,7 +86,7 @@
               prepend-inner-icon="mdi-home-search-outline"
               variant="outlined"
               density="compact"
-              placeholder="Please input role"
+              placeholder="Please input status"
               style="width: 80%;"
               clearable
               hide-details
