@@ -80,6 +80,7 @@
               </template>
               <n-upload-multi
                 v-model="formDataRoom.roomImages"
+                :dataImg="formDataRoom.roomImages"
               />
             </el-form-item>
             <el-form-item prop="name">

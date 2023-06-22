@@ -12,7 +12,7 @@
           @click="handleFileImport"
         />
       </div>
-      <v-file-input ref="uploader" class="d-none" multiple @update:modelValue="onFileChanged" />
+      <v-file-input :value="srcImgModel" ref="uploader" class="d-none" multiple @update:modelValue="event => onFileChanged(event)" />
     </div>
     <v-sheet
       class="my-2"
@@ -35,16 +35,19 @@
 
 <script lang="ts" setup>
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ref, defineEmits, withDefaults, defineProps } from 'vue'
+import { ref, defineEmits, withDefaults, defineProps, watchEffect } from 'vue'
 
 const isSelecting = ref<boolean>(false)
 const uploader = ref()
 const srcImg = ref<any[]>([])
+const srcImgModel = ref<any[]>([])
 type Props = {
   maxWidth?: string,
+  dataImg?: any
 }
 const props = withDefaults(defineProps<Props>(), {
-  maxWidth: '750'
+  maxWidth: '750',
+  dataImg: []
 })
 const handleFileImport = () => {
   isSelecting.value = true
@@ -59,8 +62,8 @@ const emit = defineEmits<{
   (event: 'update:modelValue', value: any): void
 }>()
 const onFileChanged = (event: any) => {
-  srcImg.value = []
   emit('update:modelValue', event)
+  srcImg.value = []
   if (event) {
     event.map((item: any) => {
       const fr = new FileReader()
@@ -71,4 +74,9 @@ const onFileChanged = (event: any) => {
     })
   }
 }
+watchEffect(() => {
+  if (props.dataImg.length === 0) {
+    srcImg.value = []
+  }
+})
 </script>
