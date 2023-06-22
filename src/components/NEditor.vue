@@ -6,6 +6,7 @@
   />
 </template>
 <script lang="ts" setup>
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineEmits } from 'vue'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 

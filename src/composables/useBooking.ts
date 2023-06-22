@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ref } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { useBookStore } from '@/store/booking'
 import { useLoading } from '@/composables/useLoading'
+import { useFeedBack } from './useFeedBack'
 
 const createBooking = () => {
   const bookStore = useBookStore()
+  const { feedBack } = useFeedBack()
   const { startLoading, finishLoading } = useLoading()
   const historyBookingTours = ref<any>([])
   const historyBookingHotels = ref<any>([])
@@ -20,8 +23,13 @@ const createBooking = () => {
       .then(data => {
         historyBookingTours.value = data
         loadingTours.value = false
-      }).catch(error => {
+      }).catch((error: any) => {
         loadingTours.value = false
+        feedBack({
+          title: 'Get Booking Tours',
+          message: error.data,
+          type:'error'
+        })
       })
   }
   const getHistoryBookingHotels = async(page?: number) => {
@@ -30,8 +38,13 @@ const createBooking = () => {
       .then(data => {
         historyBookingHotels.value = data
         loadingHotels.value = false
-      }).catch(error => {
+      }).catch((error: any) => {
         loadingHotels.value = false
+        feedBack({
+          title: 'Get Booking Hotels',
+          message: error.data,
+          type:'error'
+        })
       })
   }
   const callBackPayment = async(params: any) => {

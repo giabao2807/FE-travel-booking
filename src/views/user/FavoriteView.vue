@@ -24,11 +24,11 @@
         <v-container>
           <n-panel-loading :loading="loadingTours" />
           <v-row v-if="!loadingTours" class="my-5">
-            <v-col v-for="item in historyFavoriteTours.results" :key="item.tour?.id" cols="12">
+            <v-col v-for="item in historyFavoriteTours.results" :key="item?.tour?.id" cols="12">
               <v-card elevation="0" class="my-2">
                 <v-row>
                   <v-col>
-                    <n-image :src="item.tour?.coverPicture" class="custom-image" />
+                    <n-image :src="item?.tour?.coverPicture" class="custom-image" />
                   </v-col>
                   <v-col cols="9">
                     <div>
@@ -74,7 +74,7 @@
                         <v-icon icon="mdi-vote-outline" />
                         Rating:
                         <v-rating
-                          :model-value="item.tour?.rate"
+                          :model-value="item?.tour?.rate"
                           class="mx-2"
                           color="amber"
                           density="compact"
@@ -138,11 +138,11 @@
           <n-panel-loading :loading="loadingHotels" />
           <v-row v-if="!loadingHotels" class="my-5">
             <n-panel-loading :loading="loadingHotels" />
-            <v-col v-for="item in historyFavoriteHotels.results" :key="item.hotel?.id" cols="12">
+            <v-col v-for="item in historyFavoriteHotels.results" :key="item?.hotel?.id" cols="12">
               <v-card elevation="0" class="my-2">
                 <v-row>
                   <v-col>
-                    <n-image :src="item.hotel?.coverPicture" class="custom-image" />
+                    <n-image :src="item?.hotel?.coverPicture" class="custom-image" />
                   </v-col>
                   <v-col cols="9">
                     <div>
@@ -166,7 +166,7 @@
                         <v-icon :icon="voteText(item.hotel?.rateAverage).icon" color="primary" class="mr-1" />
                         <strong class="font-size-min-rem">{{ voteText(item.hotel?.rateAverage).name }}</strong>
                         <v-rating
-                          :model-value="item.hotel?.rateAverage"
+                          :model-value="item?.hotel?.rateAverage"
                           class="mx-5"
                           color="amber"
                           density="compact"

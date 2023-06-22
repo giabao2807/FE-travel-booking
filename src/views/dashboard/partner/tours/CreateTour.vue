@@ -76,9 +76,9 @@
             <el-select filterable v-model="formTour.city" clearable placeholder="Select the city">
               <el-option
                 v-for="item in allCities"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
+                :key="item?.id"
+                :label="item?.name"
+                :value="item?.id"
               />
             </el-select>
           </el-form-item>

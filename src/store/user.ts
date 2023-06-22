@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ref } from 'vue'
 import connectionsAPI from '@/plugins/axios'
 import { defineStore } from 'pinia'

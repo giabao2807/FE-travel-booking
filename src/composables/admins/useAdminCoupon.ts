@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ref, reactive } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { IParamPage } from '@/libs/types/commonType'
@@ -97,6 +98,11 @@ const createAdminCoupons = () => {
     if (!formEl) return
     formEl.resetFields()
   }
+  const pickerEndDisable = (time: any) => {
+    const yesterday = new Date()
+    yesterday.setDate(yesterday.getDate() - 1)
+    return time < yesterday
+  }
   return {
     coupons,
     partners,
@@ -104,6 +110,7 @@ const createAdminCoupons = () => {
     formCoupon,
     formRef,
     rulesCoupon,
+    pickerEndDisable,
     resetForm,
     getCoupons,
     deleteCoupon,

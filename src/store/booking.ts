@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IHistoryBooking } from '@/libs/types/commonType'
 import connectionsAPI from '@/plugins/axios'
 import { defineStore } from 'pinia'

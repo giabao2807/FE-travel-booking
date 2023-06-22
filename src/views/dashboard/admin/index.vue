@@ -8,19 +8,19 @@
           :key="item?.key"
           md="2"
         >
-          <v-card elevation="3" class="card" :style="{ boxShadow: item.color }">
+          <v-card elevation="3" class="card" :style="{ boxShadow: item?.color }">
             <div class="content d-flex align-center justify-center">
-              <h1 class="font-palanquin" :style="{ color: item.color }">{{ item?.value }}</h1>
+              <h1 class="font-palanquin" :style="{ color: item?.color }">{{ item?.value }}</h1>
             </div>
             <div class="info">
-              <span :style="{ color: item.color }">
-                <v-icon :icon="item.icon" size="small" class="mr-1" />
+              <span :style="{ color: item?.color }">
+                <v-icon :icon="item?.icon" size="small" class="mr-1" />
                 {{ item.title.toUpperCase() }}
               </span>
               <br>
               <v-chip
                 class="ma-2"
-                :color="item.color"
+                :color="item?.color"
                 variant="outlined"
                 size="x-small"
               >
@@ -45,10 +45,10 @@
               >
                 <v-list-item
                   v-for="item in potentailCustomers"
-                  :key="item.id"
-                  :prepend-avatar="item.avatar"
-                  :title="item.lastName + ' ' + item.firstName"
-                  :subtitle="item.email"
+                  :key="item?.id"
+                  :prepend-avatar="item?.avatar"
+                  :title="item?.lastName + ' ' + item?.firstName"
+                  :subtitle="item?.email"
                 >
                   <v-divider class="my-2" />
                 </v-list-item>
@@ -181,6 +181,7 @@ const options = {
   scales: {
     y: {
       ticks: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         callback: (value: any) => {
           return formatCurrency(value)
         }

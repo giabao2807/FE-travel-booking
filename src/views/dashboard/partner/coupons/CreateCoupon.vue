@@ -101,9 +101,9 @@
             >
               <el-option
                 v-for="item in tours"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
+                :key="item?.id"
+                :label="item?.name"
+                :value="item?.id"
               />
             </el-select>
           </el-form-item>
@@ -123,9 +123,9 @@
             >
               <el-option
                 v-for="item in hotels"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
+                :key="item?.id"
+                :label="item?.name"
+                :value="item?.id"
               />
             </el-select>
           </el-form-item>
@@ -167,6 +167,7 @@ const {
   getHotels,
   createCoupon
 } = usePartnerCoupons()
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const pickerEndDisable = (time: any) => {
   var yesterday = new Date()
   yesterday.setDate(yesterday.getDate() - 1)

@@ -41,7 +41,7 @@
         :expand="true"
         :expand-column-key="columns[0].key"
         @getNextPage="event => getHotels({ ...filterHotel, ...event })"
-        @deleteRoom="async(event: any) => {
+        @deleteRoom="async(event: number) => {
           getHotels({ ...filterHotel, page: event })
         }"
       />

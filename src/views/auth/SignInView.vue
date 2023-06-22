@@ -91,10 +91,14 @@ const {
   emailForgot,
   signIn,
   signInWithGoogle,
-  isRememberMe,
   routeDirectional,
   forgotPassword
 } = useAuthentication()
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const googleSignInCallBack = (response: any) => {
+  googleSignIn.value.token = response.credential
+  signInWithGoogle()
+}
 onMounted(() => {
   routeDirectional()
   googleOneTap()
@@ -103,10 +107,6 @@ onMounted(() => {
     })
     .catch((error) => { console.log('Handle the error', error) })
 })
-const googleSignInCallBack = (response: any) => {
-  googleSignIn.value.token = response.credential
-  signInWithGoogle()
-}
 </script>
 <style scoped>
 @import '@/assets/css/signIn.css';

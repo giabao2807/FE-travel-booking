@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { handleRoute } from '@/helpers/loadingRoute'
 import { ref, computed } from 'vue'
 import { ICity, IFilterPanel } from '@/libs/types/commonType'
@@ -5,7 +6,6 @@ import { createSharedComposable } from '@vueuse/core'
 import { useHotelUtil } from './useHotel'
 import { useTourUtil } from './useTour'
 import { PANEL_IMAGE } from '@/resources/mockData'
-import { useAuthentication } from './useAuth'
 
 export type IImageCol = ICity & {
   col?: number
@@ -20,7 +20,6 @@ const useHome = () => {
   const flagSearch = ref<string>('Tours')
   const chooseCard = ref<number>(0)
   const chooseCardHotel = ref<number>(0)
-  const { authUser } = useAuthentication()
   const {
     popularHotels,
     recomendCities,

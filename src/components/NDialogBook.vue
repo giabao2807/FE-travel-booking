@@ -117,7 +117,7 @@
                     Phương tiện di chuyển:
                     <v-icon
                       v-for="item in getTraffic(propItems.tourInfo?.traffics)"
-                      :key="item.value"
+                      :key="item?.value"
                       :icon="item?.icon"
                       class="mx-2"
                     />

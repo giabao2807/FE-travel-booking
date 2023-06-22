@@ -26,6 +26,7 @@ const createTourDetail = () => {
   const bookingRef = ref()
   const { bookTour, quantityTour } = useBookingDialog()
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getQuantityByStartDate = (event: any) => {
     const response = event ? tourStore.getQuantityByDate({ id: tourId.value, startDate: event }) : null
     response?.then(data => quantityTour.value = data?.availableGroupSize)

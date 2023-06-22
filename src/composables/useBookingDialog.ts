@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ref } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { useBookStore } from '@/store/booking'

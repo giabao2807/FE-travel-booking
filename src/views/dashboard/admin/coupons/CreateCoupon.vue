@@ -112,9 +112,9 @@
             >
               <el-option
                 v-for="item in partners"
-                :key="item.id"
-                :label="item.lastName +' '+ item.firstName"
-                :value="item.id"
+                :key="item?.id"
+                :label="item?.lastName +' '+ item?.firstName"
+                :value="item?.id"
               />
             </el-select>
           </el-form-item>
@@ -152,13 +152,10 @@ const {
   rulesCoupon,
   getPartners,
   resetForm,
-  createCoupon
+  createCoupon,
+  pickerEndDisable
 } = useAdminCoupons()
-const pickerEndDisable = (time: any) => {
-  var yesterday = new Date()
-  yesterday.setDate(yesterday.getDate() - 1)
-  return time < yesterday
-}
+
 onMounted(() => {
   getPartners()
 })

@@ -355,7 +355,7 @@
       >
         <v-slide-group-item
           v-for="item in anotherHotels"
-          :key="item.id"
+          :key="item?.id"
         >
           <v-card
             class="ma-5"

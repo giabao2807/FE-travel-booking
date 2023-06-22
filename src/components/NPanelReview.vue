@@ -97,7 +97,7 @@
             <v-timeline v-if="!propItems.loadingReview" side="end">
               <v-timeline-item
                 v-for="item in propItems.dataReview?.results"
-                :key="item.id"
+                :key="item?.id"
               >
                 <template #icon>
                   <v-avatar
@@ -174,6 +174,7 @@ const getReview = (id: string) => {
   pageReview.value = 1
   emit('getReview', { id: id })
 }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getReviewByPage = (params: any) => {
   emit('getReviewByPage', params)
 

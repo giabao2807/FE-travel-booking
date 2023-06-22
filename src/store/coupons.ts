@@ -12,6 +12,7 @@ export const useCouponsStore = defineStore('couponsStore', () => {
       params: params
     })
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const createCoupons = async(data: any) => {
     return await connectionsAPI({
       methods: 'POST',

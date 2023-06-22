@@ -65,6 +65,7 @@ export const useTourStore = defineStore('tourStore', () => {
     })
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getQuantityByDate = async(params: any) => {
     return await connectionsAPI({
       methods: 'GET',

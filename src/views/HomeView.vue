@@ -292,11 +292,11 @@
                 </v-row>
                 <div
                   v-if="Object.keys(tour?.couponData).length !== 0"
-                  class="mt-5 remove-text text-grey-darken-2"
+                  class="mt-3 remove-text text-grey-darken-2"
                 >
                   {{ formatCurrency(tour?.price) }}
                 </div>
-                <div class="d-flex align-center justify-space-between my-3">
+                <div class="d-flex align-center justify-space-between mt-2 mb-3">
                   <div class="text-subtitle-1 animate-charcter">
                     <v-icon icon="mdi-cash-multiple" class="mt-n2 animate-charcter" />
                     {{
@@ -308,14 +308,14 @@
                   <div>
                     <v-icon
                       v-for="item in getTraffic(tour?.traffics)"
-                      :key="item.value"
+                      :key="item?.value"
                       :icon="item?.icon"
                       color="primary"
                     />
                   </div>
                 </div>
                 <v-divider class="mx-n2 mb-1" />
-                <div class="d-flex align-center justify-space-between my-3">
+                <div class="d-flex align-center justify-space-between my-2">
                   <div>
                     <v-icon icon="mdi-calendar-text-outline" color="primary" />
                     Thời gian:
@@ -331,12 +331,13 @@
                 class="font-rowdies button-card-tour"
                 color="primary"
                 variant="text"
-                @click="() => handleRoute({ name: 'tourDetail', params: { id: tour?.id } })"
               >
                 See More...
               </v-btn>
-              <div class="group-hover:-rotate-[4deg] animation-card-tour transition-transform" />
-              <div class="group-hover:-rotate-[8deg] animation-card-tour transition-transform" />
+              <div @click="() => handleRoute({ name: 'tourDetail', params: { id: tour?.id } })">
+                <div class="group-hover:-rotate-[4deg] animation-card-tour transition-transform" />
+                <div class="group-hover:-rotate-[8deg] animation-card-tour transition-transform" />
+              </div>
             </v-card>
           </v-col>
         </v-row>
@@ -366,7 +367,7 @@
         >
           <el-carousel-item
             v-for="(item, idx) in hotelsForUser"
-            :key="item.id"
+            :key="item?.id"
             :class="chooseCardHotel===idx ? 'card-for-user rounded' : null"
           >
             <v-card height="300px">
@@ -615,17 +616,18 @@
       <v-row style="height: 500px; margin-top: 5rem;">
         <v-col cols="5" class="mt-5">
           <h3 class="heading-text">You're going to fall in love with nature</h3>
-          <p class="ml-2">
-            Đội ngũ nhân viên tư vấn nhiệt tình – phản hồi nhanh chóng – tác phong chuyên nghiệp. luôn sẵn sàng giúp đỡ bạn trong từng bước của quá trình đặt vé.
+          <p class="my-2">
+            Đội ngũ nhân viên tư vấn nhiệt tình
+            – phản hồi nhanh chóng – tác phong chuyên nghiệp.
+            luôn sẵn sàng giúp đỡ bạn trong từng bước của quá trình đặt vé.
           </p>
-          <v-divider class="ma-2" />
+          <v-divider class="my-2" />
           <p>
             Tải ngay ứng dụng TravelNE
             <br>
             Khách sạn - Du lịch hàng đầu Việt Nam. Mang cả thế giới nằm trọn trong tay!
           </p>
           <div>
-            <v-spacer />
             <v-btn color="primary" class="mx-n5 text-none" variant="text">Learn more &rarr;</v-btn>
           </div>
         </v-col>
@@ -636,40 +638,34 @@
               cover
             />
             <v-img
-              class="content-img-view__photo content-img-view__photo--p1 rounded-xl"
+              class="content-img-view__photo content-img-view__photo--p1"
               src="https://i.pinimg.com/564x/b4/9a/de/b49ade0c9859ec26eb7e9192ef4fdea8.jpg"
               cover
             >
-              <v-card color="transparent" height="100%">
-                <v-card-text class="text-center my-5">
-                  <v-icon color="surface" size="50" icon="mdi-compass-rose" />
-                  <h2 class="ma-5" style="color: #FFF">Travel Guide</h2>
-                </v-card-text>
-              </v-card>
+              <div class="text-center mt-15">
+                <v-icon color="surface" size="50" icon="mdi-compass-rose" />
+                <h3 class="ma-3" style="color: #FFF">Travel Guide</h3>
+              </div>
             </v-img>
             <v-img
-              class="content-img-view__photo content-img-view__photo--p2 rounded-xl"
+              class="content-img-view__photo content-img-view__photo--p2"
               src="https://i.pinimg.com/564x/22/90/f9/2290f9190b3ac2f967c777d9dd6c2d90.jpg"
               cover
             >
-              <v-card color="transparent" height="100%">
-                <v-card-text class="text-center my-5">
-                  <v-icon color="surface" size="50" icon="mdi-home-city-outline" />
-                  <h2 class="ma-5" style="color: #FFF">Hotel Booking</h2>
-                </v-card-text>
-              </v-card>
+              <div class="text-center mt-15">
+                <v-icon color="surface" size="50" icon="mdi-home-city-outline" />
+                <h3 class="ma-3" style="color: #FFF">Hotel Booking</h3>
+              </div>
             </v-img>
             <v-img
-              class="content-img-view__photo content-img-view__photo--p3 rounded-xl"
+              class="content-img-view__photo content-img-view__photo--p3"
               src="https://i.pinimg.com/736x/b5/ba/68/b5ba680b522761344eb642a5264ddfae.jpg"
               cover
             >
-              <v-card color="transparent" height="100%">
-                <v-card-text class="text-center my-5">
-                  <v-icon color="surface" size="50" icon="mdi-ticket-percent-outline" />
-                  <h2 class="ma-5" style="color: #FFF">Ticket Booking</h2>
-                </v-card-text>
-              </v-card>
+              <div class="text-center mt-15">
+                <v-icon color="surface" size="50" icon="mdi-ticket-percent-outline" />
+                <h3 class="ma-3" style="color: #FFF">Ticket Voucher</h3>
+              </div>
             </v-img>
           </div>
         </v-col>
@@ -738,11 +734,6 @@ onMounted(async() => {
 })
 </script>
 <style lang="scss" scoped>
-.button-card-tour {
-  position: absolute !important;
-  bottom: 0;
-  right: 0;
-}
 .card-for-user {
   transform: scale(1.02);
   border: 3px solid var(--color-coupon-2);
@@ -777,47 +768,63 @@ onMounted(async() => {
 .content-img-view {
   position: relative;
 }
+.content-img-view__photo {
+  width: 55%;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.4);
+  transition: all 0.2s cubic-bezier(0.680, -0.550, 0.265, 1.550);
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+  transition: all .2s;
+  outline-offset: 2rem;
+}
+@media only screen and (max-width: 56.25em) {
   .content-img-view__photo {
-    width: 55%;
-    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.4);
-    border-radius: 2px;
-    position: absolute;
-    z-index: 10;
-    transition: all .2s;
-    outline-offset: 2rem; }
-    @media only screen and (max-width: 56.25em) {
-      .content-img-view__photo {
-        float: left;
-        position: relative;
-        width: 33.3%;
-        box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.2); } }
+    float: left;
+    position: relative;
+    width: 33.3%;
+    box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.2);
+  }
+}
+.content-img-view__photo--p1 {
+  left: 1rem;
+  top: -1rem; }
+  @media only screen and (max-width: 56.25em) {
     .content-img-view__photo--p1 {
-      left: 0;
-      top: -2rem; }
-      @media only screen and (max-width: 56.25em) {
-        .content-img-view__photo--p1 {
-          top: 0;
-          transform: scale(1.2); } }
+      top: 0;
+      transform: scale(1.2)
+    }
+  }
+.content-img-view__photo--p2 {
+  right: 0;
+  top: 2rem;
+}
+  @media only screen and (max-width: 56.25em) {
     .content-img-view__photo--p2 {
-      right: 0;
-      top: 2rem; }
-      @media only screen and (max-width: 56.25em) {
-        .content-img-view__photo--p2 {
-          top: -1rem;
-          transform: scale(1.3);
-          z-index: 100; } }
+      top: -1rem;
+      transform: scale(1.3);
+      z-index: 100;
+    }
+}
+.content-img-view__photo--p3 {
+  left: 20%;
+  top: 10rem;
+}
+  @media only screen and (max-width: 56.25em) {
     .content-img-view__photo--p3 {
-      left: 20%;
-      top: 10rem; }
-      @media only screen and (max-width: 56.25em) {
-        .content-img-view__photo--p3 {
-          top: 1rem;
-          left: 0;
-          transform: scale(1.1); } }
-    .content-img-view__photo:hover {
-      transform: scale(1.05) translateY(-0.5rem);
-      box-shadow: 0 2.5rem 4rem rgba(0, 0, 0, 0.5);
-      z-index: 20; }
-  .content-img-view:hover .content-img-view__photo:not(:hover) {
-    transform: scale(0.95); }
+      top: 1rem;
+      left: 0;
+      transform: scale(1.1);
+    }
+}
+.content-img-view__photo:hover {
+  transform: scale(1.05) translateY(-0.5rem);
+  box-shadow: 0 2.5rem 4rem rgba(0, 0, 0, 0.5);
+  border: 2px solid #FFF;
+  z-index: 20;
+}
+.content-img-view:hover .content-img-view__photo:not(:hover) {
+  transform: scale(0.95);
+}
+
 </style>

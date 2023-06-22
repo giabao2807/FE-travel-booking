@@ -77,7 +77,7 @@
                 Phương tiện:
                 <v-icon
                   v-for="item in getTraffic(tourInfo?.traffics)"
-                  :key="item.value"
+                  :key="item?.value"
                   :icon="item?.icon"
                   class="mx-2"
                 />
@@ -150,7 +150,7 @@
           >
             <v-slide-group-item
               v-for="item in anotherTours"
-              :key="item.id"
+              :key="item?.id"
             >
               <v-card
                 class="ma-5"
@@ -175,7 +175,7 @@
                     class="mx-0"
                   >
                     <v-rating
-                      :model-value="item.rate"
+                      :model-value="item?.rate"
                       color="amber"
                       density="compact"
                       half-increments

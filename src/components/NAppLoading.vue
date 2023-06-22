@@ -3,11 +3,14 @@
     v-model="loading"
     :scrim="false"
     persistent
+    fullscreen
     class="dialog"
   >
-    <el-icon class="is-loading align-self-center" color="var(--el-color-primary)" :size="100">
-      <loading-icon />
-    </el-icon>
+    <v-row class="pa-0 ma-0" align="center" justify="center">
+      <el-icon class="is-loading align-self-center" color="var(--el-color-primary)" :size="80">
+        <loading-icon />
+      </el-icon>
+    </v-row>
   </v-dialog>
 </template>
 <script lang="ts" setup>
@@ -20,7 +23,6 @@ const { loading } = useLoading()
 .dialog {
   opacity: 0.8;
   background-color: var(--loading-bgcolor);
-  border-color: var(--loading-border-color);
   z-index: 300;
 }
 </style>

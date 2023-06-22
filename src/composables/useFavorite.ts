@@ -2,9 +2,11 @@
 import { ref } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { useUserStore } from '@/store/user'
+import { useFeedBack } from './useFeedBack'
 
 const createFavorite = () => {
   const userStore = useUserStore()
+  const { feedBack } = useFeedBack()
   const historyFavoriteTours = ref<any>([])
   const historyFavoriteHotels = ref<any>([])
   const pageTour = ref<number>()
@@ -19,6 +21,11 @@ const createFavorite = () => {
         loadingTours.value = false
       }).catch(error => {
         loadingTours.value = false
+        feedBack({
+          title: 'Get Favorite Tour',
+          message: error.data,
+          type:'error'
+        })
       })
   }
   const getHistoryFavoriteHotels = async(page?: number) => {
@@ -29,6 +36,11 @@ const createFavorite = () => {
         loadingHotels.value = false
       }).catch(error => {
         loadingHotels.value = false
+        feedBack({
+          title: 'Get Favorite Hotel',
+          message: error.data,
+          type:'error'
+        })
       })
   }
   return {

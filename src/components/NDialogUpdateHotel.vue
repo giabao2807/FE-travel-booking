@@ -50,9 +50,9 @@
               <el-select filterable v-model="formHotel.city" clearable placeholder="Select">
                 <el-option
                   v-for="item in allCities"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
+                  :key="item?.id"
+                  :label="item?.name"
+                  :value="item?.id"
                 />
               </el-select>
             </el-form-item>
@@ -145,7 +145,11 @@
                   <span class="font-weight-600">Thêm Ảnh</span>
                 </div>
               </template>
-              <n-upload-multi v-model="imgListUpdate" max-width="500" />
+              <n-upload-multi
+                v-model="imgListUpdate"
+                :dataImg="imgListUpdate"
+                max-width="500"
+              />
             </el-form-item>
           </el-form>
         </v-card-text>
@@ -157,7 +161,10 @@
             variant="outlined"
             class="text-none"
             prepend-icon="mdi-close-outline"
-            @click="() => dialogUpdate = false"
+            @click="() => {
+              dialogUpdate = false
+              resetFormHotel(formRefHotel)
+            }"
           >
             Đóng
           </v-btn>
@@ -197,7 +204,8 @@ const {
   formRefHotel,
   rulesHotel,
   updateHotel,
-  handleRemoveImgHotel
+  handleRemoveImgHotel,
+  resetFormHotel
 } = usePartnerHotels()
 
 const emit = defineEmits<{

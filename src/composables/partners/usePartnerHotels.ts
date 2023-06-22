@@ -230,6 +230,7 @@ const createPartnerHotels = () => {
           .then(() => {
             dialogUpdate.value = false
             getHotels()
+            resetFormHotel(formEl)
             finishLoading()
             feedBack({
               title: 'Update Hotel',
@@ -387,6 +388,11 @@ const createPartnerHotels = () => {
   const handleRemoveImgRoom = (image: string) => {
     formDataRoom.value.roomImages = formDataRoom.value.roomImages?.filter(item => item !== image)
   }
+  const resetFormHotel = (formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    formEl.resetFields()
+    imgListUpdate.value = []
+  }
   const resetFormRoom = (formEl: FormInstance | undefined) => {
     if (!formEl) return
     formEl.resetFields()
@@ -428,6 +434,7 @@ const createPartnerHotels = () => {
     addNewRoom,
     removeRoom,
     getRoomById,
+    resetFormHotel,
     resetFormRoom
   }
 }
