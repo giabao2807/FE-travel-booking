@@ -78,6 +78,7 @@
 import NTable from '@/components/NTable.vue'
 import NImage from '@/components/NImage.vue'
 import NDialogCreateUser from '@/components/NDialogCreateUser.vue'
+import NBtnDialog from '@/components/NBtnDialog.vue'
 import { onMounted } from 'vue'
 import type { Column } from 'element-plus'
 import { useAdminUsers } from '@/composables/admins/useAdminUsers'
@@ -103,6 +104,7 @@ const ROLE_DATA = [
 onMounted(() => {
   getUsers()
 })
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const columns: Column<any>[] = [
   {
     key: 'column-n-1',
@@ -203,20 +205,26 @@ const columns: Column<any>[] = [
     title: 'Operations',
     cellRenderer: ({ rowData }) => (
       <>
-        <v-btn
-          v-show={rowData.isActive}
-          variant="plain"
-          color="error"
-          icon="mdi-account-cancel-outline"
-          onClick={() => deactivateUser(rowData.id)}
-        />
-        <v-btn
-          v-show={!rowData.isActive}
-          variant="plain"
-          color="success"
-          icon="mdi-account-check-outline"
-          onClick={() => activateUser(rowData.id)}
-        />
+        <div v-show={rowData.isActive}>
+          <NBtnDialog
+            title='Deactivate User'
+            icon='mdi-account-cancel-outline'
+            titleBtn='Deactivate'
+            message='Are you sure want deactivate this user?'
+            color="error"
+            onActionDialog={() => deactivateUser(rowData.id)}
+          />
+        </div>
+        <div v-show={!rowData.isActive}>
+          <NBtnDialog
+            title='Active Tour'
+            icon='mdi-account-check-outline'
+            titleBtn='Active'
+            message='Are you sure want active this user?'
+            color="success"
+            onActionDialog={() => activateUser(rowData.id)}
+          />
+        </div>
       </>
     ),
     width: 100,

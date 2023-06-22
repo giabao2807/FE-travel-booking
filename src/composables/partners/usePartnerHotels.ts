@@ -278,6 +278,7 @@ const createPartnerHotels = () => {
         })
         await createRoom(roomCreate).then(() => {
           dialogRoom.value = false
+          hotels.value = undefined
           resetFormRoom(formEl)
           getHotels()
         })
@@ -345,6 +346,7 @@ const createPartnerHotels = () => {
     partnerHotelStore.deleteRoom(id)
       .then(() => {
         finishLoading()
+        hotels.value = undefined
         feedBack({
           title: 'Delete Room',
           message: 'Delete success Room',

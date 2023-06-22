@@ -181,7 +181,7 @@
                     <el-form-item prop="name">
                       <template #label>
                         <div class="d-flex align-center">
-                          <v-icon class="mr-1" icon="mdi-rename-box-outline" />
+                          <v-icon class="mr-1" icon="mdi-bed-double-outline" />
                           <span class="font-weight-600">Tên Phòng</span>
                         </div>
                       </template>
@@ -196,7 +196,7 @@
                     <el-form-item prop="quantity">
                       <template #label>
                         <div class="d-flex align-center">
-                          <v-icon class="mr-1" icon="mdi-rename-box-outline" />
+                          <v-icon class="mr-1" icon="mdi-counter" />
                           <span class="font-weight-600">Số Lượng</span>
                         </div>
                       </template>
@@ -213,7 +213,7 @@
                         <el-form-item prop="square">
                           <template #label>
                             <div class="d-flex align-center">
-                              <v-icon class="mr-1" icon="mdi-rename-box-outline" />
+                              <v-icon class="mr-1" icon="mdi-set-square" />
                               <span class="font-weight-600">Diện tích</span>
                             </div>
                           </template>
@@ -230,7 +230,7 @@
                         <el-form-item prop="beds">
                           <template #label>
                             <div class="d-flex align-center">
-                              <v-icon class="mr-1" icon="mdi-rename-box-outline" />
+                              <v-icon class="mr-1" icon="mdi-bed-outline" />
                               <span class="font-weight-600">Số Giường</span>
                             </div>
                           </template>
@@ -249,7 +249,7 @@
                         <el-form-item prop="adults">
                           <template #label>
                             <div class="d-flex align-center">
-                              <v-icon class="mr-1" icon="mdi-rename-box-outline" />
+                              <v-icon class="mr-1" icon="mdi-account-arrow-up-outline" />
                               <span class="font-weight-600">Người Lớn</span>
                             </div>
                           </template>
@@ -266,7 +266,7 @@
                         <el-form-item prop="children">
                           <template #label>
                             <div class="d-flex align-center">
-                              <v-icon class="mr-1" icon="mdi-rename-box-outline" />
+                              <v-icon class="mr-1" icon="mdi-teddy-bear" />
                               <span class="font-weight-600">Trẻ Em</span>
                             </div>
                           </template>

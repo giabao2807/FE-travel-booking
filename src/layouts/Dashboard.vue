@@ -146,10 +146,8 @@ const { authUser } = storeToRefs(authStore)
 const drawer = ref<boolean>(true)
 const theme = useTheme()
 const selectMenu = ref<string>('dashboard')
-const toggleTheme = () => {
-  return theme.global.name.value = theme.global.current.value.dark ? 'myCustomLightTheme' : 'dark'
-}
 const rail = ref<boolean>(true)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const checkRail = (e: any) => {
   rail.value = e
 }

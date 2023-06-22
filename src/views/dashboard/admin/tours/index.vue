@@ -32,6 +32,7 @@ import { onMounted } from 'vue'
 import type { Column } from 'element-plus'
 import { usePartnerTours } from '@/composables/partners/usePartnerTours'
 import NTable from '@/components/NTable.vue'
+import NBtnDialog from '@/components/NBtnDialog.vue'
 import { convertionType } from '@/helpers/convertion'
 
 
@@ -111,20 +112,26 @@ const columns: Column<any>[] = [
     title: 'Operations',
     cellRenderer: ({ rowData }) => (
       <>
-        <v-btn
-          v-show={rowData.isActive}
-          variant="plain"
-          color="error"
-          icon="mdi-delete-empty-outline"
-          onClick={() => deactivateTour(rowData.id)}
-        />
-        <v-btn
-          v-show={!rowData.isActive}
-          variant="plain"
-          color="success"
-          icon="mdi-map-check"
-          onClick={() => activateTour(rowData.id)}
-        />
+        <div v-show={rowData.isActive}>
+          <NBtnDialog
+            title='Deactivate Tour'
+            icon='mdi-delete-empty-outline'
+            titleBtn='Deactivate'
+            message='Are you sure want deactivate this tour?'
+            color="error"
+            onActionDialog={() => deactivateTour(rowData.id)}
+          />
+        </div>
+        <div v-show={!rowData.isActive}>
+          <NBtnDialog
+            title='Active Tour'
+            icon='mdi-map-check'
+            titleBtn='Active'
+            message='Are you sure want active this tour?'
+            color="success"
+            onActionDialog={() => activateTour(rowData.id)}
+          />
+        </div>
       </>
     ),
     width: 150,

@@ -41,9 +41,8 @@
         :expand="true"
         :expand-column-key="columns[0].key"
         @getNextPage="event => getHotels({ ...filterHotel, ...event })"
-        @deleteRoom="async(event) => {
-          await deleteRoom(event.id)
-          getHotels({ ...filterHotel, ...event })
+        @deleteRoom="async(event: any) => {
+          getHotels({ ...filterHotel, page: event })
         }"
       />
     </div>
@@ -60,6 +59,7 @@ import NDialogPartnerRoom from '@/components/NDialogPartnerRoom.vue'
 import { convertionType } from '@/helpers/convertion'
 import { usePartnerHotels } from '@/composables/partners/usePartnerHotels'
 import { handleRoute } from '@/helpers/loadingRoute'
+import NBtnDialog from '@/components/NBtnDialog.vue'
 
 const {
   hotels,
@@ -70,14 +70,14 @@ const {
   getHotels,
   activateHotel,
   deactivateHotel,
-  getHotelById,
-  deleteRoom
+  getHotelById
 } = usePartnerHotels()
 const { formatCurrency } = convertionType()
 onMounted(() => {
   getHotels()
 })
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const columns: Column<any>[] = [
   {
     key: 'coverPicture',
@@ -163,20 +163,26 @@ const columns: Column<any>[] = [
             getHotelById(rowData.id)
           }}
         />
-        <v-btn
-          v-show={rowData.isActive}
-          variant="plain"
-          color="error"
-          icon="mdi-delete-empty-outline"
-          onClick={() => deactivateHotel(rowData.id)}
-        />
-        <v-btn
-          v-show={!rowData.isActive}
-          variant="plain"
-          color="success"
-          icon="mdi-home-plus-outline"
-          onClick={() => activateHotel(rowData.id)}
-        />
+        <div v-show={rowData.isActive}>
+          <NBtnDialog
+            title='Deactivate Hotel'
+            icon='mdi-delete-empty-outline'
+            titleBtn='Deactivate'
+            message='Are you sure want deactivate this hotel?'
+            color="error"
+            onActionDialog={() => deactivateHotel(rowData.id)}
+          />
+        </div>
+        <div v-show={!rowData.isActive}>
+          <NBtnDialog
+            title='Active Hotel'
+            icon='mdi-home-plus-outline'
+            titleBtn='Active'
+            message='Are you sure want active this hotel?'
+            color="success"
+            onActionDialog={() => activateHotel(rowData.id)}
+          />
+        </div>
       </>
     ),
     width: 150,

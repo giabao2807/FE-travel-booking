@@ -68,7 +68,7 @@
               <v-row>
                 <v-range-slider
                   v-model="priceRangeFilter"
-                  :max="200000000"
+                  :max="100000000"
                   :min="0"
                   :step="1"
                   hide-details

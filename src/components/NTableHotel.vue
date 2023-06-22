@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-template-shadow -->
 <!-- eslint-disable vue/no-static-inline-styles -->
 <template>
   <el-table-v2
@@ -43,6 +44,7 @@
 <script lang="tsx" setup>
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import NPagination from '@/components/NPagination.vue'
+import NBtnDialog from '@/components/NBtnDialog.vue'
 import { defineProps, withDefaults, ref, defineEmits } from 'vue'
 import { Loading as LoadingIcon } from '@element-plus/icons-vue'
 import { watchEffect } from 'vue'
@@ -66,11 +68,15 @@ const props = withDefaults(defineProps<Props>(), {
   isAdmin: false
 })
 const { formatCurrency } = convertionType()
-const { dialogRoom, idHotel, getRoomById } = usePartnerHotels()
+const { dialogRoom, idHotel, getRoomById, deleteRoom } = usePartnerHotels()
 const pageNumber = ref<number>(1)
-const emit = defineEmits(['getNextPage', 'deteleRoom'])
+const emit = defineEmits(['getNextPage', 'deleteRoom'])
 const getNextPage = (params: any) => {
   emit('getNextPage', params)
+}
+const deleteRoomAndReload = async(id: string) => {
+  await deleteRoom(id)
+  emit('deleteRoom', pageNumber.value)
 }
 const data = ref()
 const isAdminFlag = ref<boolean>()
@@ -120,13 +126,13 @@ const Row = ({ cells, rowData }) => {
                         getRoomById(item.id)
                       }}
                     />
-                    <v-btn
-                      variant="plain"
+                    <NBtnDialog
+                      title='Delete Room'
+                      icon='mdi-delete-empty-outline'
+                      titleBtn='Delete'
+                      message='Are you sure want delete this room?'
                       color="error"
-                      icon="mdi-comment-remove-outline"
-                      onClick={() => {
-                        emit('deleteRoom', { id: item.id, page: pageNumber.value })
-                      }}
+                      onActionDialog={() => deleteRoomAndReload(item.id)}
                     />
                   </v-col>
                 ) : null}

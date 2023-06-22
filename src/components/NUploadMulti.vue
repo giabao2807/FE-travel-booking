@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-static-inline-styles -->
 <template>
   <div class="d-flex align-center">
     <div>
@@ -33,6 +34,7 @@
 </template>
 
 <script lang="ts" setup>
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ref, defineEmits, withDefaults, defineProps } from 'vue'
 
 const isSelecting = ref<boolean>(false)
@@ -54,10 +56,8 @@ const handleFileImport = () => {
   uploader.value.click()
 }
 const emit = defineEmits<{
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (event: 'update:modelValue', value: any): void
 }>()
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const onFileChanged = (event: any) => {
   srcImg.value = []
   emit('update:modelValue', event)

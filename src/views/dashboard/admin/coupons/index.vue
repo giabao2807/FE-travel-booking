@@ -30,9 +30,11 @@
 import { onMounted } from 'vue'
 import type { Column } from 'element-plus'
 import NTable from '@/components/NTable.vue'
+import NBtnDialog from '@/components/NBtnDialog.vue'
 import { convertionType } from '@/helpers/convertion'
 import { useAdminCoupons } from '@/composables/admins/useAdminCoupon'
 import { handleRoute } from '@/helpers/loadingRoute'
+
 const {
   coupons,
   loadingCoupons,
@@ -147,11 +149,13 @@ const columns: Column<any>[] = [
     title: 'Operations',
     cellRenderer: ({ rowData }) => (
       <>
-        <v-btn
-          variant="plain"
+        <NBtnDialog
+          title='Delete Coupon'
+          icon='mdi-delete-empty-outline'
+          titleBtn='Delete'
+          message='Are you sure want delete this coupon?'
           color="error"
-          icon="mdi-delete-empty-outline"
-          onClick={() => deleteCoupon(rowData.id)}
+          onActionDialog={() => deleteCoupon(rowData.id)}
         />
       </>
     ),
