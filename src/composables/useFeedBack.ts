@@ -5,9 +5,9 @@ import { IFeedBack } from '@/libs/types/commonType'
 const createFeedBack = () => {
   const feedBack = (data: IFeedBack) => {
     ElNotification({
-      title: data.title || 'Error',
-      message: data.message,
-      type: data.type || 'error',
+      title: data?.title || 'Error',
+      message: data?.message,
+      type: data?.type || 'error',
       position: 'bottom-right'
     })
   }

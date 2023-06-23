@@ -193,7 +193,6 @@ const options = {
       font-weight: bold;
       font-size: 1.2em;
     }
-
   }
 }
 </style>

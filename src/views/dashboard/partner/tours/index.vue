@@ -159,7 +159,6 @@ const columns: Column<any>[] = [
     align: 'center'
   }
 ]
-
 </script>
 <style lang="scss" scoped>
 
