@@ -117,14 +117,14 @@
       <template #image>
         <n-image :src="require(`@/assets/img/${imgAppBar}`)" />
       </template>
-      <template #prepend>
+      <div :class="rail ? '' : 'logo-text'">
         <v-row align="center">
           <img src="@/assets/img/logo-dashboard.svg" alt="SVG Image">
           <p class="header-title font-palanquin">
             TravelNE
           </p>
         </v-row>
-      </template>
+      </div>
     </v-app-bar>
     <v-container fluid class="partner-page">
       <router-view />
@@ -173,6 +173,12 @@ onMounted(async() => {
   margin-left: -10px;
   font-size: 22px;
   font-weight: bold;
+}
+.logo-text {
+	transition: all 0.6s cubic-bezier(0.680, -0.550, 0.265, 1.550);
+  position: absolute;
+  right: 0;
+  margin-right: 50px
 }
 .partner-page {
   background-image: url('@/assets/img/map-bg.png');

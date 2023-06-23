@@ -30,7 +30,7 @@ export const convertionType = () => {
     else if (rate >= 3) {
       return COMMENTRATE[2]
     }
-    else if (rate === null) {
+    else if (rate === 0) {
       return COMMENTRATE[3]
     }
     return COMMENTRATE[4]

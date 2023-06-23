@@ -51,6 +51,8 @@ const createTour = () => {
   }
   const resetSearch = () => {
     const ref = formSearchRef.value
+    titlePage.value = {}
+    priceRangeFilter.value = []
     ref?.reset()
     getToursByFilterPanel()
   }

@@ -107,6 +107,7 @@
               <v-btn
                 size="small"
                 class="mx-2 rounded-xl text-none"
+                prepend-icon="mdi-broom"
                 variant="outlined"
                 @click="() => resetSearch()"
               >

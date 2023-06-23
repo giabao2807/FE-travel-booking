@@ -25,7 +25,7 @@
           <n-panel-loading :loading="loadingTours" />
           <v-row v-if="!loadingTours" class="my-5">
             <v-col v-for="item in historyFavoriteTours.results" :key="item?.tour?.id" cols="12">
-              <v-card elevation="0" class="my-2">
+              <v-card elevation="0" class="my-2 card-favorite">
                 <v-row>
                   <v-col>
                     <n-image :src="item?.tour?.coverPicture" class="custom-image" />
@@ -139,7 +139,7 @@
           <v-row v-if="!loadingHotels" class="my-5">
             <n-panel-loading :loading="loadingHotels" />
             <v-col v-for="item in historyFavoriteHotels.results" :key="item?.hotel?.id" cols="12">
-              <v-card elevation="0" class="my-2">
+              <v-card elevation="0" class="my-2 card-favorite">
                 <v-row>
                   <v-col>
                     <n-image :src="item?.hotel?.coverPicture" class="custom-image" />
@@ -311,5 +311,11 @@ onMounted(() => {
 }
 .composition-icon:hover {
   transform: rotate(360deg);
+}
+.card-favorite {
+  transition: all 0.6s cubic-bezier(0.680, -0.550, 0.265, 1.550);
+}
+.card-favorite:hover {
+  transform: translateY(-1.2rem) scale(1.03);
 }
 </style>

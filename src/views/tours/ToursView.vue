@@ -108,6 +108,7 @@
                 <v-btn
                   size="small"
                   class="mx-2 rounded-xl text-none"
+                  prepend-icon="mdi-broom"
                   variant="outlined"
                   @click="() => resetSearch()"
                 >
@@ -139,7 +140,7 @@
                 <v-icon icon="mdi-compass-rose" />
                 Tất cả những tour du lịch hấp dẫn
                 <span v-if="titlePage?.cityId"> ở {{ getCityById(titlePage?.cityId)?.name }}</span>
-                <span v-if="titlePage?.endDate"> từ ngày {{ titlePage?.startDate }} đến {{ titlePage?.endDate }}</span>
+                <span v-if="titlePage?.endDate"> từ ngày {{ formatDate(titlePage?.startDate) }} đến {{ formatDate(titlePage?.endDate) }}</span>
               </h2>
             </v-card-text>
           </v-card>
@@ -312,7 +313,7 @@ const {
   addFavoriteTour,
   removeFavoriteTour
 } = useTourUtil()
-const { formatCurrency, getPriceDiscount, minDate, getTraffic } = convertionType()
+const { formatCurrency, getPriceDiscount, minDate, getTraffic, formatDate } = convertionType()
 const { isSignIn } = checkInfo()
 onMounted(() => {
   getToursByFilterPanel(filtersTours.value)

@@ -45,7 +45,7 @@
               :key="bookItem.id"
               cols="12"
             >
-              <v-card elevation="0" class="my-2">
+              <v-card elevation="0" class="my-2 card-booking">
                 <v-row>
                   <v-col cols="4">
                     <n-image :src="bookItem.tour.coverPicture" class="custom-image" />
@@ -163,7 +163,7 @@
               :key="bookItem.id"
               cols="12"
             >
-              <v-card elevation="0" class="my-2">
+              <v-card elevation="0" class="my-2 card-booking">
                 <v-row>
                   <v-col cols="4">
                     <n-image :src="bookItem.hotel.coverPicture" class="custom-image" />
@@ -341,5 +341,11 @@ onMounted(async() => {
   mask-size: cover;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
+}
+.card-booking {
+  transition: all 0.6s cubic-bezier(0.680, -0.550, 0.265, 1.550);
+}
+.card-booking:hover {
+  transform: translateY(-1.2rem) scale(1.03);
 }
 </style>
