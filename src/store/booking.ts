@@ -41,11 +41,18 @@ export const useBookStore = defineStore('bookStore', () => {
       data: data
     })
   }
+  const getBookingDetail = async(id: string) => {
+    return await connectionsAPI({
+      methods: 'GET',
+      path: `booking/${id}`
+    })
+  }
   return {
     bookingService,
     callBackPayment,
     getHistoryBooking,
     getPaymentLinkAgain,
-    postReview
+    postReview,
+    getBookingDetail
   }
 })

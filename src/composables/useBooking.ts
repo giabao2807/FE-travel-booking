@@ -14,7 +14,11 @@ const createBooking = () => {
   const pageTour = ref<number>()
   const pageHotel = ref<number>()
   const messageStatusPayment = ref<string>('')
+  const tourBookingDetail = ref<any>()
+  const hotelBookingDetail = ref<any>()
   const dialogBooking = ref<boolean>(false)
+  const dialogBookingTourDetail = ref<boolean>(false)
+  const dialogBookingHotelDetail = ref<boolean>(false)
   const loadingTours = ref<boolean>(false)
   const loadingHotels = ref<boolean>(false)
   const getHistoryBookingTours = async(page?: number) => {
@@ -59,10 +63,44 @@ const createBooking = () => {
       })
     finishLoading()
   }
+  const getTourBookingDetail = async(id: string) => {
+    startLoading()
+    await bookStore.getBookingDetail(id)
+      .then(data => {
+        tourBookingDetail.value = data
+        dialogBookingTourDetail.value = true
+      }).catch(error => {
+        feedBack({
+          title: 'Get Booking Tour Detail',
+          message: error.data,
+          type:'error'
+        })
+      })
+    finishLoading()
+  }
+  const getHotelBookingDetail = async(id: string) => {
+    startLoading()
+    await bookStore.getBookingDetail(id)
+      .then(data => {
+        hotelBookingDetail.value = data
+        dialogBookingHotelDetail.value = true
+      }).catch(error => {
+        feedBack({
+          title: 'Get Booking Tour Detail',
+          message: error.data,
+          type:'error'
+        })
+      })
+    finishLoading()
+  }
   return {
     pageTour,
     pageHotel,
     dialogBooking,
+    dialogBookingTourDetail,
+    dialogBookingHotelDetail,
+    tourBookingDetail,
+    hotelBookingDetail,
     loadingTours,
     loadingHotels,
     messageStatusPayment,
@@ -70,7 +108,9 @@ const createBooking = () => {
     historyBookingHotels,
     getHistoryBookingTours,
     getHistoryBookingHotels,
-    callBackPayment
+    callBackPayment,
+    getTourBookingDetail,
+    getHotelBookingDetail
   }
 }
 export const useBooking = createSharedComposable(createBooking)

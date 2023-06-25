@@ -22,6 +22,7 @@
       iconToolBar="mdi-message-reply-text-outline"
       title="Confirm Booking"
       labelBtnSecond="Close"
+      prependIconSecond="mdi-close-outline"
       :oneBtn="true"
       width="350"
       @action-second="() => handleRoute({ name: 'booking' })"
@@ -45,13 +46,16 @@
               :key="bookItem.id"
               cols="12"
             >
-              <v-card elevation="0" class="my-2 card-booking">
+              <v-card
+                elevation="0"
+                class="my-2 card-booking"
+              >
                 <v-row>
                   <v-col cols="4">
                     <n-image :src="bookItem.tour.coverPicture" class="custom-image" />
                   </v-col>
                   <v-col>
-                    <v-card-text>
+                    <v-card-text @click="() => getTourBookingDetail(bookItem.id)">
                       <h2>{{ bookItem.tour.name }}</h2>
                       <div class="my-5">
                         <p class="mt-2">
@@ -163,13 +167,16 @@
               :key="bookItem.id"
               cols="12"
             >
-              <v-card elevation="0" class="my-2 card-booking">
+              <v-card
+                elevation="0"
+                class="my-2 card-booking"
+              >
                 <v-row>
                   <v-col cols="4">
                     <n-image :src="bookItem.hotel.coverPicture" class="custom-image" />
                   </v-col>
                   <v-col>
-                    <v-card-text>
+                    <v-card-text @click="() => getHotelBookingDetail(bookItem.id)">
                       <h2>{{ bookItem.hotel.name }}</h2>
                       <div class="my-2">
                         <v-row>
@@ -287,6 +294,8 @@
         </v-container>
       </v-window-item>
     </v-window>
+    <n-dialog-booking-tour-detail />
+    <n-dialog-booking-hotel-detail />
   </v-sheet>
 </template>
 <script lang="ts" setup>
@@ -295,6 +304,8 @@ import NPagination from '@/components/NPagination.vue'
 import NDialog from '@/components/NDialog.vue'
 import NPanelLoading from '@/components/NPanelLoading.vue'
 import NDialogPayAgain from '@/components/NDialogPayAgain.vue'
+import NDialogBookingTourDetail from '@/components/NDialogBookingTourDetail.vue'
+import NDialogBookingHotelDetail from '@/components/NDialogBookingHotelDetail.vue'
 import NDialogReview from '@/components/NDialogReview.vue'
 import NPanelNotFound from '@/components/NPanelNotFound.vue'
 import { ref, onMounted } from 'vue'
@@ -315,7 +326,9 @@ const {
   historyBookingHotels,
   getHistoryBookingTours,
   getHistoryBookingHotels,
-  callBackPayment
+  callBackPayment,
+  getTourBookingDetail,
+  getHotelBookingDetail
 } = useBooking()
 const { formatCurrency, getIconStatus, formatDate, checkColorTag } = convertionType()
 const route = useRoute()

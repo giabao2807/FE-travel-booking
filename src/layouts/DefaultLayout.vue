@@ -51,10 +51,10 @@
             >
               <p class="font-rowdies">{{ item.name }}</p>
             </v-btn>
-            <div v-show="isSelected" class="my-n5 ml-7">
+            <div v-show="isSelected" class="my-n5 ml-10">
               <svg
                 class="svg-custom"
-                width="83"
+                width="85"
                 viewBox="0 0 83 7"
                 fill="none"
               >
@@ -232,9 +232,9 @@ const {
     translate: 0 -0.3rem;
   }
 }
-@media screen and (max-width: 790px) {
+@media screen and (max-width: 1100px) {
   .menu-header {
-    width: 50%;
+    width: 45%;
   }
 }
 .title-group :hover {

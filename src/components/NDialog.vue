@@ -23,12 +23,16 @@
           <v-btn
             v-if="!propItems.oneBtn"
             variant="text"
+            :prepend-icon="propItems.prependIconOne"
+            class="text-none"
             @click="isActive.value = handleAction('action-one')"
           >
             {{ propItems.labelBtnOne }}
           </v-btn>
           <v-btn
             variant="text"
+            class="text-none"
+            :prepend-icon="propItems.prependIconSecond"
             @click="isActive.value = handleAction('action-second')"
           >
             {{ propItems.labelBtnSecond }}
@@ -44,7 +48,9 @@ type Props = {
   textDialog?: string,
   title?: string,
   labelBtnOne?: string,
+  prependIconOne?: string,
   labelBtnSecond?: string,
+  prependIconSecond?: string,
   iconToolBar?: string,
   width?: string,
   fullScreen?: boolean,
@@ -68,6 +74,8 @@ const propItems = withDefaults(defineProps<Props>(), {
   width: '',
   fullScreen: false,
   transition: 'dialog-top-transition',
-  oneBtn: false
+  oneBtn: false,
+  prependIconOne: '',
+  prependIconSecond: ''
 })
 </script>
