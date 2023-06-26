@@ -59,3 +59,18 @@ export const STATUS_ICON = [
   { color: 'error', icon: 'mdi-close-box-multiple-outline', value: 'canceled', name: 'Canceled' },
   { color: 'success', icon: 'mdi-bookmark-check-outline', value: 'completed', name: 'Completed' }
 ]
+export const MENU_PARTNER = [
+  { name: 'Dashboard', icon: 'mdi-view-dashboard-outline', value: 'partner' },
+  { name: 'Quản Lý Tours', icon: 'mdi-compass-rose', value: 'toursPartner' },
+  { name: 'Quản Lý Hotels', icon: 'mdi-shield-home-outline', value: 'hotelsPartner' },
+  { name: 'Quản lí Coupons', icon: 'mdi-ticket-percent-outline', value: 'couponsPartner' },
+  { name: 'Quản lí Booking', icon: 'mdi-archive-check-outline', value: 'bookingPartner' }
+]
+export const MENU_ADMIN = [
+  { name: 'Dashboard', icon: 'mdi-view-dashboard-outline', value: 'admin' },
+  { name: 'Quản Lý Users', icon: 'mdi-card-account-details-outline', value: 'users' },
+  { name: 'Quản Lý Tours', icon: 'mdi-compass-rose', value: 'adminTours' },
+  { name: 'Quản Lý Hotels', icon: 'mdi-shield-home-outline', value: 'adminHotels' },
+  { name: 'Quản lí Coupons', icon: 'mdi-ticket-percent-outline', value: 'couponsAdmin' },
+  { name: 'Quản lí Booking', icon: 'mdi-archive-check-outline', value: 'adminBooking' }
+]

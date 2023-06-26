@@ -25,40 +25,15 @@
         v-model="selectMenu"
       >
         <v-list-item
-          prepend-icon="mdi-view-dashboard-outline"
-          title="Dashboard"
-          value="dashboard"
-          @click="() => handleRoute({ name: 'admin' })"
-        />
-        <v-list-item
-          prepend-icon="mdi-card-account-details-outline"
-          title="Quản lí Users"
-          value="users"
-          @click="() => handleRoute({ name: 'users' })"
-        />
-        <v-list-item
-          prepend-icon="mdi-compass-rose"
-          title="Danh Sách Tours"
-          value="adminTours"
-          @click="() => handleRoute({ name: 'adminTours' })"
-        />
-        <v-list-item
-          prepend-icon="mdi-shield-home-outline"
-          title="Danh Sách Hotels"
-          value="adminHotels"
-          @click="() => handleRoute({ name: 'adminHotels' })"
-        />
-        <v-list-item
-          prepend-icon="mdi-archive-check-outline"
-          title="Danh Sách Booking"
-          value="adminBooking"
-          @click="() => handleRoute({ name: 'adminBooking' })"
-        />
-        <v-list-item
-          prepend-icon="mdi-ticket-percent-outline"
-          title="Quản lí Coupons"
-          value="coupon"
-          @click="() => handleRoute({ name: 'couponsAdmin' })"
+          v-for="item in MENU_ADMIN"
+          :key="item.value"
+          :prepend-icon="item.icon"
+          :title="item.name"
+          :active="item.value === selectMenu"
+          @click="() => {
+            handleRoute({ name: item.value })
+            selectMenu = item.value
+          }"
         />
       </v-list>
       <v-list
@@ -67,38 +42,17 @@
         density="compact"
         nav
         mandatory
-        v-model="selectMenu"
       >
         <v-list-item
-          prepend-icon="mdi-view-dashboard-outline"
-          title="Dashboard"
-          value="dashboard"
-          @click="() => handleRoute({ name: 'partner' })"
-        />
-        <v-list-item
-          prepend-icon="mdi-compass-rose"
-          title="Quản Lý Tours"
-          value="tours"
-          @click="() => handleRoute({ name: 'toursPartner' })"
-        />
-        <v-list-item
-          prepend-icon="mdi-shield-home-outline"
-          title="Quản Lý Hotels"
-          value="hotels"
-          @click="() => handleRoute({ name: 'hotelsPartner' })"
-        />
-        <v-list-item
-          prepend-icon="mdi-ticket-percent-outline"
-          title="Quản lí Coupons"
-          value="coupons"
-          @click="() => handleRoute({ name: 'couponsPartner' })"
-        />
-
-        <v-list-item
-          prepend-icon="mdi-archive-check-outline"
-          title="Quản lí booking"
-          value="booking"
-          @click="() => handleRoute({ name: 'bookingPartner' })"
+          v-for="item in MENU_PARTNER"
+          :key="item.value"
+          :prepend-icon="item.icon"
+          :title="item.name"
+          :active="item.value === selectMenu"
+          @click="() => {
+            handleRoute({ name: item.value })
+            selectMenu = item.value
+          }"
         />
       </v-list>
       <template #append>
@@ -140,12 +94,15 @@ import { useAuthentication } from '@/composables/useAuth'
 import { useAuthStore } from '@/store/auth'
 import { storeToRefs } from 'pinia'
 import { handleRoute } from '@/helpers/loadingRoute'
+import { MENU_ADMIN, MENU_PARTNER } from '@/resources/mockData'
+import { useRoute } from 'vue-router'
 
 const authStore = useAuthStore()
 const { authUser } = storeToRefs(authStore)
 const drawer = ref<boolean>(true)
 const theme = useTheme()
-const selectMenu = ref<string>('dashboard')
+const selectMenu = ref<string>('')
+const route = useRoute()
 const rail = ref<boolean>(true)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const checkRail = (e: any) => {
@@ -158,13 +115,18 @@ const order = computed(() => {
 const imgAppBar = computed(() => {
   return theme.global.name.value === 'dark' ? 'app_bar_dark.jpg' : 'app_bar.jpg'
 })
-
 const {
   signOut
 } = useAuthentication()
 onMounted(async() => {
   const session = await sessionStorage.getItem('userData')
   authUser.value = session ? JSON.parse(session) : ''
+  if (authUser.value.role === 'Admin'){
+    selectMenu.value = MENU_ADMIN.find(item => item.value === route.name)?.value || ''
+  }
+  else {
+    selectMenu.value = MENU_PARTNER.find(item => item.value === route.name)?.value || ''
+  }
 })
 
 </script>
