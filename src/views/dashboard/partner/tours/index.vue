@@ -1,7 +1,10 @@
 <template>
   <v-container class="partner-tours-page">
     <div class="text-center mb-5">
-      <h3>Danh Sách Tours Hiện Tại</h3>
+      <h3>
+        <v-icon icon="mdi-compass-rose" />
+        Danh Sách Tours Hiện Tại
+      </h3>
     </div>
     <div class="mx-0">
       <v-card color="#FFF" elevation="0" class="w-50 rounded-0 rounded-t-xl pa-0">

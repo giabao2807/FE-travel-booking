@@ -2,7 +2,10 @@
 <template>
   <v-container class="partner-tours-page">
     <div class="text-center mb-5">
-      <h3>Danh Sách Users Hiện Tại</h3>
+      <h3>
+        <v-icon icon="mdi-card-account-details-outline" />
+        Danh Sách Users Hiện Tại
+      </h3>
     </div>
     <div class="my-2">
       <v-card color="#FFF" elevation="0" class="w-75 rounded-0 rounded-t-xl pa-0">

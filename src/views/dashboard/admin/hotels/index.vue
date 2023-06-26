@@ -1,7 +1,10 @@
 <template>
   <v-container class="partner-hotel-page">
     <div class="text-center mb-5">
-      <h3>Danh Sách Hotels Hiện Tại</h3>
+      <h3>
+        <v-icon icon="mdi-shield-home-outline" />
+        Danh Sách Hotels Hiện Tại
+      </h3>
     </div>
     <div class="mx-0">
       <v-card color="#FFF" elevation="0" class="w-35 rounded-0 rounded-t-xl pa-0">

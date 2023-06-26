@@ -3,7 +3,10 @@
 <template>
   <v-container class="partner-booking-page">
     <div class="text-center my-5">
-      <h3>Danh Sách Booking Tours Hiện Tại</h3>
+      <h3>
+        <v-icon icon="mdi-map-check-outline" />
+        Danh Sách Booking Tours Hiện Tại
+      </h3>
     </div>
     <div class="my-2">
       <v-card color="#FFF" elevation="0" class="w-50 rounded-0 rounded-t-xl pa-0">
@@ -58,7 +61,10 @@
       />
     </div>
     <div class="text-center mb-5" style="margin-top: 10rem;">
-      <h3>Danh Sách Booking Hotels Hiện Tại</h3>
+      <h3>
+        <v-icon icon="mdi-home-variant-outline" />
+        Danh Sách Booking Hotels Hiện Tại
+      </h3>
     </div>
     <div class="mb-15">
       <v-card color="#FFF" elevation="0" class="w-50 rounded-0 rounded-t-xl pa-0">
