@@ -128,7 +128,6 @@ onMounted(async() => {
     selectMenu.value = MENU_PARTNER.find(item => item.value === route.name)?.value || ''
   }
 })
-
 </script>
 <style lang="scss" scoped>
 .header-title {
