@@ -46,13 +46,17 @@ const useAuth = () => {
   }
 
   const isRememberMe = () => {
-    if (rememberMe.value && userSignIn.value.email !== '') {
+    if (userSignIn.value.password !== '' && userSignIn.value.email !== '') {
       localStorage.email = userSignIn.value.email
+      localStorage.password = userSignIn.value.password
       localStorage.checkbox = rememberMe.value
-    } else {
-      localStorage.username = ''
-      localStorage.checkbox = ''
     }
+  }
+
+  const clearRememberMe = () => {
+    localStorage.email = ''
+    localStorage.password = ''
+    localStorage.checkbox = false
   }
 
   const signInWithGoogle = async() => {
@@ -85,6 +89,15 @@ const useAuth = () => {
   }
   const forgotPassword = (email: string) => {
     authStore.forgotPassword(email)
+      .then(data => feedBack({
+        title: 'Reset Password',
+        message: data.success,
+        type:'success'
+      })).catch(error => feedBack({
+        title: 'Reset Password',
+        message: error?.data?.errorMessage,
+        type:'error'
+      }))
   }
   setInterval(() => {
     authStore.refreshToken()
@@ -104,6 +117,7 @@ const useAuth = () => {
     emailForgot,
     routeDirectional,
     isRememberMe,
+    clearRememberMe,
     signIn,
     signUp,
     signOut,

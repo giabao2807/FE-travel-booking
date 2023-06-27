@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-static-inline-styles -->
 <template>
   <v-container class="fill-height container-auth" fluid>
     <v-row class="mx-5" justify="end">
@@ -32,14 +33,29 @@
               @click:append-inner="showPassword = !showPassword"
             />
             <div class="d-flex align-center flex-wrap ma-4">
-              <v-checkbox v-model="rememberMe" hide-details label="Ghi nhớ tài khoản" color="primary" class="mb-1" />
+              <v-checkbox
+                v-model="rememberMe"
+                hide-details
+                label="Ghi nhớ tài khoản"
+                color="primary"
+                class="mb-1"
+                @click="() => {
+                  rememberMe ? isRememberMe() : clearRememberMe()
+                }"
+              />
               <n-dialog
                 title="Forgot the password"
-                width="300"
+                iconToolBar="mdi-lock-question"
+                width="500"
+                prependIconOne="mdi-close-outline"
+                prependIconSecond="mdi-cloud-upload-outline"
                 @action-second="() => forgotPassword(emailForgot)"
               >
                 <template #btnDialog>
-                  <a>Quên mật khẩu ?</a>
+                  <a style="color: #4f4f4f">
+                    <v-icon icon="mdi-lock-question" />
+                    Quên mật khẩu ?
+                  </a>
                 </template>
                 <template #content>
                   <v-text-field
@@ -48,7 +64,7 @@
                     :rules="[ruleEmail(emailForgot), ruleRequired('Email')]"
                     prepend-inner-icon="mdi-shield-account-outline"
                     type="text"
-                    color="primary-darken-1"
+                    color="primary"
                     variant="outlined"
                   />
                 </template>
@@ -57,7 +73,7 @@
             <div class="text-center">
               <n-button-animated label="Sign In" />
               <div class="ma-4">
-                <span class="double-line text-medium-emphasis">Hoặc đăng nhập với:
+                <span class="double-line text-medium-emphasis">Hoặc đăng nhập với
                 </span>
               </div>
               <GoogleLogin :callback="googleSignInCallBack" />
@@ -91,6 +107,8 @@ const {
   emailForgot,
   signIn,
   signInWithGoogle,
+  isRememberMe,
+  clearRememberMe,
   routeDirectional,
   forgotPassword
 } = useAuthentication()

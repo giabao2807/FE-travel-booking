@@ -68,8 +68,8 @@ const handleAction = (action: 'action-one'|'action-second') => {
 const propItems = withDefaults(defineProps<Props>(), {
   textDialog: '',
   title: '',
-  labelBtnOne: 'cancel',
-  labelBtnSecond: 'submit',
+  labelBtnOne: 'Cancel',
+  labelBtnSecond: 'Submit',
   iconToolBar: '',
   width: '',
   fullScreen: false,
