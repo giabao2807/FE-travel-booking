@@ -8,13 +8,21 @@
     background-size: cover;
     height: 500px;
   }
-  .custom-image-hotel {
+  .container-image {
+    position: relative;
+    overflow: hidden;
     -webkit-mask-image: url("@/assets/img/card-bg.png");
     mask-image: url("@/assets/img/card-bg.png");
     -webkit-mask-size: cover;
     mask-size: cover;
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
+  }
+  .custom-image {
+    transition: all 0.6s cubic-bezier(0.680, -0.550, 0.265, 1.550);
+  }
+  .custom-image:hover {
+    transform: scale(1.08) rotate(-3deg);
   }
   .card-actions {
     position: absolute;
@@ -31,7 +39,7 @@
   }
 
   .hotel-card:hover {
-    transform: translateY(-1.3rem) scale(1.05);
+    transform: translateY(-1.3rem) scale(1.02);
   }
   .title-card-show {
     font-weight: 600;

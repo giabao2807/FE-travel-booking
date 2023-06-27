@@ -155,16 +155,18 @@
             :key="item?.id"
             elevation="0"
             color="transparent"
-            class="ml-8 mb-12 hotel-card rounded-xl"
+            class="ml-8 mb-12 hotel-card"
             @click="() => handleRoute({ name: 'hotelDetail', params: { id: item?.id } })"
           >
             <v-row>
               <v-col cols="4">
-                <n-image
-                  :src="item?.coverPicture"
-                  height="250"
-                  class="custom-image-hotel"
-                />
+                <div class="container-image">
+                  <n-image
+                    :src="item?.coverPicture"
+                    height="250"
+                    class="custom-image"
+                  />
+                </div>
               </v-col>
               <v-col cols="7">
                 <h2 class="mt-5 ml-2">

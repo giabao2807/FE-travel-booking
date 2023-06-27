@@ -13,14 +13,15 @@ const createUser = () => {
   const { userInfo } = storeToRefs(userStore)
   const authStore = useAuthStore()
   const { authUser } = storeToRefs(authStore)
+  const { startLoading, finishLoading } = useLoading()
+  const { feedBack } = useFeedBack()
   const isEditInfo = ref<boolean>(false)
   const isEditContact = ref<boolean>(false)
   const showName = ref<string>()
   const fileAvatar = ref<FormData>()
   const inForRef = ref()
-  const { startLoading, finishLoading } = useLoading()
-  const { feedBack } = useFeedBack()
   const checkAvatar = computed(() => authUser.value?.avatar || require('@/assets/img/avatar.png'))
+
   const updateUserInfo = async(data: any) => {
     const { valid } = await inForRef.value.validate()
     if (valid) {

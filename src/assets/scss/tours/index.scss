@@ -8,8 +8,8 @@
     background-size: cover;
     height: 500px;
   }
-  .custom-image-tour {
-    position: relative;
+  .container-image {
+    overflow: hidden;
     margin-top: 20px;
     -webkit-mask-image: url("@/assets/img/image-card.png");
     mask-image: url("@/assets/img/image-card.png");
@@ -17,6 +17,14 @@
     mask-size: cover;
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
+  }
+
+  .custom-image {
+    transition: all 0.6s cubic-bezier(0.680, -0.550, 0.265, 1.550);
+  }
+
+  .custom-image:hover {
+    transform: scale(1.08) rotate(-3deg);
   }
   .card-actions {
     position: absolute;
@@ -31,7 +39,7 @@
     transition: all 0.6s cubic-bezier(0.680, -0.550, 0.265, 1.550);
   }
   .tour-card:hover {
-    transform: translateY(-1.2rem) scale(1.03);
+    transform: translateY(-1.2rem) scale(1.02);
   }
   .card-title {
     background-color: transparent;

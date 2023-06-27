@@ -116,6 +116,11 @@
               @click="() => router.push({ name: 'userInfo' })"
             />
             <v-list-item
+              prepend-icon="mdi-swap-horizontal"
+              title="Đổi mật khẩu"
+              @click="openDialogChangePass = true"
+            />
+            <v-list-item
               prepend-icon="mdi-logout"
               title="Đăng xuất"
               @click="signOut"
@@ -147,6 +152,11 @@
                 prepend-icon="mdi-information-box-outline"
                 title="Quản lí tài khoản"
                 @click="() => router.push({ name: 'userInfo' })"
+              />
+              <v-list-item
+                prepend-icon="mdi-swap-horizontal"
+                title="Đổi mật khẩu"
+                @click="openDialogChangePass = true"
               />
               <v-list-item
                 prepend-icon="mdi-logout"
@@ -193,15 +203,18 @@
         {{ new Date().getFullYear() }} - <strong>Boninguci</strong>
       </div>
     </v-footer>
+    <n-dialog-password />
   </div>
 </template>
 <script lang="ts" setup>
 import NImage from '@/components/NImage.vue'
 import NAvatar from '@/components/NAvatar.vue'
+import NDialogPassword from '@/components/NDialogPassword.vue'
 import router from '@/router'
 import { handleRoute } from '@/helpers/loadingRoute'
 import { useDefaultLayout } from '@/composables/useDefalutLayout'
 import { HEADER_TAB } from '@/resources/mockData'
+import { useChangePassword } from '@/composables/useChangePassword'
 
 const {
   display,
@@ -211,6 +224,9 @@ const {
   showBookingPage,
   signOut
 } = useDefaultLayout()
+const {
+  openDialogChangePass
+} = useChangePassword()
 </script>
 <style scoped>
 .header-title {

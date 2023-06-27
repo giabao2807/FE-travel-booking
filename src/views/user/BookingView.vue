@@ -51,10 +51,12 @@
                 class="my-2 card-booking"
               >
                 <v-row>
-                  <v-col cols="4">
-                    <n-image :src="bookItem.tour.coverPicture" class="custom-image" />
-                  </v-col>
                   <v-col>
+                    <div class="container-image">
+                      <n-image :src="bookItem.tour.coverPicture" class="custom-image" />
+                    </div>
+                  </v-col>
+                  <v-col cols="9">
                     <v-card-text @click="() => getTourBookingDetail(bookItem.id)">
                       <h2>{{ bookItem.tour.name }}</h2>
                       <div class="my-5">
@@ -172,10 +174,12 @@
                 class="my-2 card-booking"
               >
                 <v-row>
-                  <v-col cols="4">
-                    <n-image :src="bookItem.hotel.coverPicture" class="custom-image" />
-                  </v-col>
                   <v-col>
+                    <div class="container-image">
+                      <n-image :src="bookItem.hotel.coverPicture" class="custom-image" />
+                    </div>
+                  </v-col>
+                  <v-col cols="9">
                     <v-card-text @click="() => getHotelBookingDetail(bookItem.id)">
                       <h2>{{ bookItem.hotel.name }}</h2>
                       <div class="my-2">
@@ -347,13 +351,24 @@ onMounted(async() => {
   background-size: contain;
   background-position: center center;
 }
-.custom-image {
+.container-image {
+  position: relative;
+  overflow: hidden;
   -webkit-mask-image: url("@/assets/img/card-bg.png");
   mask-image: url("@/assets/img/card-bg.png");
   -webkit-mask-size: cover;
   mask-size: cover;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
+}
+
+.custom-image {
+  transition: all 0.6s cubic-bezier(0.680, -0.550, 0.265, 1.550);
+  width: 270px;
+  height: 280px;
+}
+.custom-image:hover {
+  transform: scale(1.08) rotate(-3deg);
 }
 .card-booking {
   transition: all 0.6s cubic-bezier(0.680, -0.550, 0.265, 1.550);

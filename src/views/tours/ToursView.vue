@@ -6,7 +6,9 @@
         <v-row class="h-50 w-100" align="end" justify="center">
           <h1 class="heading-primary shadow-text">
             <span class="heading-primary--main">Travels Tours</span>
-            <span class="heading-primary--sub" style="font-size: 20px;">Travel is the only thing you buy that makes you richer</span>
+            <span class="heading-primary--sub" style="font-size: 20px;">
+              Travel is the only thing you buy that makes you richer
+            </span>
           </h1>
         </v-row>
       </div>
@@ -156,15 +158,17 @@
               :key="item?.id"
               elevation="0"
               color="transparent"
-              class="ml-8 mb-12 tour-card rounded-xl"
+              class="ml-8 mb-12 tour-card"
             >
               <v-row>
                 <v-col cols="5">
-                  <n-image
-                    :src="item?.coverPicture"
-                    height="210"
-                    class="custom-image-tour"
-                  />
+                  <div class="container-image">
+                    <n-image
+                      :src="item?.coverPicture"
+                      height="210"
+                      class="custom-image"
+                    />
+                  </div>
                 </v-col>
                 <v-col class="pa-0">
                   <div>

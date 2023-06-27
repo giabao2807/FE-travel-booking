@@ -62,6 +62,13 @@ export const useUserStore = defineStore('userStore', () => {
       params: params
     })
   }
+  const changePassword = async(data: any) => {
+    return await connectionsAPI({
+      methods: 'PATCH',
+      path: 'user/change_password',
+      data: data
+    })
+  }
   return {
     userInfo,
     getUserInfo,
@@ -70,6 +77,7 @@ export const useUserStore = defineStore('userStore', () => {
     createUser,
     activateUser,
     deactivateUser,
-    getFavorite
+    getFavorite,
+    changePassword
   }
 })

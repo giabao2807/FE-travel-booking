@@ -28,7 +28,9 @@
               <v-card elevation="0" class="my-2 card-favorite">
                 <v-row>
                   <v-col>
-                    <n-image :src="item?.tour?.coverPicture" class="custom-image" />
+                    <div class="container-image">
+                      <n-image :src="item?.tour?.coverPicture" class="custom-image" />
+                    </div>
                   </v-col>
                   <v-col cols="9">
                     <div>
@@ -142,7 +144,9 @@
               <v-card elevation="0" class="my-2 card-favorite">
                 <v-row>
                   <v-col>
-                    <n-image :src="item?.hotel?.coverPicture" class="custom-image" />
+                    <div class="container-image">
+                      <n-image :src="item?.hotel?.coverPicture" class="custom-image" />
+                    </div>
                   </v-col>
                   <v-col cols="9">
                     <div>
@@ -288,16 +292,24 @@ onMounted(() => {
   background-size: contain;
   background-position: center center;
 }
-
-.custom-image {
+.container-image {
+  position: relative;
+  overflow: hidden;
   -webkit-mask-image: url("@/assets/img/card-bg.png");
   mask-image: url("@/assets/img/card-bg.png");
   -webkit-mask-size: cover;
   mask-size: cover;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
+}
+
+.custom-image {
+  transition: all 0.6s cubic-bezier(0.680, -0.550, 0.265, 1.550);
   width: 270px;
-  height: 270px
+  height: 280px;
+}
+.custom-image:hover {
+  transform: scale(1.08) rotate(-3deg);
 }
 .card-actions {
   position: absolute;
