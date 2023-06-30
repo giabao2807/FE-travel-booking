@@ -1,6 +1,13 @@
 <!-- eslint-disable vue/no-static-inline-styles -->
 <template>
   <v-container class="fill-height container-auth" fluid>
+    <div style="position: absolute; top: 0;">
+      <img
+        src="@/assets/img/logo.svg" alt="SVG Image" @click="() => {
+          handleRoute({ name: 'homepage' })
+        }"
+      >
+    </div>
     <v-row class="mx-5" justify="end">
       <v-card min-width="36%" class="elevation-10 pa-5 pb-2 feature-box  rounded-xl rounded-be-0" color="surface">
         <v-card-text class="mt-5">
@@ -96,6 +103,7 @@ import { useAuthentication } from '@/composables/useAuth'
 import { validations } from '@/helpers/validate'
 import { onMounted } from 'vue'
 import { googleOneTap } from 'vue3-google-login'
+import { handleRoute } from '@/helpers/loadingRoute'
 
 const { ruleRequired, ruleEmail, ruleLength } = validations()
 const {

@@ -1,5 +1,13 @@
+<!-- eslint-disable vue/no-static-inline-styles -->
 <template>
   <v-container class="fill-height container-auth" fluid>
+    <div style="position: absolute; top: 0;">
+      <img
+        src="@/assets/img/logo.svg" alt="SVG Image" @click="() => {
+          handleRoute({ name: 'homepage' })
+        }"
+      >
+    </div>
     <v-row class="mx-5" justify="end">
       <v-card min-width="38%" class="elevation-10 pa-5 pb-2 box-sign-up rounded-xl rounded-be-0" color="surface">
         <v-card-text>
@@ -108,6 +116,7 @@ import NImage from '@/components/NImage.vue'
 import { useAuthentication } from '@/composables/useAuth'
 import { validations } from '@/helpers/validate'
 import { onMounted } from 'vue'
+import { handleRoute } from '@/helpers/loadingRoute'
 
 const { ruleRequired, ruleEmail, nameRules, ruleConfirmPassword, ruleLength } = validations()
 const {

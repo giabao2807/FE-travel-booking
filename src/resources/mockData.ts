@@ -74,3 +74,11 @@ export const MENU_ADMIN = [
   { name: 'Quản lí Coupons', icon: 'mdi-ticket-percent-outline', value: 'couponsAdmin' },
   { name: 'Quản lí Booking', icon: 'mdi-archive-check-outline', value: 'adminBooking' }
 ]
+export const FOOTER_DATA = [
+  { name: 'Home', value: 'homepage' },
+  { name: 'About Us', value: 'homepage' },
+  { name: 'Team', value: 'homepage' },
+  { name: 'Services', value: 'homepage' },
+  { name: 'Blog', value: 'homepage' },
+  { name: 'Contact Us', value: 'homepage' }
+]

@@ -405,7 +405,9 @@
         <v-card-actions class="mx-2" v-if="propItems.typeBook === 'hotel'">
           <v-btn
             v-if="step === 1"
-            variant="flat"
+            rounded
+            class="text-none"
+            prepend-icon="mdi-close-outline"
             @click="() => {
               isActive.value = false
               resetBookHotel()
@@ -415,7 +417,9 @@
           </v-btn>
           <v-btn
             v-if="step === 2"
-            variant="text"
+            rounded
+            class="text-none"
+            prepend-icon="mdi-arrow-left"
             @click="step--"
           >
             Back
@@ -425,6 +429,10 @@
             v-if="step === 1"
             color="primary"
             variant="flat"
+            rounded
+            min-width="110"
+            class="text-none"
+            prepend-icon="mdi-arrow-right"
             @click="() => {
               step++
             }"
@@ -436,6 +444,10 @@
             :disabled="!bookHotel?.bankCode"
             color="primary"
             variant="flat"
+            rounded
+            min-width="110"
+            class="text-none"
+            prepend-icon="mdi-cloud-arrow-up-outline"
             @click="() => {
               setBookingHotelInfo()
               bookingService(bookHotel)

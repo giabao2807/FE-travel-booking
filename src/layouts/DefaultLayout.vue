@@ -72,9 +72,66 @@
       </v-slide-group>
       <div v-if="!display.xs" class="d-flex justify-center align-center">
         <div class="mb-n3">
-          <v-badge class="icons" dot>
-            <v-icon icon="mdi-bell-outline" />
-          </v-badge>
+          <v-menu location="bottom" min-width="200">
+            <template #activator="{ props }">
+              <v-badge
+                v-if="authUser?.accessToken"
+                class="icons"
+                dot
+                v-bind="props"
+                @click="async() => {
+                  await getHistoryBookingHotels()
+                  await getHistoryBookingTours()
+                }"
+              >
+                <v-icon icon="mdi-bell-outline" />
+              </v-badge>
+            </template>
+            <v-list>
+              <v-list-item v-if="historyBookingTours.length === 0 && historyBookingHotels.length === 0">
+                <v-list-item-title>
+                  <v-icon icon="mdi-archive-alert-outline" />
+                  Không có thông báo
+                </v-list-item-title>
+              </v-list-item>
+              <v-list-item v-if="historyBookingTours.length !== 0">
+                <v-list-item-title>
+                  <v-icon icon="mdi-compass-rose" />
+                  Những tour booking mới
+                </v-list-item-title>
+              </v-list-item>
+              <v-divider />
+              <v-list-item
+                v-for="item in historyBookingTours"
+                :key="item.id"
+                :prepend-avatar="item.tour.coverPicture"
+                :title="`${item?.tour.name.slice(0, 15)} ...`"
+                :subtitle="`${formatDate(item.createAt)}`"
+                class="mx-2"
+                @click="() => getTourBookingDetail(item.id)"
+              >
+                <v-divider class="ma-1" />
+              </v-list-item>
+              <v-list-item v-if="historyBookingHotels.length !== 0">
+                <v-list-item-title>
+                  <v-icon icon="mdi-shield-home-outline" />
+                  Những hotel booking mới
+                </v-list-item-title>
+              </v-list-item>
+              <v-divider />
+              <v-list-item
+                v-for="item in historyBookingHotels"
+                :key="item.id"
+                :prepend-avatar="item.hotel.coverPicture"
+                :title="`${item?.hotel.name.slice(0, 15)} ...`"
+                :subtitle="`${formatDate(item.createAt)}`"
+                class="mx-2"
+                @click="() => getHotelBookingDetail(item.id)"
+              >
+                <v-divider class="ma-1" />
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </div>
         <v-btn
           v-show="!authUser?.accessToken"
@@ -181,21 +238,15 @@
     <v-footer class="text-center d-flex flex-column footer">
       <div class="pa-4">
         <v-btn
-          v-for="link in [
-            'Home',
-            'About Us',
-            'Team',
-            'Services',
-            'Blog',
-            'Contact Us',
-          ]"
-          :key="link"
+          v-for="link in FOOTER_DATA"
+          :key="link.name"
           color="primary"
           variant="text"
           class="mx-2"
           rounded="xl"
+          @click="() => router.push({ name: link.value })"
         >
-          {{ link }}
+          {{ link.name }}
         </v-btn>
       </div>
       <v-divider />
@@ -204,17 +255,24 @@
       </div>
     </v-footer>
     <n-dialog-password />
+    <n-dialog-booking-tour-detail />
+    <n-dialog-booking-hotel-detail />
   </div>
 </template>
 <script lang="ts" setup>
 import NImage from '@/components/NImage.vue'
 import NAvatar from '@/components/NAvatar.vue'
 import NDialogPassword from '@/components/NDialogPassword.vue'
+import NDialogBookingTourDetail from '@/components/NDialogBookingTourDetail.vue'
+import NDialogBookingHotelDetail from '@/components/NDialogBookingHotelDetail.vue'
 import router from '@/router'
 import { handleRoute } from '@/helpers/loadingRoute'
 import { useDefaultLayout } from '@/composables/useDefalutLayout'
-import { HEADER_TAB } from '@/resources/mockData'
+import { HEADER_TAB, FOOTER_DATA } from '@/resources/mockData'
 import { useChangePassword } from '@/composables/useChangePassword'
+import { useNotification } from '@/composables/useNotification'
+import { convertionType } from '@/helpers/convertion'
+import { useBooking } from '@/composables/useBooking'
 
 const {
   display,
@@ -224,6 +282,17 @@ const {
   showBookingPage,
   signOut
 } = useDefaultLayout()
+const {
+  historyBookingTours,
+  historyBookingHotels,
+  getHistoryBookingTours,
+  getHistoryBookingHotels
+} = useNotification()
+const {
+  getTourBookingDetail,
+  getHotelBookingDetail
+} = useBooking()
+const { formatDate } = convertionType()
 const {
   openDialogChangePass
 } = useChangePassword()
