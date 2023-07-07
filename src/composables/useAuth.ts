@@ -85,7 +85,7 @@ const useAuth = () => {
     startLoading()
     await authStore.resetAuthUser()
     finishLoading()
-    router.push({ name: 'signIn' })
+    router.push({ name: 'homepage' })
   }
   const forgotPassword = (email: string) => {
     authStore.forgotPassword(email)
