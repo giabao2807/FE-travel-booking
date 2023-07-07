@@ -24,7 +24,7 @@ const createFavorite = () => {
         feedBack({
           title: 'Get Favorite Tour',
           message: error.data,
-          type:'error'
+          type: 'error'
         })
       })
   }

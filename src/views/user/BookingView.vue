@@ -1,6 +1,7 @@
 <template>
   <v-sheet min-height="600" class="booking-page">
     <h2 class="text-center pt-10 pb-5">
+      <v-icon icon="mdi-basket-check-outline" class="mr-1" />
       Yours Booking History
     </h2>
     <v-tabs
@@ -48,6 +49,7 @@
             >
               <v-card
                 elevation="0"
+                color="transparent"
                 class="my-2 card-booking"
               >
                 <v-row>
@@ -110,7 +112,7 @@
                             class="text-none"
                             color="primary"
                             rounded
-                            min-width="110"
+                            min-width="120"
                             variant="outlined"
                             prepend-icon="mdi-cash-sync"
                             @click="bookItem.dialogPayment = true"
@@ -126,7 +128,7 @@
                       >
                         <template #action>
                           <v-btn
-                            v-if="bookItem.status === 'Completed'"
+                            v-if="bookItem.status === 'Completed' && !bookItem?.isReview"
                             class="text-none"
                             color="primary"
                             rounded
@@ -171,6 +173,7 @@
             >
               <v-card
                 elevation="0"
+                color="transparent"
                 class="my-2 card-booking"
               >
                 <v-row>
@@ -251,7 +254,7 @@
                                 class="text-none"
                                 color="primary"
                                 rounded
-                                min-width="110"
+                                min-width="120"
                                 variant="outlined"
                                 prepend-icon="mdi-cash-sync"
                                 @click="bookItem.dialogPayment = true"

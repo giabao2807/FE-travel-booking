@@ -23,7 +23,7 @@
             prepend-icon="mdi-close-outline"
             @click="() => isActive.value = false"
           >
-            Đóng
+            Close
           </v-btn>
           <v-spacer />
           <v-btn

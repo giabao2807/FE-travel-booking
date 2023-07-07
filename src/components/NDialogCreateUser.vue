@@ -109,7 +109,7 @@
             prepend-icon="mdi-close-outline"
             @click="() => dialogCreate = false"
           >
-            Đóng
+            Close
           </v-btn>
           <v-spacer />
           <v-btn
@@ -123,7 +123,7 @@
               createUser(formRef)
             }"
           >
-            Tạo Mới
+            Create New
           </v-btn>
         </v-card-actions>
       </v-card>

@@ -227,7 +227,7 @@
               resetFormRoom(dialogRoomRef)
             }"
           >
-            Đóng
+            Close
           </v-btn>
           <v-spacer />
           <v-btn
@@ -242,7 +242,7 @@
               updateRoom(dialogRoomRef)
             }"
           >
-            Cập Nhật
+            Update
           </v-btn>
           <v-btn
             v-else

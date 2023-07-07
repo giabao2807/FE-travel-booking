@@ -2,6 +2,7 @@
 <template>
   <v-sheet min-height="600" class="booking-page">
     <h2 class="text-center pt-10 pb-5">
+      <v-icon icon="mdi-book-heart-outline" />
       Yours Favorite History
     </h2>
     <v-tabs color="primary" align-tabs="center" v-model="tabWindow">

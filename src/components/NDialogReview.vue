@@ -15,7 +15,7 @@
           </v-toolbar-title>
         </v-toolbar>
         <v-card-text class="ma-5">
-          <v-form>
+          <v-form ref="formRef">
             <v-row class="mx-2" align="center">
               <p class="text-disabled">Rate {{ propItems.title }}</p>
               <v-rating
@@ -28,6 +28,7 @@
             <v-divider class="ma-5" />
             <v-text-field
               v-model="paramsReview.title"
+              :rules="[ruleRequired('Title Review')]"
               label="Title"
               prepend-inner-icon="mdi-alpha-a-box-outline"
               color="primary"
@@ -37,6 +38,7 @@
             />
             <v-textarea
               v-model="paramsReview.content"
+              :rules="[ruleRequired('Content')]"
               label="Content"
               auto-grow
               prepend-inner-icon="mdi-content-paste"
@@ -86,6 +88,8 @@
 import { ref, defineEmits, defineProps, withDefaults } from 'vue'
 import { useBookStore } from '@/store/booking'
 import { IAddReview } from '@/libs/types/commonType'
+import { useFeedBack } from '@/composables/useFeedBack'
+import { validations } from '@/helpers/validate'
 
 type Props = {
   idBooking: string,
@@ -95,7 +99,10 @@ const propItems = withDefaults(defineProps<Props>(), {
   idBooking: '',
   title: ''
 })
-
+const { feedBack } = useFeedBack()
+const {
+  ruleRequired
+} = validations()
 const emit = defineEmits<{
   (event: 'update:modelValue', booking: boolean): void
 }>()
@@ -108,8 +115,29 @@ const paramsReview = ref<IAddReview>({
   title: '',
   content: ''
 })
+const formRef = ref()
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const postReview = (params: any) => {
-  bookStore.postReview(params)
+const postReview = async(params: any) => {
+  const { valid } = await formRef.value.validate()
+  if (valid) {
+    bookStore.postReview(params).then(() => {
+      feedBack({
+        title: 'Đánh giá Trải Nghiệm',
+        message: 'Đánh giá thành công',
+        type:'success'
+      })
+    }).catch(error => {
+      feedBack({
+        title: 'Đánh giá Trải Nghiệm',
+        message: error.data,
+        type:'error'
+      })
+    })
+    paramsReview.value = {
+      rate: 0,
+      title: '',
+      content: ''
+    }
+  }
 }
 </script>

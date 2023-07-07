@@ -19,7 +19,7 @@
           <v-card elevation="3" class="card-search my-3 rounded-xl">
             <h3 class="text-center my-3">
               <v-icon icon="mdi-map-search-outline" />
-              Search Tours
+              Tìm Kiếm Tours
             </h3>
             <v-form ref="formSearchRef">
               <v-card-text>

@@ -166,7 +166,7 @@
               resetFormHotel(formRefHotel)
             }"
           >
-            Đóng
+            Close
           </v-btn>
           <v-spacer />
           <v-btn
@@ -180,7 +180,7 @@
               updateHotel(formRefHotel)
             }"
           >
-            Cập Nhật
+            Update
           </v-btn>
         </v-card-actions>
       </v-card>
