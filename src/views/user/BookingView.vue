@@ -128,7 +128,7 @@
                       >
                         <template #action>
                           <v-btn
-                            v-if="bookItem.status === 'Completed' && !bookItem?.isReview"
+                            v-if="bookItem.status === 'Completed' && bookItem?.isReview === false"
                             class="text-none"
                             color="primary"
                             rounded
@@ -270,7 +270,7 @@
                           >
                             <template #action>
                               <v-btn
-                                v-if="bookItem.status === 'Completed'"
+                                v-if="bookItem.status === 'Completed' && bookItem?.isReview === false"
                                 class="text-none"
                                 color="primary"
                                 rounded

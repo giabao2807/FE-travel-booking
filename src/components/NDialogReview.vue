@@ -72,9 +72,12 @@
             color="primary"
             class="text-none"
             prepend-icon="mdi-cloud-arrow-up-outline"
-            @click="() => {
-              isActive.value = false
-              postReview({ ...paramsReview, booking: propItems.idBooking })
+            @click="async() => {
+              const { valid } = await formRef.validate()
+              if (valid) {
+                postReview({ ...paramsReview, booking: propItems.idBooking })
+                isActive.value = false
+              }
             }"
           >
             Submit
@@ -90,6 +93,7 @@ import { useBookStore } from '@/store/booking'
 import { IAddReview } from '@/libs/types/commonType'
 import { useFeedBack } from '@/composables/useFeedBack'
 import { validations } from '@/helpers/validate'
+import { useBooking } from '@/composables/useBooking'
 
 type Props = {
   idBooking: string,
@@ -103,6 +107,10 @@ const { feedBack } = useFeedBack()
 const {
   ruleRequired
 } = validations()
+const {
+  getHistoryBookingTours,
+  getHistoryBookingHotels
+} = useBooking()
 const emit = defineEmits<{
   (event: 'update:modelValue', booking: boolean): void
 }>()
@@ -117,27 +125,26 @@ const paramsReview = ref<IAddReview>({
 })
 const formRef = ref()
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const postReview = async(params: any) => {
-  const { valid } = await formRef.value.validate()
-  if (valid) {
-    bookStore.postReview(params).then(() => {
-      feedBack({
-        title: 'Đánh giá Trải Nghiệm',
-        message: 'Đánh giá thành công',
-        type:'success'
-      })
-    }).catch(error => {
-      feedBack({
-        title: 'Đánh giá Trải Nghiệm',
-        message: error.data,
-        type:'error'
-      })
+const postReview = (params: any) => {
+  bookStore.postReview(params).then(() => {
+    getHistoryBookingTours()
+    getHistoryBookingHotels()
+    feedBack({
+      title: 'Đánh giá Trải Nghiệm',
+      message: 'Đánh giá thành công',
+      type:'success'
     })
-    paramsReview.value = {
-      rate: 0,
-      title: '',
-      content: ''
-    }
+  }).catch(error => {
+    feedBack({
+      title: 'Đánh giá Trải Nghiệm',
+      message: error.data,
+      type:'error'
+    })
+  })
+  paramsReview.value = {
+    rate: 0,
+    title: '',
+    content: ''
   }
 }
 </script>
