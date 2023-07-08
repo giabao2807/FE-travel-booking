@@ -8,7 +8,7 @@ export const useBookStore = defineStore('bookStore', () => {
     return await connectionsAPI({
       methods: 'POST',
       path: 'booking',
-      params: { env: 1 },
+      params: { env: 2 },
       data: data
     })
   }
@@ -31,7 +31,7 @@ export const useBookStore = defineStore('bookStore', () => {
     return await connectionsAPI({
       methods: 'GET',
       path: `booking/${params.id}/get_payment_link`,
-      params: { bankCode: params.bankCode }
+      params: { bankCode: params.bankCode, env: 2 }
     })
   }
   const postReview = async(data: any) => {
