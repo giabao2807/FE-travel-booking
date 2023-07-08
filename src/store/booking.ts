@@ -8,7 +8,7 @@ export const useBookStore = defineStore('bookStore', () => {
     return await connectionsAPI({
       methods: 'POST',
       path: 'booking',
-      params: { env: 1 },
+      params: { env: 2 },
       data: data
     })
   }
