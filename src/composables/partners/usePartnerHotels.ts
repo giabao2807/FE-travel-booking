@@ -146,7 +146,7 @@ const createPartnerHotels = () => {
         type:'success'
       })).catch(error => feedBack({
         title: 'Deactivate Hotel',
-        message: error,
+        message: error.data.message,
         type:'error'
       }))
     getHotels()
@@ -159,7 +159,7 @@ const createPartnerHotels = () => {
         type:'success'
       })).catch(error => feedBack({
         title: 'Activate Hotel',
-        message: error,
+        message: error.data.message,
         type:'error'
       }))
     getHotels()

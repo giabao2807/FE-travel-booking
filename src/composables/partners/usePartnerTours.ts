@@ -209,7 +209,7 @@ const createPartnerTours = () => {
         type:'success'
       })).catch(error => feedBack({
         title: 'Deactivate Tour',
-        message: error,
+        message: error.data.message,
         type:'error'
       }))
     getTours()
@@ -222,7 +222,7 @@ const createPartnerTours = () => {
         type:'success'
       })).catch(error => feedBack({
         title: 'Activate Tour',
-        message: error,
+        message: error.data.message,
         type:'error'
       }))
     getTours()
