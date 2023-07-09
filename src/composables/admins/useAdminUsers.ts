@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable */
 import { reactive, ref } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import type { FormRules, FormInstance } from 'element-plus'
@@ -60,10 +60,10 @@ const createAdminUsers = () => {
         type:'success'
       })).catch(error => feedBack({
         title: 'Deactivate User',
-        message: error,
+        message: error.data.message,
         type:'error'
       }))
-    getUsers({ ...filtersUser })
+    getUsers({ ...filtersUser._value })
   }
   const activateUser = async(id: string) => {
     await userStore.activateUser(id)
@@ -73,10 +73,19 @@ const createAdminUsers = () => {
         type:'success'
       })).catch(error => feedBack({
         title: 'Activate User',
-        message: error,
+        message: error.data.message,
         type:'error'
       }))
-    getUsers({ ...filtersUser })
+    getUsers({ ...filtersUser._value })
+  }
+
+  const onChangeFilter = (selectFil: string) => {
+    if (selectFil === 'Name') {
+      filtersUser._value.role = ''
+    } else {
+      filtersUser._value.name = ''
+    }
+    getUsers({ ...filtersUser._value })
   }
 
   const resetForm = (formEl: FormInstance | undefined) => {
@@ -124,7 +133,8 @@ const createAdminUsers = () => {
     resetForm,
     getUsers,
     activateUser,
-    deactivateUser
+    deactivateUser,
+    onChangeFilter,
   }
 }
 export const useAdminUsers = createSharedComposable(createAdminUsers)

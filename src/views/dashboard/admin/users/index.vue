@@ -1,4 +1,4 @@
-<!-- eslint-disable vue/no-static-inline-styles -->
+<!-- eslint-disable -->
 <template>
   <v-container class="partner-tours-page">
     <div class="text-center mb-5">
@@ -35,7 +35,7 @@
                   style="width: 80%;"
                   hide-details
                   clearable
-                  @keydown.enter="() => getUsers({ ...filtersUser })"
+                  @keydown.enter="() => onChangeFilter('Name')"
                 />
                 <v-select
                   v-else
@@ -51,7 +51,7 @@
                   style="width: 80%;"
                   hide-details
                   clearable
-                  @update:model-value="() => getUsers({ ...filtersUser })"
+                  @update:model-value="() => onChangeFilter('Role')"
                 />
                 <v-select
                   v-model="selectFilter"
@@ -96,7 +96,8 @@ const {
   dialogCreate,
   getUsers,
   activateUser,
-  deactivateUser
+  deactivateUser,
+  onChangeFilter
 } = useAdminUsers()
 const { formatDate } = convertionType()
 const ROLE_DATA = [
