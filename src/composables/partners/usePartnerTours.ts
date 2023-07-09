@@ -212,7 +212,7 @@ const createPartnerTours = () => {
         message: error.data.message,
         type:'error'
       }))
-    getTours()
+    getTours({ ...filterTour._value })
   }
   const activateTour = async(id: string) => {
     await partnerTourStore.activateTour(id)
@@ -225,7 +225,7 @@ const createPartnerTours = () => {
         message: error.data.message,
         type:'error'
       }))
-    getTours()
+    getTours({ ...filterTour._value })
   }
   return {
     tours,

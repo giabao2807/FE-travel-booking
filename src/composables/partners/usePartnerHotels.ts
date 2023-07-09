@@ -149,7 +149,7 @@ const createPartnerHotels = () => {
         message: error.data.message,
         type:'error'
       }))
-    getHotels()
+    getHotels({ ...filterHotel._value })
   }
   const activateHotel = async(id: string) => {
     await partnerHotelStore.activateHotel(id)
@@ -162,7 +162,7 @@ const createPartnerHotels = () => {
         message: error.data.message,
         type:'error'
       }))
-    getHotels()
+    getHotels({ ...filterHotel._value })
   }
   const getHotelById = (id: string) => {
     startLoading()
